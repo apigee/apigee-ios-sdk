@@ -272,43 +272,6 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     singletonInstance = self;
     
     
-    // ************************************************************
-    // NOTE: this is TEMPORARY code just to get the config file
-    // stored in App Services!!!!
-    // ************************************************************
-    /*
-#if TARGET_IPHONE_SIMULATOR
-    NSError* error = nil;
-    NSStringEncoding fileEncoding;
-    NSString* configFileName = [ApigeeCachedConfigUtil configFileName];
-    NSString* fileName = [NSString stringWithFormat:@"/Users/ApigeeCorporation/%@",configFileName];
-    NSString* configFileContents = [[NSString alloc] initWithContentsOfFile:fileName
-                                                               usedEncoding:&fileEncoding
-                                                                      error:&error];
-    if( [configFileContents length] > 0 ) {
-        NSMutableDictionary* configEntity = [[NSMutableDictionary alloc] init];
-        [configEntity setValue:@"config" forKey:@"type"];
-        [configEntity setValue:@"default" forKey:@"configType"];
-        [configEntity setValue:[NSDate unixTimestampAsString] forKey:@"modified"];
-        [configEntity setValue:configFileName forKey:@"name"];
-        [configEntity setValue:configFileContents forKey:@"jsonPayload"];
-        ApigeeClientResponse* response = [self.dataClient createEntity:configEntity];
-        if( response && (response.transactionState == kApigeeClientResponseSuccess) ) {
-            NSLog( @"entity created for config file" );
-        } else {
-            NSLog( @"error: unable to create entity for config file" );
-            NSLog( @"rawResponse: '%@'", response.rawResponse );
-        }
-    } else {
-        NSLog( @"error: unable to read file from disk '%@'", fileName );
-        if( error != nil ) {
-            NSLog( @"error received: '%@'", [error localizedDescription]);
-        }
-    }
-#endif
-     */
-    
-
     self.swizzledNSURLConnection = NO;
     self.sentStartingSessionData = NO;
     
