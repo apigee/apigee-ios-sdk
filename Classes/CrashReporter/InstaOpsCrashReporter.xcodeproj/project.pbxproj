@@ -1,0 +1,1220 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EC01D63516261888004D20EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC01D63416261888004D20EA /* Foundation.framework */; };
+		EC01D64416261888004D20EA /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC01D64316261888004D20EA /* SenTestingKit.framework */; };
+		EC01D64616261888004D20EA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC01D64516261888004D20EA /* UIKit.framework */; };
+		EC01D64716261888004D20EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC01D63416261888004D20EA /* Foundation.framework */; };
+		EC01D64A16261888004D20EA /* libInstaOpsCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC01D63116261888004D20EA /* libInstaOpsCrashReporter.a */; };
+		EC01D65016261888004D20EA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC01D64E16261888004D20EA /* InfoPlist.strings */; };
+		EC01D69D16261BF8004D20EA /* InstaOpsCrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D66916261BF8004D20EA /* InstaOpsCrashReporter.m */; };
+		EC01D69E16261BF8004D20EA /* InstaOpsPLCrashAsync.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D66A16261BF8004D20EA /* InstaOpsPLCrashAsync.c */; };
+		EC01D69F16261BF8004D20EA /* InstaOpsPLCrashAsyncImage.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D66C16261BF8004D20EA /* InstaOpsPLCrashAsyncImage.c */; };
+		EC01D6A016261BF8004D20EA /* InstaOpsPLCrashAsyncSignalInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D66E16261BF8004D20EA /* InstaOpsPLCrashAsyncSignalInfo.c */; };
+		EC01D6A116261BF8004D20EA /* InstaOpsPLCrashFrameWalker.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67016261BF8004D20EA /* InstaOpsPLCrashFrameWalker.c */; };
+		EC01D6A216261BF8004D20EA /* InstaOpsPLCrashFrameWalker_arm.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67216261BF8004D20EA /* InstaOpsPLCrashFrameWalker_arm.c */; };
+		EC01D6A316261BF8004D20EA /* InstaOpsPLCrashFrameWalker_i386.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67416261BF8004D20EA /* InstaOpsPLCrashFrameWalker_i386.c */; };
+		EC01D6A416261BF8004D20EA /* InstaOpsPLCrashFrameWalker_ppc.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67616261BF8004D20EA /* InstaOpsPLCrashFrameWalker_ppc.c */; };
+		EC01D6A516261BF8004D20EA /* InstaOpsPLCrashFrameWalker_x86_64.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67816261BF8004D20EA /* InstaOpsPLCrashFrameWalker_x86_64.c */; };
+		EC01D6A616261BF8004D20EA /* InstaOpsPLCrashLogWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67B16261BF8004D20EA /* InstaOpsPLCrashLogWriter.m */; };
+		EC01D6A716261BF8004D20EA /* InstaOpsPLCrashLogWriterEncoding.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67C16261BF8004D20EA /* InstaOpsPLCrashLogWriterEncoding.c */; };
+		EC01D6A816261BF8004D20EA /* InstaOpsPLCrashReport.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67F16261BF8004D20EA /* InstaOpsPLCrashReport.m */; };
+		EC01D6A916261BF8004D20EA /* InstaOpsPLCrashReportApplicationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68116261BF8004D20EA /* InstaOpsPLCrashReportApplicationInfo.m */; };
+		EC01D6AA16261BF8004D20EA /* InstaOpsPLCrashReportBinaryImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68316261BF8004D20EA /* InstaOpsPLCrashReportBinaryImageInfo.m */; };
+		EC01D6AB16261BF8004D20EA /* InstaOpsPLCrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68516261BF8004D20EA /* InstaOpsPLCrashReporter.m */; };
+		EC01D6AC16261BF8004D20EA /* InstaOpsPLCrashReportExceptionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68716261BF8004D20EA /* InstaOpsPLCrashReportExceptionInfo.m */; };
+		EC01D6AD16261BF8004D20EA /* InstaOpsPLCrashReportMachineInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68A16261BF8004D20EA /* InstaOpsPLCrashReportMachineInfo.m */; };
+		EC01D6AE16261BF8004D20EA /* InstaOpsPLCrashReportProcessInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68C16261BF8004D20EA /* InstaOpsPLCrashReportProcessInfo.m */; };
+		EC01D6AF16261BF8004D20EA /* InstaOpsPLCrashReportProcessorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68E16261BF8004D20EA /* InstaOpsPLCrashReportProcessorInfo.m */; };
+		EC01D6B016261BF8004D20EA /* InstaOpsPLCrashReportSignalInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D69016261BF8004D20EA /* InstaOpsPLCrashReportSignalInfo.m */; };
+		EC01D6B116261BF8004D20EA /* InstaOpsPLCrashReportSystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D69216261BF8004D20EA /* InstaOpsPLCrashReportSystemInfo.m */; };
+		EC01D6B216261BF8004D20EA /* InstaOpsPLCrashReportTextFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D69416261BF8004D20EA /* InstaOpsPLCrashReportTextFormatter.m */; };
+		EC01D6B316261BF8004D20EA /* InstaOpsPLCrashReportThreadInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D69616261BF8004D20EA /* InstaOpsPLCrashReportThreadInfo.m */; };
+		EC01D6B416261BF8004D20EA /* InstaOpsPLCrashSignalHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D69816261BF8004D20EA /* InstaOpsPLCrashSignalHandler.m */; };
+		EC01D6B516261BF8004D20EA /* InstaOpsPLCrashSysctl.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D69916261BF8004D20EA /* InstaOpsPLCrashSysctl.c */; };
+		EC01D6E816261DE0004D20EA /* PLCrashAsyncImageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6D616261DD7004D20EA /* PLCrashAsyncImageTests.m */; };
+		EC01D6E916261DE0004D20EA /* PLCrashAsyncSignalInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6D716261DD7004D20EA /* PLCrashAsyncSignalInfoTests.m */; };
+		EC01D6EA16261DE0004D20EA /* PLCrashAsyncTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6D816261DD7004D20EA /* PLCrashAsyncTests.m */; };
+		EC01D6EB16261DE0004D20EA /* PLCrashFrameWalkerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6D916261DD7004D20EA /* PLCrashFrameWalkerTests.m */; };
+		EC01D6EC16261DE0004D20EA /* PLCrashLogWriterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6DA16261DD7004D20EA /* PLCrashLogWriterTests.m */; };
+		EC01D6ED16261DE0004D20EA /* PLCrashReporterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6DB16261DD7004D20EA /* PLCrashReporterTests.m */; };
+		EC01D6EE16261DE0004D20EA /* PLCrashReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6DC16261DD7004D20EA /* PLCrashReportTests.m */; };
+		EC01D6EF16261DE0004D20EA /* PLCrashSignalHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6DD16261DD7004D20EA /* PLCrashSignalHandlerTests.m */; };
+		EC01D6F016261DE0004D20EA /* PLCrashSysctlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6DE16261DD7004D20EA /* PLCrashSysctlTests.m */; };
+		EC96C9FC16287D2B007BF147 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC01D64516261888004D20EA /* UIKit.framework */; };
+		EC96C9FD16287D2B007BF147 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC01D63416261888004D20EA /* Foundation.framework */; };
+		EC96C9FF16287D2B007BF147 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC96C9FE16287D2B007BF147 /* CoreGraphics.framework */; };
+		EC96CA0716287D2B007BF147 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EC96CA0616287D2B007BF147 /* main.m */; };
+		EC96CA1816287D99007BF147 /* libInstaOpsCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC01D63116261888004D20EA /* libInstaOpsCrashReporter.a */; };
+		ECDDBC7A16324A8C00D96417 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECDDBC7916324A8C00D96417 /* Cocoa.framework */; };
+		ECDDBC8816324BF300D96417 /* protobuf-c.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6C316261C5B004D20EA /* protobuf-c.c */; };
+		ECDDBC8B16324C6F00D96417 /* InstaOpsCrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D66916261BF8004D20EA /* InstaOpsCrashReporter.m */; };
+		ECDDBC8C16324C7600D96417 /* InstaOpsPLCrashAsync.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D66A16261BF8004D20EA /* InstaOpsPLCrashAsync.c */; };
+		ECDDBC8D16324C9300D96417 /* InstaOpsPLCrashAsyncImage.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D66C16261BF8004D20EA /* InstaOpsPLCrashAsyncImage.c */; };
+		ECDDBC8E16324C9300D96417 /* InstaOpsPLCrashAsyncSignalInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D66E16261BF8004D20EA /* InstaOpsPLCrashAsyncSignalInfo.c */; };
+		ECDDBC8F16324C9300D96417 /* InstaOpsPLCrashFrameWalker.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67016261BF8004D20EA /* InstaOpsPLCrashFrameWalker.c */; };
+		ECDDBC9016324C9300D96417 /* InstaOpsPLCrashFrameWalker_arm.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67216261BF8004D20EA /* InstaOpsPLCrashFrameWalker_arm.c */; };
+		ECDDBC9116324C9300D96417 /* InstaOpsPLCrashFrameWalker_i386.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67416261BF8004D20EA /* InstaOpsPLCrashFrameWalker_i386.c */; };
+		ECDDBC9216324C9300D96417 /* InstaOpsPLCrashFrameWalker_ppc.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67616261BF8004D20EA /* InstaOpsPLCrashFrameWalker_ppc.c */; };
+		ECDDBC9316324C9300D96417 /* InstaOpsPLCrashFrameWalker_x86_64.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67816261BF8004D20EA /* InstaOpsPLCrashFrameWalker_x86_64.c */; };
+		ECDDBC9416324C9300D96417 /* InstaOpsPLCrashLogWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67B16261BF8004D20EA /* InstaOpsPLCrashLogWriter.m */; };
+		ECDDBC9516324C9300D96417 /* InstaOpsPLCrashLogWriterEncoding.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67C16261BF8004D20EA /* InstaOpsPLCrashLogWriterEncoding.c */; };
+		ECDDBC9616324C9300D96417 /* InstaOpsPLCrashReport.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D67F16261BF8004D20EA /* InstaOpsPLCrashReport.m */; };
+		ECDDBC9716324C9300D96417 /* InstaOpsPLCrashReportApplicationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68116261BF8004D20EA /* InstaOpsPLCrashReportApplicationInfo.m */; };
+		ECDDBC9816324C9300D96417 /* InstaOpsPLCrashReportBinaryImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68316261BF8004D20EA /* InstaOpsPLCrashReportBinaryImageInfo.m */; };
+		ECDDBC9916324C9300D96417 /* InstaOpsPLCrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68516261BF8004D20EA /* InstaOpsPLCrashReporter.m */; };
+		ECDDBC9A16324C9300D96417 /* InstaOpsPLCrashReportExceptionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68716261BF8004D20EA /* InstaOpsPLCrashReportExceptionInfo.m */; };
+		ECDDBC9B16324C9300D96417 /* InstaOpsPLCrashReportMachineInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68A16261BF8004D20EA /* InstaOpsPLCrashReportMachineInfo.m */; };
+		ECDDBC9C16324C9300D96417 /* InstaOpsPLCrashReportProcessInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68C16261BF8004D20EA /* InstaOpsPLCrashReportProcessInfo.m */; };
+		ECDDBC9D16324CA500D96417 /* InstaOpsPLCrashReportProcessorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D68E16261BF8004D20EA /* InstaOpsPLCrashReportProcessorInfo.m */; };
+		ECDDBC9E16324CA500D96417 /* InstaOpsPLCrashReportSignalInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D69016261BF8004D20EA /* InstaOpsPLCrashReportSignalInfo.m */; };
+		ECDDBC9F16324CA500D96417 /* InstaOpsPLCrashReportSystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D69216261BF8004D20EA /* InstaOpsPLCrashReportSystemInfo.m */; };
+		ECDDBCA016324CA500D96417 /* InstaOpsPLCrashReportTextFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D69416261BF8004D20EA /* InstaOpsPLCrashReportTextFormatter.m */; };
+		ECDDBCA116324CA500D96417 /* InstaOpsPLCrashReportThreadInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D69616261BF8004D20EA /* InstaOpsPLCrashReportThreadInfo.m */; };
+		ECDDBCA216324CA500D96417 /* InstaOpsPLCrashSignalHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EC01D69816261BF8004D20EA /* InstaOpsPLCrashSignalHandler.m */; };
+		ECDDBCA316324CA500D96417 /* InstaOpsPLCrashSysctl.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D69916261BF8004D20EA /* InstaOpsPLCrashSysctl.c */; };
+		ECDDBCB216325A2700D96417 /* crash_report.proto in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6C816261C5B004D20EA /* crash_report.proto */; };
+		ECDDBCB316325A2800D96417 /* crash_report.proto in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6C816261C5B004D20EA /* crash_report.proto */; };
+		ECDDBCB61632614800D96417 /* libInstaOpsCrashReporterOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ECDDBC7816324A8C00D96417 /* libInstaOpsCrashReporterOSX.a */; };
+		ECDDBCB9163261BD00D96417 /* crash_report.proto in Resources */ = {isa = PBXBuildFile; fileRef = EC01D6C816261C5B004D20EA /* crash_report.proto */; };
+		ECDDBCBA163261D500D96417 /* crash_report.proto in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6C816261C5B004D20EA /* crash_report.proto */; };
+		ECDDBCBF1632651900D96417 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ECDDBCBE1632651900D96417 /* main.m */; };
+		ECDDBCC116326A6000D96417 /* crash_report.proto in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6C816261C5B004D20EA /* crash_report.proto */; };
+		ECDDBCC216326ADF00D96417 /* protobuf-c.c in Sources */ = {isa = PBXBuildFile; fileRef = EC01D6C316261C5B004D20EA /* protobuf-c.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		EC01D6F3162623F3004D20EA /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.proto";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"${DERIVED_FILES_DIR}/${CURRENT_ARCH}/$(INPUT_FILE_BASE).pb-c.c",
+				"${DERIVED_FILES_DIR}/${CURRENT_ARCH}/$(INPUT_FILE_BASE).pb-c.h",
+			);
+			script = "cd \"${INPUT_FILE_DIR}\" && \"${SRCROOT}/Dependencies/protobuf-2.0.3/bin/protoc-c\" --c_out=\"${DERIVED_FILES_DIR}/${CURRENT_ARCH}\" \"${INPUT_FILE_NAME}\"";
+		};
+		ECDDBCAF16324EDA00D96417 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.proto";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"${DERIVED_FILES_DIR}/${CURRENT_ARCH}/$(INPUT_FILE_BASE).pb-c.c",
+				"${DERIVED_FILES_DIR}/${CURRENT_ARCH}/$(INPUT_FILE_BASE).pb-c.h",
+			);
+			script = "cd \"${INPUT_FILE_DIR}\" && \"${SRCROOT}/Dependencies/protobuf-2.0.3/bin/protoc-c\" --c_out=\"${DERIVED_FILES_DIR}/${CURRENT_ARCH}\" \"${INPUT_FILE_NAME}\"";
+		};
+		ECDDBCB8163261B500D96417 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.proto";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"${DERIVED_FILES_DIR}/${CURRENT_ARCH}/$(INPUT_FILE_BASE).pb-c.h",
+				"${DERIVED_FILES_DIR}/${CURRENT_ARCH}/$(INPUT_FILE_BASE).pb-c.c",
+			);
+			script = "cd \"${INPUT_FILE_DIR}\" && \"${SRCROOT}/Dependencies/protobuf-2.0.3/bin/protoc-c\" --c_out=\"${DERIVED_FILES_DIR}/${CURRENT_ARCH}\" \"${INPUT_FILE_NAME}\"";
+		};
+		ECDDBCC016326A4800D96417 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.proto";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"${DERIVED_FILES_DIR}/${CURRENT_ARCH}/$(INPUT_FILE_BASE).pb-c.c",
+				"${DERIVED_FILES_DIR}/${CURRENT_ARCH}/$(INPUT_FILE_BASE).pb-c.h",
+			);
+			script = "cd \"${INPUT_FILE_DIR}\" && \"${SRCROOT}/Dependencies/protobuf-2.0.3/bin/protoc-c\" --c_out=\"${DERIVED_FILES_DIR}/${CURRENT_ARCH}\" \"${INPUT_FILE_NAME}\"";
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXContainerItemProxy section */
+		EC01D64816261888004D20EA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC01D62816261888004D20EA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC01D63016261888004D20EA;
+			remoteInfo = InstaOpsCrashReporter;
+		};
+		EC96CA1616287D8E007BF147 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC01D62816261888004D20EA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC01D63016261888004D20EA;
+			remoteInfo = InstaOpsCrashReporter;
+		};
+		ECDDBCB41632613C00D96417 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC01D62816261888004D20EA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ECDDBC7716324A8C00D96417;
+			remoteInfo = InstaOpsCrashReporterOSX;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EC01D62F16261888004D20EA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ECDDBC5C16320D3100D96417 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		EC01D63116261888004D20EA /* libInstaOpsCrashReporter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libInstaOpsCrashReporter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC01D63416261888004D20EA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EC01D64216261888004D20EA /* InstaOpsCrashReporterTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InstaOpsCrashReporterTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC01D64316261888004D20EA /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		EC01D64516261888004D20EA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		EC01D64D16261888004D20EA /* InstaOpsCrashReporterTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "InstaOpsCrashReporterTests-Info.plist"; sourceTree = "<group>"; };
+		EC01D64F16261888004D20EA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EC01D66816261BF8004D20EA /* InstaOpsCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsCrashReporter.h; sourceTree = "<group>"; };
+		EC01D66916261BF8004D20EA /* InstaOpsCrashReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsCrashReporter.m; sourceTree = "<group>"; };
+		EC01D66A16261BF8004D20EA /* InstaOpsPLCrashAsync.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = InstaOpsPLCrashAsync.c; sourceTree = "<group>"; };
+		EC01D66B16261BF8004D20EA /* InstaOpsPLCrashAsync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashAsync.h; sourceTree = "<group>"; };
+		EC01D66C16261BF8004D20EA /* InstaOpsPLCrashAsyncImage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = InstaOpsPLCrashAsyncImage.c; sourceTree = "<group>"; };
+		EC01D66D16261BF8004D20EA /* InstaOpsPLCrashAsyncImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashAsyncImage.h; sourceTree = "<group>"; };
+		EC01D66E16261BF8004D20EA /* InstaOpsPLCrashAsyncSignalInfo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = InstaOpsPLCrashAsyncSignalInfo.c; sourceTree = "<group>"; };
+		EC01D66F16261BF8004D20EA /* InstaOpsPLCrashAsyncSignalInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashAsyncSignalInfo.h; sourceTree = "<group>"; };
+		EC01D67016261BF8004D20EA /* InstaOpsPLCrashFrameWalker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = InstaOpsPLCrashFrameWalker.c; sourceTree = "<group>"; };
+		EC01D67116261BF8004D20EA /* InstaOpsPLCrashFrameWalker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashFrameWalker.h; sourceTree = "<group>"; };
+		EC01D67216261BF8004D20EA /* InstaOpsPLCrashFrameWalker_arm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = InstaOpsPLCrashFrameWalker_arm.c; sourceTree = "<group>"; };
+		EC01D67316261BF8004D20EA /* InstaOpsPLCrashFrameWalker_arm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashFrameWalker_arm.h; sourceTree = "<group>"; };
+		EC01D67416261BF8004D20EA /* InstaOpsPLCrashFrameWalker_i386.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = InstaOpsPLCrashFrameWalker_i386.c; sourceTree = "<group>"; };
+		EC01D67516261BF8004D20EA /* InstaOpsPLCrashFrameWalker_i386.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashFrameWalker_i386.h; sourceTree = "<group>"; };
+		EC01D67616261BF8004D20EA /* InstaOpsPLCrashFrameWalker_ppc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = InstaOpsPLCrashFrameWalker_ppc.c; sourceTree = "<group>"; };
+		EC01D67716261BF8004D20EA /* InstaOpsPLCrashFrameWalker_ppc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashFrameWalker_ppc.h; sourceTree = "<group>"; };
+		EC01D67816261BF8004D20EA /* InstaOpsPLCrashFrameWalker_x86_64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = InstaOpsPLCrashFrameWalker_x86_64.c; sourceTree = "<group>"; };
+		EC01D67916261BF8004D20EA /* InstaOpsPLCrashFrameWalker_x86_64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashFrameWalker_x86_64.h; sourceTree = "<group>"; };
+		EC01D67A16261BF8004D20EA /* InstaOpsPLCrashLogWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashLogWriter.h; sourceTree = "<group>"; };
+		EC01D67B16261BF8004D20EA /* InstaOpsPLCrashLogWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashLogWriter.m; sourceTree = "<group>"; };
+		EC01D67C16261BF8004D20EA /* InstaOpsPLCrashLogWriterEncoding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = InstaOpsPLCrashLogWriterEncoding.c; sourceTree = "<group>"; };
+		EC01D67D16261BF8004D20EA /* InstaOpsPLCrashLogWriterEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashLogWriterEncoding.h; sourceTree = "<group>"; };
+		EC01D67E16261BF8004D20EA /* InstaOpsPLCrashReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReport.h; sourceTree = "<group>"; };
+		EC01D67F16261BF8004D20EA /* InstaOpsPLCrashReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashReport.m; sourceTree = "<group>"; };
+		EC01D68016261BF8004D20EA /* InstaOpsPLCrashReportApplicationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReportApplicationInfo.h; sourceTree = "<group>"; };
+		EC01D68116261BF8004D20EA /* InstaOpsPLCrashReportApplicationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashReportApplicationInfo.m; sourceTree = "<group>"; };
+		EC01D68216261BF8004D20EA /* InstaOpsPLCrashReportBinaryImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReportBinaryImageInfo.h; sourceTree = "<group>"; };
+		EC01D68316261BF8004D20EA /* InstaOpsPLCrashReportBinaryImageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashReportBinaryImageInfo.m; sourceTree = "<group>"; };
+		EC01D68416261BF8004D20EA /* InstaOpsPLCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReporter.h; sourceTree = "<group>"; };
+		EC01D68516261BF8004D20EA /* InstaOpsPLCrashReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashReporter.m; sourceTree = "<group>"; };
+		EC01D68616261BF8004D20EA /* InstaOpsPLCrashReportExceptionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReportExceptionInfo.h; sourceTree = "<group>"; };
+		EC01D68716261BF8004D20EA /* InstaOpsPLCrashReportExceptionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashReportExceptionInfo.m; sourceTree = "<group>"; };
+		EC01D68816261BF8004D20EA /* InstaOpsPLCrashReportFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReportFormatter.h; sourceTree = "<group>"; };
+		EC01D68916261BF8004D20EA /* InstaOpsPLCrashReportMachineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReportMachineInfo.h; sourceTree = "<group>"; };
+		EC01D68A16261BF8004D20EA /* InstaOpsPLCrashReportMachineInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashReportMachineInfo.m; sourceTree = "<group>"; };
+		EC01D68B16261BF8004D20EA /* InstaOpsPLCrashReportProcessInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReportProcessInfo.h; sourceTree = "<group>"; };
+		EC01D68C16261BF8004D20EA /* InstaOpsPLCrashReportProcessInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashReportProcessInfo.m; sourceTree = "<group>"; };
+		EC01D68D16261BF8004D20EA /* InstaOpsPLCrashReportProcessorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReportProcessorInfo.h; sourceTree = "<group>"; };
+		EC01D68E16261BF8004D20EA /* InstaOpsPLCrashReportProcessorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashReportProcessorInfo.m; sourceTree = "<group>"; };
+		EC01D68F16261BF8004D20EA /* InstaOpsPLCrashReportSignalInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReportSignalInfo.h; sourceTree = "<group>"; };
+		EC01D69016261BF8004D20EA /* InstaOpsPLCrashReportSignalInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashReportSignalInfo.m; sourceTree = "<group>"; };
+		EC01D69116261BF8004D20EA /* InstaOpsPLCrashReportSystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReportSystemInfo.h; sourceTree = "<group>"; };
+		EC01D69216261BF8004D20EA /* InstaOpsPLCrashReportSystemInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashReportSystemInfo.m; sourceTree = "<group>"; };
+		EC01D69316261BF8004D20EA /* InstaOpsPLCrashReportTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReportTextFormatter.h; sourceTree = "<group>"; };
+		EC01D69416261BF8004D20EA /* InstaOpsPLCrashReportTextFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashReportTextFormatter.m; sourceTree = "<group>"; };
+		EC01D69516261BF8004D20EA /* InstaOpsPLCrashReportThreadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashReportThreadInfo.h; sourceTree = "<group>"; };
+		EC01D69616261BF8004D20EA /* InstaOpsPLCrashReportThreadInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashReportThreadInfo.m; sourceTree = "<group>"; };
+		EC01D69716261BF8004D20EA /* InstaOpsPLCrashSignalHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashSignalHandler.h; sourceTree = "<group>"; };
+		EC01D69816261BF8004D20EA /* InstaOpsPLCrashSignalHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstaOpsPLCrashSignalHandler.m; sourceTree = "<group>"; };
+		EC01D69916261BF8004D20EA /* InstaOpsPLCrashSysctl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = InstaOpsPLCrashSysctl.c; sourceTree = "<group>"; };
+		EC01D69A16261BF8004D20EA /* InstaOpsPLCrashSysctl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstaOpsPLCrashSysctl.h; sourceTree = "<group>"; };
+		EC01D6B916261C5B004D20EA /* protoc-c */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "protoc-c"; sourceTree = "<group>"; };
+		EC01D6C016261C5B004D20EA /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		EC01D6C216261C5B004D20EA /* protobuf-c-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "protobuf-c-private.h"; sourceTree = "<group>"; };
+		EC01D6C316261C5B004D20EA /* protobuf-c.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "protobuf-c.c"; sourceTree = "<group>"; };
+		EC01D6C416261C5B004D20EA /* protobuf-c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "protobuf-c.h"; sourceTree = "<group>"; };
+		EC01D6C816261C5B004D20EA /* crash_report.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = crash_report.proto; sourceTree = "<group>"; };
+		EC01D6CC16261C5B004D20EA /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
+		EC01D6CD16261C5B004D20EA /* UnitTest-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UnitTest-Info.plist"; sourceTree = "<group>"; };
+		EC01D6CF16261C5B004D20EA /* GTMSenTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMSenTestCase.h; sourceTree = "<group>"; };
+		EC01D6D016261C5B004D20EA /* GTMSenTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMSenTestCase.m; sourceTree = "<group>"; };
+		EC01D6D616261DD7004D20EA /* PLCrashAsyncImageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLCrashAsyncImageTests.m; sourceTree = "<group>"; };
+		EC01D6D716261DD7004D20EA /* PLCrashAsyncSignalInfoTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLCrashAsyncSignalInfoTests.m; sourceTree = "<group>"; };
+		EC01D6D816261DD7004D20EA /* PLCrashAsyncTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLCrashAsyncTests.m; sourceTree = "<group>"; };
+		EC01D6D916261DD7004D20EA /* PLCrashFrameWalkerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLCrashFrameWalkerTests.m; sourceTree = "<group>"; };
+		EC01D6DA16261DD7004D20EA /* PLCrashLogWriterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLCrashLogWriterTests.m; sourceTree = "<group>"; };
+		EC01D6DB16261DD7004D20EA /* PLCrashReporterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLCrashReporterTests.m; sourceTree = "<group>"; };
+		EC01D6DC16261DD7004D20EA /* PLCrashReportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLCrashReportTests.m; sourceTree = "<group>"; };
+		EC01D6DD16261DD7004D20EA /* PLCrashSignalHandlerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLCrashSignalHandlerTests.m; sourceTree = "<group>"; };
+		EC01D6DE16261DD7004D20EA /* PLCrashSysctlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PLCrashSysctlTests.m; sourceTree = "<group>"; };
+		EC96C9FA16287D2B007BF147 /* CrashDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrashDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC96C9FE16287D2B007BF147 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		EC96CA0216287D2B007BF147 /* CrashDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CrashDemo-Info.plist"; sourceTree = "<group>"; };
+		EC96CA0616287D2B007BF147 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EC96CA0816287D2B007BF147 /* CrashDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CrashDemo-Prefix.pch"; sourceTree = "<group>"; };
+		ECDDBC5E16320D3100D96417 /* crashutil */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = crashutil; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECDDBC7816324A8C00D96417 /* libInstaOpsCrashReporterOSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libInstaOpsCrashReporterOSX.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECDDBC7916324A8C00D96417 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		ECDDBC7C16324A8C00D96417 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		ECDDBC7D16324A8C00D96417 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		ECDDBC7E16324A8C00D96417 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		ECDDBCBB1632645E00D96417 /* InstaOpsCrashReporter-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InstaOpsCrashReporter-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		ECDDBCBC1632645E00D96417 /* InstaOpsCrashReporterOSX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InstaOpsCrashReporterOSX-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		ECDDBCBE1632651900D96417 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CrashUtil/main.m; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EC01D62E16261888004D20EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC01D63516261888004D20EA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC01D63E16261888004D20EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC01D64416261888004D20EA /* SenTestingKit.framework in Frameworks */,
+				EC01D64616261888004D20EA /* UIKit.framework in Frameworks */,
+				EC01D64716261888004D20EA /* Foundation.framework in Frameworks */,
+				EC01D64A16261888004D20EA /* libInstaOpsCrashReporter.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC96C9F716287D2B007BF147 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC96C9FC16287D2B007BF147 /* UIKit.framework in Frameworks */,
+				EC96C9FD16287D2B007BF147 /* Foundation.framework in Frameworks */,
+				EC96C9FF16287D2B007BF147 /* CoreGraphics.framework in Frameworks */,
+				EC96CA1816287D99007BF147 /* libInstaOpsCrashReporter.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ECDDBC5B16320D3100D96417 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECDDBCB61632614800D96417 /* libInstaOpsCrashReporterOSX.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ECDDBC7516324A8C00D96417 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECDDBC7A16324A8C00D96417 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EC01D62616261888004D20EA = {
+			isa = PBXGroup;
+			children = (
+				EC01D6B616261C5B004D20EA /* Dependencies */,
+				EC01D6C516261C5B004D20EA /* Resources */,
+				EC01D6CA16261C5B004D20EA /* Tools */,
+				EC01D66316261BF8004D20EA /* Source */,
+				EC01D64B16261888004D20EA /* Tests */,
+				EC96CA0016287D2B007BF147 /* CrashDemo */,
+				ECDDBC6016320D3100D96417 /* CrashUtil */,
+				EC01D63316261888004D20EA /* Frameworks */,
+				EC01D63216261888004D20EA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EC01D63216261888004D20EA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D63116261888004D20EA /* libInstaOpsCrashReporter.a */,
+				EC01D64216261888004D20EA /* InstaOpsCrashReporterTests.octest */,
+				EC96C9FA16287D2B007BF147 /* CrashDemo.app */,
+				ECDDBC5E16320D3100D96417 /* crashutil */,
+				ECDDBC7816324A8C00D96417 /* libInstaOpsCrashReporterOSX.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EC01D63316261888004D20EA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D63416261888004D20EA /* Foundation.framework */,
+				EC01D64316261888004D20EA /* SenTestingKit.framework */,
+				EC01D64516261888004D20EA /* UIKit.framework */,
+				EC96C9FE16287D2B007BF147 /* CoreGraphics.framework */,
+				ECDDBC7916324A8C00D96417 /* Cocoa.framework */,
+				ECDDBC7B16324A8C00D96417 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EC01D64B16261888004D20EA /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D6D616261DD7004D20EA /* PLCrashAsyncImageTests.m */,
+				EC01D6D716261DD7004D20EA /* PLCrashAsyncSignalInfoTests.m */,
+				EC01D6D816261DD7004D20EA /* PLCrashAsyncTests.m */,
+				EC01D6D916261DD7004D20EA /* PLCrashFrameWalkerTests.m */,
+				EC01D6DA16261DD7004D20EA /* PLCrashLogWriterTests.m */,
+				EC01D6DB16261DD7004D20EA /* PLCrashReporterTests.m */,
+				EC01D6DC16261DD7004D20EA /* PLCrashReportTests.m */,
+				EC01D6DD16261DD7004D20EA /* PLCrashSignalHandlerTests.m */,
+				EC01D6DE16261DD7004D20EA /* PLCrashSysctlTests.m */,
+				EC01D64C16261888004D20EA /* Supporting Files */,
+			);
+			name = Tests;
+			path = InstaOpsCrashReporterTests;
+			sourceTree = "<group>";
+		};
+		EC01D64C16261888004D20EA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D64D16261888004D20EA /* InstaOpsCrashReporterTests-Info.plist */,
+				EC01D64E16261888004D20EA /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EC01D66316261BF8004D20EA /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				ECDDBCBD1632646C00D96417 /* pch */,
+				EC01D66816261BF8004D20EA /* InstaOpsCrashReporter.h */,
+				EC01D66916261BF8004D20EA /* InstaOpsCrashReporter.m */,
+				EC01D66A16261BF8004D20EA /* InstaOpsPLCrashAsync.c */,
+				EC01D66B16261BF8004D20EA /* InstaOpsPLCrashAsync.h */,
+				EC01D66C16261BF8004D20EA /* InstaOpsPLCrashAsyncImage.c */,
+				EC01D66D16261BF8004D20EA /* InstaOpsPLCrashAsyncImage.h */,
+				EC01D66E16261BF8004D20EA /* InstaOpsPLCrashAsyncSignalInfo.c */,
+				EC01D66F16261BF8004D20EA /* InstaOpsPLCrashAsyncSignalInfo.h */,
+				EC01D67016261BF8004D20EA /* InstaOpsPLCrashFrameWalker.c */,
+				EC01D67116261BF8004D20EA /* InstaOpsPLCrashFrameWalker.h */,
+				EC01D67216261BF8004D20EA /* InstaOpsPLCrashFrameWalker_arm.c */,
+				EC01D67316261BF8004D20EA /* InstaOpsPLCrashFrameWalker_arm.h */,
+				EC01D67416261BF8004D20EA /* InstaOpsPLCrashFrameWalker_i386.c */,
+				EC01D67516261BF8004D20EA /* InstaOpsPLCrashFrameWalker_i386.h */,
+				EC01D67616261BF8004D20EA /* InstaOpsPLCrashFrameWalker_ppc.c */,
+				EC01D67716261BF8004D20EA /* InstaOpsPLCrashFrameWalker_ppc.h */,
+				EC01D67816261BF8004D20EA /* InstaOpsPLCrashFrameWalker_x86_64.c */,
+				EC01D67916261BF8004D20EA /* InstaOpsPLCrashFrameWalker_x86_64.h */,
+				EC01D67A16261BF8004D20EA /* InstaOpsPLCrashLogWriter.h */,
+				EC01D67B16261BF8004D20EA /* InstaOpsPLCrashLogWriter.m */,
+				EC01D67C16261BF8004D20EA /* InstaOpsPLCrashLogWriterEncoding.c */,
+				EC01D67D16261BF8004D20EA /* InstaOpsPLCrashLogWriterEncoding.h */,
+				EC01D67E16261BF8004D20EA /* InstaOpsPLCrashReport.h */,
+				EC01D67F16261BF8004D20EA /* InstaOpsPLCrashReport.m */,
+				EC01D68016261BF8004D20EA /* InstaOpsPLCrashReportApplicationInfo.h */,
+				EC01D68116261BF8004D20EA /* InstaOpsPLCrashReportApplicationInfo.m */,
+				EC01D68216261BF8004D20EA /* InstaOpsPLCrashReportBinaryImageInfo.h */,
+				EC01D68316261BF8004D20EA /* InstaOpsPLCrashReportBinaryImageInfo.m */,
+				EC01D68416261BF8004D20EA /* InstaOpsPLCrashReporter.h */,
+				EC01D68516261BF8004D20EA /* InstaOpsPLCrashReporter.m */,
+				EC01D68616261BF8004D20EA /* InstaOpsPLCrashReportExceptionInfo.h */,
+				EC01D68716261BF8004D20EA /* InstaOpsPLCrashReportExceptionInfo.m */,
+				EC01D68816261BF8004D20EA /* InstaOpsPLCrashReportFormatter.h */,
+				EC01D68916261BF8004D20EA /* InstaOpsPLCrashReportMachineInfo.h */,
+				EC01D68A16261BF8004D20EA /* InstaOpsPLCrashReportMachineInfo.m */,
+				EC01D68B16261BF8004D20EA /* InstaOpsPLCrashReportProcessInfo.h */,
+				EC01D68C16261BF8004D20EA /* InstaOpsPLCrashReportProcessInfo.m */,
+				EC01D68D16261BF8004D20EA /* InstaOpsPLCrashReportProcessorInfo.h */,
+				EC01D68E16261BF8004D20EA /* InstaOpsPLCrashReportProcessorInfo.m */,
+				EC01D68F16261BF8004D20EA /* InstaOpsPLCrashReportSignalInfo.h */,
+				EC01D69016261BF8004D20EA /* InstaOpsPLCrashReportSignalInfo.m */,
+				EC01D69116261BF8004D20EA /* InstaOpsPLCrashReportSystemInfo.h */,
+				EC01D69216261BF8004D20EA /* InstaOpsPLCrashReportSystemInfo.m */,
+				EC01D69316261BF8004D20EA /* InstaOpsPLCrashReportTextFormatter.h */,
+				EC01D69416261BF8004D20EA /* InstaOpsPLCrashReportTextFormatter.m */,
+				EC01D69516261BF8004D20EA /* InstaOpsPLCrashReportThreadInfo.h */,
+				EC01D69616261BF8004D20EA /* InstaOpsPLCrashReportThreadInfo.m */,
+				EC01D69716261BF8004D20EA /* InstaOpsPLCrashSignalHandler.h */,
+				EC01D69816261BF8004D20EA /* InstaOpsPLCrashSignalHandler.m */,
+				EC01D69916261BF8004D20EA /* InstaOpsPLCrashSysctl.c */,
+				EC01D69A16261BF8004D20EA /* InstaOpsPLCrashSysctl.h */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		EC01D6B616261C5B004D20EA /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D6B716261C5B004D20EA /* protobuf-2.0.3 */,
+			);
+			path = Dependencies;
+			sourceTree = "<group>";
+		};
+		EC01D6B716261C5B004D20EA /* protobuf-2.0.3 */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D6B816261C5B004D20EA /* bin */,
+				EC01D6BA16261C5B004D20EA /* include */,
+				EC01D6C016261C5B004D20EA /* README.txt */,
+				EC01D6C116261C5B004D20EA /* src */,
+			);
+			path = "protobuf-2.0.3";
+			sourceTree = "<group>";
+		};
+		EC01D6B816261C5B004D20EA /* bin */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D6B916261C5B004D20EA /* protoc-c */,
+			);
+			path = bin;
+			sourceTree = "<group>";
+		};
+		EC01D6BA16261C5B004D20EA /* include */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D6BB16261C5B004D20EA /* google */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		EC01D6BB16261C5B004D20EA /* google */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D6BC16261C5B004D20EA /* protobuf-c */,
+			);
+			path = google;
+			sourceTree = "<group>";
+		};
+		EC01D6BC16261C5B004D20EA /* protobuf-c */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "protobuf-c";
+			sourceTree = "<group>";
+		};
+		EC01D6C116261C5B004D20EA /* src */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D6C216261C5B004D20EA /* protobuf-c-private.h */,
+				EC01D6C316261C5B004D20EA /* protobuf-c.c */,
+				EC01D6C416261C5B004D20EA /* protobuf-c.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		EC01D6C516261C5B004D20EA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D6C816261C5B004D20EA /* crash_report.proto */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		EC01D6CA16261C5B004D20EA /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D6CB16261C5B004D20EA /* google-toolbox-for-mac-1-5-1 */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		EC01D6CB16261C5B004D20EA /* google-toolbox-for-mac-1-5-1 */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D6CC16261C5B004D20EA /* GTMDefines.h */,
+				EC01D6CD16261C5B004D20EA /* UnitTest-Info.plist */,
+				EC01D6CE16261C5B004D20EA /* UnitTesting */,
+			);
+			path = "google-toolbox-for-mac-1-5-1";
+			sourceTree = "<group>";
+		};
+		EC01D6CE16261C5B004D20EA /* UnitTesting */ = {
+			isa = PBXGroup;
+			children = (
+				EC01D6CF16261C5B004D20EA /* GTMSenTestCase.h */,
+				EC01D6D016261C5B004D20EA /* GTMSenTestCase.m */,
+			);
+			path = UnitTesting;
+			sourceTree = "<group>";
+		};
+		EC96CA0016287D2B007BF147 /* CrashDemo */ = {
+			isa = PBXGroup;
+			children = (
+				EC96CA0216287D2B007BF147 /* CrashDemo-Info.plist */,
+				EC96CA0816287D2B007BF147 /* CrashDemo-Prefix.pch */,
+				EC96CA0616287D2B007BF147 /* main.m */,
+				EC96CA0116287D2B007BF147 /* Supporting Files */,
+			);
+			path = CrashDemo;
+			sourceTree = "<group>";
+		};
+		EC96CA0116287D2B007BF147 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		ECDDBC6016320D3100D96417 /* CrashUtil */ = {
+			isa = PBXGroup;
+			children = (
+				ECDDBCBE1632651900D96417 /* main.m */,
+			);
+			name = CrashUtil;
+			path = crashutil;
+			sourceTree = "<group>";
+		};
+		ECDDBC7B16324A8C00D96417 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ECDDBC7C16324A8C00D96417 /* AppKit.framework */,
+				ECDDBC7D16324A8C00D96417 /* CoreData.framework */,
+				ECDDBC7E16324A8C00D96417 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		ECDDBCBD1632646C00D96417 /* pch */ = {
+			isa = PBXGroup;
+			children = (
+				ECDDBCBB1632645E00D96417 /* InstaOpsCrashReporter-Prefix.pch */,
+				ECDDBCBC1632645E00D96417 /* InstaOpsCrashReporterOSX-Prefix.pch */,
+			);
+			name = pch;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		ECDDBC7616324A8C00D96417 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		EC01D63016261888004D20EA /* InstaOpsCrashReporter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC01D65616261888004D20EA /* Build configuration list for PBXNativeTarget "InstaOpsCrashReporter" */;
+			buildPhases = (
+				EC01D62D16261888004D20EA /* Sources */,
+				EC01D62E16261888004D20EA /* Frameworks */,
+				EC01D62F16261888004D20EA /* CopyFiles */,
+			);
+			buildRules = (
+				EC01D6F3162623F3004D20EA /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = InstaOpsCrashReporter;
+			productName = InstaOpsCrashReporter;
+			productReference = EC01D63116261888004D20EA /* libInstaOpsCrashReporter.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		EC01D64116261888004D20EA /* InstaOpsCrashReporterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC01D65916261888004D20EA /* Build configuration list for PBXNativeTarget "InstaOpsCrashReporterTests" */;
+			buildPhases = (
+				EC01D63D16261888004D20EA /* Sources */,
+				EC01D63E16261888004D20EA /* Frameworks */,
+				EC01D63F16261888004D20EA /* Resources */,
+				EC01D64016261888004D20EA /* ShellScript */,
+			);
+			buildRules = (
+				ECDDBCB8163261B500D96417 /* PBXBuildRule */,
+			);
+			dependencies = (
+				EC01D64916261888004D20EA /* PBXTargetDependency */,
+			);
+			name = InstaOpsCrashReporterTests;
+			productName = InstaOpsCrashReporterTests;
+			productReference = EC01D64216261888004D20EA /* InstaOpsCrashReporterTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+		EC96C9F916287D2B007BF147 /* CrashDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC96CA1416287D2B007BF147 /* Build configuration list for PBXNativeTarget "CrashDemo" */;
+			buildPhases = (
+				EC96C9F616287D2B007BF147 /* Sources */,
+				EC96C9F716287D2B007BF147 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EC96CA1716287D8E007BF147 /* PBXTargetDependency */,
+			);
+			name = CrashDemo;
+			productName = CrashDemo;
+			productReference = EC96C9FA16287D2B007BF147 /* CrashDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		ECDDBC5D16320D3100D96417 /* crashutil */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ECDDBC6716320D3100D96417 /* Build configuration list for PBXNativeTarget "crashutil" */;
+			buildPhases = (
+				ECDDBC5A16320D3100D96417 /* Sources */,
+				ECDDBC5B16320D3100D96417 /* Frameworks */,
+				ECDDBC5C16320D3100D96417 /* CopyFiles */,
+			);
+			buildRules = (
+				ECDDBCC016326A4800D96417 /* PBXBuildRule */,
+			);
+			dependencies = (
+				ECDDBCB51632613C00D96417 /* PBXTargetDependency */,
+			);
+			name = crashutil;
+			productName = crashutil;
+			productReference = ECDDBC5E16320D3100D96417 /* crashutil */;
+			productType = "com.apple.product-type.tool";
+		};
+		ECDDBC7716324A8C00D96417 /* InstaOpsCrashReporterOSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ECDDBC8516324A8D00D96417 /* Build configuration list for PBXNativeTarget "InstaOpsCrashReporterOSX" */;
+			buildPhases = (
+				ECDDBC7416324A8C00D96417 /* Sources */,
+				ECDDBC7516324A8C00D96417 /* Frameworks */,
+				ECDDBC7616324A8C00D96417 /* Headers */,
+			);
+			buildRules = (
+				ECDDBCAF16324EDA00D96417 /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = InstaOpsCrashReporterOSX;
+			productName = InstaOpsCrashReporterOSX;
+			productReference = ECDDBC7816324A8C00D96417 /* libInstaOpsCrashReporterOSX.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EC01D62816261888004D20EA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = InstaOps;
+			};
+			buildConfigurationList = EC01D62B16261888004D20EA /* Build configuration list for PBXProject "InstaOpsCrashReporter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EC01D62616261888004D20EA;
+			productRefGroup = EC01D63216261888004D20EA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ECDDBC7716324A8C00D96417 /* InstaOpsCrashReporterOSX */,
+				EC01D63016261888004D20EA /* InstaOpsCrashReporter */,
+				EC01D64116261888004D20EA /* InstaOpsCrashReporterTests */,
+				EC96C9F916287D2B007BF147 /* CrashDemo */,
+				ECDDBC5D16320D3100D96417 /* crashutil */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EC01D63F16261888004D20EA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC01D65016261888004D20EA /* InfoPlist.strings in Resources */,
+				ECDDBCB9163261BD00D96417 /* crash_report.proto in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EC01D64016261888004D20EA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EC01D62D16261888004D20EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC01D69D16261BF8004D20EA /* InstaOpsCrashReporter.m in Sources */,
+				EC01D69E16261BF8004D20EA /* InstaOpsPLCrashAsync.c in Sources */,
+				EC01D69F16261BF8004D20EA /* InstaOpsPLCrashAsyncImage.c in Sources */,
+				EC01D6A016261BF8004D20EA /* InstaOpsPLCrashAsyncSignalInfo.c in Sources */,
+				EC01D6A116261BF8004D20EA /* InstaOpsPLCrashFrameWalker.c in Sources */,
+				EC01D6A216261BF8004D20EA /* InstaOpsPLCrashFrameWalker_arm.c in Sources */,
+				EC01D6A316261BF8004D20EA /* InstaOpsPLCrashFrameWalker_i386.c in Sources */,
+				EC01D6A416261BF8004D20EA /* InstaOpsPLCrashFrameWalker_ppc.c in Sources */,
+				EC01D6A516261BF8004D20EA /* InstaOpsPLCrashFrameWalker_x86_64.c in Sources */,
+				EC01D6A616261BF8004D20EA /* InstaOpsPLCrashLogWriter.m in Sources */,
+				EC01D6A716261BF8004D20EA /* InstaOpsPLCrashLogWriterEncoding.c in Sources */,
+				EC01D6A816261BF8004D20EA /* InstaOpsPLCrashReport.m in Sources */,
+				EC01D6A916261BF8004D20EA /* InstaOpsPLCrashReportApplicationInfo.m in Sources */,
+				EC01D6AA16261BF8004D20EA /* InstaOpsPLCrashReportBinaryImageInfo.m in Sources */,
+				EC01D6AB16261BF8004D20EA /* InstaOpsPLCrashReporter.m in Sources */,
+				EC01D6AC16261BF8004D20EA /* InstaOpsPLCrashReportExceptionInfo.m in Sources */,
+				EC01D6AD16261BF8004D20EA /* InstaOpsPLCrashReportMachineInfo.m in Sources */,
+				EC01D6AE16261BF8004D20EA /* InstaOpsPLCrashReportProcessInfo.m in Sources */,
+				EC01D6AF16261BF8004D20EA /* InstaOpsPLCrashReportProcessorInfo.m in Sources */,
+				EC01D6B016261BF8004D20EA /* InstaOpsPLCrashReportSignalInfo.m in Sources */,
+				EC01D6B116261BF8004D20EA /* InstaOpsPLCrashReportSystemInfo.m in Sources */,
+				EC01D6B216261BF8004D20EA /* InstaOpsPLCrashReportTextFormatter.m in Sources */,
+				EC01D6B316261BF8004D20EA /* InstaOpsPLCrashReportThreadInfo.m in Sources */,
+				EC01D6B416261BF8004D20EA /* InstaOpsPLCrashSignalHandler.m in Sources */,
+				EC01D6B516261BF8004D20EA /* InstaOpsPLCrashSysctl.c in Sources */,
+				ECDDBC8816324BF300D96417 /* protobuf-c.c in Sources */,
+				ECDDBCB316325A2800D96417 /* crash_report.proto in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC01D63D16261888004D20EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECDDBCBA163261D500D96417 /* crash_report.proto in Sources */,
+				EC01D6E816261DE0004D20EA /* PLCrashAsyncImageTests.m in Sources */,
+				EC01D6E916261DE0004D20EA /* PLCrashAsyncSignalInfoTests.m in Sources */,
+				EC01D6EA16261DE0004D20EA /* PLCrashAsyncTests.m in Sources */,
+				EC01D6EB16261DE0004D20EA /* PLCrashFrameWalkerTests.m in Sources */,
+				EC01D6EC16261DE0004D20EA /* PLCrashLogWriterTests.m in Sources */,
+				EC01D6ED16261DE0004D20EA /* PLCrashReporterTests.m in Sources */,
+				EC01D6EE16261DE0004D20EA /* PLCrashReportTests.m in Sources */,
+				EC01D6EF16261DE0004D20EA /* PLCrashSignalHandlerTests.m in Sources */,
+				EC01D6F016261DE0004D20EA /* PLCrashSysctlTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC96C9F616287D2B007BF147 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC96CA0716287D2B007BF147 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ECDDBC5A16320D3100D96417 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECDDBCBF1632651900D96417 /* main.m in Sources */,
+				ECDDBCC116326A6000D96417 /* crash_report.proto in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ECDDBC7416324A8C00D96417 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECDDBC8B16324C6F00D96417 /* InstaOpsCrashReporter.m in Sources */,
+				ECDDBC8C16324C7600D96417 /* InstaOpsPLCrashAsync.c in Sources */,
+				ECDDBC8D16324C9300D96417 /* InstaOpsPLCrashAsyncImage.c in Sources */,
+				ECDDBC8E16324C9300D96417 /* InstaOpsPLCrashAsyncSignalInfo.c in Sources */,
+				ECDDBC8F16324C9300D96417 /* InstaOpsPLCrashFrameWalker.c in Sources */,
+				ECDDBC9016324C9300D96417 /* InstaOpsPLCrashFrameWalker_arm.c in Sources */,
+				ECDDBC9116324C9300D96417 /* InstaOpsPLCrashFrameWalker_i386.c in Sources */,
+				ECDDBC9216324C9300D96417 /* InstaOpsPLCrashFrameWalker_ppc.c in Sources */,
+				ECDDBC9316324C9300D96417 /* InstaOpsPLCrashFrameWalker_x86_64.c in Sources */,
+				ECDDBC9416324C9300D96417 /* InstaOpsPLCrashLogWriter.m in Sources */,
+				ECDDBC9516324C9300D96417 /* InstaOpsPLCrashLogWriterEncoding.c in Sources */,
+				ECDDBC9616324C9300D96417 /* InstaOpsPLCrashReport.m in Sources */,
+				ECDDBC9716324C9300D96417 /* InstaOpsPLCrashReportApplicationInfo.m in Sources */,
+				ECDDBC9816324C9300D96417 /* InstaOpsPLCrashReportBinaryImageInfo.m in Sources */,
+				ECDDBC9916324C9300D96417 /* InstaOpsPLCrashReporter.m in Sources */,
+				ECDDBC9A16324C9300D96417 /* InstaOpsPLCrashReportExceptionInfo.m in Sources */,
+				ECDDBC9B16324C9300D96417 /* InstaOpsPLCrashReportMachineInfo.m in Sources */,
+				ECDDBC9C16324C9300D96417 /* InstaOpsPLCrashReportProcessInfo.m in Sources */,
+				ECDDBC9D16324CA500D96417 /* InstaOpsPLCrashReportProcessorInfo.m in Sources */,
+				ECDDBC9E16324CA500D96417 /* InstaOpsPLCrashReportSignalInfo.m in Sources */,
+				ECDDBC9F16324CA500D96417 /* InstaOpsPLCrashReportSystemInfo.m in Sources */,
+				ECDDBCA016324CA500D96417 /* InstaOpsPLCrashReportTextFormatter.m in Sources */,
+				ECDDBCA116324CA500D96417 /* InstaOpsPLCrashReportThreadInfo.m in Sources */,
+				ECDDBCA216324CA500D96417 /* InstaOpsPLCrashSignalHandler.m in Sources */,
+				ECDDBCA316324CA500D96417 /* InstaOpsPLCrashSysctl.c in Sources */,
+				ECDDBCB216325A2700D96417 /* crash_report.proto in Sources */,
+				ECDDBCC216326ADF00D96417 /* protobuf-c.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EC01D64916261888004D20EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC01D63016261888004D20EA /* InstaOpsCrashReporter */;
+			targetProxy = EC01D64816261888004D20EA /* PBXContainerItemProxy */;
+		};
+		EC96CA1716287D8E007BF147 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC01D63016261888004D20EA /* InstaOpsCrashReporter */;
+			targetProxy = EC96CA1616287D8E007BF147 /* PBXContainerItemProxy */;
+		};
+		ECDDBCB51632613C00D96417 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ECDDBC7716324A8C00D96417 /* InstaOpsCrashReporterOSX */;
+			targetProxy = ECDDBCB41632613C00D96417 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EC01D64E16261888004D20EA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EC01D64F16261888004D20EA /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EC01D65416261888004D20EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		EC01D65516261888004D20EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EC01D65716261888004D20EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				DSTROOT = /tmp/InstaOpsCrashReporter.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "InstaOpsCrashReporter-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Dependencies/protobuf-2.0.3/include\"",
+					"\"$(SRCROOT)/$(DERIVED_FILES_DIR)\"",
+				);
+				OTHER_CFLAGS = "-D$(PL_BUILD_CONFIG_FLAG)=1";
+				OTHER_LDFLAGS = "-ObjC";
+				PL_BUILD_CONFIG_FLAG = PLCF_DEBUG_BUILD;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		EC01D65816261888004D20EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				DSTROOT = /tmp/InstaOpsCrashReporter.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "InstaOpsCrashReporter-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Dependencies/protobuf-2.0.3/include\"",
+					"\"$(SRCROOT)/$(DERIVED_FILES_DIR)\"",
+				);
+				OTHER_CFLAGS = "-D$(PL_BUILD_CONFIG_FLAG)=1";
+				OTHER_LDFLAGS = "-ObjC";
+				PL_BUILD_CONFIG_FLAG = PLCF_RELEASE_BUILD;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		EC01D65A16261888004D20EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "InstaOpsCrashReporter-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Dependencies/protobuf-2.0.3/include\"",
+					"\"$(SRCROOT)/$(DERIVED_FILES_DIR)\"",
+				);
+				INFOPLIST_FILE = "InstaOpsCrashReporterTests/InstaOpsCrashReporterTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		EC01D65B16261888004D20EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "InstaOpsCrashReporter-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Dependencies/protobuf-2.0.3/include\"",
+					"\"$(SRCROOT)/$(DERIVED_FILES_DIR)\"",
+				);
+				INFOPLIST_FILE = "InstaOpsCrashReporterTests/InstaOpsCrashReporterTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		EC96CA1216287D2B007BF147 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CrashDemo/CrashDemo-Prefix.pch";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "CrashDemo/CrashDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		EC96CA1316287D2B007BF147 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CrashDemo/CrashDemo-Prefix.pch";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "CrashDemo/CrashDemo-Info.plist";
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		ECDDBC6516320D3100D96417 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Dependencies/protobuf-2.0.3/include\"",
+					"\"$(SRCROOT)/Source \"$(SRCROOT)/$(DERIVED_FILES_DIR)\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		ECDDBC6616320D3100D96417 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Dependencies/protobuf-2.0.3/include\"",
+					"\"$(SRCROOT)/Source \"$(SRCROOT)/$(DERIVED_FILES_DIR)\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		ECDDBC8616324A8D00D96417 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "InstaOpsCrashReporterOSX-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Dependencies/protobuf-2.0.3/include\"",
+					"\"$(SRCROOT)/$(DERIVED_FILES_DIR)\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		ECDDBC8716324A8D00D96417 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_EMPTY_BODY = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "InstaOpsCrashReporterOSX-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Dependencies/protobuf-2.0.3/include\"",
+					"\"$(SRCROOT)/$(DERIVED_FILES_DIR)\"",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EC01D62B16261888004D20EA /* Build configuration list for PBXProject "InstaOpsCrashReporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC01D65416261888004D20EA /* Debug */,
+				EC01D65516261888004D20EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC01D65616261888004D20EA /* Build configuration list for PBXNativeTarget "InstaOpsCrashReporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC01D65716261888004D20EA /* Debug */,
+				EC01D65816261888004D20EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC01D65916261888004D20EA /* Build configuration list for PBXNativeTarget "InstaOpsCrashReporterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC01D65A16261888004D20EA /* Debug */,
+				EC01D65B16261888004D20EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC96CA1416287D2B007BF147 /* Build configuration list for PBXNativeTarget "CrashDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC96CA1216287D2B007BF147 /* Debug */,
+				EC96CA1316287D2B007BF147 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ECDDBC6716320D3100D96417 /* Build configuration list for PBXNativeTarget "crashutil" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ECDDBC6516320D3100D96417 /* Debug */,
+				ECDDBC6616320D3100D96417 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		ECDDBC8516324A8D00D96417 /* Build configuration list for PBXNativeTarget "InstaOpsCrashReporterOSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ECDDBC8616324A8D00D96417 /* Debug */,
+				ECDDBC8716324A8D00D96417 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EC01D62816261888004D20EA /* Project object */;
+}

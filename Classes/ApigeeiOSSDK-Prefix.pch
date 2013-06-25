@@ -1,0 +1,13 @@
+//  ApigeeAppMonitoring-Prefix.pch
+//  ApigeeAppMonitoring
+//
+//  Created by Sam Griffith on 2/3/12.
+//  Copyright (c) 2012 Insta Ops. All rights reserved.
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+    #import <CoreLocation/CoreLocation.h>
+    #import "ApigeeSystemLogger.h"
+#endif
