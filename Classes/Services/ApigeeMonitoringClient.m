@@ -58,19 +58,10 @@ static NSString* kSDKVersion = @"1.6.0";
 
 static ApigeeMonitoringClient *singletonInstance = nil;
 
-static NSString* kKeyOptionUploadListener = @"uploadListener";
-static NSString* kKeyOptionCrashReportingEnabled = @"crashReporting";
-static NSString* kKeyOptionInterceptNetworkCallsEnabled = @"interceptNetworkCalls";
-
 static const BOOL kDefaultUploadCrashReports    = YES;
 static const BOOL kDefaultInterceptNetworkCalls = YES;
 
 static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
-static NSString* kApigeeCrashTag = @"CRASH";
-
-static NSString* kKeyUUID          = @"uuid";
-static NSString* kKeyCrashFileName = @"crashFileName";
-static NSString* kKeyCrashLog      = @"crashLog";
 
 
 
@@ -845,9 +836,6 @@ static NSString* kKeyCrashLog      = @"crashLog";
         ApigeeSessionMetrics *sessionMetrics =
             [[ApigeeSessionMetricsCompiler systemCompiler] compileMetricsForSettings:self.activeSettings];
     
-        NSString* nowTimestamp = [NSDate unixTimestampAsString];
-        
-        
         NSMutableDictionary *clientMetricsEnvelope = [NSMutableDictionary dictionary];
         [self populateClientMetricsEnvelope:clientMetricsEnvelope];
         [clientMetricsEnvelope setObject:[ApigeeLogEntry toDictionaries:logEntries] forKey:@"logs"];

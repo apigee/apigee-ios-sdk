@@ -1,9 +1,9 @@
 #!/bin/sh
 #  package-build.sh
-#  InstaOpsAppMonitor
+#  ApigeeiOSSDK
 #
 #  Created by jaminschubert on 10/4/12.
-#  Copyright (c) 2012 InstaOps. All rights reserved.
+#  Copyright (c) 2012 Apigee. All rights reserved.
 
 function failed()
 {
@@ -43,8 +43,8 @@ function buildall()
 #export DEVELOPER_DIR
 
 #artifacts
-LIBNAME="ApigeeAppMonitor"
-FRAMEWORKNAME="ApigeeSDK"
+LIBNAME="ApigeeiOSSDK"
+FRAMEWORKNAME="ApigeeiOSSDK"
 
 #configuration
 SDKS="iphoneos iphonesimulator"

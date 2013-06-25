@@ -1,0 +1,23 @@
+dependencies: \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashLogWriter.m \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashReport.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashReportSystemInfo.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashReportMachineInfo.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashReportProcessorInfo.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashReportApplicationInfo.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashReportProcessInfo.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashReportSignalInfo.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashReportThreadInfo.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashReportBinaryImageInfo.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashReportExceptionInfo.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashLogWriter.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashAsync.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashAsyncImage.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashLogWriterEncoding.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashAsyncSignalInfo.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashFrameWalker.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashFrameWalker_x86_64.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashFrameWalker_i386.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashFrameWalker_arm.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashFrameWalker_ppc.h \
+  /Users/ApigeeCorporation/repos4/ios-sdk-github/Classes/CrashReporter/Source/ApigeePLCrashSysctl.h

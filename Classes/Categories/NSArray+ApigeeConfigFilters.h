@@ -1,9 +1,9 @@
 //
-//  NSArray+InstaOpsConfigFilters.h
-//  InstaOpsAppMonitor
+//  NSArray+ApigeeConfigFilters.h
+//  ApigeeiOSSDK
 //
 //  Created by jaminschubert on 9/24/12.
-//  Copyright (c) 2012 InstaOps. All rights reserved.
+//  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
 #import "ApigeeReachability.h"

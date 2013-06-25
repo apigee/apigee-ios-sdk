@@ -1,9 +1,9 @@
 //
-//  NSDate+InstaOps.h
-//  InstaOpsAppMonitor
+//  NSDate+Apigee.h
+//  ApigeeiOSSDK
 //
 //  Created by Sam Griffith on 3/20/12.
-//  Copyright (c) 2012 InstaOps. All rights reserved.
+//  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
 #define kApigeeMillisecondsPerSecond 1000

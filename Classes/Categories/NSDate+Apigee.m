@@ -1,9 +1,9 @@
 //
-//  NSDate+InstaOps
-//  InstaOpsAppMonitor
+//  NSDate+Apigee
+//  ApigeeiOSSDK
 //
 //  Created by Sam Griffith on 3/20/12.
-//  Copyright (c) 2012 InstaOps. All rights reserved.
+//  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
 #import <sys/time.h>

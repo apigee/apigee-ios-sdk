@@ -1,9 +1,9 @@
 //
 //  NSString+FunctionLogging.m
-//  InstaOpsAppMonitor
+//  ApigeeiOSSDK
 //
 //  Created by jaminschubert on 10/14/12.
-//  Copyright (c) 2012 InstaOps. All rights reserved.
+//  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
 #import "NSString+FunctionLogging.h"
@@ -12,7 +12,7 @@
 
 - (BOOL) isBlock
 {
-    NSRange range = [self rangeOfString:@"block_invoke"];
+    //NSRange range = [self rangeOfString:@"block_invoke"];
     return NO;
 }
 

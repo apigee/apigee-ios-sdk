@@ -197,10 +197,10 @@ NSRecursiveLock *g_transactionIDLock = nil;
     // simply remaining "in use" until we get the reply or error.
 }
 
-// general helper function form aking escaped-strings
+// general helper function for making escaped-strings
 +(NSString *)escapeSpecials:(NSString *)raw;
 {
-    NSString *converted = (__bridge NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)raw, nil, CFSTR(";/?:@&=$+{}<>"), kCFStringEncodingUTF8);
+    NSString *converted = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)raw, nil, CFSTR(";/?:@&=$+{}<>"), kCFStringEncodingUTF8);
     return converted;
 }
 

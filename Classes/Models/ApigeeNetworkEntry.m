@@ -26,16 +26,16 @@ static const NSUInteger kMaxUrlLength = 100;
 @synthesize httpStatusCode;
 @synthesize responseDataSize;
 
-- (id) initWithURL:(NSString *) url started:(NSDate *) started ended:(NSDate *) ended
+- (id) initWithURL:(NSString *) theUrl started:(NSDate *) started ended:(NSDate *) ended
 {
     self = [super init];
     
     if (self) {
         
-        if ([url length] > kMaxUrlLength) {
-            self.url = [url substringToIndex:kMaxUrlLength];
+        if ([theUrl length] > kMaxUrlLength) {
+            self.url = [theUrl substringToIndex:kMaxUrlLength];
         } else {
-            self.url = [url copy];
+            self.url = [theUrl copy];
         }
         
         NSDate *copyOfStartedDate = [started copy];
@@ -46,8 +46,7 @@ static const NSUInteger kMaxUrlLength = 100;
         
         const long latencyMillis = [ended timeIntervalSinceDate:copyOfStartedDate] * 1000;
         
-        NSString *latency = [NSString stringWithFormat:@"%ld", latencyMillis ];
-        self.latency = latency;
+        self.latency = [NSString stringWithFormat:@"%ld", latencyMillis ];
         self.numSamples = @"1";
         self.numErrors = @"0";
     }

@@ -1,9 +1,9 @@
 //
 //  NSString+UUID.m
-//  InstaOpsAppMonitor
+//  ApigeeiOSSDK
 //
 //  Created by jaminschubert on 10/13/12.
-//  Copyright (c) 2012 InstaOps. All rights reserved.
+//  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
 #import "NSString+UUID.h"

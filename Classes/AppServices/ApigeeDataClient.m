@@ -1135,13 +1135,9 @@ NSString *g_deviceUUID = nil;
     
     // if we're here, we need to create a unique ID
     CFUUIDRef uuidRef = CFUUIDCreate(nil);
-    CFStringRef uuidStringRef = CFUUIDCreateString(nil, uuidRef);
+    g_deviceUUID = (__bridge_transfer NSString *) CFUUIDCreateString(nil, uuidRef);
     CFRelease(uuidRef);
     
-    // convert it to a usable string. Make our own copy.
-    g_deviceUUID = [NSString stringWithString:(__bridge NSString *)uuidStringRef];
-    if ( !g_deviceUUID ) return nil;
-
     // store it
     [defaults setObject:g_deviceUUID forKey:@"ApigeeClientDeviceUUID"];
     [defaults synchronize];

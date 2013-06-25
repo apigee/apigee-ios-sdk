@@ -1,9 +1,9 @@
 //
-//  InstaOpsJSONConfigKeys.h
-//  InstaOpsAppMonitor
+//  ApigeeJSONConfigKeys.h
+//  ApigeeiOSSDK
 //
 //  Created by jaminschubert on 9/18/12.
-//  Copyright (c) 2012 InstaOps. All rights reserved.
+//  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
 //composite configuration keys

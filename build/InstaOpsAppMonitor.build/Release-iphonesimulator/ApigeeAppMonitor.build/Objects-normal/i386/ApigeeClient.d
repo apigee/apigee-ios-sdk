@@ -1,0 +1,20 @@
+dependencies: \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/ApigeeClient.m \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/ApigeeClient.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/ApigeeAppIdentification.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/AppServices/ApigeeDataClient.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/AppServices/ApigeeClientResponse.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/AppServices/ApigeeQuery.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/AppServices/ApigeeActivity.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/AppServices/ApigeeEntity.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/AppServices/ApigeeUser.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/Services/ApigeeMonitoringClient.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/Services/ApigeeActiveSettings.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/Support/ApigeeReachability.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/Models/ApigeeCompositeConfiguration.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/Models/ApigeeMonitorSettings.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/Models/ApigeeNetworkConfig.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/Services/ApigeeUploadListener.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/Services/ApigeeMonitoringOptions.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/ApigeeDefaultiOSLog.h \
+  /Users/ApigeeCorporation/repos3/ios-sdk/Classes/ApigeeLogger.h

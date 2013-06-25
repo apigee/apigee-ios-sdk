@@ -29,7 +29,7 @@
 #import "ApigeePLCrashReport.h"
 #import "ApigeeCrashReporter.h"
 
-#import "crash_report.pb-c.h"
+#import "../Generated/iOS/crash_report.pb-c.h"
 
 struct Apigee__PLCrashReportDecoder {
     Apigee_Plcrash__CrashReport *crashReport;

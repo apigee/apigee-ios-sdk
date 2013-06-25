@@ -1,23 +1,23 @@
 #!/bin/sh
 
 #  framework.sh
-#  InstaOpsAppMonitor
+#  ApigeeiOSSDK
 #
 #  Created by jaminschubert on 10/4/12.
-#  Copyright (c) 2012 InstaOps. All rights reserved.
+#  Copyright (c) 2012 Apigee. All rights reserved.
 
 # Original Script by  Pete Goodliffe
 # from http://accu.org/index.php/journals/1594
 
 # Modified by Juan Batiz-Benet to fit GHUnit
 # Modified by Gabriel Handford for GHUnit
-# Modified by jaminschubert for InstaOps
+# Modified by jaminschubert for Apigee
 
 set -e
 
 # Define these to suit your nefarious purposes
-FRAMEWORK_NAME=ApigeeSDK
-LIB_NAME=libApigeeSDK.a
+FRAMEWORK_NAME=ApigeeiOSSDK
+LIB_NAME=libApigeeiOSSDK.a
 FRAMEWORK_VERSION=A
 BUILD_TYPE=Release
 

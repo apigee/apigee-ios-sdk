@@ -1,9 +1,9 @@
 //
 //  ApigeeAppIdentification.m
-//  InstaOpsAppMonitor
+//  ApigeeiOSSDK
 //
 //  Created by Paul Dardeau on 4/17/13.
-//  Copyright (c) 2013 InstaOps. All rights reserved.
+//  Copyright (c) 2013 Apigee. All rights reserved.
 //
 
 #import "ApigeeAppIdentification.h"
