@@ -62,8 +62,6 @@
 		63F524CD1778ECD000FCA013 /* ApigeePLCrashAsyncSignalInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 63F5249D1778ECD000FCA013 /* ApigeePLCrashAsyncSignalInfo.c */; };
 		63F524CE1778ECD000FCA013 /* ApigeePLCrashFrameWalker_arm.c in Sources */ = {isa = PBXBuildFile; fileRef = 63F5249F1778ECD000FCA013 /* ApigeePLCrashFrameWalker_arm.c */; };
 		63F524CF1778ECD000FCA013 /* ApigeePLCrashFrameWalker_i386.c in Sources */ = {isa = PBXBuildFile; fileRef = 63F524A11778ECD000FCA013 /* ApigeePLCrashFrameWalker_i386.c */; };
-		63F524D01778ECD000FCA013 /* ApigeePLCrashFrameWalker_ppc.c in Sources */ = {isa = PBXBuildFile; fileRef = 63F524A31778ECD000FCA013 /* ApigeePLCrashFrameWalker_ppc.c */; };
-		63F524D11778ECD000FCA013 /* ApigeePLCrashFrameWalker_x86_64.c in Sources */ = {isa = PBXBuildFile; fileRef = 63F524A51778ECD000FCA013 /* ApigeePLCrashFrameWalker_x86_64.c */; };
 		63F524D21778ECD000FCA013 /* ApigeePLCrashFrameWalker.c in Sources */ = {isa = PBXBuildFile; fileRef = 63F524A71778ECD000FCA013 /* ApigeePLCrashFrameWalker.c */; };
 		63F524D31778ECD000FCA013 /* ApigeePLCrashLogWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524AA1778ECD000FCA013 /* ApigeePLCrashLogWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		63F524D41778ECD000FCA013 /* ApigeePLCrashLogWriterEncoding.c in Sources */ = {isa = PBXBuildFile; fileRef = 63F524AB1778ECD000FCA013 /* ApigeePLCrashLogWriterEncoding.c */; };
@@ -106,15 +104,93 @@
 		63F5252B1778FE8700FCA013 /* ApigeeNSURLConnectionDataDelegateInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5252A1778FE8700FCA013 /* ApigeeNSURLConnectionDataDelegateInterceptor.m */; };
 		63F5252E1778FEC800FCA013 /* ApigeeCompositeConfiguration+Initializers.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5252D1778FEC800FCA013 /* ApigeeCompositeConfiguration+Initializers.m */; };
 		63F52535177A228300FCA013 /* crash_report.pb-c.c in Sources */ = {isa = PBXBuildFile; fileRef = 63F52533177A228300FCA013 /* crash_report.pb-c.c */; };
+		63F5253B177A36E600FCA013 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253A177A36E600FCA013 /* CoreLocation.framework */; };
+		63F5253D177A36F100FCA013 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253C177A36F100FCA013 /* SystemConfiguration.framework */; };
+		63F5253F177A36FB00FCA013 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253E177A36FB00FCA013 /* CoreTelephony.framework */; };
+		63F52541177A370A00FCA013 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F52540177A370A00FCA013 /* CoreGraphics.framework */; };
+		63F52542177A382B00FCA013 /* ApigeeCompositeConfiguration.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5248B1778EA4E00FCA013 /* ApigeeCompositeConfiguration.h */; };
+		63F52543177A383E00FCA013 /* ApigeeLogEntry.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5246B1778E73C00FCA013 /* ApigeeLogEntry.h */; };
+		63F52544177A384E00FCA013 /* ApigeeMetricsEntry.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5246E1778E79600FCA013 /* ApigeeMetricsEntry.h */; };
+		63F52545177A385B00FCA013 /* ApigeeSessionMetrics.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524711778E82700FCA013 /* ApigeeSessionMetrics.h */; };
+		63F52546177A386D00FCA013 /* ApigeeReachability.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524541778D35E00FCA013 /* ApigeeReachability.h */; };
+		63F52547177A387700FCA013 /* ApigeeMonitoringClient.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524E31778ED5000FCA013 /* ApigeeMonitoringClient.h */; };
+		63F52548177A388500FCA013 /* ApigeeMonitorSettings.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5248E1778EA6200FCA013 /* ApigeeMonitorSettings.h */; };
+		63F52549177A388F00FCA013 /* ApigeeNetworkConfig.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524911778EA7900FCA013 /* ApigeeNetworkConfig.h */; };
+		63F5254A177A389B00FCA013 /* ApigeeCustomConfigParam.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524941778EA9100FCA013 /* ApigeeCustomConfigParam.h */; };
+		63F5254B177A38A700FCA013 /* ApigeeConfigFilter.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524881778EA3900FCA013 /* ApigeeConfigFilter.h */; };
+		63F5254C177A38B500FCA013 /* ApigeeUploadListener.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524F51778EE2300FCA013 /* ApigeeUploadListener.h */; };
+		63F5254D177A38C200FCA013 /* ApigeeActiveSettings.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524EC1778EDDD00FCA013 /* ApigeeActiveSettings.h */; };
+		63F5254E177A38D200FCA013 /* ApigeeLogger.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524621778D44400FCA013 /* ApigeeLogger.h */; };
+		63F5254F177A38DD00FCA013 /* Apigee.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524811778E9E400FCA013 /* Apigee.h */; };
+		63F52550177A38EA00FCA013 /* NSURLConnection+Apigee.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5251A1778FE4600FCA013 /* NSURLConnection+Apigee.h */; };
+		63F52551177A38FE00FCA013 /* ApigeeUIWebView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F525201778FE6000FCA013 /* ApigeeUIWebView.h */; };
+		63F52552177A390E00FCA013 /* ApigeeURLConnection.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F525141778FE4600FCA013 /* ApigeeURLConnection.h */; };
+		63F52553177A392300FCA013 /* NSString+Apigee.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F525181778FE4600FCA013 /* NSString+Apigee.h */; };
+		63F52554177A392C00FCA013 /* NSData+Apigee.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F525161778FE4600FCA013 /* NSData+Apigee.h */; };
+		63F52555177A394100FCA013 /* ApigeeOpenUDID.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524521778D35E00FCA013 /* ApigeeOpenUDID.h */; };
+		63F52556177A394C00FCA013 /* ApigeeActivity.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524191778D31A00FCA013 /* ApigeeActivity.h */; };
+		63F52557177A395700FCA013 /* ApigeeDataClient.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5241F1778D31A00FCA013 /* ApigeeDataClient.h */; };
+		63F52558177A396700FCA013 /* ApigeeClientResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5241B1778D31A00FCA013 /* ApigeeClientResponse.h */; };
+		63F52559177A397000FCA013 /* ApigeeHTTPManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524271778D31A00FCA013 /* ApigeeHTTPManager.h */; };
+		63F5255A177A397A00FCA013 /* ApigeeMultiStepAction.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5242B1778D31A00FCA013 /* ApigeeMultiStepAction.h */; };
+		63F5255B177A398400FCA013 /* ApigeeQuery.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5242D1778D31A00FCA013 /* ApigeeQuery.h */; };
+		63F5255C177A398E00FCA013 /* ApigeeJsonUtils.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524851778E9F400FCA013 /* ApigeeJsonUtils.h */; };
+		63F5255D177A39A300FCA013 /* ApigeeClient.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5247B1778E9D300FCA013 /* ApigeeClient.h */; };
+		63F5255E177A39AC00FCA013 /* ApigeeMonitoringOptions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524E61778ED7100FCA013 /* ApigeeMonitoringOptions.h */; };
+		63F5255F177A39BC00FCA013 /* ApigeeEntity.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524231778D31A00FCA013 /* ApigeeEntity.h */; };
+		63F52560177A39C700FCA013 /* ApigeeCollection.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5241D1778D31A00FCA013 /* ApigeeCollection.h */; };
+		63F52561177A39D700FCA013 /* ApigeeGroup.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524251778D31A00FCA013 /* ApigeeGroup.h */; };
+		63F52562177A39E300FCA013 /* ApigeeDevice.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524211778D31A00FCA013 /* ApigeeDevice.h */; };
+		63F52563177A39F300FCA013 /* ApigeeAppIdentification.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524821778E9E400FCA013 /* ApigeeAppIdentification.h */; };
+		63F52564177A39FD00FCA013 /* ApigeeMessage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524291778D31A00FCA013 /* ApigeeMessage.h */; };
+		63F52565177A3A0A00FCA013 /* NSObject+ApigeeSBJson.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524431778D34700FCA013 /* NSObject+ApigeeSBJson.h */; };
+		63F52566177A3A1600FCA013 /* ApigeeUser.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5242F1778D31A00FCA013 /* ApigeeUser.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		63F522B91778C2B200FCA013 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "include/${PRODUCT_NAME}";
+			dstPath = include;
 			dstSubfolderSpec = 16;
 			files = (
+				63F52566177A3A1600FCA013 /* ApigeeUser.h in CopyFiles */,
+				63F52565177A3A0A00FCA013 /* NSObject+ApigeeSBJson.h in CopyFiles */,
+				63F52564177A39FD00FCA013 /* ApigeeMessage.h in CopyFiles */,
+				63F52563177A39F300FCA013 /* ApigeeAppIdentification.h in CopyFiles */,
+				63F52562177A39E300FCA013 /* ApigeeDevice.h in CopyFiles */,
+				63F52561177A39D700FCA013 /* ApigeeGroup.h in CopyFiles */,
+				63F52560177A39C700FCA013 /* ApigeeCollection.h in CopyFiles */,
+				63F5255F177A39BC00FCA013 /* ApigeeEntity.h in CopyFiles */,
+				63F5255E177A39AC00FCA013 /* ApigeeMonitoringOptions.h in CopyFiles */,
+				63F5255D177A39A300FCA013 /* ApigeeClient.h in CopyFiles */,
+				63F5255C177A398E00FCA013 /* ApigeeJsonUtils.h in CopyFiles */,
+				63F5255B177A398400FCA013 /* ApigeeQuery.h in CopyFiles */,
+				63F5255A177A397A00FCA013 /* ApigeeMultiStepAction.h in CopyFiles */,
+				63F52559177A397000FCA013 /* ApigeeHTTPManager.h in CopyFiles */,
+				63F52558177A396700FCA013 /* ApigeeClientResponse.h in CopyFiles */,
+				63F52557177A395700FCA013 /* ApigeeDataClient.h in CopyFiles */,
+				63F52556177A394C00FCA013 /* ApigeeActivity.h in CopyFiles */,
+				63F52555177A394100FCA013 /* ApigeeOpenUDID.h in CopyFiles */,
+				63F52554177A392C00FCA013 /* NSData+Apigee.h in CopyFiles */,
+				63F52553177A392300FCA013 /* NSString+Apigee.h in CopyFiles */,
+				63F52552177A390E00FCA013 /* ApigeeURLConnection.h in CopyFiles */,
+				63F52551177A38FE00FCA013 /* ApigeeUIWebView.h in CopyFiles */,
+				63F52550177A38EA00FCA013 /* NSURLConnection+Apigee.h in CopyFiles */,
+				63F5254F177A38DD00FCA013 /* Apigee.h in CopyFiles */,
+				63F5254E177A38D200FCA013 /* ApigeeLogger.h in CopyFiles */,
+				63F5254D177A38C200FCA013 /* ApigeeActiveSettings.h in CopyFiles */,
+				63F5254C177A38B500FCA013 /* ApigeeUploadListener.h in CopyFiles */,
+				63F5254B177A38A700FCA013 /* ApigeeConfigFilter.h in CopyFiles */,
+				63F5254A177A389B00FCA013 /* ApigeeCustomConfigParam.h in CopyFiles */,
+				63F52549177A388F00FCA013 /* ApigeeNetworkConfig.h in CopyFiles */,
+				63F52548177A388500FCA013 /* ApigeeMonitorSettings.h in CopyFiles */,
+				63F52547177A387700FCA013 /* ApigeeMonitoringClient.h in CopyFiles */,
+				63F52546177A386D00FCA013 /* ApigeeReachability.h in CopyFiles */,
+				63F52545177A385B00FCA013 /* ApigeeSessionMetrics.h in CopyFiles */,
+				63F52544177A384E00FCA013 /* ApigeeMetricsEntry.h in CopyFiles */,
+				63F52543177A383E00FCA013 /* ApigeeLogEntry.h in CopyFiles */,
+				63F52542177A382B00FCA013 /* ApigeeCompositeConfiguration.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +411,10 @@
 		63F5252D1778FEC800FCA013 /* ApigeeCompositeConfiguration+Initializers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ApigeeCompositeConfiguration+Initializers.m"; path = "Classes/Models/ApigeeCompositeConfiguration+Initializers.m"; sourceTree = SOURCE_ROOT; };
 		63F52533177A228300FCA013 /* crash_report.pb-c.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "crash_report.pb-c.c"; path = "Classes/CrashReporter/Generated/iOS/crash_report.pb-c.c"; sourceTree = SOURCE_ROOT; };
 		63F52534177A228300FCA013 /* crash_report.pb-c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "crash_report.pb-c.h"; path = "Classes/CrashReporter/Generated/iOS/crash_report.pb-c.h"; sourceTree = SOURCE_ROOT; };
+		63F5253A177A36E600FCA013 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		63F5253C177A36F100FCA013 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		63F5253E177A36FB00FCA013 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		63F52540177A370A00FCA013 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -342,6 +422,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63F52541177A370A00FCA013 /* CoreGraphics.framework in Frameworks */,
+				63F5253F177A36FB00FCA013 /* CoreTelephony.framework in Frameworks */,
+				63F5253D177A36F100FCA013 /* SystemConfiguration.framework in Frameworks */,
+				63F5253B177A36E600FCA013 /* CoreLocation.framework in Frameworks */,
 				63F522BF1778C2B200FCA013 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,6 +454,10 @@
 		63F522BD1778C2B200FCA013 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63F5253A177A36E600FCA013 /* CoreLocation.framework */,
+				63F5253C177A36F100FCA013 /* SystemConfiguration.framework */,
+				63F5253E177A36FB00FCA013 /* CoreTelephony.framework */,
+				63F52540177A370A00FCA013 /* CoreGraphics.framework */,
 				63F522BE1778C2B200FCA013 /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -954,8 +1042,6 @@
 				63F524CD1778ECD000FCA013 /* ApigeePLCrashAsyncSignalInfo.c in Sources */,
 				63F524CE1778ECD000FCA013 /* ApigeePLCrashFrameWalker_arm.c in Sources */,
 				63F524CF1778ECD000FCA013 /* ApigeePLCrashFrameWalker_i386.c in Sources */,
-				63F524D01778ECD000FCA013 /* ApigeePLCrashFrameWalker_ppc.c in Sources */,
-				63F524D11778ECD000FCA013 /* ApigeePLCrashFrameWalker_x86_64.c in Sources */,
 				63F524D21778ECD000FCA013 /* ApigeePLCrashFrameWalker.c in Sources */,
 				63F524D31778ECD000FCA013 /* ApigeePLCrashLogWriter.m in Sources */,
 				63F524D41778ECD000FCA013 /* ApigeePLCrashLogWriterEncoding.c in Sources */,

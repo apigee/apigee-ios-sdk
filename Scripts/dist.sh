@@ -31,7 +31,7 @@ function buildall()
         lib_fat=lib${FRAMEWORKNAME}.a
 
         if [ ${cfg} == "Debug" ]; then
-            lib_fat=libApigeeSDK-d.a
+            lib_fat=libApigeeiOSSDK-d.a
         fi
 
         lipo -create ${lib_arm} ${lib_386} -output build/dist/${lib_fat}

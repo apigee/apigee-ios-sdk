@@ -34,13 +34,14 @@ echo "Framework: Cleaning framework..."
 [ -d "$FRAMEWORK_BUILD_PATH" ] && \
 rm -rf "$FRAMEWORK_BUILD_PATH"
 
+
 # This is the full name of the framework we'll
 # build
 FRAMEWORK_DIR=$FRAMEWORK_BUILD_PATH/$FRAMEWORK_NAME.framework
 
 # Build the canonical Framework bundle directory
 # structure
-echo "Framework: Setting up directories..."
+echo "Framework: Setting up directories... FRAMEWORK_DIR=$FRAMEWORK_DIR"
 mkdir -p $FRAMEWORK_DIR
 mkdir -p $FRAMEWORK_DIR/Versions
 mkdir -p $FRAMEWORK_DIR/Versions/$FRAMEWORK_VERSION
