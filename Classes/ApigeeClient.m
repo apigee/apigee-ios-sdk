@@ -28,12 +28,15 @@
         _dataClient = [[ApigeeDataClient alloc] initWithOrganizationId:organizationId
                                                      withApplicationID:applicationId];
         
+        _monitoringClient = nil;
+        /*
         if( _dataClient ) {
             _monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:_appIdentification
                                                                    dataClient:_dataClient];
         } else {
             //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
         }
+         */
     }
     
     return self;
@@ -55,12 +58,15 @@
                                                      withApplicationID:applicationId
                                                                baseURL:baseURL];
         
+        _monitoringClient = nil;
+        /*
         if( _dataClient ) {
             _monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:_appIdentification
                                                                    dataClient:_dataClient];
         } else {
             //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
         }
+         */
     }
     
     return self;
@@ -81,6 +87,8 @@
                                                      withApplicationID:applicationId];
         
         if( _dataClient ) {
+            _monitoringClient = nil;
+            /*
             if( monitoringOptions != nil ) {
                 if( monitoringOptions.monitoringEnabled ) {
                     _monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:_appIdentification
@@ -93,6 +101,7 @@
                 _monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:_appIdentification
                                                                                    dataClient:_dataClient];
             }
+             */
         } else {
             //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
         }
@@ -121,6 +130,8 @@
                                                                baseURL:baseURL];
         
         if( _dataClient ) {
+            _monitoringClient = nil;
+            /*
             if( monitoringOptions != nil ) {
                 if( monitoringOptions.monitoringEnabled ) {
                     _monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:_appIdentification
@@ -133,6 +144,7 @@
                 _monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:_appIdentification
                                                                                    dataClient:_dataClient];
             }
+             */
         } else {
             //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
         }
