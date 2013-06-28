@@ -2,7 +2,6 @@
 //  CompositeApplicationConfigurationModel.h
 //  ApigeeAppMonitoring
 //
-//  Created by Sam Griffith on 5/8/12.
 //  Copyright (c) 2012 Apigee. All rights reserved.
 //
 

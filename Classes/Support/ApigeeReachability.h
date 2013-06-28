@@ -46,7 +46,7 @@
 */
 
 /*
- Sam Griffith got Reachability.[hm] from this Apple example: http://developer.apple.com/library/ios/#samplecode/Reachability/Listings/Classes_Reachability_h.html#//apple_ref/doc/uid/DTS40007324-Classes_Reachability_h-DontLinkElementID_5
+ Got Reachability.[hm] from this Apple example: http://developer.apple.com/library/ios/#samplecode/Reachability/Listings/Classes_Reachability_h.html#//apple_ref/doc/uid/DTS40007324-Classes_Reachability_h-DontLinkElementID_5
  */
 
 #import <netinet/in.h>

@@ -3,7 +3,6 @@
 #  framework.sh
 #  ApigeeiOSSDK
 #
-#  Created by jaminschubert on 10/4/12.
 #  Copyright (c) 2012 Apigee. All rights reserved.
 
 # Original Script by  Pete Goodliffe
@@ -11,7 +10,6 @@
 
 # Modified by Juan Batiz-Benet to fit GHUnit
 # Modified by Gabriel Handford for GHUnit
-# Modified by jaminschubert for Apigee
 
 set -e
 

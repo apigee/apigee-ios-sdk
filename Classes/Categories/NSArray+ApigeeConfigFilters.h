@@ -2,7 +2,6 @@
 //  NSArray+ApigeeConfigFilters.h
 //  ApigeeiOSSDK
 //
-//  Created by jaminschubert on 9/24/12.
 //  Copyright (c) 2012 Apigee. All rights reserved.
 //
 

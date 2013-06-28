@@ -2,7 +2,6 @@
 //  SessionMetricEntry.m
 //  ApigeeAppMonitoring
 //
-//  Created by Sam Griffith on 3/2/12.
 //  Copyright (c) 2012 Apigee. All rights reserved.
 //
 

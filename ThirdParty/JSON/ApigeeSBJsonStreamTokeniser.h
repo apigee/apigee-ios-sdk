@@ -1,5 +1,4 @@
 //
-// Created by SuperPappi on 09/01/2013.
 //
 // To change the template use AppCode | Preferences | File Templates.
 //

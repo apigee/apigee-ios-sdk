@@ -2,7 +2,6 @@
 //  ApigeeNetworkConfig+JSON.m
 //  ApigeeAppMonitor
 //
-//  Created by jaminschubert on 9/18/12.
 //  Copyright (c) 2012 Apigee. All rights reserved.
 //
 

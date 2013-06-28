@@ -2,7 +2,6 @@
 //  ApigeeUtils.m
 //  ApigeeiOSSDK
 //
-//  Created by Paul Dardeau on 5/16/13.
 //  Copyright (c) 2013 Apigee. All rights reserved.
 //
 

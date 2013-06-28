@@ -2,7 +2,6 @@
 //  ApigeeUploadListener.h
 //  ApigeeAppMonitor
 //
-//  Created by Paul Dardeau on 4/3/13.
 //  Copyright (c) 2013 Apigee. All rights reserved.
 //
 

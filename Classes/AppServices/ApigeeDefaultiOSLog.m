@@ -2,7 +2,6 @@
 //  ApigeeDefaultiOSLog.m
 //  ApigeeiOSSDK
 //
-//  Created by Paul Dardeau on 6/11/13.
 //  Copyright (c) 2013 Apigee. All rights reserved.
 //
 

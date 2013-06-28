@@ -2,7 +2,6 @@
 //  ApigeeFunctions.h
 //  ApigeeAppMonitor
 //
-//  Created by Paul Dardeau on 11/23/12.
 //  Copyright (c) 2012 Apigee. All rights reserved.
 //
 

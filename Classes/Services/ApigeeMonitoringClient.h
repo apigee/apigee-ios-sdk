@@ -1,7 +1,6 @@
 //
 //  ApigeeMonitoringClient.h
 //
-//  Created by Sam Griffith on 2/3/12.
 //  Copyright (c) 2012 Apigee. All rights reserved.
 //
 

@@ -2,7 +2,6 @@
 //  NSURLConnection+Apigee.m
 //  ApigeeAppMonitor
 //
-//  Created by jaminschubert on 10/23/12.
 //  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
