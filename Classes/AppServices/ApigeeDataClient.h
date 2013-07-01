@@ -40,7 +40,7 @@ set the response limit in ApigeeQuery as well.
 
 @interface ApigeeDataClient : NSObject
 
-+(int) version;
++(NSString *) version;
 
 +(NSString*)defaultBaseURL;
 
@@ -78,6 +78,9 @@ set the response limit in ApigeeQuery as well.
 
 // log in with the given username and PIN value
 -(ApigeeClientResponse *)logInUserWithPin: (NSString *)userName pin:(NSString *)pin;
+
+// log in user with Facebook token
+-(ApigeeClientResponse *)logInUserWithFacebook: (NSString *)facebookToken;
 
 // log in as the administrator of the application. Generally used for applications
 // that have an "administrator" feature. Not the sort of thing you want normal
@@ -230,6 +233,20 @@ set the response limit in ApigeeQuery as well.
 // system is reinstalled. This function is used internally, but
 // is also handy for clients, so it is part of the interface.
 +(NSString *)getUniqueDeviceID;
+
+/*********************** REMOTE PUSH NOTIFICATIONS ************************/
+// call from application:didRegisterForRemoteNotificationsWithDeviceToken: callback
+// will automaticaly register the passed deviceToken with the usergrid system
+// using the getUniqueDeviceID method to associate this device on the server
+- (ApigeeClientResponse *)setDevicePushToken:(NSData *)newDeviceToken forNotifier:(NSString *)notifier;
+
+// push an "alert" type notification to the remote group, user, or device specified
+// in the path argument. the notifier may be a name or UUID of an apns notifier
+// that has been set up on the usergrid server.
+- (ApigeeClientResponse *)pushAlert:(NSString *)message
+                          withSound:(NSString *)sound
+                                 to:(NSString *)path
+                      usingNotifier:(NSString *)notifier;
 
 /*********************** ACCESSORS ************************/
 // if a user is logged in, this returns the OAuth token for this session. 

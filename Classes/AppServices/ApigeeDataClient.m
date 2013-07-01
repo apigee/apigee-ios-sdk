@@ -62,9 +62,9 @@ NSString *g_deviceUUID = nil;
     return kDefaultBaseURL;
 }
 
-+(int) version
++(NSString *) version
 {
-    return 1;
+    return @"0.1.1";
 }
 
 -(NSString *)getAccessToken
@@ -147,7 +147,7 @@ NSString *g_deviceUUID = nil;
     }
     
     // if it's not nil, it has to have the delegation function
-    if ( ![delegate respondsToSelector:@selector(ApigeeClientResponse:)] )
+    if ( ![delegate respondsToSelector:@selector(apigeeClientResponse:)] )
     {
         return NO;
     }
@@ -498,7 +498,7 @@ NSString *g_deviceUUID = nil;
     [m_delegateLock lock];
     if ( m_delegate )
     {
-        [m_delegate performSelector:@selector(ApigeeClientResponse:) withObject:response];
+        [m_delegate performSelector:@selector(apigeeClientResponse:) withObject:response];
     }
     [m_delegateLock unlock];
     
@@ -545,7 +545,7 @@ NSString *g_deviceUUID = nil;
     [m_delegateLock lock];
     if ( m_delegate )
     {
-        [m_delegate performSelector:@selector(ApigeeClientResponse:) withObject:ApigeeResponse];
+        [m_delegate performSelector:@selector(apigeeClientResponse:) withObject:ApigeeResponse];
     }
     [m_delegateLock unlock];   
     
@@ -700,6 +700,27 @@ NSString *g_deviceUUID = nil;
 -(ApigeeClientResponse *)logInUserWithPin: (NSString *)userName pin:(NSString *)pin
 {
     return [self logIn:@"pin" userKey:@"username" userValue:userName pwdKey:@"pin" pwdValue:pin];
+}
+
+// log in user with Facebook token
+//
+//  //sample usage:
+//  NSString * facebookToken = @"your-facebook-token";
+//  ApigeeClientResponse *response = [apigeeDataClient logInUserWithFacebook:facebookToken];
+//  user = [apigeeDataClient getLoggedInUser];
+//  if (user.username){
+//    return true;
+//  } else {
+//    return false;
+//  }
+//
+-(ApigeeClientResponse *)logInUserWithFacebook: (NSString *)facebookToken
+{
+    NSMutableString *url = [self createURL:@"auth/facebook"];
+    ApigeeQuery *query = [[ApigeeQuery alloc] init];
+    [query addURLTerm:@"fb_access_token" equals:facebookToken];
+    [self appendQueryToURL:url query:query];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];
 }
 
 -(ApigeeClientResponse *)logInAdmin: (NSString *)adminUserName secret:(NSString *)adminSecret
@@ -1114,6 +1135,57 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil];
 }
 
+/*************************** REMOTE PUSH NOTIFICATIONS ***************************/
+/*************************** REMOTE PUSH NOTIFICATIONS ***************************/
+/*************************** REMOTE PUSH NOTIFICATIONS ***************************/
+
+- (ApigeeClientResponse *)setDevicePushToken:(NSData *)newDeviceToken forNotifier:(NSString *)notifier
+{
+    // Pull the push token string out of the device token data
+    NSString *tokenString = [[[newDeviceToken description]
+                              stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]]
+                             stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    // Register device and push token to App Services
+    NSString *deviceId = [ApigeeDataClient getUniqueDeviceID];
+    
+    // create/update device - use deviceId for App Services entity UUID
+    NSMutableDictionary *entity = [[NSMutableDictionary alloc] init];
+    [entity setObject:@"device" forKey:@"type"];
+    [entity setObject:deviceId forKey:@"uuid"];
+
+    NSString *notifierKey = [notifier stringByAppendingString: @".notifier.id"];
+    [entity setObject: tokenString forKey: notifierKey];
+    
+    return [self updateEntity:deviceId entity:entity];
+}
+
+- (ApigeeClientResponse *)pushAlert:(NSString *)message
+                          withSound:(NSString *)sound
+                                 to:(NSString *)path
+                      usingNotifier:(NSString *)notifier
+{
+    NSDictionary *apsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                             message, @"alert",
+                             sound, @"sound",
+                             nil];
+    
+    NSDictionary *notifierDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  apsDict, @"aps",
+                                  nil];
+    
+    NSDictionary *payloadsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  notifierDict, notifier,
+                                  nil];
+    
+    NSString *notificationsPath = [path stringByAppendingString:@"/notifications"];
+    
+    NSMutableDictionary *entity = [[NSMutableDictionary alloc] init];
+    [entity setObject: notificationsPath forKey:@"type"];
+    [entity setObject: payloadsDict forKey:@"payloads"];
+    
+    return [self createEntity: entity];
+}
 
 /*************************** SERVER-SIDE STORAGE ***************************/
 /*************************** SERVER-SIDE STORAGE ***************************/
