@@ -12,7 +12,7 @@
 @property (strong, nonatomic) NSString *applicationVersion;
 @property (strong, nonatomic) NSString *deviceId;
 @property (strong, nonatomic) NSString *deviceModel;
-@property (strong, nonatomic) NSString *deviceOperatingSystem;
+@property (strong, nonatomic) NSString *deviceOSVersion;
 @property (strong, nonatomic) NSString *devicePlatform;
 @property (strong, nonatomic) NSString *deviceType;
 @property (strong, nonatomic) NSString *endDay;

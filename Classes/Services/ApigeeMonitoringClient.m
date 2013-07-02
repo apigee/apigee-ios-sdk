@@ -125,6 +125,7 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
 @synthesize appIdentification;
 @synthesize dataClient;
 
+// this method is sometimes handy for debugging
 - (void)log:(NSString*)data toFile:(NSString*)fileName
 {
 #if TARGET_IPHONE_SIMULATOR
@@ -672,6 +673,54 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     return [self postString:postBody toUrl:urlAsString contentType:@"application/json; charset=utf-8"];
 }
 
+- (NSData*)putString:(NSString*)postBody toUrl:(NSString*)urlAsString contentType:(NSString*)contentType
+{
+    NSURL* url = [NSURL URLWithString:urlAsString];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
+    
+    [request setHTTPMethod:@"PUT"];
+    
+    if( [contentType length] > 0 ) {
+        [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
+    }
+    
+    NSData* postData = [postBody dataUsingEncoding:NSUTF8StringEncoding];
+    NSString* postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    [request setHTTPBody:postData];
+    
+    NSURLResponse* response = nil;
+    NSError* err = nil;
+    
+    ApigeeLogVerbose(kApigeeMonitoringClientTag,[NSString stringWithFormat:@"posting request to: '%@'", urlAsString]);
+    
+    NSData* responseData = [NSURLConnection sendSynchronousRequest:request
+                                                 returningResponse:&response
+                                                             error:&err];
+    
+    if( responseData != nil ) {
+        NSString* responseDataAsString = [[NSString alloc] initWithData:responseData
+                                                               encoding:NSUTF8StringEncoding];
+        ApigeeLogVerbose(kApigeeMonitoringClientTag,[NSString stringWithFormat:@"responseData: '%@'", responseDataAsString]);
+    } else {
+        ApigeeLogDebug(kApigeeMonitoringClientTag,@"responseData is nil after attempt to post");
+        if( err != nil ) {
+            ApigeeLogError(kApigeeMonitoringClientTag, [NSString stringWithFormat:@"%@",[err localizedDescription]]);
+        } else {
+            ApigeeLogDebug(kApigeeMonitoringClientTag, @"err is nil after attempt to post" );
+        }
+    }
+    
+    return responseData;
+}
+
+- (NSData*)putString:(NSString*)postBody toUrl:(NSString*)urlAsString
+{
+    return [self putString:postBody toUrl:urlAsString contentType:@"application/json; charset=utf-8"];
+}
+
 
 #pragma mark - Crash reporter
 
@@ -709,9 +758,6 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     NSString* uuid = [NSString uuid];
     NSString* fileName = [NSString stringWithFormat:@"%@.crash", uuid];
     
-    NSString* logText = [NSString stringWithFormat:@"Crash: %@\n\n%@", fileName, log];
-    [self log:logText toFile:@"sdk_crash_json.txt"];
-    
     if( [self.listListeners count] > 0 ) {
         for( id<ApigeeUploadListener> listener in self.listListeners ) {
             if( [listener respondsToSelector:@selector(onUploadCrashReport:)] ) {
@@ -720,9 +766,12 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
         }
     }
     
-    if( nil != [self postString:log
-                          toUrl:[self crashReportUploadURL:fileName]
-                contentType:@"text/plain"] ) {
+    NSData* crashReportUploadResponseData = [self putString:log
+                                                       toUrl:[self crashReportUploadURL:fileName]
+                                                 contentType:@"text/plain"];
+    if( nil != crashReportUploadResponseData ) {
+        NSString* crashReportUploadResponseAsString = [[NSString alloc] initWithData:crashReportUploadResponseData encoding:NSUTF8StringEncoding];
+        NSLog( @"crash upload response: %@", crashReportUploadResponseAsString);
         [self sendCrashNotification:fileName];
         [crashReporter purgePendingCrashReport];
     } else {
@@ -812,8 +861,6 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
             }
         }
         
-        [self log:json toFile:@"sdk_metrics_json.txt"];
-
         if( nil != [self postString:json
                        toUrl:[self metricsUploadURL]] ) {
             if (!self.sentStartingSessionData) {
@@ -852,8 +899,6 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     [clientMetricsEnvelope setObject:[sessionMetrics asDictionary] forKey:@"sessionMetrics"];
     
     NSString *json = [clientMetricsEnvelope JSONRepresentation];
-    
-    [self log:json toFile:@"sdk_metrics_json.txt"];
     
     if( nil != [self postString:json
                    toUrl:[self metricsUploadURL]] ) {

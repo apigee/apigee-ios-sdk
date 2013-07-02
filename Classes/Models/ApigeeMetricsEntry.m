@@ -15,7 +15,7 @@
 @synthesize applicationVersion;
 @synthesize deviceId;
 @synthesize deviceModel;
-@synthesize deviceOperatingSystem;
+@synthesize deviceOSVersion;
 @synthesize devicePlatform;
 @synthesize deviceType;
 @synthesize endDay;

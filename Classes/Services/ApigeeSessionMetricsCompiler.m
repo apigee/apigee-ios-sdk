@@ -137,7 +137,7 @@
     metrics.localCountry = countryName;
     metrics.localLanguage = [[NSLocale preferredLanguages] objectAtIndex:0];
     
-    metrics.deviceOperatingSystem = [currentDevice systemVersion];
+    metrics.deviceOSVersion = [currentDevice systemVersion];
     metrics.devicePlatform = [currentDevice systemName];
     
     if (settings.deviceModelCaptureEnabled) {
