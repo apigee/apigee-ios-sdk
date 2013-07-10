@@ -1,0 +1,480 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		63F52596178C47DF00FCA013 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F52595178C47DF00FCA013 /* ApigeeiOSSDK.framework */; };
+		63F52599178C49B100FCA013 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F52598178C49B000FCA013 /* CoreTelephony.framework */; };
+		63F5259B178C49B800FCA013 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5259A178C49B700FCA013 /* CoreLocation.framework */; };
+		63F5259D178C49C300FCA013 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5259C178C49C200FCA013 /* SystemConfiguration.framework */; };
+		DC10BDFF168F8A9A00F1CE9D /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC10BDFE168F8A9A00F1CE9D /* MessageViewController.m */; };
+		DC10BE01168FB4D500F1CE9D /* user_profile.png in Resources */ = {isa = PBXBuildFile; fileRef = DC10BE00168FB4D500F1CE9D /* user_profile.png */; };
+		DC10BE03168FBF8400F1CE9D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC10BE02168FBF8300F1CE9D /* QuartzCore.framework */; };
+		DC10BE0A1690FC9700F1CE9D /* FollowingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC10BE091690FC9600F1CE9D /* FollowingViewController.m */; };
+		DC10BE1A16914AE700F1CE9D /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC10BE1916914AE700F1CE9D /* RegisterViewController.m */; };
+		DC961095168D4E8A004A481A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC961094168D4E8A004A481A /* UIKit.framework */; };
+		DC961097168D4E8A004A481A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC961096168D4E8A004A481A /* Foundation.framework */; };
+		DC961099168D4E8A004A481A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC961098168D4E8A004A481A /* CoreGraphics.framework */; };
+		DC96109F168D4E8A004A481A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC96109D168D4E8A004A481A /* InfoPlist.strings */; };
+		DC9610A1168D4E8A004A481A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9610A0168D4E8A004A481A /* main.m */; };
+		DC9610A5168D4E8A004A481A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9610A4168D4E8A004A481A /* AppDelegate.m */; };
+		DC9610A7168D4E8A004A481A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = DC9610A6168D4E8A004A481A /* Default.png */; };
+		DC9610AB168D4E8A004A481A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DC9610AA168D4E8A004A481A /* Default-568h@2x.png */; };
+		DC9610AE168D4E8A004A481A /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DC9610AC168D4E8A004A481A /* MainStoryboard.storyboard */; };
+		DC9610B1168D4E8A004A481A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9610B0168D4E8A004A481A /* LoginViewController.m */; };
+		DCFCCCF1168D513000451299 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFCCCF0168D513000451299 /* Client.m */; };
+		DCFCCDA6168E034800451299 /* addPeople@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD8F168E034800451299 /* addPeople@2x.png */; };
+		DCFCCDA8168E034800451299 /* Background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD90168E034800451299 /* Background@2x.png */; };
+		DCFCCDAA168E034800451299 /* ballon.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD91168E034800451299 /* ballon.png */; };
+		DCFCCDAC168E034800451299 /* changeServer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD92168E034800451299 /* changeServer@2x.png */; };
+		DCFCCDAE168E034800451299 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD93168E034800451299 /* Default@2x.png */; };
+		DCFCCDB0168E034800451299 /* friend.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD94168E034800451299 /* friend.png */; };
+		DCFCCDB2168E034800451299 /* friend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD95168E034800451299 /* friend@2x.png */; };
+		DCFCCDB4168E034800451299 /* leftButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD96168E034800451299 /* leftButton@2x.png */; };
+		DCFCCDB6168E034800451299 /* login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD97168E034800451299 /* login@2x.png */; };
+		DCFCCDB8168E034800451299 /* loginFields@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD98168E034800451299 /* loginFields@2x.png */; };
+		DCFCCDBA168E034800451299 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD99168E034800451299 /* logo@2x.png */; };
+		DCFCCDBC168E034800451299 /* logout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD9A168E034800451299 /* logout@2x.png */; };
+		DCFCCDBE168E034800451299 /* messageArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD9B168E034800451299 /* messageArrow@2x.png */; };
+		DCFCCDC0168E034800451299 /* messagesBoard.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD9C168E034800451299 /* messagesBoard.png */; };
+		DCFCCDC2168E034800451299 /* messagesBoard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD9D168E034800451299 /* messagesBoard@2x.png */; };
+		DCFCCDC4168E034800451299 /* navigationBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD9E168E034800451299 /* navigationBar@2x.png */; };
+		DCFCCDC6168E034800451299 /* newMessage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCD9F168E034800451299 /* newMessage@2x.png */; };
+		DCFCCDC8168E034800451299 /* register@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCDA0168E034800451299 /* register@2x.png */; };
+		DCFCCDCA168E034800451299 /* rightButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCDA1168E034800451299 /* rightButton@2x.png */; };
+		DCFCCDCC168E034800451299 /* serverField.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCDA2168E034800451299 /* serverField.png */; };
+		DCFCCDCE168E034800451299 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCDA3168E034800451299 /* settings.png */; };
+		DCFCCDD0168E034800451299 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCDA4168E034800451299 /* settings@2x.png */; };
+		DCFCCDD2168E034800451299 /* usernameField@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCFCCDA5168E034800451299 /* usernameField@2x.png */; };
+		DCFCCDDF168E1C0F00451299 /* FollowUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFCCDDE168E1C0F00451299 /* FollowUserViewController.m */; };
+		DCFCCDE7168E373600451299 /* NewMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFCCDE6168E373500451299 /* NewMessageViewController.m */; };
+		DCFCCDEB168E686C00451299 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFCCDEA168E686C00451299 /* TabBarController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		63F52595178C47DF00FCA013 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ApigeeiOSSDK.framework; sourceTree = "<group>"; };
+		63F52598178C49B000FCA013 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		63F5259A178C49B700FCA013 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		63F5259C178C49C200FCA013 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		DC10BDFD168F8A9900F1CE9D /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
+		DC10BDFE168F8A9A00F1CE9D /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
+		DC10BE00168FB4D500F1CE9D /* user_profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_profile.png; sourceTree = "<group>"; };
+		DC10BE02168FBF8300F1CE9D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		DC10BE081690FC9600F1CE9D /* FollowingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowingViewController.h; sourceTree = "<group>"; };
+		DC10BE091690FC9600F1CE9D /* FollowingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowingViewController.m; sourceTree = "<group>"; };
+		DC10BE1816914AE700F1CE9D /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		DC10BE1916914AE700F1CE9D /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		DC961090168D4E8A004A481A /* Messagee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Messagee.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC961094168D4E8A004A481A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DC961096168D4E8A004A481A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DC961098168D4E8A004A481A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DC96109C168D4E8A004A481A /* Messagee-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Messagee-Info.plist"; sourceTree = "<group>"; };
+		DC96109E168D4E8A004A481A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DC9610A0168D4E8A004A481A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DC9610A2168D4E8A004A481A /* Messagee-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Messagee-Prefix.pch"; sourceTree = "<group>"; };
+		DC9610A3168D4E8A004A481A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DC9610A4168D4E8A004A481A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DC9610A6168D4E8A004A481A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		DC9610A8168D4E8A004A481A /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		DC9610AA168D4E8A004A481A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		DC9610AD168D4E8A004A481A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		DC9610AF168D4E8A004A481A /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		DC9610B0168D4E8A004A481A /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		DCFCCCEF168D513000451299 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		DCFCCCF0168D513000451299 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
+		DCFCCD8F168E034800451299 /* addPeople@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addPeople@2x.png"; sourceTree = "<group>"; };
+		DCFCCD90168E034800451299 /* Background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Background@2x.png"; sourceTree = "<group>"; };
+		DCFCCD91168E034800451299 /* ballon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ballon.png; sourceTree = "<group>"; };
+		DCFCCD92168E034800451299 /* changeServer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "changeServer@2x.png"; sourceTree = "<group>"; };
+		DCFCCD93168E034800451299 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		DCFCCD94168E034800451299 /* friend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = friend.png; sourceTree = "<group>"; };
+		DCFCCD95168E034800451299 /* friend@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "friend@2x.png"; sourceTree = "<group>"; };
+		DCFCCD96168E034800451299 /* leftButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "leftButton@2x.png"; sourceTree = "<group>"; };
+		DCFCCD97168E034800451299 /* login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login@2x.png"; sourceTree = "<group>"; };
+		DCFCCD98168E034800451299 /* loginFields@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginFields@2x.png"; sourceTree = "<group>"; };
+		DCFCCD99168E034800451299 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
+		DCFCCD9A168E034800451299 /* logout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logout@2x.png"; sourceTree = "<group>"; };
+		DCFCCD9B168E034800451299 /* messageArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messageArrow@2x.png"; sourceTree = "<group>"; };
+		DCFCCD9C168E034800451299 /* messagesBoard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messagesBoard.png; sourceTree = "<group>"; };
+		DCFCCD9D168E034800451299 /* messagesBoard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messagesBoard@2x.png"; sourceTree = "<group>"; };
+		DCFCCD9E168E034800451299 /* navigationBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigationBar@2x.png"; sourceTree = "<group>"; };
+		DCFCCD9F168E034800451299 /* newMessage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newMessage@2x.png"; sourceTree = "<group>"; };
+		DCFCCDA0168E034800451299 /* register@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "register@2x.png"; sourceTree = "<group>"; };
+		DCFCCDA1168E034800451299 /* rightButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rightButton@2x.png"; sourceTree = "<group>"; };
+		DCFCCDA2168E034800451299 /* serverField.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = serverField.png; sourceTree = "<group>"; };
+		DCFCCDA3168E034800451299 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		DCFCCDA4168E034800451299 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
+		DCFCCDA5168E034800451299 /* usernameField@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "usernameField@2x.png"; sourceTree = "<group>"; };
+		DCFCCDDD168E1C0F00451299 /* FollowUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowUserViewController.h; sourceTree = "<group>"; };
+		DCFCCDDE168E1C0F00451299 /* FollowUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowUserViewController.m; sourceTree = "<group>"; };
+		DCFCCDE5168E373400451299 /* NewMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewMessageViewController.h; sourceTree = "<group>"; };
+		DCFCCDE6168E373500451299 /* NewMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewMessageViewController.m; sourceTree = "<group>"; };
+		DCFCCDE9168E686B00451299 /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
+		DCFCCDEA168E686C00451299 /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DC96108D168D4E8A004A481A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63F5259D178C49C300FCA013 /* SystemConfiguration.framework in Frameworks */,
+				63F5259B178C49B800FCA013 /* CoreLocation.framework in Frameworks */,
+				63F52599178C49B100FCA013 /* CoreTelephony.framework in Frameworks */,
+				DC10BE03168FBF8400F1CE9D /* QuartzCore.framework in Frameworks */,
+				DC961095168D4E8A004A481A /* UIKit.framework in Frameworks */,
+				DC961097168D4E8A004A481A /* Foundation.framework in Frameworks */,
+				DC961099168D4E8A004A481A /* CoreGraphics.framework in Frameworks */,
+				63F52596178C47DF00FCA013 /* ApigeeiOSSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DC961085168D4E8A004A481A = {
+			isa = PBXGroup;
+			children = (
+				DC96109A168D4E8A004A481A /* Messagee */,
+				DC961093168D4E8A004A481A /* Frameworks */,
+				DC961091168D4E8A004A481A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DC961091168D4E8A004A481A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DC961090168D4E8A004A481A /* Messagee.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DC961093168D4E8A004A481A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				63F5259C178C49C200FCA013 /* SystemConfiguration.framework */,
+				63F5259A178C49B700FCA013 /* CoreLocation.framework */,
+				63F52598178C49B000FCA013 /* CoreTelephony.framework */,
+				63F52595178C47DF00FCA013 /* ApigeeiOSSDK.framework */,
+				DC10BE02168FBF8300F1CE9D /* QuartzCore.framework */,
+				DC961094168D4E8A004A481A /* UIKit.framework */,
+				DC961096168D4E8A004A481A /* Foundation.framework */,
+				DC961098168D4E8A004A481A /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DC96109A168D4E8A004A481A /* Messagee */ = {
+			isa = PBXGroup;
+			children = (
+				DC9610AC168D4E8A004A481A /* MainStoryboard.storyboard */,
+				DC9610A3168D4E8A004A481A /* AppDelegate.h */,
+				DC9610A4168D4E8A004A481A /* AppDelegate.m */,
+				DCFCCCEF168D513000451299 /* Client.h */,
+				DCFCCCF0168D513000451299 /* Client.m */,
+				DC10BE081690FC9600F1CE9D /* FollowingViewController.h */,
+				DC10BE091690FC9600F1CE9D /* FollowingViewController.m */,
+				DCFCCDDD168E1C0F00451299 /* FollowUserViewController.h */,
+				DCFCCDDE168E1C0F00451299 /* FollowUserViewController.m */,
+				DC9610AF168D4E8A004A481A /* LoginViewController.h */,
+				DC9610B0168D4E8A004A481A /* LoginViewController.m */,
+				DC10BDFD168F8A9900F1CE9D /* MessageViewController.h */,
+				DC10BDFE168F8A9A00F1CE9D /* MessageViewController.m */,
+				DCFCCDE5168E373400451299 /* NewMessageViewController.h */,
+				DCFCCDE6168E373500451299 /* NewMessageViewController.m */,
+				DC10BE1816914AE700F1CE9D /* RegisterViewController.h */,
+				DC10BE1916914AE700F1CE9D /* RegisterViewController.m */,
+				DCFCCDE9168E686B00451299 /* TabBarController.h */,
+				DCFCCDEA168E686C00451299 /* TabBarController.m */,
+				DC96109B168D4E8A004A481A /* Supporting Files */,
+			);
+			path = Messagee;
+			sourceTree = "<group>";
+		};
+		DC96109B168D4E8A004A481A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DCFCCD8E168E034800451299 /* Images */,
+				DC96109C168D4E8A004A481A /* Messagee-Info.plist */,
+				DC96109D168D4E8A004A481A /* InfoPlist.strings */,
+				DC9610A0168D4E8A004A481A /* main.m */,
+				DC9610A2168D4E8A004A481A /* Messagee-Prefix.pch */,
+				DC9610A6168D4E8A004A481A /* Default.png */,
+				DC9610A8168D4E8A004A481A /* Default@2x.png */,
+				DC9610AA168D4E8A004A481A /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DCFCCD8E168E034800451299 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				DC10BE00168FB4D500F1CE9D /* user_profile.png */,
+				DCFCCD8F168E034800451299 /* addPeople@2x.png */,
+				DCFCCD90168E034800451299 /* Background@2x.png */,
+				DCFCCD91168E034800451299 /* ballon.png */,
+				DCFCCD92168E034800451299 /* changeServer@2x.png */,
+				DCFCCD93168E034800451299 /* Default@2x.png */,
+				DCFCCD94168E034800451299 /* friend.png */,
+				DCFCCD95168E034800451299 /* friend@2x.png */,
+				DCFCCD96168E034800451299 /* leftButton@2x.png */,
+				DCFCCD97168E034800451299 /* login@2x.png */,
+				DCFCCD98168E034800451299 /* loginFields@2x.png */,
+				DCFCCD99168E034800451299 /* logo@2x.png */,
+				DCFCCD9A168E034800451299 /* logout@2x.png */,
+				DCFCCD9B168E034800451299 /* messageArrow@2x.png */,
+				DCFCCD9C168E034800451299 /* messagesBoard.png */,
+				DCFCCD9D168E034800451299 /* messagesBoard@2x.png */,
+				DCFCCD9E168E034800451299 /* navigationBar@2x.png */,
+				DCFCCD9F168E034800451299 /* newMessage@2x.png */,
+				DCFCCDA0168E034800451299 /* register@2x.png */,
+				DCFCCDA1168E034800451299 /* rightButton@2x.png */,
+				DCFCCDA2168E034800451299 /* serverField.png */,
+				DCFCCDA3168E034800451299 /* settings.png */,
+				DCFCCDA4168E034800451299 /* settings@2x.png */,
+				DCFCCDA5168E034800451299 /* usernameField@2x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DC96108F168D4E8A004A481A /* Messagee */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC9610C9168D4E8A004A481A /* Build configuration list for PBXNativeTarget "Messagee" */;
+			buildPhases = (
+				DC96108C168D4E8A004A481A /* Sources */,
+				DC96108D168D4E8A004A481A /* Frameworks */,
+				DC96108E168D4E8A004A481A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Messagee;
+			productName = Messagee;
+			productReference = DC961090168D4E8A004A481A /* Messagee.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DC961087168D4E8A004A481A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Rod Simpson";
+			};
+			buildConfigurationList = DC96108A168D4E8A004A481A /* Build configuration list for PBXProject "Messagee" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DC961085168D4E8A004A481A;
+			productRefGroup = DC961091168D4E8A004A481A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DC96108F168D4E8A004A481A /* Messagee */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DC96108E168D4E8A004A481A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC96109F168D4E8A004A481A /* InfoPlist.strings in Resources */,
+				DC9610A7168D4E8A004A481A /* Default.png in Resources */,
+				DC9610AB168D4E8A004A481A /* Default-568h@2x.png in Resources */,
+				DC9610AE168D4E8A004A481A /* MainStoryboard.storyboard in Resources */,
+				DCFCCDA6168E034800451299 /* addPeople@2x.png in Resources */,
+				DCFCCDA8168E034800451299 /* Background@2x.png in Resources */,
+				DCFCCDAA168E034800451299 /* ballon.png in Resources */,
+				DCFCCDAC168E034800451299 /* changeServer@2x.png in Resources */,
+				DCFCCDAE168E034800451299 /* Default@2x.png in Resources */,
+				DCFCCDB0168E034800451299 /* friend.png in Resources */,
+				DCFCCDB2168E034800451299 /* friend@2x.png in Resources */,
+				DCFCCDB4168E034800451299 /* leftButton@2x.png in Resources */,
+				DCFCCDB6168E034800451299 /* login@2x.png in Resources */,
+				DCFCCDB8168E034800451299 /* loginFields@2x.png in Resources */,
+				DCFCCDBA168E034800451299 /* logo@2x.png in Resources */,
+				DCFCCDBC168E034800451299 /* logout@2x.png in Resources */,
+				DCFCCDBE168E034800451299 /* messageArrow@2x.png in Resources */,
+				DCFCCDC0168E034800451299 /* messagesBoard.png in Resources */,
+				DCFCCDC2168E034800451299 /* messagesBoard@2x.png in Resources */,
+				DCFCCDC4168E034800451299 /* navigationBar@2x.png in Resources */,
+				DCFCCDC6168E034800451299 /* newMessage@2x.png in Resources */,
+				DCFCCDC8168E034800451299 /* register@2x.png in Resources */,
+				DCFCCDCA168E034800451299 /* rightButton@2x.png in Resources */,
+				DCFCCDCC168E034800451299 /* serverField.png in Resources */,
+				DCFCCDCE168E034800451299 /* settings.png in Resources */,
+				DCFCCDD0168E034800451299 /* settings@2x.png in Resources */,
+				DCFCCDD2168E034800451299 /* usernameField@2x.png in Resources */,
+				DC10BE01168FB4D500F1CE9D /* user_profile.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DC96108C168D4E8A004A481A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC9610A1168D4E8A004A481A /* main.m in Sources */,
+				DC9610A5168D4E8A004A481A /* AppDelegate.m in Sources */,
+				DC9610B1168D4E8A004A481A /* LoginViewController.m in Sources */,
+				DCFCCCF1168D513000451299 /* Client.m in Sources */,
+				DCFCCDDF168E1C0F00451299 /* FollowUserViewController.m in Sources */,
+				DCFCCDE7168E373600451299 /* NewMessageViewController.m in Sources */,
+				DCFCCDEB168E686C00451299 /* TabBarController.m in Sources */,
+				DC10BDFF168F8A9A00F1CE9D /* MessageViewController.m in Sources */,
+				DC10BE0A1690FC9700F1CE9D /* FollowingViewController.m in Sources */,
+				DC10BE1A16914AE700F1CE9D /* RegisterViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DC96109D168D4E8A004A481A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DC96109E168D4E8A004A481A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DC9610AC168D4E8A004A481A /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DC9610AD168D4E8A004A481A /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DC9610C7168D4E8A004A481A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		DC9610C8168D4E8A004A481A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DC9610CA168D4E8A004A481A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Messagee/Messagee-Prefix.pch";
+				INFOPLIST_FILE = "Messagee/Messagee-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		DC9610CB168D4E8A004A481A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Messagee/Messagee-Prefix.pch";
+				INFOPLIST_FILE = "Messagee/Messagee-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DC96108A168D4E8A004A481A /* Build configuration list for PBXProject "Messagee" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC9610C7168D4E8A004A481A /* Debug */,
+				DC9610C8168D4E8A004A481A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DC9610C9168D4E8A004A481A /* Build configuration list for PBXNativeTarget "Messagee" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC9610CA168D4E8A004A481A /* Debug */,
+				DC9610CB168D4E8A004A481A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DC961087168D4E8A004A481A /* Project object */;
+}
