@@ -1,3 +1,7 @@
+NOTICE
+======
+This SDK has not been released yet -- it should not be used for active development.
+
 Apigee iOS SDK Overview
 =======================
 
