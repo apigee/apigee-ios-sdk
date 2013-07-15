@@ -10,6 +10,19 @@ There are 2 main areas of functionality provided: (1) AppServices (UserGrid), an
 
 NOTE -- mobile analytics is temporarily disabled until the back-end systems are configured.
 
+Linking in Xcode
+----------------
+Add the following flags to "Other Linker Flags" in "Build Settings":
+<pre>
+	-ObjC -all_load
+</pre>
+
+Add the following frameworks:
+
+CoreGraphics.framework
+CoreLocation.framework
+CoreTelephony.framework
+SystemConfiguration.framework
 
 Technical Details
 -----------------
