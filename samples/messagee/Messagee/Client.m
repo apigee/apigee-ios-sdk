@@ -22,59 +22,120 @@
         NSString * orgName = @"ApigeeOrg";
         NSString * appName = @"MessageeApp";
 
-        ApigeeClient *apigeeClient = [[ApigeeClient alloc] initWithOrganizationId:orgName applicationId:appName];
-        //make new client
+        ApigeeClient *apigeeClient =
+            [[ApigeeClient alloc] initWithOrganizationId:orgName
+                                           applicationId:appName];
         usergridClient = [apigeeClient dataClient];
         //[usergridClient setLogging:true]; //uncomment to see debug output in console window
     }
     return self;
 }
 
--(bool)login:(NSString*)username withPassword:(NSString*)password {
+-(BOOL)login:(NSString*)username withPassword:(NSString*)password {
     
-    //uncomment the below for easy testing (just click login)
-    //username = @"myuser";
-    //password = @"mypass";
+    ApigeeClientResponse *response =
+        [usergridClient logInUser:username password:password];
+    if ([response completedSuccessfully]) {
+        user = [usergridClient getLoggedInUser];
     
-    //then log the user in
-    //UGClientResponse *response =
-    [usergridClient logInUser:username password:password];
-    user = [usergridClient getLoggedInUser];
-    
-    if (user.username){
-        return true;
+        if (user.username){
+            return YES;
+        } else {
+            return NO;
+        }
     } else {
-        return false;
+        return NO;
     }
-    
 }
 
--(bool)createUser:(NSString*)username
+-(void)login:(NSString*)username
+withPassword:(NSString*)password
+completionHandler:(void (^)(BOOL loginSucceeded))completionBlock
+{
+    [usergridClient logInUser:username
+                     password:password
+            completionHandler:^(ApigeeClientResponse *response) {
+                if (completionBlock) {
+                    completionBlock([response completedSuccessfully]);
+                }
+            }];
+}
+
+
+-(BOOL)createUser:(NSString*)username
          withName:(NSString*)name
         withEmail:(NSString*)email
      withPassword:(NSString*)password{
 
-    
-    ApigeeClientResponse *response = [usergridClient addUser:username email:email name:name password:password];
-    if (response.transactionState == 0) {
+    ApigeeClientResponse *response =
+        [usergridClient addUser:username
+                          email:email
+                           name:name
+                       password:password];
+    if ([response completedSuccessfully]) {
         return [self login:username withPassword:password];
     }
-    return false;
+    return NO;
+}
+
+-(void)createUser:(NSString*)username
+         withName:(NSString*)name
+        withEmail:(NSString*)email
+     withPassword:(NSString*)password
+completionHandler:(void (^)(BOOL userCreatedAndLoggedIn))completionBlock
+{
+    __block Client *weakSelf = self;
+
+    [usergridClient addUser:username
+                      email:email
+                       name:name
+                   password:password
+     completionHandler:^(ApigeeClientResponse *response) {
+         if ([response completedSuccessfully]) {
+             [weakSelf login:username
+                withPassword:password
+           completionHandler:completionBlock];
+             weakSelf = nil;
+         } else {
+             if (completionBlock) {
+                 completionBlock(NO);
+             }
+         }
+     }];
 }
 
 -(NSArray*)getFollowing {
         
     ApigeeQuery *query = [[ApigeeQuery alloc] init];
     [query addURLTerm:@"limit" equals:@"30"];
-    ApigeeClientResponse *response = [usergridClient getEntityConnections: @"users" connectorID:@"me" connectionType:@"following" query:query];
+    ApigeeClientResponse *response =
+        [usergridClient getEntityConnections:@"users"
+                                 connectorID:@"me"
+                              connectionType:@"following"
+                                       query:query];
 
-    NSArray * following = [response.response objectForKey:@"entities"];
-
-    return following;
-    
+    return [response.response objectForKey:@"entities"];
 }
 
--(bool)followUser:(NSString*)username{
+-(void)getFollowing:(void (^)(NSArray *following))completionBlock {
+    ApigeeQuery *query = [[ApigeeQuery alloc] init];
+    [query addURLTerm:@"limit" equals:@"30"];
+    [usergridClient getEntityConnections:@"users"
+                             connectorID:@"me"
+                          connectionType:@"following"
+                                   query:query
+     completionHandler:^(ApigeeClientResponse *response) {
+         if (completionBlock) {
+             if ([response completedSuccessfully]) {
+                 completionBlock([response.response objectForKey:@"entities"]);
+             } else {
+                 completionBlock(nil);
+             }
+         }
+     }];
+}
+
+-(BOOL)followUser:(NSString*)username{
     
     ApigeeClientResponse *response =
         [usergridClient connectEntities:@"users"
@@ -82,55 +143,72 @@
                         connectionType:@"following"
                         connecteeType:@"users"
                         connecteeID:username];
-    
-    if (response.transactionState == 0) {
-        return true;
-    }
-    return false;
-    
+    return [response completedSuccessfully];
 }
 
+-(void)followUser:(NSString*)username completionHandler:(void (^)(ApigeeClientResponse *response))completionBlock
+{
+    [usergridClient connectEntities:@"users"
+                        connectorID:@"me"
+                     connectionType:@"following"
+                      connecteeType:@"users"
+                        connecteeID:username
+                  completionHandler:completionBlock];
+}
 
 -(NSArray*)getMessages {
     
-    NSString *username = [user username];
-    
     ApigeeQuery *query = [[ApigeeQuery alloc] init];
     [query addURLTerm:@"limit" equals:@"30"];
-    ApigeeClientResponse *response = [usergridClient getActivityFeedForUser:username query:query];
+    ApigeeClientResponse *response =
+        [usergridClient getActivityFeedForUser:[user username]
+                                         query:query];
     
-    NSArray *messages = [response.response objectForKey:@"entities"];
-
-    return messages;
-    
+    return [response.response objectForKey:@"entities"];
 }
 
--(bool)postMessage:(NSString*)message {
-    
+-(void)getMessages:(void (^)(NSArray *messages))completionBlock {
+    ApigeeQuery *query = [[ApigeeQuery alloc] init];
+    [query addURLTerm:@"limit" equals:@"30"];
+    [usergridClient getActivityFeedForUser:[user username]
+                                     query:query
+     completionHandler:^(ApigeeClientResponse *response) {
+         if (completionBlock) {
+             if ([response completedSuccessfully]) {
+                 completionBlock([response.response objectForKey:@"entities"]);
+             } else {
+                 completionBlock(nil);
+             }
+         }
+     }];
+}
+
+-(void)populateMessageActivityProperties:(NSMutableDictionary*)activityProperties
+                                 message:(NSString*)message
+{
     /*
      //we are trying to build a json object that looks like this:
      {
-        "actor" : {
-            "displayName" :"myusername",
-            "uuid" : "myuserid",
-            "username" : "myusername",
-            "email" : "myemail",
-            "picture": "http://path/to/picture",
-            "image" : {
-                "duration" : 0,
-                "height" : 80,
-                "url" : "http://www.gravatar.com/avatar/",
-                "width" : 80
-            },
-        },
-        "verb" : "post",
-        "content" : content,
-        "lat" : 48.856614,
-        "lon" : 2.352222
+     "actor" : {
+     "displayName" :"myusername",
+     "uuid" : "myuserid",
+     "username" : "myusername",
+     "email" : "myemail",
+     "picture": "http://path/to/picture",
+     "image" : {
+     "duration" : 0,
+     "height" : 80,
+     "url" : "http://www.gravatar.com/avatar/",
+     "width" : 80
+     },
+     },
+     "verb" : "post",
+     "content" : content,
+     "lat" : 48.856614,
+     "lon" : 2.352222
      }
-    */
+     */
     
-    NSMutableDictionary *activity = [[NSMutableDictionary alloc] init ];
     NSMutableDictionary *actor = [[NSMutableDictionary alloc] init];
     
     NSString *username = [user username];
@@ -146,21 +224,38 @@
     [actor setObject:username forKey:@"username"];
     [actor setObject:email forKey:@"email"];
     [actor setObject:picture forKey:@"picture"];
-
-    // activity 
-    [activity setValue:actor forKey:@"actor"];
-    [activity setObject:@"post" forKey:@"verb"];
-    [activity setObject:message forKey:@"content"];
-    [activity setObject:lat forKey:@"lat"];
-    [activity setObject:lon forKey:@"lon"];
-
-    ApigeeClientResponse *response = [usergridClient postUserActivity:uuid activity:activity];
     
-    if (response.transactionState == 0) {
-        return true;
-    }
-    return false;
+    // activity
+    [activityProperties setValue:actor forKey:@"actor"];
+    [activityProperties setObject:@"post" forKey:@"verb"];
+    [activityProperties setObject:message forKey:@"content"];
+    [activityProperties setObject:lat forKey:@"lat"];
+    [activityProperties setObject:lon forKey:@"lon"];
 }
 
+-(BOOL)postMessage:(NSString*)message {
+    
+    NSMutableDictionary *activityProperties = [[NSMutableDictionary alloc] init];
+    [self populateMessageActivityProperties:activityProperties
+                                    message:message];
+
+    ApigeeClientResponse *response =
+        [usergridClient postUserActivity:[user uuid]
+                              properties:activityProperties];
+    
+    return [response completedSuccessfully];
+}
+
+-(void)postMessage:(NSString*)message
+ completionHandler:(void (^)(ApigeeClientResponse *response))completionBlock
+{
+    NSMutableDictionary *activityProperties = [[NSMutableDictionary alloc] init];
+    [self populateMessageActivityProperties:activityProperties
+                                    message:message];
+    
+    [usergridClient postUserActivity:[user uuid]
+                          properties:activityProperties
+                   completionHandler:completionBlock];
+}
 
 @end

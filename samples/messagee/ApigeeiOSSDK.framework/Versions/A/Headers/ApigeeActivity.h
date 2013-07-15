@@ -50,4 +50,6 @@
 // turn this object in to an NSDictionary. Used internally by ApigeeClient
 -(NSDictionary *)toNSDictionary;
 
+-(void)setProperties:(NSDictionary*)dictProperties;
+
 @end

@@ -69,4 +69,6 @@ enum
 - (ApigeeEntity*)lastEntity;
 - (void)parse:(NSString*)serverResponse;
 
+- (BOOL)completedSuccessfully;
+
 @end

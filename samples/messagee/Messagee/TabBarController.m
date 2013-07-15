@@ -8,10 +8,7 @@
 
 #import "TabBarController.h"
 
-
-@interface TabBarController ()
-
-@end
+static NSString *kFollowing = @"FOLLOWING";
 
 @implementation TabBarController
 
@@ -41,20 +38,14 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    if ([selectedView isEqualToString:@"FOLLOWING"]) {
+    if ([self.selectedView isEqualToString:kFollowing]) {
         self.selectedViewController = [[self viewControllers] objectAtIndex:1];
-        selectedView = @"";
+        self.selectedView = @"";
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
 - (void)setNextViewToFollowing {
-    selectedView = @"FOLLOWING"; 
+    self.selectedView = kFollowing;
 }
+
 @end

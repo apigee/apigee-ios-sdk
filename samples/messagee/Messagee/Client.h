@@ -15,22 +15,41 @@
 @property (nonatomic, strong) ApigeeDataClient *usergridClient;
 @property (nonatomic, strong) ApigeeUser *user;
 
--(bool)login:(NSString*)username
+-(BOOL)login:(NSString*)username
         withPassword:(NSString*)password;
 
--(bool)createUser:(NSString*)username
+-(void)login:(NSString*)username
+withPassword:(NSString*)password
+completionHandler:(void (^)(BOOL loginSucceeded))completionBlock;
+
+-(BOOL)createUser:(NSString*)username
+         withName:(NSString*)name
+        withEmail:(NSString*)email
+     withPassword:(NSString*)password;
+
+-(void)createUser:(NSString*)username
         withName:(NSString*)name
         withEmail:(NSString*)email
-        withPassword:(NSString*)password;
+        withPassword:(NSString*)password
+completionHandler:(void (^)(BOOL userCreatedAndLoggedIn))completionBlock;
 
--(bool)postMessage:(NSString*)message;
+-(BOOL)postMessage:(NSString*)message;
+
+-(void)postMessage:(NSString*)message
+ completionHandler:(void (^)(ApigeeClientResponse *response))completionBlock;
 
 
 -(NSArray*)getMessages;
 
+-(void)getMessages:(void (^)(NSArray *messages))completionBlock;
+
 -(NSArray*)getFollowing;
 
--(bool)followUser:(NSString*)username;
+-(void)getFollowing:(void (^)(NSArray *following))completionBlock;
+
+-(BOOL)followUser:(NSString*)username;
+
+-(void)followUser:(NSString*)username completionHandler:(void (^)(ApigeeClientResponse *response))completionBlock;
 
 
 @end

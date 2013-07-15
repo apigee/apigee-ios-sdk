@@ -1,14 +1,26 @@
 #import "ApigeeHTTPManager.h"
+#import "ApigeeHTTPResult.h"
 
 // all transaction IDs are unique across all ApigeeHTTPManagers. 
 // this global increases every time there's an asynchronous 
 // transaction. 
-static int g_nextTransactionID = 1;  
+static int g_nextTransactionID = 1;
+
+static const int kInvalidTransactionID = -1;
 
 // a mutex to protect against multiple threads getting
 // IDs at the same time, and possibly getting the same ID
 // because of it
 NSRecursiveLock *g_transactionIDLock = nil;
+
+@interface ApigeeHTTPManager ()
+
+@property (nonatomic, copy) ApigeeHTTPCompletionHandler completionHandler;
+@property (nonatomic, copy) NSHTTPURLResponse *httpResponse;
+@property (nonatomic, strong) NSOperationQueue *operationQueue;
+
+@end
+
 
 @implementation ApigeeHTTPManager
 {
@@ -36,6 +48,10 @@ NSRecursiveLock *g_transactionIDLock = nil;
     NSString *m_auth;
 }
 
+@synthesize completionHandler;
+@synthesize httpResponse;
+@synthesize operationQueue;
+
 -(id)init
 {
     self = [super init];
@@ -45,8 +61,9 @@ NSRecursiveLock *g_transactionIDLock = nil;
         m_receivedData = [NSMutableData data];
         m_bAvailable = YES;
         m_delegateLock = [NSRecursiveLock new];
-        m_transactionID = -1;
+        m_transactionID = kInvalidTransactionID;
         m_auth = nil;
+        self.operationQueue = [[NSOperationQueue alloc] init];
         
         // lazy-init the transaction lock
         if ( !g_transactionIDLock )
@@ -89,7 +106,7 @@ NSRecursiveLock *g_transactionIDLock = nil;
 -(NSString *)syncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData;
 {
     // clear the transaction ID
-    m_transactionID = -1;
+    m_transactionID = kInvalidTransactionID;
     
     // use the synchronous funcitonality of NSURLConnection
     // clear the error
@@ -118,7 +135,7 @@ NSRecursiveLock *g_transactionIDLock = nil;
 -(int)asyncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData delegate:(id)delegate;
 {
     // clear the transaction ID
-    m_transactionID = -1;
+    m_transactionID = kInvalidTransactionID;
     
     // clear the error
     m_lastError = @"No error";
@@ -127,7 +144,7 @@ NSRecursiveLock *g_transactionIDLock = nil;
     {
         // an asynch transaction with no delegate has no meaning
         m_lastError = @"Delegate was nil";
-        return -1;
+        return kInvalidTransactionID;
     }
     
     // make sure the delegate responds to the various messages that
@@ -135,18 +152,20 @@ NSRecursiveLock *g_transactionIDLock = nil;
     if ( ![delegate respondsToSelector:@selector(httpManagerError:error:)] )
     {
         m_lastError = @"Delegate does not have httpManagerError:error: method";
-        return -1;
+        return kInvalidTransactionID;
     }
     if ( ![delegate respondsToSelector:@selector(httpManagerResponse:response:)] )
     {
         m_lastError = @"Delegate does not have httpManagerResponse:response: method";
-        return -1;
+        return kInvalidTransactionID;
     }
     
     // only once we're assured everything is right do we set the internal value
     [m_delegateLock lock];
     m_delegate = delegate;
     [m_delegateLock unlock];
+    
+    self.completionHandler = nil;
     
     // prep a transaction ID for this transaction
     m_transactionID = [self getNextTransactionID];
@@ -162,10 +181,65 @@ NSRecursiveLock *g_transactionIDLock = nil;
     {
         // failed to connect
         m_lastError = @"Unable to initiate connection.";
-        return -1;       
+        return kInvalidTransactionID;       
     }
     
     // success
+    return m_transactionID;
+}
+
+-(int)asyncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData completionHandler:(ApigeeHTTPCompletionHandler) theCompletionHandler
+{
+    // clear the transaction ID
+    m_transactionID = kInvalidTransactionID;
+    
+    // clear the error
+    m_lastError = @"No error";
+    
+    if ( !theCompletionHandler )
+    {
+        // an asynch transaction with no completion handler has no meaning
+        m_lastError = @"Completion handler was nil";
+        return kInvalidTransactionID;
+    }
+    
+    self.completionHandler = theCompletionHandler;
+
+    [m_delegateLock lock];
+    m_delegate = nil;
+    [m_delegateLock unlock];
+
+    // prep a transaction ID for this transaction
+    m_transactionID = [self getNextTransactionID];
+    
+    // formulate the request
+    NSURLRequest *req = [self getRequest:url operation:op operationData:opData];
+    
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    
+    [NSURLConnection sendAsynchronousRequest:req
+                                       queue:queue
+                           completionHandler:^(NSURLResponse* response, NSData* data, NSError* error) {
+                               ApigeeHTTPResult *result = [[ApigeeHTTPResult alloc] init];
+                               
+                               if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                                   result.response = (NSHTTPURLResponse*) response;
+                               }
+                               
+                               result.data = data;
+                               result.error = error;
+                               result.object = nil;
+                               
+                               if (![NSThread isMainThread]) {
+                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                        theCompletionHandler(result,self);
+                                   });
+                               } else {
+                                   // we're already on the main thread
+                                   theCompletionHandler(result,self);
+                               }
+                           }];
+    
     return m_transactionID;
 }
 
@@ -187,6 +261,8 @@ NSRecursiveLock *g_transactionIDLock = nil;
     [m_delegateLock lock];
     m_delegate = nil;
     [m_delegateLock unlock];
+    
+    self.completionHandler = nil;
     
     // note that we do not modify the "in use" flag. If we werei n use,
     // we remain in use until we receive a response or error. This ensures 
@@ -264,6 +340,11 @@ NSRecursiveLock *g_transactionIDLock = nil;
 //------------------------------------------------------------------------------------------
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+    if ( [response isKindOfClass:[NSHTTPURLResponse class]] ) {
+        
+        self.httpResponse = (NSHTTPURLResponse*) response;
+    }
+    
     // got a response. clear out the data
     [m_receivedData setLength:0];
 }
@@ -283,29 +364,34 @@ NSRecursiveLock *g_transactionIDLock = nil;
     // send the result to the delegate.
     // wrap this in mutex locks, then check for validity of m_delegate inside.
     // this ensures no race conditions and allows arbitrary cancellation of callbacks
-    [m_delegateLock lock];
-    if ( m_delegate )
-    {
+    if ( m_delegate ) {
+        [m_delegateLock lock];
         [m_delegate performSelector:@selector(httpManagerError:error:) withObject:self withObject:m_lastError];
+        m_delegate = nil;
+        [m_delegateLock unlock];
+    } else if ( self.completionHandler != nil ) {
+        self.completionHandler = nil;
     }
-    m_delegate = nil;
-    [m_delegateLock unlock];
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
-    // all done. Let's turn it in to a string
-    NSString *resultString = [[NSString alloc] initWithData:m_receivedData encoding:NSUTF8StringEncoding];
-    
     // send it to the delegate. See connection:didFailWithError: for an explanation
     // of the mutex locks
-    [m_delegateLock lock];
-    if ( m_delegate )
-    {
-        [m_delegate performSelector:@selector(httpManagerResponse:response:) withObject:self withObject:resultString];   
+    if ( m_delegate ) {
+        NSString *resultString = [[NSString alloc] initWithData:m_receivedData encoding:NSUTF8StringEncoding];
+        [m_delegateLock lock];
+        [m_delegate performSelector:@selector(httpManagerResponse:response:) withObject:self withObject:resultString];
+        m_delegate = nil;
+        [m_delegateLock unlock];
+    } else if ( self.completionHandler != nil ) {
+        ApigeeHTTPResult *result = [[ApigeeHTTPResult alloc] init];
+        result.data = m_receivedData;
+        result.response = self.httpResponse;
+        result.error = nil;
+        self.completionHandler(result,self);
+        self.completionHandler = nil;
     }
-    m_delegate = nil;
-    [m_delegateLock unlock];
 }
 
 @end

@@ -12,5 +12,6 @@
 @interface MessageViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) Client *client;
+@property (nonatomic, weak) IBOutlet UITableView *tv;
 
 @end

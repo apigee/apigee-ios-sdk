@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		63F52596178C47DF00FCA013 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F52595178C47DF00FCA013 /* ApigeeiOSSDK.framework */; };
+		638C62421794873A0066DC15 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C62411794873A0066DC15 /* ApigeeiOSSDK.framework */; };
 		63F52599178C49B100FCA013 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F52598178C49B000FCA013 /* CoreTelephony.framework */; };
 		63F5259B178C49B800FCA013 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5259A178C49B700FCA013 /* CoreLocation.framework */; };
 		63F5259D178C49C300FCA013 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5259C178C49C200FCA013 /* SystemConfiguration.framework */; };
@@ -56,7 +56,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		63F52595178C47DF00FCA013 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ApigeeiOSSDK.framework; sourceTree = "<group>"; };
+		638C62411794873A0066DC15 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 		63F52598178C49B000FCA013 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		63F5259A178C49B700FCA013 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		63F5259C178C49C200FCA013 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -129,7 +129,7 @@
 				DC961095168D4E8A004A481A /* UIKit.framework in Frameworks */,
 				DC961097168D4E8A004A481A /* Foundation.framework in Frameworks */,
 				DC961099168D4E8A004A481A /* CoreGraphics.framework in Frameworks */,
-				63F52596178C47DF00FCA013 /* ApigeeiOSSDK.framework in Frameworks */,
+				638C62421794873A0066DC15 /* ApigeeiOSSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,10 +156,10 @@
 		DC961093168D4E8A004A481A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				638C62411794873A0066DC15 /* ApigeeiOSSDK.framework */,
 				63F5259C178C49C200FCA013 /* SystemConfiguration.framework */,
 				63F5259A178C49B700FCA013 /* CoreLocation.framework */,
 				63F52598178C49B000FCA013 /* CoreTelephony.framework */,
-				63F52595178C47DF00FCA013 /* ApigeeiOSSDK.framework */,
 				DC10BE02168FBF8300F1CE9D /* QuartzCore.framework */,
 				DC961094168D4E8A004A481A /* UIKit.framework */,
 				DC961096168D4E8A004A481A /* Foundation.framework */,

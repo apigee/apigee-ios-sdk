@@ -9,9 +9,7 @@
 #import "RegisterViewController.h"
 #import "TabBarController.h"
 
-@interface RegisterViewController ()
-
-@end
+static NSString *kSegueRegisterSuccess = @"regsiterSuccessSeque";
 
 @implementation RegisterViewController
 
@@ -25,14 +23,6 @@
 @synthesize rePasswordField;
 @synthesize client = _client;
 
-- (void)setClient:(Client *)c {
-    _client = c;
-}
-
-- (Client *)client {
-    return _client;
-}
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -42,27 +32,22 @@
     return self;
 }
 
-- (void)viewDidLoad
-{    
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:self.view.window];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
+    NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
+    [notifyCenter addObserver:self
+                     selector:@selector(keyboardDidShow:)
+                         name:UIKeyboardDidShowNotification
+                       object:self.view.window];
+    [notifyCenter addObserver:self
+                     selector:@selector(keyboardDidHide:)
+                         name:UIKeyboardDidHideNotification
+                       object:nil];
     [super viewWillAppear:animated];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textFieldView {
-    currentTextField = textFieldView;
+    self.currentTextField = textFieldView;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textFieldView {
@@ -71,7 +56,7 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textFieldView {
-    currentTextField = nil;
+    self.currentTextField = nil;
     [textFieldView resignFirstResponder];
 }
 
@@ -80,7 +65,8 @@
     NSDictionary* info = [notification userInfo];
     
     NSValue *aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardRect = [self.view convertRect:[aValue CGRectValue] fromView:nil];
+    CGRect keyboardRect = [self.view convertRect:[aValue CGRectValue]
+                                        fromView:nil];
     
     CGRect viewFrame = [scrollView frame];
     viewFrame.size.height -= keyboardRect.size.height;
@@ -95,7 +81,8 @@
     NSDictionary* info = [notification userInfo];
     
     NSValue* aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardRect = [self.view convertRect:[aValue CGRectValue] fromView:nil];
+    CGRect keyboardRect = [self.view convertRect:[aValue CGRectValue]
+                                        fromView:nil];
     
     CGRect viewFrame = [scrollView frame];
     viewFrame.size.height += keyboardRect.size.height;
@@ -106,11 +93,26 @@
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-    if ([segue.identifier isEqualToString:@"regsiterSuccessSeque"]){
+    if ([segue.identifier isEqualToString:kSegueRegisterSuccess]){
         TabBarController *dvc = [segue destinationViewController];
         [dvc setClient:_client];
     }
-    
+}
+
+- (void)registerSuccess {
+    [self performSegueWithIdentifier:kSegueRegisterSuccess
+                              sender:_client];
+}
+
+- (void)registerFailure {
+    //pop an alert saying the registration failed
+    UIAlertView *alert =
+        [[UIAlertView alloc] initWithTitle:@"Account not created?"
+                                   message:@"Did you type your username and password correctly?"
+                                  delegate:self
+                         cancelButtonTitle:@"Try Again"
+                         otherButtonTitles:nil];
+    [alert show];
 }
 
 - (IBAction)registerButton:(id)sender {
@@ -123,19 +125,30 @@
     
     if (![password isEqualToString:rePassword]) {
         //pop an alert saying the login failed
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Password error." message:@"The passwords do not match?" delegate:self cancelButtonTitle:@"Try Again" otherButtonTitles:nil];
+        UIAlertView *alert =
+            [[UIAlertView alloc] initWithTitle:@"Password error."
+                                       message:@"The passwords do not match?"
+                                      delegate:self
+                             cancelButtonTitle:@"Try Again"
+                             otherButtonTitles:nil];
         [alert show];
     } else {
-        if ([_client createUser:username
-                      withName:name
-                     withEmail:email
-                  withPassword:password]){
-            [self performSegueWithIdentifier:@"regsiterSuccessSeque" sender:_client];
-        } else {
-            //pop an alert saying the login failed
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account not created?" message:@"Did you type your username and password correctly?" delegate:self cancelButtonTitle:@"Try Again" otherButtonTitles:nil];
-            [alert show];
-        }
+        // attempt to create user on a background thread
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,NULL),
+                       ^(void) {
+                           if ([_client createUser:username
+                                          withName:name
+                                         withEmail:email
+                                      withPassword:password]){
+                               [self performSelectorOnMainThread:@selector(registerSuccess)
+                                                      withObject:nil
+                                                   waitUntilDone:NO];
+                           } else {
+                               [self performSelectorOnMainThread:@selector(registerFailure)
+                                                      withObject:nil
+                                                   waitUntilDone:NO];
+                           }
+                       });
     }
 }
 

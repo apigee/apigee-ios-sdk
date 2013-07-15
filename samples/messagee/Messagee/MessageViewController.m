@@ -26,24 +26,34 @@
 
 
 @interface MessageViewController ()
+{
+    NSArray *messages;
+    UIColor *borderColor;
+    UIColor *usernameLabelTextColor;
+    UIImage *balloonImage;
+    UIImage *messageArrowImage;
+    UIImage *defaultUserImage;
+    UIFont *usernameLabelFont;
+    UIFont *contentLabelFont;
+    UIFont *userMessageFont;
+}
 
 @end
+
+
+static const int kTagMessageView = 0;
+static const int kTagBalloonView = 1;
+static const int kTagContentLabel = 2;
+static const int kTagUsernameLabel = 3;
+
+static NSString *CellIdentifier = @"messageCell";
+
 
 @implementation MessageViewController
 
 
-NSArray *messages;
-
 @synthesize client = _client;
-
-
-- (void)setClient:(Client *)c {
-    _client = c;
-}
-
-- (Client *)client {
-    return _client;
-}
+@synthesize tv = _tv;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,15 +67,21 @@ NSArray *messages;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-    messages = [_client getMessages];
-    
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	borderColor = [UIColor colorWithRed:0.169 green:0.169 blue:0.169 alpha:1];
+    usernameLabelTextColor = [UIColor colorWithRed:0.392 green:0.682 blue:0.847 alpha:1];
+    balloonImage = [[UIImage imageNamed:@"ballon.png"]
+                    stretchableImageWithLeftCapWidth:14
+                    topCapHeight:15];
+    messageArrowImage = [UIImage imageNamed:@"messageArrow"];
+    usernameLabelFont = [UIFont fontWithName:@"Helvetica-Bold" size:12];
+    contentLabelFont = [UIFont systemFontOfSize:14.0];
+    userMessageFont = [UIFont fontWithName:@"Helvetica" size:11];
+    NSString *imageFile = [[NSBundle mainBundle] pathForResource:@"user_profile" ofType:@"png"];
+    defaultUserImage = [[UIImage alloc] initWithContentsOfFile:imageFile];
+    [_client getMessages:^(NSArray *listMessages) {
+        messages = listMessages;
+        [self.tv reloadData];
+    }];
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -74,18 +90,15 @@ NSArray *messages;
         NewMessageViewController *dvc = [segue destinationViewController];
         [dvc setClient:_client];
     }
-    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
     return [messages count];
 }
 
@@ -94,7 +107,8 @@ NSArray *messages;
     //main message
     NSString *message = [post objectForKey:@"content"];
     
-	CGSize size = [message sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(300, 9000)];
+	CGSize size = [message sizeWithFont:contentLabelFont
+                      constrainedToSize:CGSizeMake(300, 9000)];
 	return size.height + 60;
 }
 
@@ -117,12 +131,10 @@ NSArray *messages;
         NSData *imageData = [[NSData alloc] initWithContentsOfURL: pictureURL];
         userImage = [UIImage imageWithData:imageData];
     } else {
-        NSString *imageFile = [[NSBundle mainBundle] pathForResource:@"user_profile" ofType:@"png"];
-        userImage = [[UIImage alloc] initWithContentsOfFile:imageFile];
+        userImage = defaultUserImage;
     }
     
 
-    static NSString *CellIdentifier = @"messageCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     UIImageView *balloonView;
@@ -130,37 +142,38 @@ NSArray *messages;
     UILabel *usernameLabel;
 
 	if (nil == cell) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                      reuseIdentifier:CellIdentifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		
 		balloonView = [[UIImageView alloc] initWithFrame:CGRectZero];
-		balloonView.tag = 1;
+		balloonView.tag = kTagBalloonView;
         
         usernameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         usernameLabel.backgroundColor = [UIColor clearColor];
-		usernameLabel.textColor = [UIColor colorWithRed:0.392 green:0.682 blue:0.847 alpha:1];
-        usernameLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:12];
-        usernameLabel.tag = 3;
+		usernameLabel.textColor = usernameLabelTextColor;
+        usernameLabel.font = usernameLabelFont;
+        usernameLabel.tag = kTagUsernameLabel;
         
 		contentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 		contentLabel.backgroundColor = [UIColor clearColor];
-		contentLabel.tag = 2;
+		contentLabel.tag = kTagContentLabel;
 		contentLabel.numberOfLines = 0;
 		contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
-		contentLabel.font = [UIFont systemFontOfSize:14.0];
+		contentLabel.font = contentLabelFont;
 
         
 		UIView *message = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, cell.frame.size.width, cell.frame.size.height)];
-		message.tag = 0;
+		message.tag = kTagMessageView;
 		[message addSubview:balloonView];
         [message addSubview:usernameLabel];
 		[message addSubview:contentLabel];
 		[cell.contentView addSubview:message];
 		
         
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"messageArrow"]];
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:messageArrowImage];
         imageView.center = CGPointMake(65, 30);
         [cell.contentView addSubview:imageView];
         
@@ -168,26 +181,26 @@ NSArray *messages;
         cell.imageView.image = [userImage imageScaledToSize:CGSizeMake(42, 42)];
         cell.imageView.layer.masksToBounds = YES;
         cell.imageView.layer.cornerRadius = 4;
-        cell.imageView.layer.borderColor = [[UIColor colorWithRed:0.169 green:0.169 blue:0.169 alpha:1] CGColor];
+        cell.imageView.layer.borderColor = [borderColor CGColor];
         cell.imageView.layer.borderWidth = 1;
-   
 	}
 	else
 	{
-		balloonView = (UIImageView *)[[cell.contentView viewWithTag:0] viewWithTag:1];
-        usernameLabel = (UILabel *)[[cell.contentView viewWithTag:0] viewWithTag:3];
-		contentLabel = (UILabel *)[[cell.contentView viewWithTag:0] viewWithTag:2];
+        UIView *messageView = [cell.contentView viewWithTag:kTagMessageView];
+		balloonView = (UIImageView *)[messageView viewWithTag:kTagBalloonView];
+        usernameLabel = (UILabel *)[messageView viewWithTag:kTagUsernameLabel];
+		contentLabel = (UILabel *)[messageView viewWithTag:kTagContentLabel];
 	}
 	
-	CGSize size = [userMessage sizeWithFont:[UIFont fontWithName:@"Helvetica" size:11] constrainedToSize:CGSizeMake(230.0f, 480.0f) lineBreakMode:NSLineBreakByWordWrapping];
+	CGSize size = [userMessage sizeWithFont:userMessageFont
+                          constrainedToSize:CGSizeMake(230.0f, 480.0f)
+                              lineBreakMode:NSLineBreakByWordWrapping];
 	
-	UIImage *balloon;
     balloonView.frame = CGRectMake(65, 15, 230, size.height + 50);
-    balloon = [[UIImage imageNamed:@"ballon.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:15];
     contentLabel.frame = CGRectMake(70, 35, 210, size.height + 30);
     usernameLabel.frame = CGRectMake(70, 25, 230, 10);
     
-    balloonView.image = balloon;
+    balloonView.image = balloonImage;
     usernameLabel.text = username;
 	contentLabel.text = userMessage;
     

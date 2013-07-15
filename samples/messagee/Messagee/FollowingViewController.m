@@ -24,20 +24,23 @@
 }
 @end
 
+
+@interface FollowingViewController ()
+{
+    NSArray *following;
+    UIImage *defaultUserImage;
+}
+
+@end
+
+
+static NSString *CellIdentifier = @"followerCell";
+static NSString *kSegueFollowUser = @"followUserSegue";
+
 @implementation FollowingViewController
 
 @synthesize client = _client;
-
-- (void)setClient:(Client *)c {
-    _client = c;
-}
-
-- (Client *)client {
-    return _client;
-}
-
-NSArray *following;
-
+@synthesize tv = _tv;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -52,30 +55,33 @@ NSArray *following;
 {
     [super viewDidLoad];
 	
-    following = [_client getFollowing];
-    ((UITabBarController *) self.parentViewController).tabBar.hidden
-    = NO;
-    
+    NSString *imageFile = [[NSBundle mainBundle] pathForResource:@"user_profile"
+                                                          ofType:@"png"];
+    defaultUserImage = [[UIImage alloc] initWithContentsOfFile:imageFile];
+
+    [_client getFollowing:^(NSArray *listFollowing) {
+        following = listFollowing;
+        [self.tv reloadData];
+    }];
+    UITabBarController *tabBarController = (UITabBarController *) self.parentViewController;
+    tabBarController.tabBar.hidden = NO;
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-    if ([segue.identifier isEqualToString:@"followUserSegue"]){
+    if ([segue.identifier isEqualToString:kSegueFollowUser]){
         FollowUserViewController *dvc = [segue destinationViewController];
         [dvc setClient:_client];
     }
-    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
     return [following count];
 }
 
@@ -94,32 +100,22 @@ NSArray *following;
         NSData *imageData = [[NSData alloc] initWithContentsOfURL: pictureURL];
         userImage = [UIImage imageWithData:imageData];
     } else {
-        NSString *imageFile = [[NSBundle mainBundle] pathForResource:@"user_profile" ofType:@"png"];
-        userImage = [[UIImage alloc] initWithContentsOfFile:imageFile];
+        userImage = defaultUserImage;
     }
     
     
-    
-    static NSString *CellIdentifier = @"followerCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier
+                                                            forIndexPath:indexPath];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                      reuseIdentifier:CellIdentifier];
     }
     
     [cell.textLabel setText:username];
     [cell.imageView setImage:userImage];
     
     return cell;
-    
-}
-
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

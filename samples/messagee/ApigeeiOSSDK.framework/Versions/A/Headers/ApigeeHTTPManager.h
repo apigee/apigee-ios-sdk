@@ -9,6 +9,12 @@ enum
     kApigeeHTTPDelete = 4
 };
 
+@class ApigeeHTTPResult;
+@class ApigeeHTTPManager;
+
+typedef void (^ApigeeHTTPCompletionHandler)(ApigeeHTTPResult *result,ApigeeHTTPManager *httpManager);
+
+
 @interface ApigeeHTTPManager : NSObject
 
 // blocks until a response is received, or until there's an error.
@@ -27,6 +33,8 @@ enum
 // of -1 means there was an error.
 // You can call getLastError to find out what went wrong. 
 -(int)asyncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData delegate:(id)delegate;
+
+-(int)asyncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData completionHandler:(ApigeeHTTPCompletionHandler) completionHandler;
 
 // get the current transactionID
 -(int)getTransactionID;

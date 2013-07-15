@@ -37,6 +37,8 @@ set the response limit in ApigeeQuery as well.
 
 @class ApigeeCollection;
 
+typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response);
+
 
 @interface ApigeeDataClient : NSObject
 
@@ -76,16 +78,24 @@ set the response limit in ApigeeQuery as well.
 // log in with the given username and password
 -(ApigeeClientResponse *)logInUser: (NSString *)userName password:(NSString *)password;
 
+-(ApigeeClientResponse *)logInUser: (NSString *)userName password:(NSString *)password completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // log in with the given username and PIN value
 -(ApigeeClientResponse *)logInUserWithPin: (NSString *)userName pin:(NSString *)pin;
 
+-(ApigeeClientResponse *)logInUserWithPin: (NSString *)userName pin:(NSString *)pin completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // log in user with Facebook token
 -(ApigeeClientResponse *)logInUserWithFacebook: (NSString *)facebookToken;
+
+-(ApigeeClientResponse *)logInUserWithFacebook: (NSString *)facebookToken completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // log in as the administrator of the application. Generally used for applications
 // that have an "administrator" feature. Not the sort of thing you want normal
 // users doing. 
 -(ApigeeClientResponse *)logInAdmin: (NSString *)adminUserName secret:(NSString *)adminSecret;
+
+-(ApigeeClientResponse *)logInAdmin: (NSString *)adminUserName secret:(NSString *)adminSecret completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // log out the current user. The Client only supports one user logged in at a time.
 // You can have multiple instances of ApigeeClient if you want multiple
@@ -100,15 +110,23 @@ set the response limit in ApigeeQuery as well.
 //adds a new user
 -(ApigeeClientResponse *)addUser:(NSString *)username email:(NSString *)email name:(NSString *)name password:(NSString *)password;
 
+-(ApigeeClientResponse *)addUser:(NSString *)username email:(NSString *)email name:(NSString *)name password:(NSString *)password completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // updates a user's password
 -(ApigeeClientResponse *)updateUserPassword:(NSString *)usernameOrEmail oldPassword:(NSString *)oldPassword newPassword:(NSString *)newPassword;
+
+-(ApigeeClientResponse *)updateUserPassword:(NSString *)usernameOrEmail oldPassword:(NSString *)oldPassword newPassword:(NSString *)newPassword completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // get all the groups this user is in
 -(ApigeeClientResponse *)getGroupsForUser: (NSString *)userID;
 
+-(ApigeeClientResponse *)getGroupsForUser: (NSString *)userID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // get users in this app. Definitely want to consider sending a Query along
 // with this call
 -(ApigeeClientResponse *)getUsers: (ApigeeQuery *)query;
+
+-(ApigeeClientResponse *)getUsers: (ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 /********************* ACTIVITY MANAGEMENT *********************/
 // create a new activity. 
@@ -117,34 +135,63 @@ set the response limit in ApigeeQuery as well.
 // NSDictionary for you.
 -(ApigeeClientResponse *)createActivity: (NSDictionary *)activity;
 
+-(ApigeeClientResponse *)createActivity: (NSDictionary *)activity completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // create an activity and post it to a user in a single step. See comment
 // above createActivity for information on making Activity creation easier
--(ApigeeClientResponse *)postUserActivity: (NSString *)userID activity:(NSDictionary *)activity;
+-(ApigeeClientResponse *)postUserActivity: (NSString *)userID properties:(NSDictionary *)activityProperties;
+
+-(ApigeeClientResponse *)postUserActivity: (NSString *)userID activity:(ApigeeActivity *)activity;
+
+-(ApigeeClientResponse *)postUserActivity: (NSString *)userID properties:(NSDictionary *)activityProperties completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+-(ApigeeClientResponse *)postUserActivity: (NSString *)userID activity:(ApigeeActivity *)activity completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 
 // post an already-created activity to a user
 -(ApigeeClientResponse *)postUserActivityByUUID: (NSString *)userID activity:(NSString *)activityUUID;
 
+-(ApigeeClientResponse *)postUserActivityByUUID: (NSString *)userID activity:(NSString *)activityUUID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // create an activity and post it to a group in a single step. See comment
 // above createActivity for information on making Activity creation easier
--(ApigeeClientResponse *)postGroupActivity: (NSString *)groupID activity:(NSDictionary *)activity;
+-(ApigeeClientResponse *)postGroupActivity: (NSString *)groupID properties:(NSDictionary *)activityProperties;
+
+-(ApigeeClientResponse *)postGroupActivity:(NSString *)groupID activity:(ApigeeActivity *)activity;
+
+-(ApigeeClientResponse *)postGroupActivity: (NSString *)groupID properties:(NSDictionary *)activityProperties completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+-(ApigeeClientResponse *)postGroupActivity:(NSString *)groupID activity:(ApigeeActivity *)activity completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // post an already-created activity to a group
 -(ApigeeClientResponse *)postGroupActivityByUUID: (NSString *)groupID activity:(NSString *)activityUUID;
 
+-(ApigeeClientResponse *)postGroupActivityByUUID: (NSString *)groupID activity:(NSString *)activityUUID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // get the activities this user is in
 -(ApigeeClientResponse *)getActivitiesForUser: (NSString *)userID query:(ApigeeQuery *)query;
+
+-(ApigeeClientResponse *)getActivitiesForUser: (NSString *)userID query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // get the activities this group is in
 -(ApigeeClientResponse *)getActivitiesForGroup: (NSString *)groupID query:(ApigeeQuery *)query;
 
+-(ApigeeClientResponse *)getActivitiesForGroup: (NSString *)groupID query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // get the activity feed for a user
 -(ApigeeClientResponse *)getActivityFeedForUser: (NSString *)userID query:(ApigeeQuery *)query;
+
+-(ApigeeClientResponse *)getActivityFeedForUser: (NSString *)userID query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // get the activity feed for a group
 -(ApigeeClientResponse *)getActivityFeedForGroup: (NSString *)groupID query:(ApigeeQuery *)query;
 
+-(ApigeeClientResponse *)getActivityFeedForGroup: (NSString *)groupID query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // remove an activity 
 -(ApigeeClientResponse *)removeActivity:(NSString *)activityUUID;
+
+-(ApigeeClientResponse *)removeActivity:(NSString *)activityUUID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 /********************* GROUP MANAGEMENT *********************/
 // create a new group. The groupPath can be a path with slashes to make for
@@ -152,31 +199,50 @@ set the response limit in ApigeeQuery as well.
 // optional, you can send nil if you don't want to provide one.
 -(ApigeeClientResponse *)createGroup:(NSString *)groupPath groupTitle:(NSString *)groupTitle;
 
+-(ApigeeClientResponse *)createGroup:(NSString *)groupPath groupTitle:(NSString *)groupTitle completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // add a user to a group
 -(ApigeeClientResponse *)addUserToGroup:(NSString *)userID group:(NSString *)groupID;
+
+-(ApigeeClientResponse *)addUserToGroup:(NSString *)userID group:(NSString *)groupID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // remove a user from a group
 -(ApigeeClientResponse *)removeUserFromGroup:(NSString *)userID group:(NSString *)groupID;
 
+-(ApigeeClientResponse *)removeUserFromGroup:(NSString *)userID group:(NSString *)groupID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // get all the users in this group
 -(ApigeeClientResponse *)getUsersForGroup:(NSString *)groupID query:(ApigeeQuery *)query;
 
+-(ApigeeClientResponse *)getUsersForGroup:(NSString *)groupID query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 
 /******************** ENTITY MANAGEMENT ********************/
 // adds an entity to the specified collection. 
 -(ApigeeClientResponse *)createEntity: (NSDictionary *)newEntity;
 
+-(ApigeeClientResponse *)createEntity: (NSDictionary *)newEntity
+                    completionHandler: (ApigeeDataClientCompletionHandler) completionHandler;
+
+
 // get a list of entities that meet the specified query.
 -(ApigeeClientResponse *)getEntities: (NSString *)type query:(ApigeeQuery *)query;
 
+-(ApigeeClientResponse *)getEntities: (NSString *)type query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 -(ApigeeClientResponse *)getEntities: (NSString *)type queryString:(NSString *)queryString;
+
+-(ApigeeClientResponse *)getEntities: (NSString *)type queryString:(NSString *)queryString completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // updates an entity (it knows the type from the entity data) 
 -(ApigeeClientResponse *)updateEntity: (NSString *)entityID entity:(NSDictionary *)updatedEntity;
 
+-(ApigeeClientResponse *)updateEntity: (NSString *)entityID entity:(NSDictionary *)updatedEntity completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // removes an entity of the specified type
 -(ApigeeClientResponse *)removeEntity: (NSString *)type entityID:(NSString *)entityID;
+
+-(ApigeeClientResponse *)removeEntity: (NSString *)type entityID:(NSString *)entityID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // Directionally connect two entities. For instance, user "Bob" might like Lyons Restaurant.
 // connectorType would be "users" (because Bob is a user)
@@ -184,6 +250,8 @@ set the response limit in ApigeeQuery as well.
 // connectionType would be "like"
 // connecteeID would be the UUID of Lyons Restaurant
 -(ApigeeClientResponse *)connectEntities: (NSString *)connectorType connectorID:(NSString *)connectorID type:(NSString *)connectionType connecteeID:(NSString *)connecteeID;
+
+-(ApigeeClientResponse *)connectEntities: (NSString *)connectorType connectorID:(NSString *)connectorID type:(NSString *)connectionType connecteeID:(NSString *)connecteeID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // Directionally connect two entities. For instance, user "Bob" might follow user "Mary".
 // connectorType would be "users" (because Bob is a user)
@@ -193,26 +261,39 @@ set the response limit in ApigeeQuery as well.
 // connecteeID would be Mary's userID
 -(ApigeeClientResponse *)connectEntities: (NSString *)connectorType connectorID:(NSString *)connectorID connectionType:(NSString *)connectionType connecteeType:(NSString *)connecteeType connecteeID:(NSString *)connecteeID;
 
+-(ApigeeClientResponse *)connectEntities: (NSString *)connectorType connectorID:(NSString *)connectorID connectionType:(NSString *)connectionType connecteeType:(NSString *)connecteeType connecteeID:(NSString *)connecteeID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // disconnect two entities. It uses the same parameters and calling rules as connectEntities
 -(ApigeeClientResponse *)disconnectEntities: (NSString *)connectorType connectorID:(NSString *)connectorID type:(NSString *)connectionType connecteeID:(NSString *)connecteeID;
+
+-(ApigeeClientResponse *)disconnectEntities: (NSString *)connectorType connectorID:(NSString *)connectorID type:(NSString *)connectionType connecteeID:(NSString *)connecteeID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // get entity connections
 -(ApigeeClientResponse *)getEntityConnections: (NSString *)connectorType connectorID:(NSString *)connectorID connectionType:(NSString *)connectionType query:(ApigeeQuery *)query;
 
+-(ApigeeClientResponse *)getEntityConnections: (NSString *)connectorType connectorID:(NSString *)connectorID connectionType:(NSString *)connectionType query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 
 /********************* MESSAGE MANAGEMENT *********************/
 // post a message to a given queue
 -(ApigeeClientResponse *)postMessage: (NSString *)queuePath message:(NSDictionary *)message;
 
+-(ApigeeClientResponse *)postMessage: (NSString *)queuePath message:(NSDictionary *)message completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // get all messages from the queue path
 -(ApigeeClientResponse *)getMessages: (NSString *)queuePath query:(ApigeeQuery *)query;
+
+-(ApigeeClientResponse *)getMessages: (NSString *)queuePath query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // add a subscriber to a queue
 -(ApigeeClientResponse *)addSubscriber: (NSString *)queuePath subscriberPath:(NSString *)subscriberPath;
 
+-(ApigeeClientResponse *)addSubscriber: (NSString *)queuePath subscriberPath:(NSString *)subscriberPath completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // remove a subscriber from a queue
 -(ApigeeClientResponse *)removeSubscriber: (NSString *)queuePath subscriberPath:(NSString *)subscriberPath;
+
+-(ApigeeClientResponse *)removeSubscriber: (NSString *)queuePath subscriberPath:(NSString *)subscriberPath completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 
 /********************* SERVER-SIDE STORAGE *********************/
@@ -223,8 +304,13 @@ set the response limit in ApigeeQuery as well.
 // put the data in to the remote storage
 -(ApigeeClientResponse *)setRemoteStorage: (NSDictionary *)data;
 
+-(ApigeeClientResponse *)setRemoteStorage: (NSDictionary *)data completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+
 // get the data from remote storage
 -(ApigeeClientResponse *)getRemoteStorage;
+
+-(ApigeeClientResponse *)getRemoteStorage:(ApigeeDataClientCompletionHandler)completionHandler;
 
 // a class function that returns a uuid for this
 // device. It will be globally unique, and will always
@@ -240,6 +326,8 @@ set the response limit in ApigeeQuery as well.
 // using the getUniqueDeviceID method to associate this device on the server
 - (ApigeeClientResponse *)setDevicePushToken:(NSData *)newDeviceToken forNotifier:(NSString *)notifier;
 
+- (ApigeeClientResponse *)setDevicePushToken:(NSData *)newDeviceToken forNotifier:(NSString *)notifier completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 // push an "alert" type notification to the remote group, user, or device specified
 // in the path argument. the notifier may be a name or UUID of an apns notifier
 // that has been set up on the usergrid server.
@@ -247,6 +335,12 @@ set the response limit in ApigeeQuery as well.
                           withSound:(NSString *)sound
                                  to:(NSString *)path
                       usingNotifier:(NSString *)notifier;
+
+- (ApigeeClientResponse *)pushAlert:(NSString *)message
+                          withSound:(NSString *)sound
+                                 to:(NSString *)path
+                      usingNotifier:(NSString *)notifier
+                  completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 /*********************** ACCESSORS ************************/
 // if a user is logged in, this returns the OAuth token for this session. 
@@ -288,6 +382,11 @@ set the response limit in ApigeeQuery as well.
 // NOTE - This function will be synchronous or asynchronous the same as any
 // other function in the API. It is based on the value sent to setDelegate.
 -(ApigeeClientResponse *)apiRequest: (NSString *)url operation:(NSString *)op data:(NSString *)opData;
+
+-(ApigeeClientResponse *)apiRequest:(NSString *)url
+                          operation:(NSString *)op
+                               data:(NSString *)opData
+                  completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 /*********************** DEBUGGING ASSISTANCE ************************/
 // when logging is on, all outgoing URLs are logged via NSLog, and all

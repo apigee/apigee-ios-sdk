@@ -1,6 +1,23 @@
 #import "ApigeeActivity.h"
 
-static NSString* ENTITY_TYPE = @"activity";
+static NSString* ENTITY_TYPE     = @"activity";
+
+static NSString *kTypeActivity   = @"activity";
+static NSString *kTypePerson     = @"person";
+static NSString *kTypeUser       = @"user";
+
+static NSString *kKeyType        = @"type";
+static NSString *kKeyVerb        = @"verb";
+static NSString *kKeyCategory    = @"category";
+static NSString *kKeyContent     = @"content";
+static NSString *kKeyTitle       = @"title";
+static NSString *kKeyActor       = @"actor";
+static NSString *kKeyObject      = @"object";
+static NSString *kKeyActorEmail  = @"email";
+static NSString *kKeyActorUuid   = @"uuid";
+static NSString *kKeyDisplayName = @"displayName";
+static NSString *kKeyEntityType  = @"entityType";
+static NSString *kKeyEntityUuid  = @"entityUUID";
 
 // the way they have set up the object info
 enum
@@ -142,7 +159,7 @@ enum
     
     // we'll use m_content when the time comes. But we don't want to 
     // assume they've set it yet. They can call the setup functions in any order.
-    m_objectContent = nil; 
+    m_objectContent = nil;
     m_entityType = nil;
     m_entityUUID = nil;
     
@@ -196,29 +213,29 @@ enum
     NSMutableDictionary *ret = [NSMutableDictionary new];
     
     // add all the fields in
-    [ret setObject:@"activity" forKey:@"type"];
-    [ret setObject:m_verb forKey:@"verb"];
-    [ret setObject:m_category forKey:@"category"];
-    [ret setObject:m_content forKey:@"content"];
-    [ret setObject:m_title forKey:@"title"];
+    [ret setObject:kTypeActivity forKey:kKeyType];
+    [ret setObject:m_verb forKey:kKeyVerb];
+    [ret setObject:m_category forKey:kKeyCategory];
+    [ret setObject:m_content forKey:kKeyContent];
+    [ret setObject:m_title forKey:kKeyTitle];
     
     // make the actor's subdictionary
     NSMutableDictionary *actor = [NSMutableDictionary new];
-    [actor setObject:@"person" forKey:@"type"];
-    [actor setObject:@"user" forKey:@"entityType"];
-    [actor setObject:m_actorDisplayName forKey:@"displayName"];
+    [actor setObject:kTypePerson forKey:kKeyType];
+    [actor setObject:kTypeUser forKey:kKeyEntityType];
+    [actor setObject:m_actorDisplayName forKey:kKeyDisplayName];
     
     if ( m_actorUUID )
     {
-        [actor setObject:m_actorUUID forKey:@"uuid"];
+        [actor setObject:m_actorUUID forKey:kKeyActorUuid];
     }
     if ( m_actorEmail )
     {
-        [actor setObject:m_actorEmail forKey:@"email"];
+        [actor setObject:m_actorEmail forKey:kKeyActorEmail];
     }
     
     // add the actor to the main dict
-    [ret setObject:actor forKey:@"actor"];
+    [ret setObject:actor forKey:kKeyActor];
     
     if ( m_objectDataType != kApigeeActivityNoObject )
     {
@@ -226,29 +243,115 @@ enum
         NSMutableDictionary *object = [NSMutableDictionary new];
         
         // these fields are involved in all cases
-        [object setObject:m_objectType forKey:@"type"];
-        [object setObject:m_objectDisplayName forKey:@"displayName"];
+        [object setObject:m_objectType forKey:kKeyType];
+        [object setObject:m_objectDisplayName forKey:kKeyDisplayName];
         
         if ( m_objectDataType == kApigeeActivityObjectContent )
         {
-            [object setObject:m_objectContent forKey:@"content"];
+            [object setObject:m_objectContent forKey:kKeyContent];
         }
         else if ( m_objectDataType == kApigeeActivityObjectNameOnly )
         {
-            [object setObject:m_content forKey:@"content"];
+            [object setObject:m_content forKey:kKeyContent];
         }
         else if ( m_objectDataType == kApigeeActivityObjectEntity )
         {
-            [object setObject:m_entityType forKey:@"entityType"];
-            [object setObject:m_entityUUID forKey:@"entityUUID"];
+            [object setObject:m_entityType forKey:kKeyEntityType];
+            [object setObject:m_entityUUID forKey:kKeyEntityUuid];
         }
         
         // add to the dict
-        [ret setObject:object forKey:@"object"];
+        [ret setObject:object forKey:kKeyObject];
     }
     
     // done with the assembly
     return ret;
+}
+
+-(void)setProperties:(NSDictionary*)dictProperties
+{
+    Class clsNSString = [NSString class];
+    Class clsNSDictionary = [NSDictionary class];
+    id value;
+    NSString *valueAsString;
+    NSDictionary *valueAsDictionary;
+
+    for( NSString *key in dictProperties ) {
+        value = [dictProperties valueForKey:key];
+        if ([value isKindOfClass:clsNSString]) {
+            valueAsString = (NSString*) value;
+            
+            if ([key isEqualToString:kKeyVerb]) {
+                m_verb = valueAsString;
+            } else if ([key isEqualToString:kKeyCategory]) {
+                m_category = valueAsString;
+            } else if ([key isEqualToString:kKeyContent]) {
+                m_content = valueAsString;
+            } else if ([key isEqualToString:kKeyTitle]) {
+                m_title = valueAsString;
+            }
+        } else if ([value isKindOfClass:clsNSDictionary]) {
+            valueAsDictionary = (NSDictionary*) value;
+            
+            if ([key isEqualToString:kKeyActor]) {
+                for (NSString *actorKey in valueAsDictionary) {
+                    id actorValue = [valueAsDictionary valueForKey:actorKey];
+                    
+                    if ([actorValue isKindOfClass:clsNSString]) {
+                        NSString *actorValueAsString = (NSString*) actorValue;
+                        
+                        if ([actorKey isEqualToString:kKeyDisplayName]) {
+                            m_actorDisplayName = actorValueAsString;
+                        } else if ([actorKey isEqualToString:kKeyActorEmail]) {
+                            m_actorEmail = actorValueAsString;
+                        } else if ([actorKey isEqualToString:kKeyActorUuid]) {
+                            m_actorUUID = actorValueAsString;
+                        }
+                    }
+                }
+            } else if ([key isEqualToString:kKeyObject]) {
+                for (NSString *objectKey in valueAsDictionary) {
+                    id objectValue = [valueAsDictionary valueForKey:objectKey];
+                    
+                    if ([objectValue isKindOfClass:clsNSString]) {
+                        NSString *objectValueAsString = (NSString*) objectValue;
+                        
+                        if ([objectKey isEqualToString:kKeyType]) {
+                            m_objectType = objectValueAsString;
+                        } else if ([objectKey isEqualToString:kKeyDisplayName]) {
+                            m_objectDisplayName = objectValueAsString;
+                        } else if ([objectKey isEqualToString:kKeyEntityType]) {
+                            m_entityType = objectValueAsString;
+                        } else if ([objectKey isEqualToString:kKeyEntityUuid]) {
+                            m_entityUUID = objectValueAsString;
+                        } else if ([objectKey isEqualToString:kKeyContent]) {
+                            m_objectContent = objectValueAsString;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // now see if we can classify the object data type
+    m_objectDataType = kApigeeActivityNoObject;
+    
+    if (([m_objectType length] > 0) && ([m_objectDisplayName length] > 0) ) {
+        
+        if (([m_entityType length] > 0) && ([m_entityUUID length] > 0)) {
+            m_objectDataType = kApigeeActivityObjectEntity;
+            m_objectContent = nil;
+        } else if ([m_objectContent length] > 0) {
+            m_objectDataType = kApigeeActivityObjectContent;
+            m_entityType = nil;
+            m_entityUUID = nil;
+        } else {
+            m_objectDataType = kApigeeActivityObjectNameOnly;
+            m_objectContent = nil;
+            m_entityType = nil;
+            m_entityUUID = nil;
+        }
+    }
 }
 
 @end

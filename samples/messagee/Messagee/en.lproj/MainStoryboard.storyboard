@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="11G63" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="dGT-ii-DFw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="dGT-ii-DFw">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--Register View Controller-->
@@ -283,6 +283,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Following" image="friend.png" id="jlD-td-XSn"/>
+                    <connections>
+                        <outlet property="tv" destination="aBF-gu-7Sd" id="7fO-J4-6bH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kPY-Yb-cLy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -477,6 +480,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Messages" image="messagesBoard.png" id="fEJ-O9-Eyp"/>
+                    <connections>
+                        <outlet property="tv" destination="0Pa-l0-WF9" id="0Bw-2V-8n9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FGP-Pu-ZK2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -705,14 +711,69 @@
         <image name="rightButton@2x.png" width="130" height="58"/>
         <image name="usernameField@2x.png" width="570" height="114"/>
     </resources>
+    <classes>
+        <class className="FollowUserViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FollowUserViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="followButton:"/>
+                <relationship kind="outlet" name="usernameField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="FollowingViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FollowingViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tv" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="loginButton:"/>
+                <relationship kind="action" name="registerButton:"/>
+                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="usernameField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="MessageViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MessageViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tv" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="NewMessageViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NewMessageViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="postMessage:"/>
+                <relationship kind="outlet" name="messageTextField" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="RegisterViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RegisterViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="registerButton:"/>
+                <relationship kind="outlet" name="emailField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="nameField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="rePasswordField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="usernameField" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="TabBarController" superclassName="UITabBarController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TabBarController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="F0F-Oc-DAu"/>
         <segue reference="0rr-y5-ekR"/>
         <segue reference="xVZ-pa-nHp"/>
-        <segue reference="F0F-Oc-DAu"/>
     </inferredMetricsTieBreakers>
 </document>

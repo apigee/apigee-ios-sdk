@@ -12,5 +12,6 @@
 @interface FollowingViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) Client *client;
+@property (weak, nonatomic) IBOutlet UITableView *tv;
 
 @end

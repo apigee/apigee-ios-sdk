@@ -117,5 +117,9 @@
     return nil;
 }
 
+- (BOOL)completedSuccessfully
+{
+    return( self.transactionState == kApigeeClientResponseSuccess );
+}
 
 @end

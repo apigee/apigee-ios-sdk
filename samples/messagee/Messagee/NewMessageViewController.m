@@ -9,23 +9,14 @@
 #import "NewMessageViewController.h"
 #import "TabBarController.h"
 
-@interface NewMessageViewController ()
+static NSString *kSegueMessagePosted = @"messagePostedSegue";
 
-@end
 
 @implementation NewMessageViewController
 
 @synthesize messageTextField;
 
 @synthesize client = _client;
-
-- (void)setClient:(Client *)c {
-    _client = c;
-}
-
-- (Client *)client {
-    return _client;
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -47,6 +38,7 @@
     [messageTextField becomeFirstResponder];
 	// Do any additional setup after loading the view.
 }
+
 - (void)viewDidUnload
 {
     [self setMessageTextField:nil];
@@ -55,47 +47,56 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
     [messageTextField resignFirstResponder]; 
-    if ([segue.identifier isEqualToString:@"messagePostedSegue"]){
+    if ([segue.identifier isEqualToString:kSegueMessagePosted]){
         TabBarController *dvc = [segue destinationViewController];
         [dvc setClient:_client];
     }
-    
 }
 
 - (IBAction)postMessage:(id)sender {
  
-    NSString * errorTitle;
-    NSString * errorMesssage;
+    NSString *errorTitle = nil;
+    NSString *errorMesssage = nil;
+    
     if (![[messageTextField text] isEqualToString:@""]) {
         
-        if ([_client postMessage:[messageTextField text]]) {
-            //invoke segue back to message list
-            return [self performSegueWithIdentifier:@"messagePostedSegue" sender:self];
-        } else {
-            errorTitle = @"Oops!";
-            errorMesssage = @"There was a problem posting the message - please try again.";
-        }
+        [_client postMessage:[messageTextField text]
+           completionHandler:^(ApigeeClientResponse *response){
+               
+               if( [response completedSuccessfully] ) {
+                   //invoke segue back to message list
+                   [self performSegueWithIdentifier:kSegueMessagePosted sender:self];
+               } else {
+                   NSString *errorTitle = @"Oops!";
+                   NSString *errorMesssage = @"There was a problem posting the message - please try again.";
+
+                   UIAlertView* alert =
+                   [[UIAlertView alloc] initWithTitle:errorTitle
+                                              message:errorMesssage
+                                             delegate:nil
+                                    cancelButtonTitle:@"OK"
+                                    otherButtonTitles:nil];
+                   [alert show];
+               }
+            }];
         
     } else {
         errorTitle = @"Oops!";
         errorMesssage = @"The message was empty.";
     }
 
-    UIAlertView* alert = [[UIAlertView alloc]
-                          initWithTitle:errorTitle
-                          message:errorMesssage
-                          delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alert show];
-
-
+    if (errorTitle && errorMesssage) {
+        UIAlertView* alert =
+            [[UIAlertView alloc] initWithTitle:errorTitle
+                                       message:errorMesssage
+                                      delegate:nil
+                             cancelButtonTitle:@"OK"
+                             otherButtonTitles:nil];
+        [alert show];
+    }
 }
+
 @end

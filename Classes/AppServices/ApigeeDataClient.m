@@ -2,7 +2,6 @@
 #import "ApigeeHTTPManager.h"
 #import "ApigeeSBJson.h"
 #import "ApigeeSBJsonParser.h"
-#import "ApigeeMultiStepAction.h"
 #import "NSObject+ApigeeSBJson.h"
 #import "ApigeeActivity.h"
 #import "ApigeeEntity.h"
@@ -12,9 +11,11 @@
 #import "ApigeeUser.h"
 #import "ApigeeLogger.h"
 #import "ApigeeCollection.h"
+#import "ApigeeHTTPResult.h"
 
 static NSString* kDefaultBaseURL = @"http://api.usergrid.com";
 static NSString* kLoggingTag = @"DATA_CLIENT";
+static const int kInvalidTransactionID = -1;
 
 static id<ApigeeLogger> logger = nil;
 
@@ -46,9 +47,6 @@ NSString *g_deviceUUID = nil;
     
     // the auth code
     NSString *m_auth;
-    
-    // the list of currently pending multi-step actions
-    NSMutableArray *m_pendingMultiStepActions;
     
     // logging state
     BOOL m_bLogging;
@@ -105,7 +103,6 @@ NSString *g_deviceUUID = nil;
         m_appID = applicationID;
         m_orgID = organizationID;
         m_baseURL = kDefaultBaseURL;
-        m_pendingMultiStepActions = [NSMutableArray new];
         m_loggedInUser = nil;
         m_bLogging = NO;
     }
@@ -243,7 +240,7 @@ NSString *g_deviceUUID = nil;
             NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n");
         }
         
-        if ( transactionID == -1 )
+        if ( transactionID == kInvalidTransactionID )
         {
             if ( m_bLogging )
             {
@@ -254,7 +251,7 @@ NSString *g_deviceUUID = nil;
             
             // there was an immediate failure in the transaction
             ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
-            [response setTransactionID:-1];
+            [response setTransactionID:kInvalidTransactionID];
             [response setTransactionState:kApigeeClientResponseFailure];
             [response setResponse:[mgr getLastError]];
             [response setRawResponse:nil];
@@ -303,7 +300,7 @@ NSString *g_deviceUUID = nil;
         if ( result )
         {
             // got a valid result
-            ApigeeClientResponse *response = [self createResponse:-1 jsonStr:result];
+            ApigeeClientResponse *response = [self createResponse:kInvalidTransactionID jsonStr:result];
             return response;
         }
         else 
@@ -311,12 +308,86 @@ NSString *g_deviceUUID = nil;
             // there was an error. Note the failure state, set the response to 
             // be the error string
             ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
-            [response setTransactionID:-1];
+            [response setTransactionID:kInvalidTransactionID];
             [response setTransactionState:kApigeeClientResponseFailure];
             [response setResponse:[mgr getLastError]];
             [response setRawResponse:nil];
             return response;
         }
+    }
+}
+
+-(ApigeeClientResponse *)httpTransaction:(NSString *)url
+                                      op:(int)op
+                                  opData:(NSString *)opData
+                       completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // get an http manager to do this transaction
+    ApigeeHTTPManager *mgr = [self getHTTPManager];
+    
+    if ( m_bLogging )
+    {
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        NSLog(@"Asynch outgoing call: '%@'", url);
+    }
+        
+    // asynch transaction
+    int transactionID = [mgr asyncTransaction:url
+                                    operation:op
+                                operationData:opData
+                            completionHandler:^(ApigeeHTTPResult *result, ApigeeHTTPManager *httpManager){
+                                NSString *response = [result UTF8String];
+                                if ( m_bLogging )
+                                {
+                                    NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                                    NSLog(@"Response (Transaction ID %d):\n%@", [httpManager getTransactionID], response);
+                                    NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
+                                }
+                                
+                                // form up the response
+                                ApigeeClientResponse *apigeeResponse =
+                                    [self createResponse:[httpManager getTransactionID]
+                                                 jsonStr:response];
+                                
+                                // execute the completion handler
+                                completionHandler(apigeeResponse);
+                                
+                                // now that the callback is complete, it's safe to release this manager
+                                [self releaseHTTPManager:httpManager];
+                            }];
+        
+    if ( m_bLogging )
+    {
+        NSLog(@"Transaction ID:%d", transactionID);
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n");
+    }
+        
+    if ( transactionID == kInvalidTransactionID )
+    {
+        if ( m_bLogging )
+        {
+            NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            NSLog(@"Response: ERROR: %@", [mgr getLastError]);
+            NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
+        }
+            
+        // there was an immediate failure in the transaction
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:kInvalidTransactionID];
+        [response setTransactionState:kApigeeClientResponseFailure];
+        [response setResponse:[mgr getLastError]];
+        [response setRawResponse:nil];
+        return response;
+    }
+    else
+    {
+        // the transaction is in progress and pending
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:transactionID];
+        [response setTransactionState:kApigeeClientResponsePending];
+        [response setResponse:nil];
+        [response setRawResponse:nil];
+        return response;
     }
 }
 
@@ -344,7 +415,7 @@ NSString *g_deviceUUID = nil;
             return response;
         }
         
-        // it successfully parsed. ThoApigeeh the result might still be an error.
+        // it successfully parsed. Though the result might still be an error.
         // it could be the server returning an error in perfectly formated json.
         NSString *err = [result valueForKey:@"error"];
         if ( err )
@@ -372,11 +443,21 @@ NSString *g_deviceUUID = nil;
             if ( dict )
             {
                 // get the fields for the user
-                m_loggedInUser = [ApigeeUser new];
+                m_loggedInUser = [[ApigeeUser alloc] initWithDataClient:self];
                 [m_loggedInUser setUsername:[dict valueForKey:@"username"]];
+                [m_loggedInUser setName:[dict valueForKey:@"name"]];
                 [m_loggedInUser setUuid:[dict valueForKey:@"uuid"]];
                 [m_loggedInUser setEmail:[dict valueForKey:@"email"]];
                 [m_loggedInUser setPicture:[dict valueForKey:@"picture"]];
+                
+                NSNumber *activated = [dict valueForKey:@"activated"];
+                if( activated != nil ) {
+                    [m_loggedInUser setActivated:[activated boolValue]];
+                } else {
+                    [m_loggedInUser setActivated:NO];
+                }
+                
+                [m_loggedInUser addProperties:dict];
             }
         }
         
@@ -516,36 +597,15 @@ NSString *g_deviceUUID = nil;
     }
     
     // form up the response
-    ApigeeClientResponse *ApigeeResponse = [self createResponse:[manager getTransactionID] jsonStr:response];
+    ApigeeClientResponse *apigeeResponse = [self createResponse:[manager getTransactionID]
+                                                        jsonStr:response];
     
-    // if this is part of a multi-step call, we press on.
-    for ( ApigeeMultiStepAction *action in m_pendingMultiStepActions )
-    {
-        if ( [action transactionID] == [ApigeeResponse transactionID] )
-        {
-            // multi-step call. Fire off the action.
-            ApigeeResponse = [self doMultiStepAction:action mostRecentResponse:ApigeeResponse];
-            if ( ![action reportToClient] )
-            {
-                // the action is still pending. We do not report this
-                // to the user. We're done with the httpmanager we were using,
-                // thoApigeeh. 
-                [self releaseHTTPManager:manager];
-                return;
-            }
-            
-            // when the action is complete, we want to immediately break
-            // from this loop, then fall throApigeeh to the normal reporting
-            // to the user. 
-            break;
-        }
-    }
-        
     // fire it off
     [m_delegateLock lock];
     if ( m_delegate )
     {
-        [m_delegate performSelector:@selector(apigeeClientResponse:) withObject:ApigeeResponse];
+        [m_delegate performSelector:@selector(apigeeClientResponse:)
+                         withObject:apigeeResponse];
     }
     [m_delegateLock unlock];   
     
@@ -553,141 +613,6 @@ NSString *g_deviceUUID = nil;
     [self releaseHTTPManager:manager];
 }
 
-// multi-step follow-up function
--(ApigeeClientResponse *)multiStepAction: (ApigeeMultiStepAction *)action
-{
-    // different behavior if synch or asynch
-    if ( m_delegate )
-    {
-        // asynch. Fire it off and we're done
-        return [self doMultiStepAction:action mostRecentResponse:nil];
-    }
-    else 
-    {
-        // synchronous. keep calling until it finished or fails
-        ApigeeClientResponse *response = nil;
-        do 
-        {
-            response = [self doMultiStepAction:action mostRecentResponse:response];
-            if ( [action reportToClient] )
-            {
-                // done
-                return response;
-            }
-        } while ([response transactionState] == kApigeeClientResponseSuccess);
-        
-        // if we're here, there was an error
-        return response;
-    }
-}
-
--(ApigeeClientResponse *)doMultiStepAction: (ApigeeMultiStepAction *)action mostRecentResponse:(ApigeeClientResponse *)mostRecentResponse
-{
-    // clear the pending array of this object
-    [m_pendingMultiStepActions removeObject:action];
-
-    // assume we aren't reporting to the client
-    [action setReportToClient:NO];
-    
-    if ( mostRecentResponse )
-    {
-        // we don't care about pending responses
-        if ( [mostRecentResponse transactionState] == kApigeeClientResponsePending )
-        {
-            // put ourselves back in the list
-            [m_pendingMultiStepActions addObject:action];
-            return mostRecentResponse;
-        }
-        
-        // any failure is an immediate game ender
-        if ( [mostRecentResponse transactionState] == kApigeeClientResponseFailure )
-        {
-            [mostRecentResponse setTransactionID:[action transactionID]];
-            return mostRecentResponse;
-        }
-    }
-    
-    // if mostRecentRespons is nil, that means it's the first call to initiate 
-    // the chain. So we continue on with processing.
-
-    // so either we are reacting to a success or we are starting off the chain
-    ApigeeClientResponse *result = nil; 
-    if ( [action nextAction] == kMultiStepCreateActivity )
-    {
-        // create the activity
-        result = [self createActivity:[action activity]];
-        
-        // advance ourselves to the next step
-        [action setNextAction:kMultiStepPostActivity];
-    }
-    else if ( [action nextAction] == kMultiStepCreateGroupActivity )
-    {
-        // create the activity
-        result = [self createActivity:[action activity]];
-        
-        // advance ourselves to the next step
-        [action setNextAction:kMultiStepPostGroupActivity];
-    }
-    else if ( [action nextAction] == kMultiStepPostActivity )
-    {
-        // we just created an activity, now we need to associate it with a user.
-        // first, we'll need the activity's uuid
-        NSDictionary *dict = [mostRecentResponse response]; // dictionary for the response
-        NSArray *entities = [dict objectForKey:@"entities"]; // array for the entities
-        NSDictionary *activity = [entities objectAtIndex:0]; // dict for the activity
-        NSString *activityUUID = [activity valueForKey:@"uuid"]; // and finally the uuid string
-        
-        // fire off the next step
-        result = [self postUserActivityByUUID:[action userID] activity:activityUUID];
-        
-        // advance the action
-        [action setNextAction:kMultiStepCleanup];
-    }
-    else if ( [action nextAction] == kMultiStepPostGroupActivity )
-    {
-        // we just created an activity, now we need to associate it with a user.
-        // first, we'll need the activity's uuid
-        NSDictionary *dict = [mostRecentResponse response]; // dictionary for the response
-        NSArray *entities = [dict objectForKey:@"entities"]; // array for the entities
-        NSDictionary *activity = [entities objectAtIndex:0]; // dict for the activity
-        NSString *activityUUID = [activity valueForKey:@"uuid"]; // and finally the uuid string
-        
-        // fire off the next step
-        result = [self postGroupActivityByUUID:[action groupID] activity:activityUUID];
-        
-        // advance the action
-        [action setNextAction:kMultiStepCleanup];
-    }
-    else if ( [action nextAction] == kMultiStepCleanup )
-    {
-        // all we do in cleanup is update the transaction ID of the 
-        // response that was sent in. We do this to ensure that the transaction
-        // id is constant across the entire transaction
-        result = mostRecentResponse;
-        [result setTransactionID:[action outwardTransactionID]];
-        [action setReportToClient:YES];
-    }
-    
-    if ( !mostRecentResponse )
-    {
-        // if mostRecentResponse is nil, it means we're on the first step. That means
-        // we need to adopt a unique outward transaction ID. We'll simply use
-        // the ID given back by the first transaction in the chain. This also means
-        // we can simply return the first transaction pending response without modification. 
-        [action setOutwardTransactionID:[result transactionID]];
-    }
-
-    // wherever we landed, if it's a pending transaction, the action needs to
-    // know that transaction ID. Also, we need to go in to the pending array
-    if ( [result transactionState] == kApigeeClientResponsePending )
-    {
-        [action setTransactionID:[result transactionID]];
-        [m_pendingMultiStepActions addObject:action];
-    }
-    
-    // result is now properly set up and ready to be handed to the user. 
-    return result;
-}
 
 /*************************** LOGIN / LOGOUT ****************************/
 /*************************** LOGIN / LOGOUT ****************************/
@@ -697,9 +622,29 @@ NSString *g_deviceUUID = nil;
     return [self logIn:@"password" userKey:@"username" userValue:userName pwdKey:@"password" pwdValue:password];
 }
 
+-(ApigeeClientResponse *)logInUser: (NSString *)userName password:(NSString *)password completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    return [self logIn:@"password"
+               userKey:@"username"
+             userValue:userName
+                pwdKey:@"password"
+              pwdValue:password
+     completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)logInUserWithPin: (NSString *)userName pin:(NSString *)pin
 {
     return [self logIn:@"pin" userKey:@"username" userValue:userName pwdKey:@"pin" pwdValue:pin];
+}
+
+-(ApigeeClientResponse *)logInUserWithPin: (NSString *)userName pin:(NSString *)pin completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    return [self logIn:@"pin"
+               userKey:@"username"
+             userValue:userName
+                pwdKey:@"pin"
+              pwdValue:pin
+     completionHandler:completionHandler];
 }
 
 // log in user with Facebook token
@@ -723,9 +668,28 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];
 }
 
+-(ApigeeClientResponse *)logInUserWithFacebook: (NSString *)facebookToken completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSMutableString *url = [self createURL:@"auth/facebook"];
+    ApigeeQuery *query = [[ApigeeQuery alloc] init];
+    [query addURLTerm:@"fb_access_token" equals:facebookToken];
+    [self appendQueryToURL:url query:query];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)logInAdmin: (NSString *)adminUserName secret:(NSString *)adminSecret
 {
     return [self logIn:@"client_credentials" userKey:@"client_id" userValue:adminUserName pwdKey:@"client_secret" pwdValue:adminSecret];
+}
+
+-(ApigeeClientResponse *)logInAdmin: (NSString *)adminUserName secret:(NSString *)adminSecret completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    return [self logIn:@"client_credentials"
+               userKey:@"client_id"
+             userValue:adminUserName
+                pwdKey:@"client_secret"
+              pwdValue:adminSecret
+     completionHandler:completionHandler];
 }
 
 -(void)logOut
@@ -752,6 +716,26 @@ NSString *g_deviceUUID = nil;
     // fire off the request
     return [self httpTransaction:url op:kApigeeHTTPPostAuth opData:postData];    
 }
+
+// general workhorse for auth logins
+-(ApigeeClientResponse *)logIn:(NSString *)grantType userKey:(NSString *)userKey userValue:(NSString *)userValue pwdKey:(NSString *)pwdKey pwdValue:(NSString *)pwdValue completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // create the URL
+    NSString *url = [self createURL:@"token"];
+    
+    // because it's read as form data, we need to escape special characters.
+    NSString *escapedUserValue = [ApigeeHTTPManager escapeSpecials:userValue];
+    NSString *escapedPwdValue = [ApigeeHTTPManager escapeSpecials:pwdValue];
+    
+    // create the post data. For auth functions, we don't use json,
+    // but instead use web form style data
+    NSMutableString *postData = [NSMutableString new];
+    [postData appendFormat:@"grant_type=%@&%@=%@&%@=%@", grantType, userKey, escapedUserValue, pwdKey, escapedPwdValue];
+    
+    // fire off the request
+    return [self httpTransaction:url op:kApigeeHTTPPostAuth opData:postData completionHandler:completionHandler];
+}
+
 /*************************** USER MANAGEMENT ***************************/
 /*************************** USER MANAGEMENT ***************************/
 /*************************** USER MANAGEMENT ***************************/
@@ -772,6 +756,23 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPPost opData:toPostStr];
 }
 
+-(ApigeeClientResponse *)addUser:(NSString *)username email:(NSString *)email name:(NSString *)name password:(NSString *)password completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // make the URL we'll be posting to
+    NSString *url = [self createURL:@"users"];
+    
+    // make the post data we'll be sending along with it.
+    NSMutableDictionary *toPost = [NSMutableDictionary new];
+    [toPost setObject:username forKey:@"username"];
+    [toPost setObject:name forKey:@"name"];
+    [toPost setObject:email forKey:@"email"];
+    [toPost setObject:password forKey:@"password"];
+    NSString *toPostStr = [self createJSON:toPost];
+    
+    // fire it off
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:toPostStr completionHandler:completionHandler];
+}
+
 // updates a user's password
 -(ApigeeClientResponse *)updateUserPassword:(NSString *)usernameOrEmail oldPassword:(NSString *)oldPassword newPassword:(NSString *)newPassword
 {
@@ -788,11 +789,33 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPPost opData:toPostStr];
 }
 
+-(ApigeeClientResponse *)updateUserPassword:(NSString *)usernameOrEmail oldPassword:(NSString *)oldPassword newPassword:(NSString *)newPassword completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // make the URL we'll be posting to
+    NSString *url = [self createURL:@"users" append2:usernameOrEmail append3:@"password"];
+    
+    // make the post data we'll be sending along with it.
+    NSMutableDictionary *toPost = [NSMutableDictionary new];
+    [toPost setObject:oldPassword forKey:@"oldpassword"];
+    [toPost setObject:newPassword forKey:@"newpassword"];
+    NSString *toPostStr = [self createJSON:toPost];
+    
+    // fire it off
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:toPostStr completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)getGroupsForUser: (NSString *)userID;
 {
     // make the URL, and fire off the get
     NSString *url = [self createURL:@"users" append2:userID append3:@"groups"];
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];
+}
+
+-(ApigeeClientResponse *)getGroupsForUser: (NSString *)userID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // make the URL, and fire off the get
+    NSString *url = [self createURL:@"users" append2:userID append3:@"groups"];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
 }
 
 -(ApigeeClientResponse *)getUsers: (ApigeeQuery *)query
@@ -801,6 +824,24 @@ NSString *g_deviceUUID = nil;
     NSMutableString *url = [self createURL:@"users"];
     [self appendQueryToURL:url query:query];
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];
+}
+
+-(ApigeeClientResponse *)getUsers: (ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // create the URL
+    NSMutableString *url = [self createURL:@"users"];
+    [self appendQueryToURL:url query:query];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
+}
+
+-(ApigeeClientResponse*)responseWithError:(NSError*)error
+{
+    ApigeeClientResponse *ret = [[ApigeeClientResponse alloc] initWithDataClient:self];
+    [ret setTransactionState:kApigeeClientResponseFailure];
+    [ret setTransactionID:kInvalidTransactionID];
+    [ret setResponse:[error localizedDescription]];
+    [ret setRawResponse:nil];
+    return ret;
 }
 
 /************************** ACTIVITY MANAGEMENT **************************/
@@ -818,37 +859,101 @@ NSString *g_deviceUUID = nil;
     // function for making the json. We go straight to SBJson, so
     // we can identify and report any errors.
     ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
-    NSError *jsonError;
+    NSError *jsonError = nil;
     NSString *toPostStr = [writer stringWithObject:activity error:&jsonError];
 
     if ( !toPostStr )
     {
         // error during json assembly
-        ApigeeClientResponse *ret = [[ApigeeClientResponse alloc] initWithDataClient:self];
-        [ret setTransactionState:kApigeeClientResponseFailure];
-        [ret setTransactionID:-1];
-        [ret setResponse:[jsonError localizedDescription]];
-        [ret setRawResponse:nil];
-        return ret;
+        return [self responseWithError:jsonError];
     }
     
     // fire it off
     return [self httpTransaction:url op:kApigeeHTTPPost opData:toPostStr];
 }
 
-// create an activity and post it to a user in a single step
--(ApigeeClientResponse *)postUserActivity: (NSString *)userID activity:(NSDictionary *)activity
+-(ApigeeClientResponse *)createActivity: (NSDictionary *)activity completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
 {
-    // prep a multi-step action
-    ApigeeMultiStepAction *action = [ApigeeMultiStepAction new];
+    // make the URL
+    NSString *url = [self createURL:@"activity"];
     
-    // set it up to start the create activity / post to user chain
-    [action setNextAction:kMultiStepCreateActivity];
-    [action setUserID:userID];
-    [action setActivity:activity];
+    // get the json to send.
+    // we have to json-ify a dictionary that was sent
+    // in by the client. So naturally, we can't just trust it
+    // to work. Therefore we can't use our internal convenience
+    // function for making the json. We go straight to SBJson, so
+    // we can identify and report any errors.
+    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
+    NSError *jsonError = nil;
+    NSString *toPostStr = [writer stringWithObject:activity error:&jsonError];
+    
+    if ( !toPostStr )
+    {
+        // error during json assembly
+        return [self responseWithError:jsonError];
+    }
     
     // fire it off
-    return [self multiStepAction:action];
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:toPostStr completionHandler:completionHandler];
+}
+
+// create an activity and post it to a user in a single step
+-(ApigeeClientResponse *)postUserActivity: (NSString *)userID properties:(NSDictionary *)activityProperties
+{
+    ApigeeActivity *activity = [[ApigeeActivity alloc] init];
+    [activity setProperties:activityProperties];
+    return [self postUserActivity:userID activity:activity];
+}
+
+-(ApigeeClientResponse *)postUserActivity: (NSString *)userID activity:(ApigeeActivity *)activity
+{
+    NSDictionary *dictActivityProps = [activity toNSDictionary];
+
+    // make sure it can parse to a json
+    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
+    NSError *jsonError = nil;
+    NSString *jsonStr = [writer stringWithObject:dictActivityProps error:&jsonError];
+    if ( !jsonStr )
+    {
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:kInvalidTransactionID];
+        [response setTransactionState:kApigeeClientResponseFailure];
+        [response setError:[jsonError localizedDescription]];
+        [response setRawResponse:nil];
+        return response;
+    }
+
+    NSString *url = [self createURL:@"users" append2:userID append3:@"activities"];
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:jsonStr];
+}
+
+-(ApigeeClientResponse *)postUserActivity: (NSString *)userID properties:(NSDictionary *)activityProperties completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    ApigeeActivity *activity = [[ApigeeActivity alloc] init];
+    [activity setProperties:activityProperties];
+    return [self postUserActivity:userID activity:activity completionHandler:completionHandler];
+}
+
+-(ApigeeClientResponse *)postUserActivity: (NSString *)userID activity:(ApigeeActivity *)activity completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSDictionary *dictActivityProps = [activity toNSDictionary];
+    
+    // make sure it can parse to a json
+    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
+    NSError *jsonError = nil;
+    NSString *jsonStr = [writer stringWithObject:dictActivityProps error:&jsonError];
+    if ( !jsonStr )
+    {
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:kInvalidTransactionID];
+        [response setTransactionState:kApigeeClientResponseFailure];
+        [response setError:[jsonError localizedDescription]];
+        [response setRawResponse:nil];
+        return response;
+    }
+    
+    NSString *url = [self createURL:@"users" append2:userID append3:@"activities"];
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:jsonStr completionHandler:completionHandler];
 }
 
 -(ApigeeClientResponse *)postUserActivityByUUID: (NSString *)userID activity:(NSString *)activityUUID
@@ -858,18 +963,69 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPPost opData:nil];
 }
 
--(ApigeeClientResponse *)postGroupActivity:(NSString *)groupID activity:(NSDictionary *)activity
+-(ApigeeClientResponse *)postUserActivityByUUID: (NSString *)userID activity:(NSString *)activityUUID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
 {
-    // prep a multi-step action
-    ApigeeMultiStepAction *action = [ApigeeMultiStepAction new];
+    // make the URL and fire off the post. there is no data
+    NSString *url = [self createURL:@"users" append2:userID append3:@"activities" append4:activityUUID];
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:nil completionHandler:completionHandler];
+}
+
+-(ApigeeClientResponse *)postGroupActivity:(NSString *)groupID properties:(NSDictionary *)activityProperties
+{
+    ApigeeActivity *activity = [[ApigeeActivity alloc] init];
+    [activity setProperties:activityProperties];
+    return [self postGroupActivity:groupID activity:activity];
+}
+
+-(ApigeeClientResponse *)postGroupActivity:(NSString *)groupID activity:(ApigeeActivity *)activity
+{
+    NSDictionary *dictActivityProps = [activity toNSDictionary];
     
-    // set it up to start the create activity / post to user chain
-    [action setNextAction:kMultiStepCreateGroupActivity];
-    [action setGroupID:groupID];
-    [action setActivity:activity];
+    // make sure it can parse to a json
+    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
+    NSError *jsonError = nil;
+    NSString *jsonStr = [writer stringWithObject:dictActivityProps error:&jsonError];
+    if ( !jsonStr )
+    {
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:kInvalidTransactionID];
+        [response setTransactionState:kApigeeClientResponseFailure];
+        [response setError:[jsonError localizedDescription]];
+        [response setRawResponse:nil];
+        return response;
+    }
     
-    // fire it off
-    return [self multiStepAction:action];    
+    NSString *url = [self createURL:@"groups" append2:groupID append3:@"activities"];
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:jsonStr];
+}
+
+-(ApigeeClientResponse *)postGroupActivity: (NSString *)groupID properties:(NSDictionary *)activityProperties completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    ApigeeActivity *activity = [[ApigeeActivity alloc] init];
+    [activity setProperties:activityProperties];
+    return [self postGroupActivity:groupID activity:activity completionHandler:completionHandler];
+}
+
+-(ApigeeClientResponse *)postGroupActivity:(NSString *)groupID activity:(ApigeeActivity *)activity completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSDictionary *dictActivityProps = [activity toNSDictionary];
+    
+    // make sure it can parse to a json
+    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
+    NSError *jsonError = nil;
+    NSString *jsonStr = [writer stringWithObject:dictActivityProps error:&jsonError];
+    if ( !jsonStr )
+    {
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:kInvalidTransactionID];
+        [response setTransactionState:kApigeeClientResponseFailure];
+        [response setError:[jsonError localizedDescription]];
+        [response setRawResponse:nil];
+        return response;
+    }
+    
+    NSString *url = [self createURL:@"groups" append2:groupID append3:@"activities"];
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:jsonStr completionHandler:completionHandler];
 }
 
 -(ApigeeClientResponse *)postGroupActivityByUUID: (NSString *)groupID activity:(NSString *)activityUUID
@@ -879,11 +1035,25 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPPost opData:nil];    
 }
 
+-(ApigeeClientResponse *)postGroupActivityByUUID: (NSString *)groupID activity:(NSString *)activityUUID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // make the URL and fire off the post. there is no data
+    NSString *url = [self createURL:@"groups" append2:groupID append3:@"activities" append4:activityUUID];
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:nil completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)getActivitiesForUser: (NSString *)userID query:(ApigeeQuery *)query
 {
     NSMutableString *url = [self createURL:@"users" append2:userID append3:@"activities"];
     [self appendQueryToURL:url query:query];
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];    
+}
+
+-(ApigeeClientResponse *)getActivitiesForUser: (NSString *)userID query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSMutableString *url = [self createURL:@"users" append2:userID append3:@"activities"];
+    [self appendQueryToURL:url query:query];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
 }
 
 -(ApigeeClientResponse *)getActivityFeedForUser: (NSString *)userID query:(ApigeeQuery *)query
@@ -893,11 +1063,25 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];    
 }
 
+-(ApigeeClientResponse *)getActivityFeedForUser: (NSString *)userID query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSMutableString *url = [self createURL:@"users" append2:userID append3:@"feed"];
+    [self appendQueryToURL:url query:query];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)getActivitiesForGroup: (NSString *)groupID query:(ApigeeQuery *)query
 {
     NSMutableString *url = [self createURL:@"groups" append2:groupID append3:@"activities"];
     [self appendQueryToURL:url query:query];
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil]; 
+}
+
+-(ApigeeClientResponse *)getActivitiesForGroup: (NSString *)groupID query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSMutableString *url = [self createURL:@"groups" append2:groupID append3:@"activities"];
+    [self appendQueryToURL:url query:query];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
 }
 
 -(ApigeeClientResponse *)getActivityFeedForGroup: (NSString *)groupID query:(ApigeeQuery *)query
@@ -907,10 +1091,23 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil]; 
 }
 
+-(ApigeeClientResponse *)getActivityFeedForGroup: (NSString *)groupID query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSMutableString *url = [self createURL:@"groups" append2:groupID append3:@"feed"];
+    [self appendQueryToURL:url query:query];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)removeActivity:(NSString *)activityUUID
 {
     NSString *url = [self createURL:@"activities" append2:activityUUID];
     return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil];
+}
+
+-(ApigeeClientResponse *)removeActivity:(NSString *)activityUUID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSString *url = [self createURL:@"activities" append2:activityUUID];
+    return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil completionHandler:completionHandler];
 }
 
 /************************** GROUP MANAGEMENT **************************/
@@ -934,6 +1131,24 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPPost opData:toPostStr];
 }
 
+-(ApigeeClientResponse *)createGroup:(NSString *)groupPath groupTitle:(NSString *)groupTitle completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // make the URL
+    NSString *url = [self createURL:@"groups"];
+    
+    // make the post data we'll be sending along with it.
+    NSMutableDictionary *toPost = [NSMutableDictionary new];
+    [toPost setObject:groupPath forKey:@"path"];
+    if ( groupTitle )
+    {
+        [toPost setObject:groupTitle forKey:@"title"];
+    }
+    NSString *toPostStr = [self createJSON:toPost];
+    
+    // fire it off
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:toPostStr completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)addUserToGroup:(NSString *)userID group:(NSString *)groupID
 {
     // make the URL
@@ -941,6 +1156,15 @@ NSString *g_deviceUUID = nil;
     
     // fire it off. This is a data-less POST
     return [self httpTransaction:url op:kApigeeHTTPPost opData:nil];
+}
+
+-(ApigeeClientResponse *)addUserToGroup:(NSString *)userID group:(NSString *)groupID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // make the URL
+    NSString *url = [self createURL:@"groups" append2:groupID append3:@"users" append4:userID];
+    
+    // fire it off. This is a data-less POST
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:nil completionHandler:completionHandler];
 }
 
 -(ApigeeClientResponse *)removeUserFromGroup:(NSString *)userID group:(NSString *)groupID
@@ -953,12 +1177,30 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil];
 }
 
+-(ApigeeClientResponse *)removeUserFromGroup:(NSString *)userID group:(NSString *)groupID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // this is identical to addUserToGroup, except we use the DELETE method instead of POST
+    // make the URL
+    NSString *url = [self createURL:@"groups" append2:groupID append3:@"users" append4:userID];
+    
+    // fire it off. This is a data-less POST
+    return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)getUsersForGroup:(NSString *)groupID query:(ApigeeQuery *)query
 {
     // create the URL
     NSMutableString *url = [self createURL:@"groups" append2:groupID append3:@"users"];
     [self appendQueryToURL:url query:query];
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];
+}
+
+-(ApigeeClientResponse *)getUsersForGroup:(NSString *)groupID query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // create the URL
+    NSMutableString *url = [self createURL:@"groups" append2:groupID append3:@"users"];
+    [self appendQueryToURL:url query:query];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
 }
 
 /************************** ENTITY MANAGEMENT **************************/
@@ -1000,7 +1242,7 @@ NSString *g_deviceUUID = nil;
     {
         ApigeeClientResponse *ret = [[ApigeeClientResponse alloc] initWithDataClient:self];
         [ret setTransactionState:kApigeeClientResponseFailure];
-        [ret setTransactionID:-1];
+        [ret setTransactionID:kInvalidTransactionID];
         [ret setResponse:error];
         [ret setRawResponse:nil]; 
         return ret;
@@ -1024,11 +1266,36 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPPost opData:jsonStr];
 }
 
+-(ApigeeClientResponse *)createEntity: (NSDictionary *)newEntity
+                    completionHandler: (ApigeeDataClientCompletionHandler) completionHandler
+{
+    NSString *jsonStr;
+    NSString *type;
+    ApigeeClientResponse *errorRet = [self validateEntity:newEntity outJson:&jsonStr outType:&type];
+    if ( errorRet ) return errorRet;
+    
+    // we have a valid entity, ready to post. Make the URL
+    NSString *url = [self createURL:type];
+    
+    // post it
+    return [self httpTransaction:url
+                              op:kApigeeHTTPPost
+                          opData:jsonStr
+               completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)getEntities: (NSString *)type query:(ApigeeQuery *)query
 {
     NSMutableString *url = [self createURL:type];
     [self appendQueryToURL:url query:query];
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];    
+}
+
+-(ApigeeClientResponse *)getEntities: (NSString *)type query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSMutableString *url = [self createURL:type];
+    [self appendQueryToURL:url query:query];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
 }
 
 -(ApigeeClientResponse *)getEntities: (NSString *)type queryString:(NSString *)queryString
@@ -1045,6 +1312,20 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];
 }
 
+-(ApigeeClientResponse *)getEntities: (NSString *)type queryString:(NSString *)queryString completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSMutableString *url = [self createURL:type];
+    
+    if ([queryString length] > 0) {
+        [url appendString:@"?ql="];
+        
+        NSString* escapedQueryString = [ApigeeHTTPManager escapeSpecials:queryString];
+        [url appendString:escapedQueryString];
+    }
+    
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)updateEntity: (NSString *)entityID entity:(NSDictionary *)updatedEntity
 {
     NSString *jsonStr;
@@ -1059,11 +1340,32 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPPut opData:jsonStr];
 }
 
+-(ApigeeClientResponse *)updateEntity: (NSString *)entityID entity:(NSDictionary *)updatedEntity completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSString *jsonStr;
+    NSString *type;
+    ApigeeClientResponse *errorRet = [self validateEntity:updatedEntity outJson:&jsonStr outType:&type];
+    if ( errorRet ) return errorRet;
+    
+    // we have a valid entity, ready to post. Make the URL
+    NSString *url = [self createURL:type append2:entityID];
+    
+    // post it
+    return [self httpTransaction:url op:kApigeeHTTPPut opData:jsonStr completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)removeEntity: (NSString *)type entityID:(NSString *)entityID
 {
     // Make the URL, then fire off the delete
     NSString *url = [self createURL:type append2:entityID];
     return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil];
+}
+
+-(ApigeeClientResponse *)removeEntity: (NSString *)type entityID:(NSString *)entityID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // Make the URL, then fire off the delete
+    NSString *url = [self createURL:type append2:entityID];
+    return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil completionHandler:completionHandler];
 }
 
 -(ApigeeClientResponse *)connectEntities: (NSString *)connectorType connectorID:(NSString *)connectorID connectionType:(NSString *)connectionType connecteeType:(NSString *)connecteeType connecteeID:(NSString *)connecteeID
@@ -1077,10 +1379,29 @@ NSString *g_deviceUUID = nil;
     NSString *url = [self createURL:connectorType append2:connectorID append3:connectionType append4:connecteeID];
     return [self httpTransaction:url op:kApigeeHTTPPost opData:nil];
 }
+
+-(ApigeeClientResponse *)connectEntities: (NSString *)connectorType connectorID:(NSString *)connectorID connectionType:(NSString *)connectionType connecteeType:(NSString *)connecteeType connecteeID:(NSString *)connecteeID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSString *url = [self createURL:connectorType append2:connectorID append3:connectionType append4:connecteeType append5:connecteeID];
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:nil completionHandler:completionHandler];
+}
+
+-(ApigeeClientResponse *)connectEntities: (NSString *)connectorType connectorID:(NSString *)connectorID type:(NSString *)connectionType connecteeID:(NSString *)connecteeID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSString *url = [self createURL:connectorType append2:connectorID append3:connectionType append4:connecteeID];
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:nil completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)disconnectEntities: (NSString *)connectorType connectorID:(NSString *)connectorID type:(NSString *)connectionType connecteeID:(NSString *)connecteeID
 {
     NSString *url = [self createURL:connectorType append2:connectorID append3:connectionType append4:connecteeID];
     return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil];
+}
+
+-(ApigeeClientResponse *)disconnectEntities: (NSString *)connectorType connectorID:(NSString *)connectorID type:(NSString *)connectionType connecteeID:(NSString *)connecteeID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSString *url = [self createURL:connectorType append2:connectorID append3:connectionType append4:connecteeID];
+    return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil completionHandler:completionHandler];
 }
 
 -(ApigeeClientResponse *)getEntityConnections: (NSString *)connectorType connectorID:(NSString *)connectorID connectionType:(NSString *)connectionType query:(ApigeeQuery *)query
@@ -1090,30 +1411,65 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPPost opData:nil];
 }
 
+-(ApigeeClientResponse *)getEntityConnections: (NSString *)connectorType connectorID:(NSString *)connectorID connectionType:(NSString *)connectionType query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSMutableString *url = [self createURL:connectorType append2:connectorID append3:connectionType];
+    [self appendQueryToURL:url query:query];
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:nil completionHandler:completionHandler];
+}
+
+-(ApigeeClientResponse *)buildErrorClientResponse:(NSString*)error
+{
+    ApigeeClientResponse *ret = [[ApigeeClientResponse alloc] initWithDataClient:self];
+    [ret setTransactionID:kInvalidTransactionID];
+    [ret setTransactionState:kApigeeClientResponseFailure];
+    [ret setResponse:error];
+    [ret setRawResponse:nil];
+    return ret;
+}
+
 /************************** MESSAGE MANAGEMENT **************************/
 /************************** MESSAGE MANAGEMENT **************************/
 /************************** MESSAGE MANAGEMENT **************************/
 -(ApigeeClientResponse *)postMessage: (NSString *)queuePath message:(NSDictionary *)message
 {
-    // because the NSDictionary is from the client, we can't trust it. We need 
-    // to go throApigeeh full error checking
+    // because the NSDictionary is from the client, we can't trust it. We need
+    // to go through full error checking
     NSString *error;
     NSString *jsonStr = [self createJSON:message error:&error];
     
     if ( !jsonStr )
     {
         // report the error
-        ApigeeClientResponse *ret = [[ApigeeClientResponse alloc] initWithDataClient:self];
-        [ret setTransactionID:-1];
-        [ret setTransactionState:kApigeeClientResponseFailure];
-        [ret setResponse:error];
-        [ret setRawResponse:nil];
-        return ret;
+        return [self buildErrorClientResponse:error];
     }
     
     // make the path and fire it off
     NSString *url = [self createURL:@"queues" append2:queuePath];
     return [self httpTransaction:url op:kApigeeHTTPPost opData:jsonStr];
+}
+
+-(ApigeeClientResponse *)postMessage:(NSString *)queuePath
+                             message:(NSDictionary *)message
+                   completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // because the NSDictionary is from the client, we can't trust it. We need
+    // to go through full error checking
+    NSString *error;
+    NSString *jsonStr = [self createJSON:message error:&error];
+    
+    if ( !jsonStr )
+    {
+        // report the error
+        return [self buildErrorClientResponse:error];
+    }
+    
+    // make the path and fire it off
+    NSString *url = [self createURL:@"queues" append2:queuePath];
+    return [self httpTransaction:url
+                              op:kApigeeHTTPPost
+                          opData:jsonStr
+               completionHandler:completionHandler];
 }
 
 -(ApigeeClientResponse *)getMessages: (NSString *)queuePath query:(ApigeeQuery *)query;
@@ -1123,16 +1479,35 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];
 }
 
+-(ApigeeClientResponse *)getMessages: (NSString *)queuePath query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSMutableString *url = [self createURL:@"queues" append2:queuePath];
+    [self appendQueryToURL:url query:query];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)addSubscriber: (NSString *)queuePath subscriberPath:(NSString *)subscriberPath
 {
     NSString *url = [self createURL:@"queues" append2:queuePath append3:@"subscribers" append4:subscriberPath];
     return [self httpTransaction:url op:kApigeeHTTPPost opData:nil];
 }
 
+-(ApigeeClientResponse *)addSubscriber: (NSString *)queuePath subscriberPath:(NSString *)subscriberPath completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSString *url = [self createURL:@"queues" append2:queuePath append3:@"subscribers" append4:subscriberPath];
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:nil completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)removeSubscriber: (NSString *)queuePath subscriberPath:(NSString *)subscriberPath
 {
     NSString *url = [self createURL:@"queues" append2:queuePath append3:@"subscribers" append4:subscriberPath];
     return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil];
+}
+
+-(ApigeeClientResponse *)removeSubscriber: (NSString *)queuePath subscriberPath:(NSString *)subscriberPath completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSString *url = [self createURL:@"queues" append2:queuePath append3:@"subscribers" append4:subscriberPath];
+    return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil completionHandler:completionHandler];
 }
 
 /*************************** REMOTE PUSH NOTIFICATIONS ***************************/
@@ -1160,6 +1535,27 @@ NSString *g_deviceUUID = nil;
     return [self updateEntity:deviceId entity:entity];
 }
 
+- (ApigeeClientResponse *)setDevicePushToken:(NSData *)newDeviceToken forNotifier:(NSString *)notifier completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // Pull the push token string out of the device token data
+    NSString *tokenString = [[[newDeviceToken description]
+                              stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]]
+                             stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    // Register device and push token to App Services
+    NSString *deviceId = [ApigeeDataClient getUniqueDeviceID];
+    
+    // create/update device - use deviceId for App Services entity UUID
+    NSMutableDictionary *entity = [[NSMutableDictionary alloc] init];
+    [entity setObject:@"device" forKey:@"type"];
+    [entity setObject:deviceId forKey:@"uuid"];
+    
+    NSString *notifierKey = [notifier stringByAppendingString: @".notifier.id"];
+    [entity setObject: tokenString forKey: notifierKey];
+    
+    return [self updateEntity:deviceId entity:entity completionHandler:completionHandler];
+}
+
 - (ApigeeClientResponse *)pushAlert:(NSString *)message
                           withSound:(NSString *)sound
                                  to:(NSString *)path
@@ -1185,6 +1581,34 @@ NSString *g_deviceUUID = nil;
     [entity setObject: payloadsDict forKey:@"payloads"];
     
     return [self createEntity: entity];
+}
+
+- (ApigeeClientResponse *)pushAlert:(NSString *)message
+                          withSound:(NSString *)sound
+                                 to:(NSString *)path
+                      usingNotifier:(NSString *)notifier
+                  completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSDictionary *apsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                             message, @"alert",
+                             sound, @"sound",
+                             nil];
+    
+    NSDictionary *notifierDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  apsDict, @"aps",
+                                  nil];
+    
+    NSDictionary *payloadsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  notifierDict, notifier,
+                                  nil];
+    
+    NSString *notificationsPath = [path stringByAppendingString:@"/notifications"];
+    
+    NSMutableDictionary *entity = [[NSMutableDictionary alloc] init];
+    [entity setObject: notificationsPath forKey:@"type"];
+    [entity setObject: payloadsDict forKey:@"payloads"];
+    
+    return [self createEntity: entity completionHandler:completionHandler];
 }
 
 /*************************** SERVER-SIDE STORAGE ***************************/
@@ -1227,7 +1651,7 @@ NSString *g_deviceUUID = nil;
     {
         // report the error
         ApigeeClientResponse *ret = [[ApigeeClientResponse alloc] initWithDataClient:self];
-        [ret setTransactionID:-1];
+        [ret setTransactionID:kInvalidTransactionID];
         [ret setTransactionState:kApigeeClientResponseFailure];
         [ret setResponse:error];
         [ret setRawResponse:nil];
@@ -1241,6 +1665,29 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPPut opData:jsonStr];
 }
 
+-(ApigeeClientResponse *)setRemoteStorage: (NSDictionary *)data completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // prep and validate the sent-in dict
+    NSString *error;
+    NSString *jsonStr = [self createJSON:data error:&error];
+    if ( !jsonStr )
+    {
+        // report the error
+        ApigeeClientResponse *ret = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [ret setTransactionID:kInvalidTransactionID];
+        [ret setTransactionState:kApigeeClientResponseFailure];
+        [ret setResponse:error];
+        [ret setRawResponse:nil];
+        return ret;
+    }
+    
+    NSString *handsetUUID = [ApigeeDataClient getUniqueDeviceID];
+    NSString *url = [self createURL:@"devices" append2:handsetUUID];
+    
+    // this is a put. We replace whatever was there before
+    return [self httpTransaction:url op:kApigeeHTTPPut opData:jsonStr completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)getRemoteStorage
 {
     NSString *handsetUUID = [ApigeeDataClient getUniqueDeviceID];
@@ -1248,20 +1695,46 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];
 }
 
-/***************************** OBLIQUE USAGE ******************************/
--(ApigeeClientResponse *)apiRequest: (NSString *)url operation:(NSString *)op data:(NSString *)opData
+-(ApigeeClientResponse *)getRemoteStorage:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSString *handsetUUID = [ApigeeDataClient getUniqueDeviceID];
+    NSString *url = [self createURL:@"devices" append2:handsetUUID];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
+}
+
+- (int)operationIdForOperation:(NSString*)op
 {
     // work out the op to use
     int opID = kApigeeHTTPGet;
-    if ( [op isEqualToString:@"GET"] ) opID = kApigeeHTTPGet;
-    if ( [op isEqualToString:@"POST"] ) opID = kApigeeHTTPPost;
-    if ( [op isEqualToString:@"POSTFORM"] ) opID = kApigeeHTTPPostAuth;
-    if ( [op isEqualToString:@"PUT"] ) opID = kApigeeHTTPPut;
-    if ( [op isEqualToString:@"DELETE"] ) opID = kApigeeHTTPDelete;
     
-    // fire it off. The data, formatting, etc. is all the client's problem. 
+    if ( [op isEqualToString:@"GET"] ) opID = kApigeeHTTPGet;
+    else if ( [op isEqualToString:@"POST"] ) opID = kApigeeHTTPPost;
+    else if ( [op isEqualToString:@"POSTFORM"] ) opID = kApigeeHTTPPostAuth;
+    else if ( [op isEqualToString:@"PUT"] ) opID = kApigeeHTTPPut;
+    else if ( [op isEqualToString:@"DELETE"] ) opID = kApigeeHTTPDelete;
+
+    return opID;
+}
+
+/***************************** OBLIQUE USAGE ******************************/
+-(ApigeeClientResponse *)apiRequest: (NSString *)url operation:(NSString *)op data:(NSString *)opData
+{
+    // fire it off. The data, formatting, etc. is all the client's problem.
     // That's the way oblique functionality is. 
-    return [self httpTransaction:url op:opID opData:opData];
+    return [self httpTransaction:url
+                              op:[self operationIdForOperation:op]
+                          opData:opData];
+}
+
+-(ApigeeClientResponse *)apiRequest: (NSString *)url
+                          operation:(NSString *)op
+                               data:(NSString *)opData
+                  completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    return [self httpTransaction:url
+                              op:[self operationIdForOperation:op]
+                          opData:opData
+               completionHandler:completionHandler];
 }
 
 /**************************** LOGGING ************************************/

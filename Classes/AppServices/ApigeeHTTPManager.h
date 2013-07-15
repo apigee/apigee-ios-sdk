@@ -9,6 +9,12 @@ enum
     kApigeeHTTPDelete = 4
 };
 
+@class ApigeeHTTPResult;
+@class ApigeeHTTPManager;
+
+typedef void (^ApigeeHTTPCompletionHandler)(ApigeeHTTPResult *result,ApigeeHTTPManager *httpManager);
+
+
 @interface ApigeeHTTPManager : NSObject
 
 // blocks until a response is received, or until there's an error.
@@ -28,6 +34,8 @@ enum
 // You can call getLastError to find out what went wrong. 
 -(int)asyncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData delegate:(id)delegate;
 
+-(int)asyncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData completionHandler:(ApigeeHTTPCompletionHandler) completionHandler;
+
 // get the current transactionID
 -(int)getTransactionID;
 
@@ -35,7 +43,7 @@ enum
 -(void)setAuth: (NSString *)auth;
 
 // cancel a pending transaction. The delegate will not be called and the results
-// will be ignored. ThoApigeeh the server side will still have happened.
+// will be ignored. Though the server side will still have happened.
 -(void)cancel;
 
 // returns YES if this instance is available. NO if this instance is currently
