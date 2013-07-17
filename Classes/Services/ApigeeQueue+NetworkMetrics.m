@@ -34,11 +34,9 @@ static const NSUInteger kMaxQueueDepth = 100;
 
 + (void) recordNetworkTransaction:(NSURL*) url startTime:(NSDate*) startTime endTime:(NSDate*) endTime
 {
-    NSString *urlAsString = [url absoluteString];
-    
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:urlAsString
-                                                                    started:startTime
-                                                                      ended:endTime];
+    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+    [entry populateWithURL:url];
+    [entry populateStartTime:startTime ended:endTime];
     [self recordNetworkEntry:entry];
 }
 
@@ -51,17 +49,14 @@ static const NSUInteger kMaxQueueDepth = 100;
     
     if( ![networkEntry.startTime isEqualToString:@"0"] )
     {
-        // See if it's our own SDK network traffic to Amazon SQS. We don't want
+        // See if it's our own SDK network traffic. We don't want
         // those metrics captured.
         NSString *theUrl = [networkEntry.url stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         BOOL discardMetrics = NO;
 
-        BOOL isEntryOurSQS =
-            ([theUrl hasPrefix:@"https:"] &&
-             [theUrl containsString:@"amazonaws.com"] &&
-             [theUrl containsString:@"_wm_metrics_"]);
+        BOOL isEntryOurURL = [theUrl hasPrefix:[monitoringClient baseURLPath]];
         
-        if( isEntryOurSQS || [theUrl isEqualToString:@"about:blank"] )
+        if( isEntryOurURL || [theUrl isEqualToString:@"about:blank"] )
         {
             discardMetrics = YES;
         }
@@ -74,6 +69,7 @@ static const NSUInteger kMaxQueueDepth = 100;
         if ([networkEntry.endTime length] > 0) {
             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         
+            // keep track of the latest network transmission time that we know about
             dispatch_async(queue,^{
                 [monitoringClient updateLastNetworkTransmissionTime:networkEntry.endTime];
             });

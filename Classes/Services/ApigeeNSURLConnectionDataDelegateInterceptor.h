@@ -16,9 +16,8 @@
 
 
 @property(strong) NSDate *createTime;
-@property(strong) NSURL* url;
 
-- (id) initAndInterceptFor:(id) target;
+- (id) initAndInterceptFor:(id) target withRequest:(NSURLRequest*)request;
 
 - (BOOL)isConnectionAlive;
 

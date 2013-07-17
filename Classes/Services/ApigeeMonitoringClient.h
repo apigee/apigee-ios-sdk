@@ -170,6 +170,12 @@
                            endTime:(NSDate*)endTime
                              error:(NSString*)errorDescription;
 
+/**
+ Retrieves the base URL path used by mobile analytics
+ @return string indicating base URL path used by mobile analytics
+ */
+- (NSString*)baseURLPath;
+
 /** The following methods are advanced methods intended to be used in
    conjunction with our C API. They would not be needed for a typical
    Objective-C application. */

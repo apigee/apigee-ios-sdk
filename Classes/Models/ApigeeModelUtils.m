@@ -27,8 +27,10 @@
         NSString *name = [NSString stringWithUTF8String: varName];
         SEL selector = NSSelectorFromString(name);
         
-        id value = objc_msgSend(instance, selector);
-        [dictionary setValue:value forKey:name];
+        if ([instance respondsToSelector:selector]) {
+            id value = objc_msgSend(instance, selector);
+            [dictionary setValue:value forKey:name];
+        }
     }
     
     free(vars);

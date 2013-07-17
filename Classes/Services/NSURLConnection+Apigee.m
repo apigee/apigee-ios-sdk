@@ -90,48 +90,22 @@ static void *KEY_START_TIME;
                                            returningResponse:response
                                                        error:error];
     
-    NSDate* endTime = [NSDate date];
+    NSDate *endTime = [NSDate date];
     
-    BOOL connectionSucceeded = YES;
+    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+    [entry populateWithRequest:request];
+    [entry populateStartTime:startTime ended:endTime];
     
-    NSString *url = [request.URL absoluteString];
-    
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:url
-                                                                    started:startTime
-                                                                      ended:endTime];
-    
-    if (responseData) {
-        if (response && *response) {
-            NSURLResponse *theResponse = *response;
-            if ([theResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) theResponse;
-                NSInteger statusCode = httpResponse.statusCode;
-                entry.httpStatusCode = [NSString stringWithFormat:@"%d", statusCode];
-            }
-            else
-            {
-                // not HTTP
-                entry.httpStatusCode = nil;
-            }
-        }
-        else
-        {
-            connectionSucceeded = NO;
-        }
-        
-        entry.responseDataSize = [NSString stringWithFormat:@"%d", [responseData length]];
-    }
-    else
-    {
-        connectionSucceeded = NO;
+    if (response && *response) {
+        NSURLResponse *theResponse = *response;
+        [entry populateWithResponse:theResponse];
     }
     
-    if (!connectionSucceeded) {
-        entry.numErrors = @"1";
-        if (error && *error) {
-            NSError *theError = *error;
-            entry.transactionDetails = [theError localizedDescription];
-        }
+    [entry populateWithResponseData:responseData];
+    
+    if (error && *error) {
+        NSError *theError = *error;
+        [entry populateWithError:theError];
     }
     
     [ApigeeQueue recordNetworkEntry:entry];
@@ -145,8 +119,8 @@ static void *KEY_START_TIME;
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"swzConnectionWithRequest");
 
     ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
-    [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate];
-    interceptor.url = request.URL;
+    [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
+                                                                  withRequest:request];
     // the following looks like a recursive call, but it isn't (swizzling)
     return [NSURLConnection swzConnectionWithRequest:request delegate:interceptor];
 }
@@ -158,8 +132,8 @@ static void *KEY_START_TIME;
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"initSwzWithRequest");
 
     ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
-    [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate];
-    interceptor.url = request.URL;
+    [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
+                                                                  withRequest:request];
     // the following looks like a recursive call, but it isn't (swizzling)
     return [self initSwzWithRequest:request
                            delegate:interceptor

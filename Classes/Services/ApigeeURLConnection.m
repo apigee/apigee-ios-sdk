@@ -38,46 +38,20 @@
     
     NSDate* endTime = [NSDate date];
     
-    BOOL connectionSucceeded = YES;
+    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+    [entry populateStartTime:startTime ended:endTime];
+    [entry populateWithRequest:request];
     
-    NSString *url = [request.URL absoluteString];
-    
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:url
-                                                                    started:startTime
-                                                                      ended:endTime];
-    
-    if (responseData) {
-        if (response && *response) {
-            NSURLResponse *theResponse = *response;
-            if ([theResponse isKindOfClass:[NSHTTPURLResponse class]]) {
-                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) theResponse;
-                NSInteger statusCode = httpResponse.statusCode;
-                entry.httpStatusCode = [NSString stringWithFormat:@"%d", statusCode];
-            }
-            else
-            {
-                // not HTTP
-                entry.httpStatusCode = nil;
-            }
-        }
-        else
-        {
-            connectionSucceeded = NO;
-        }
-        
-        entry.responseDataSize = [NSString stringWithFormat:@"%d", [responseData length]];
-    }
-    else
-    {
-        connectionSucceeded = NO;
+    if (response && *response) {
+        NSURLResponse *theResponse = *response;
+        [entry populateWithResponse:theResponse];
     }
     
-    if (!connectionSucceeded) {
-        entry.numErrors = @"1";
-        if (error && *error) {
-            NSError *theError = *error;
-            entry.transactionDetails = [theError localizedDescription];
-        }
+    [entry populateWithResponseData:responseData];
+    
+    if (error && *error) {
+        NSError *theError = *error;
+        [entry populateWithError:theError];
     }
     
     [ApigeeQueue recordNetworkEntry:entry];
@@ -102,31 +76,15 @@
                                    handler(response,data,error);
                                }
                                                           
-                               NSString *url = [request.URL absoluteString];
-                                                          
-                               ApigeeNetworkEntry *entry =
-                                    [[ApigeeNetworkEntry alloc] initWithURL:url
-                                                                      started:startTime
-                                                                        ended:endTime];
-                                                          
-                               if (response && [response isKindOfClass:[NSHTTPURLResponse class]]) {
-                                   NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-                                   NSInteger statusCode = httpResponse.statusCode;
-                                   entry.httpStatusCode = [NSString stringWithFormat:@"%d", statusCode];
-                                   
-                                   //TODO: examine HTTP status code for errors (ex: 5xx or 4xx)
-                                   // and report an error if there's an HTTP error
-                               }
-                                                          
-                               if (data && !error) {
-                                   // succeeded
-                                   entry.responseDataSize = [NSString stringWithFormat:@"%d", [data length]];
-                               }
-                               else if(!data && error) {
-                                   // failed
-                                   entry.numErrors = @"1";
-                                   entry.transactionDetails = [error localizedDescription];
-                               }
+                               ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+                               [entry populateStartTime:startTime ended:endTime];
+                               [entry populateWithRequest:request];
+                               [entry populateWithResponse:response];
+                               [entry populateWithResponseData:data];
+                               
+                                if (error) {
+                                    [entry populateWithError:error];
+                                }
                                
                                [ApigeeQueue recordNetworkEntry:entry];
                                
@@ -135,15 +93,15 @@
 
 - (id) initWithRequest:(NSURLRequest *)request delegate:(id < NSURLConnectionDelegate >)delegate
 {
-    self.interceptor = [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate];
-    self.interceptor.url = request.URL;
+    self.interceptor = [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
+                                                                                     withRequest:request];
     return [super initWithRequest:request delegate:self.interceptor];
 }
 
 - (id) initWithRequest:(NSURLRequest *)request delegate:(id < NSURLConnectionDelegate >)delegate startImmediately:(BOOL)startImmediately
 {
-    self.interceptor = [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate];
-    self.interceptor.url = request.URL;
+    self.interceptor = [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
+                                                                                     withRequest:request];
     return [super initWithRequest:request delegate:self.interceptor startImmediately:startImmediately];
 }
 

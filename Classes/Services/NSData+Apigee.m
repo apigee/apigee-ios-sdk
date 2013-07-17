@@ -17,13 +17,14 @@
     NSData *data = [NSData dataWithContentsOfURL:url options:readOptionsMask error:errorPtr];
     NSDate *end = [NSDate date];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:[url absoluteString]
-                                                                    started:start
-                                                                      ended:end];
+    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+    [entry populateWithURL:url];
+    [entry populateStartTime:start ended:end];
+    [entry populateWithResponseData:data];
     
-    if (errorPtr) {
-        entry.numErrors = @"1";
-        entry.transactionDetails = [*errorPtr localizedDescription];
+    if (errorPtr && *errorPtr) {
+        NSError *theError = *errorPtr;
+        [entry populateWithError:theError];
     }
     
     [ApigeeQueue recordNetworkEntry:entry];
@@ -37,9 +38,11 @@
     NSData *data = [NSData dataWithContentsOfURL:url];
     NSDate *end = [NSDate date];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:[url absoluteString]
-                                                                    started:start
-                                                                      ended:end];
+    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+    [entry populateWithURL:url];
+    [entry populateStartTime:start ended:end];
+    [entry populateWithResponseData:data];
+    
     [ApigeeQueue recordNetworkEntry:entry];
     
     return data;
@@ -51,13 +54,14 @@
     NSData *data = [[NSData alloc] initWithContentsOfURL:url options:readOptionsMask error:errorPtr];
     NSDate *end = [NSDate date];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:[url absoluteString]
-                                                                    started:start
-                                                                      ended:end];
+    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+    [entry populateWithURL:url];
+    [entry populateStartTime:start ended:end];
+    [entry populateWithResponseData:data];
     
-    if (errorPtr) {
-        entry.numErrors = @"1";
-        entry.transactionDetails = [*errorPtr localizedDescription];
+    if (errorPtr && *errorPtr) {
+        NSError *theError = *errorPtr;
+        [entry populateWithError:theError];
     }
     
     [ApigeeQueue recordNetworkEntry:entry];
@@ -71,9 +75,11 @@
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
     NSDate *end = [NSDate date];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:[url absoluteString]
-                                                                    started:start
-                                                                      ended:end];
+    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+    [entry populateWithURL:url];
+    [entry populateStartTime:start ended:end];
+    [entry populateWithResponseData:data];
+    
     [ApigeeQueue recordNetworkEntry:entry];
    
     return data;
@@ -85,9 +91,10 @@
     BOOL result = [self writeToURL:url atomically:atomically];
     NSDate *end = [NSDate date];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:[url absoluteString]
-                                                                    started:start
-                                                                      ended:end];
+    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+    [entry populateWithURL:url];
+    [entry populateStartTime:start ended:end];
+    
     [ApigeeQueue recordNetworkEntry:entry];
     
     return result;
@@ -99,13 +106,16 @@
     BOOL result = [self writeToURL:url options:writeOptionsMask error:errorPtr];
     NSDate *end = [NSDate date];
 
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:[url absoluteString]
-                                                                    started:start
-                                                                      ended:end];
+    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+    [entry populateWithURL:url];
+    [entry populateStartTime:start ended:end];
     
     if (!result) {
         entry.numErrors = @"1";
-        entry.transactionDetails = [*errorPtr localizedDescription];
+        if (errorPtr && *errorPtr) {
+            NSError *theError = *errorPtr;
+            [entry populateWithError:theError];
+        }
     }
 
     [ApigeeQueue recordNetworkEntry:entry];

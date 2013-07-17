@@ -196,10 +196,10 @@ void Apigee_record_server_response_metrics(const server_response_metrics *metric
         
         url = nonHttpUrl;
     }
-    
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:url
-                                                                    started:startTime
-                                                                      ended:endTime];
+
+    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+    [entry populateWithURLString:url];
+    [entry populateStartTime:startTime ended:endTime];
     
     if (metrics->http_status_code > 0) {
         entry.httpStatusCode = [NSString stringWithFormat:@"%d",

@@ -25,7 +25,6 @@
 #import "ApigeeIntervalTimer.h"
 
 #import "ApigeeLogEntry.h"
-#import "ApigeeMetricsEntry.h"
 #import "ApigeeSessionMetrics.h"
 #import "ApigeeCompositeConfiguration.h"
 
@@ -1175,14 +1174,9 @@ replacementInstanceMethod:(SEL) replacementSelector
     
     if(self.isInitialized && self.isActive)
     {
-        ApigeeNetworkEntry *entry =
-            [[ApigeeNetworkEntry alloc] initWithURL:url
-                                              started:startTime
-                                                ended:endTime];
-    
-        // success (no errors)
-        entry.numErrors = @"0";
-        entry.transactionDetails = @"";
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateWithURLString:url];
+        [entry populateStartTime:startTime ended:endTime];
     
         [ApigeeQueue recordNetworkEntry:entry];
         
@@ -1203,10 +1197,9 @@ replacementInstanceMethod:(SEL) replacementSelector
     
     if(self.isInitialized && self.isActive)
     {
-        ApigeeNetworkEntry *entry =
-            [[ApigeeNetworkEntry alloc] initWithURL:url
-                                              started:startTime
-                                                ended:endTime];
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateWithURLString:url];
+        [entry populateStartTime:startTime ended:endTime];
     
         // error occurred
         entry.numErrors = @"1";
@@ -1220,6 +1213,12 @@ replacementInstanceMethod:(SEL) replacementSelector
     }
     
     return metricsRecorded;
+}
+
+- (NSString*)baseURLPath
+{
+    return [NSString stringWithFormat:@"%@/apm/",
+            [self baseServerURL]];
 }
 
 - (BOOL)addUploadListener:(id<ApigeeUploadListener>)uploadListener

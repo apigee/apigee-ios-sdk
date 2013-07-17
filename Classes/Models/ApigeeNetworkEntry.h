@@ -19,8 +19,23 @@
 @property (strong) NSString *transactionDetails;
 @property (strong) NSString *httpStatusCode;
 @property (strong) NSString *responseDataSize;
+@property (strong) NSString *serverProcessingTime;
+@property (strong) NSString *serverReceiptTime;
+@property (strong) NSString *serverResponseTime;
+@property (strong) NSString *serverId;
+@property (strong) NSString *domain;
+//@property (strong) NSNumber *allowsCellularAccess;
 
-- (id) initWithURL:(NSString *) url started:(NSDate *) started ended:(NSDate *) ended;
+- (id)init;
+
 - (NSDictionary*) asDictionary;
+
+- (void)populateWithURLString:(NSString*)urlString;
+- (void)populateWithURL:(NSURL*)theUrl;
+- (void)populateWithRequest:(NSURLRequest*)request;
+- (void)populateWithResponse:(NSURLResponse*)response;
+- (void)populateWithResponseData:(NSData*)responseData;
+- (void)populateWithError:(NSError*)error;
+- (void)populateStartTime:(NSDate*)started ended:(NSDate*)ended;
 
 @end

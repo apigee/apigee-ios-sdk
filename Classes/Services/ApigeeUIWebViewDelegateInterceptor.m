@@ -13,8 +13,8 @@
 @interface ApigeeUIWebViewDelegateInterceptor()
 
 @property (assign) id<UIWebViewDelegate> target;
-@property (strong) NSString *url;
 @property (strong) NSDate *started;
+@property (strong) ApigeeNetworkEntry *networkEntry;
 @end
 
 @implementation ApigeeUIWebViewDelegateInterceptor
@@ -25,6 +25,7 @@
     
     if (self) {
         self.target = target;
+        self.networkEntry = [[ApigeeNetworkEntry alloc] init];
     }
     
     return self;
@@ -32,7 +33,11 @@
 
 - (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    self.url = [request.URL absoluteString];
+    if (!self.networkEntry) {
+        self.networkEntry = [[ApigeeNetworkEntry alloc] init];
+    }
+    
+    [self.networkEntry populateWithRequest:request];
 
     if ( self.target && [self.target respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)]) {
         return [self.target webView:(UIWebView *)webView shouldStartLoadWithRequest:request navigationType:navigationType];
@@ -58,10 +63,9 @@
         [self.target webViewDidFinishLoad:webView];
     }
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:self.url
-                                                                    started:self.started
-                                                                      ended:ended];
-    [ApigeeQueue recordNetworkEntry:entry];
+    [self.networkEntry populateStartTime:self.started ended:ended];
+    [ApigeeQueue recordNetworkEntry:self.networkEntry];
+    self.networkEntry = nil;
 }
 
 - (void) webView:(UIWebView *) webView didFailLoadWithError:(NSError *) error
@@ -72,12 +76,10 @@
         [self.target webView:webView didFailLoadWithError:error];
     }
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:self.url
-                                                                    started:self.started
-                                                                      ended:ended];
-    entry.numErrors = @"1";
-    entry.transactionDetails = [error localizedDescription];
-    [ApigeeQueue recordNetworkEntry:entry];
+    [self.networkEntry populateWithError:error];
+    [self.networkEntry populateStartTime:self.started ended:ended];
+    [ApigeeQueue recordNetworkEntry:self.networkEntry];
+    self.networkEntry = nil;
 }
 
 

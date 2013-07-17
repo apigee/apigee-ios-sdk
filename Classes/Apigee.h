@@ -8,7 +8,6 @@
 #import "ApigeeReachability.h"
 #import "ApigeeLogger.h"
 #import "ApigeeLogEntry.h"
-#import "ApigeeMetricsEntry.h"
 #import "ApigeeSessionMetrics.h"
 #import "ApigeeNetworkConfig.h"
 #import "ApigeeCustomConfigParam.h"

@@ -18,15 +18,15 @@
 
 @property (strong) id target;
 @property (strong) NSDate *start;
+@property (strong) ApigeeNetworkEntry *networkEntry;
 
 @end
 
 @implementation ApigeeNSURLConnectionDataDelegateInterceptor
 
 @synthesize createTime;
-@synthesize url;
 
-- (id) initAndInterceptFor:(id) target
+- (id) initAndInterceptFor:(id) target withRequest:(NSURLRequest*)request
 {
     self = [super init];
     
@@ -34,6 +34,10 @@
         self.target = target;
         self.createTime = [NSDate date];
         _connectionAlive = YES;
+        
+        ApigeeNetworkEntry *theNetworkEntry = [[ApigeeNetworkEntry alloc] init];
+        [theNetworkEntry populateWithRequest:request];
+        self.networkEntry = theNetworkEntry;
     }
     
     return self;
@@ -102,19 +106,11 @@
     {
         started = self.createTime;
     }
-
-    if( self.url != nil )
-    {
-        NSString *theUrl = [self.url absoluteString];
-        
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:theUrl
-                                                                        started:started
-                                                                          ended:ended];
-        entry.numErrors = @"1";
-        entry.transactionDetails = [error localizedDescription];
-        
-        [ApigeeQueue recordNetworkEntry:entry];
-    }
+    
+    [self.networkEntry populateStartTime:started ended:ended];
+    [self.networkEntry populateWithError:error];
+    [ApigeeQueue recordNetworkEntry:self.networkEntry];
+    self.networkEntry = nil;
 }
 
 - (BOOL) connectionShouldUseCredentialStorage:(NSURLConnection *) connection
@@ -184,6 +180,8 @@
 - (void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *) response
 {
     //ApigeeLogVerbose(@"Interceptor", @"connection:didReceiveResponse:");
+
+    [self.networkEntry populateWithResponse:response];
 
     if (self.target && [self.target respondsToSelector:@selector(connection:didReceiveResponse:)]) {
         [self.target connection:connection didReceiveResponse:response];
@@ -293,12 +291,9 @@
         started = self.createTime;
     }
 
-    NSString *theUrl = [self.url absoluteString];
-    
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] initWithURL:theUrl
-                                                                    started:started
-                                                                      ended:ended];
-    [ApigeeQueue recordNetworkEntry:entry];
+    [self.networkEntry populateStartTime:started ended:ended];
+    [ApigeeQueue recordNetworkEntry:self.networkEntry];
+    self.networkEntry = nil;
 }
 
 - (void) connection:(NSURLConnection *)connection

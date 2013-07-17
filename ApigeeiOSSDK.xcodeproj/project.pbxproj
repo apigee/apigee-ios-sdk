@@ -43,7 +43,6 @@
 		63F524651778D44400FCA013 /* ApigeeLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524631778D44400FCA013 /* ApigeeLogger.m */; };
 		63F5246A1778D49C00FCA013 /* ApigeeLocationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524691778D49C00FCA013 /* ApigeeLocationService.m */; };
 		63F5246D1778E73C00FCA013 /* ApigeeLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5246C1778E73C00FCA013 /* ApigeeLogEntry.m */; };
-		63F524701778E79600FCA013 /* ApigeeMetricsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5246F1778E79600FCA013 /* ApigeeMetricsEntry.m */; };
 		63F524731778E82700FCA013 /* ApigeeSessionMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524721778E82700FCA013 /* ApigeeSessionMetrics.m */; };
 		63F524761778E83D00FCA013 /* ApigeeNetworkEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524751778E83D00FCA013 /* ApigeeNetworkEntry.m */; };
 		63F524791778E8BD00FCA013 /* ApigeeNetworkEntry+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524781778E8BD00FCA013 /* ApigeeNetworkEntry+JSON.m */; };
@@ -109,7 +108,6 @@
 		63F52541177A370A00FCA013 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F52540177A370A00FCA013 /* CoreGraphics.framework */; };
 		63F52542177A382B00FCA013 /* ApigeeCompositeConfiguration.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5248B1778EA4E00FCA013 /* ApigeeCompositeConfiguration.h */; };
 		63F52543177A383E00FCA013 /* ApigeeLogEntry.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5246B1778E73C00FCA013 /* ApigeeLogEntry.h */; };
-		63F52544177A384E00FCA013 /* ApigeeMetricsEntry.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5246E1778E79600FCA013 /* ApigeeMetricsEntry.h */; };
 		63F52545177A385B00FCA013 /* ApigeeSessionMetrics.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524711778E82700FCA013 /* ApigeeSessionMetrics.h */; };
 		63F52546177A386D00FCA013 /* ApigeeReachability.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524541778D35E00FCA013 /* ApigeeReachability.h */; };
 		63F52547177A387700FCA013 /* ApigeeMonitoringClient.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524E31778ED5000FCA013 /* ApigeeMonitoringClient.h */; };
@@ -201,7 +199,6 @@
 				63F52547177A387700FCA013 /* ApigeeMonitoringClient.h in CopyFiles */,
 				63F52546177A386D00FCA013 /* ApigeeReachability.h in CopyFiles */,
 				63F52545177A385B00FCA013 /* ApigeeSessionMetrics.h in CopyFiles */,
-				63F52544177A384E00FCA013 /* ApigeeMetricsEntry.h in CopyFiles */,
 				63F52543177A383E00FCA013 /* ApigeeLogEntry.h in CopyFiles */,
 				63F52542177A382B00FCA013 /* ApigeeCompositeConfiguration.h in CopyFiles */,
 			);
@@ -293,8 +290,6 @@
 		63F524691778D49C00FCA013 /* ApigeeLocationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeLocationService.m; path = Classes/Services/ApigeeLocationService.m; sourceTree = SOURCE_ROOT; };
 		63F5246B1778E73C00FCA013 /* ApigeeLogEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeLogEntry.h; path = Classes/Models/ApigeeLogEntry.h; sourceTree = SOURCE_ROOT; };
 		63F5246C1778E73C00FCA013 /* ApigeeLogEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeLogEntry.m; path = Classes/Models/ApigeeLogEntry.m; sourceTree = SOURCE_ROOT; };
-		63F5246E1778E79600FCA013 /* ApigeeMetricsEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeMetricsEntry.h; path = Classes/Models/ApigeeMetricsEntry.h; sourceTree = SOURCE_ROOT; };
-		63F5246F1778E79600FCA013 /* ApigeeMetricsEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeMetricsEntry.m; path = Classes/Models/ApigeeMetricsEntry.m; sourceTree = SOURCE_ROOT; };
 		63F524711778E82700FCA013 /* ApigeeSessionMetrics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSessionMetrics.h; path = Classes/Models/ApigeeSessionMetrics.h; sourceTree = SOURCE_ROOT; };
 		63F524721778E82700FCA013 /* ApigeeSessionMetrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeSessionMetrics.m; path = Classes/Models/ApigeeSessionMetrics.m; sourceTree = SOURCE_ROOT; };
 		63F524741778E83D00FCA013 /* ApigeeNetworkEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeNetworkEntry.h; path = Classes/Models/ApigeeNetworkEntry.h; sourceTree = SOURCE_ROOT; };
@@ -652,8 +647,6 @@
 			children = (
 				63F5246B1778E73C00FCA013 /* ApigeeLogEntry.h */,
 				63F5246C1778E73C00FCA013 /* ApigeeLogEntry.m */,
-				63F5246E1778E79600FCA013 /* ApigeeMetricsEntry.h */,
-				63F5246F1778E79600FCA013 /* ApigeeMetricsEntry.m */,
 				63F524711778E82700FCA013 /* ApigeeSessionMetrics.h */,
 				63F524721778E82700FCA013 /* ApigeeSessionMetrics.m */,
 				63F524741778E83D00FCA013 /* ApigeeNetworkEntry.h */,
@@ -1050,7 +1043,6 @@
 				63F524651778D44400FCA013 /* ApigeeLogger.m in Sources */,
 				63F5246A1778D49C00FCA013 /* ApigeeLocationService.m in Sources */,
 				63F5246D1778E73C00FCA013 /* ApigeeLogEntry.m in Sources */,
-				63F524701778E79600FCA013 /* ApigeeMetricsEntry.m in Sources */,
 				63F524731778E82700FCA013 /* ApigeeSessionMetrics.m in Sources */,
 				63F524761778E83D00FCA013 /* ApigeeNetworkEntry.m in Sources */,
 				63F524791778E8BD00FCA013 /* ApigeeNetworkEntry+JSON.m in Sources */,
