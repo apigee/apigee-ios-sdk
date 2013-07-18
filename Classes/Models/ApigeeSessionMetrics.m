@@ -48,9 +48,8 @@
 @synthesize telephonyNetworkType;
 @synthesize telephonyPhoneType;
 @synthesize telephonySignalStrength;
-@synthesize telephonyeNetworkOperator;
-@synthesize telephonyeNetworkOperatorName;
-@synthesize telephonyeSignalStrength;
+@synthesize telephonyNetworkOperator;
+@synthesize telephonyNetworkOperatorName;
 @synthesize timeStamp;
 
 - (NSDictionary*) asDictionary

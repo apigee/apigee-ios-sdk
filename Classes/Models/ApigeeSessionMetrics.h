@@ -44,9 +44,8 @@
     @property (strong, nonatomic) NSString *telephonyNetworkType;
     @property (strong, nonatomic) NSString *telephonyPhoneType;
     @property (strong, nonatomic) NSString *telephonySignalStrength;
-    @property (strong, nonatomic) NSString *telephonyeNetworkOperator;
-    @property (strong, nonatomic) NSString *telephonyeNetworkOperatorName;
-    @property (strong, nonatomic) NSString *telephonyeSignalStrength;
+    @property (strong, nonatomic) NSString *telephonyNetworkOperator;
+    @property (strong, nonatomic) NSString *telephonyNetworkOperatorName;
     @property (strong, nonatomic) NSString *timeStamp;
 
 - (NSDictionary*) asDictionary;
