@@ -32,7 +32,6 @@
 		63F5244B1778D34700FCA013 /* NSArray+ApigeeConfigFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5243E1778D34700FCA013 /* NSArray+ApigeeConfigFilters.m */; };
 		63F5244C1778D34700FCA013 /* NSDate+Apigee.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524401778D34700FCA013 /* NSDate+Apigee.m */; };
 		63F5244E1778D34700FCA013 /* NSObject+ApigeeSBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524441778D34700FCA013 /* NSObject+ApigeeSBJson.m */; };
-		63F5244F1778D34700FCA013 /* NSString+FunctionLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524461778D34700FCA013 /* NSString+FunctionLogging.m */; };
 		63F524501778D34700FCA013 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524481778D34700FCA013 /* NSString+UUID.m */; };
 		63F524511778D34700FCA013 /* UIDevice+Apigee.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5244A1778D34700FCA013 /* UIDevice+Apigee.m */; };
 		63F524561778D35E00FCA013 /* ApigeeOpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524531778D35E00FCA013 /* ApigeeOpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -264,8 +263,6 @@
 		63F524401778D34700FCA013 /* NSDate+Apigee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Apigee.m"; path = "Classes/Categories/NSDate+Apigee.m"; sourceTree = SOURCE_ROOT; };
 		63F524431778D34700FCA013 /* NSObject+ApigeeSBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+ApigeeSBJson.h"; path = "Classes/Categories/NSObject+ApigeeSBJson.h"; sourceTree = SOURCE_ROOT; };
 		63F524441778D34700FCA013 /* NSObject+ApigeeSBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+ApigeeSBJson.m"; path = "Classes/Categories/NSObject+ApigeeSBJson.m"; sourceTree = SOURCE_ROOT; };
-		63F524451778D34700FCA013 /* NSString+FunctionLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+FunctionLogging.h"; path = "Classes/Categories/NSString+FunctionLogging.h"; sourceTree = SOURCE_ROOT; };
-		63F524461778D34700FCA013 /* NSString+FunctionLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+FunctionLogging.m"; path = "Classes/Categories/NSString+FunctionLogging.m"; sourceTree = SOURCE_ROOT; };
 		63F524471778D34700FCA013 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+UUID.h"; path = "Classes/Categories/NSString+UUID.h"; sourceTree = SOURCE_ROOT; };
 		63F524481778D34700FCA013 /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+UUID.m"; path = "Classes/Categories/NSString+UUID.m"; sourceTree = SOURCE_ROOT; };
 		63F524491778D34700FCA013 /* UIDevice+Apigee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice+Apigee.h"; path = "Classes/Categories/UIDevice+Apigee.h"; sourceTree = SOURCE_ROOT; };
@@ -613,8 +610,6 @@
 				63F524401778D34700FCA013 /* NSDate+Apigee.m */,
 				63F524431778D34700FCA013 /* NSObject+ApigeeSBJson.h */,
 				63F524441778D34700FCA013 /* NSObject+ApigeeSBJson.m */,
-				63F524451778D34700FCA013 /* NSString+FunctionLogging.h */,
-				63F524461778D34700FCA013 /* NSString+FunctionLogging.m */,
 				63F524471778D34700FCA013 /* NSString+UUID.h */,
 				63F524481778D34700FCA013 /* NSString+UUID.m */,
 				63F524491778D34700FCA013 /* UIDevice+Apigee.h */,
@@ -1032,7 +1027,6 @@
 				63F5244B1778D34700FCA013 /* NSArray+ApigeeConfigFilters.m in Sources */,
 				63F5244C1778D34700FCA013 /* NSDate+Apigee.m in Sources */,
 				63F5244E1778D34700FCA013 /* NSObject+ApigeeSBJson.m in Sources */,
-				63F5244F1778D34700FCA013 /* NSString+FunctionLogging.m in Sources */,
 				63F524501778D34700FCA013 /* NSString+UUID.m in Sources */,
 				63F524511778D34700FCA013 /* UIDevice+Apigee.m in Sources */,
 				63F524561778D35E00FCA013 /* ApigeeOpenUDID.m in Sources */,
