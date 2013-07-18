@@ -9,7 +9,7 @@
 #import "ApigeeModelUtils.h"
 #import "ApigeeNetworkEntry.h"
 
-static const NSUInteger kMaxUrlLength = 100;
+static const NSUInteger kMaxUrlLength = 200;
 
 static NSString *kHeaderReceiptTime    = @"x-apigee-receipttime";
 static NSString *kHeaderResponseTime   = @"x-apigee-responsetime";
