@@ -1,0 +1,351 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		638C62521799EFE40066DC15 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C62511799EFE40066DC15 /* CoreTelephony.framework */; };
+		638C62541799EFF20066DC15 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C62531799EFF20066DC15 /* CoreLocation.framework */; };
+		638C62561799EFFA0066DC15 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C62551799EFFA0066DC15 /* SystemConfiguration.framework */; };
+		638C62581799F69C0066DC15 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C62571799F69C0066DC15 /* ApigeeiOSSDK.framework */; };
+		8A2C4D9E16D7C85400D5195D /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2C4D9D16D7C85400D5195D /* Client.m */; };
+		8A79BA4016D7C4A900526C51 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A79BA3F16D7C4A900526C51 /* UIKit.framework */; };
+		8A79BA4216D7C4A900526C51 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A79BA4116D7C4A900526C51 /* Foundation.framework */; };
+		8A79BA4416D7C4A900526C51 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A79BA4316D7C4A900526C51 /* CoreGraphics.framework */; };
+		8A79BA4A16D7C4A900526C51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A79BA4816D7C4A900526C51 /* InfoPlist.strings */; };
+		8A79BA4C16D7C4A900526C51 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A79BA4B16D7C4A900526C51 /* main.m */; };
+		8A79BA5016D7C4A900526C51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A79BA4F16D7C4A900526C51 /* AppDelegate.m */; };
+		8A79BA5216D7C4A900526C51 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A79BA5116D7C4A900526C51 /* Default.png */; };
+		8A79BA5416D7C4A900526C51 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A79BA5316D7C4A900526C51 /* Default@2x.png */; };
+		8A79BA5616D7C4A900526C51 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A79BA5516D7C4A900526C51 /* Default-568h@2x.png */; };
+		8A79BA5916D7C4A900526C51 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A79BA5716D7C4A900526C51 /* MainStoryboard_iPhone.storyboard */; };
+		8A79BA5F16D7C4A900526C51 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A79BA5E16D7C4A900526C51 /* ViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		638C62511799EFE40066DC15 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		638C62531799EFF20066DC15 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		638C62551799EFFA0066DC15 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		638C62571799F69C0066DC15 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ApigeeiOSSDK.framework; sourceTree = "<group>"; };
+		8A2C4D9C16D7C85400D5195D /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		8A2C4D9D16D7C85400D5195D /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
+		8A79BA3C16D7C4A900526C51 /* Apigee App Services iOS Template.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Apigee App Services iOS Template.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A79BA3F16D7C4A900526C51 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		8A79BA4116D7C4A900526C51 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8A79BA4316D7C4A900526C51 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		8A79BA4716D7C4A900526C51 /* Apigee App Services iOS Template-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Apigee App Services iOS Template-Info.plist"; sourceTree = "<group>"; };
+		8A79BA4916D7C4A900526C51 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8A79BA4B16D7C4A900526C51 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8A79BA4D16D7C4A900526C51 /* Apigee App Services iOS Template-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Apigee App Services iOS Template-Prefix.pch"; sourceTree = "<group>"; };
+		8A79BA4E16D7C4A900526C51 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		8A79BA4F16D7C4A900526C51 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8A79BA5116D7C4A900526C51 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		8A79BA5316D7C4A900526C51 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		8A79BA5516D7C4A900526C51 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		8A79BA5816D7C4A900526C51 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		8A79BA5D16D7C4A900526C51 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		8A79BA5E16D7C4A900526C51 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8A79BA3916D7C4A900526C51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				638C62561799EFFA0066DC15 /* SystemConfiguration.framework in Frameworks */,
+				638C62541799EFF20066DC15 /* CoreLocation.framework in Frameworks */,
+				638C62521799EFE40066DC15 /* CoreTelephony.framework in Frameworks */,
+				8A79BA4016D7C4A900526C51 /* UIKit.framework in Frameworks */,
+				8A79BA4216D7C4A900526C51 /* Foundation.framework in Frameworks */,
+				8A79BA4416D7C4A900526C51 /* CoreGraphics.framework in Frameworks */,
+				638C62581799F69C0066DC15 /* ApigeeiOSSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8A79BA3316D7C4A900526C51 = {
+			isa = PBXGroup;
+			children = (
+				8A79BA4516D7C4A900526C51 /* iOS Template */,
+				8A79BA3E16D7C4A900526C51 /* Frameworks */,
+				8A79BA3D16D7C4A900526C51 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8A79BA3D16D7C4A900526C51 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8A79BA3C16D7C4A900526C51 /* Apigee App Services iOS Template.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8A79BA3E16D7C4A900526C51 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				638C62571799F69C0066DC15 /* ApigeeiOSSDK.framework */,
+				638C62511799EFE40066DC15 /* CoreTelephony.framework */,
+				638C62531799EFF20066DC15 /* CoreLocation.framework */,
+				638C62551799EFFA0066DC15 /* SystemConfiguration.framework */,
+				8A79BA3F16D7C4A900526C51 /* UIKit.framework */,
+				8A79BA4116D7C4A900526C51 /* Foundation.framework */,
+				8A79BA4316D7C4A900526C51 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8A79BA4516D7C4A900526C51 /* iOS Template */ = {
+			isa = PBXGroup;
+			children = (
+				8A2C4D9C16D7C85400D5195D /* Client.h */,
+				8A2C4D9D16D7C85400D5195D /* Client.m */,
+				8A79BA4E16D7C4A900526C51 /* AppDelegate.h */,
+				8A79BA4F16D7C4A900526C51 /* AppDelegate.m */,
+				8A79BA5716D7C4A900526C51 /* MainStoryboard_iPhone.storyboard */,
+				8A79BA5D16D7C4A900526C51 /* ViewController.h */,
+				8A79BA5E16D7C4A900526C51 /* ViewController.m */,
+				8A79BA4616D7C4A900526C51 /* Supporting Files */,
+			);
+			name = "iOS Template";
+			path = "Apigee App Services iOS Template";
+			sourceTree = "<group>";
+		};
+		8A79BA4616D7C4A900526C51 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8A79BA4716D7C4A900526C51 /* Apigee App Services iOS Template-Info.plist */,
+				8A79BA4816D7C4A900526C51 /* InfoPlist.strings */,
+				8A79BA4B16D7C4A900526C51 /* main.m */,
+				8A79BA4D16D7C4A900526C51 /* Apigee App Services iOS Template-Prefix.pch */,
+				8A79BA5116D7C4A900526C51 /* Default.png */,
+				8A79BA5316D7C4A900526C51 /* Default@2x.png */,
+				8A79BA5516D7C4A900526C51 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8A79BA3B16D7C4A900526C51 /* Apigee App Services iOS Template */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A79BA6216D7C4A900526C51 /* Build configuration list for PBXNativeTarget "Apigee App Services iOS Template" */;
+			buildPhases = (
+				8A79BA3816D7C4A900526C51 /* Sources */,
+				8A79BA3916D7C4A900526C51 /* Frameworks */,
+				8A79BA3A16D7C4A900526C51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Apigee App Services iOS Template";
+			productName = "Apigee App Services iOS Template";
+			productReference = 8A79BA3C16D7C4A900526C51 /* Apigee App Services iOS Template.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8A79BA3416D7C4A900526C51 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = Apigee;
+			};
+			buildConfigurationList = 8A79BA3716D7C4A900526C51 /* Build configuration list for PBXProject "Apigee App Services iOS Template" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 8A79BA3316D7C4A900526C51;
+			productRefGroup = 8A79BA3D16D7C4A900526C51 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8A79BA3B16D7C4A900526C51 /* Apigee App Services iOS Template */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8A79BA3A16D7C4A900526C51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A79BA4A16D7C4A900526C51 /* InfoPlist.strings in Resources */,
+				8A79BA5216D7C4A900526C51 /* Default.png in Resources */,
+				8A79BA5416D7C4A900526C51 /* Default@2x.png in Resources */,
+				8A79BA5616D7C4A900526C51 /* Default-568h@2x.png in Resources */,
+				8A79BA5916D7C4A900526C51 /* MainStoryboard_iPhone.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8A79BA3816D7C4A900526C51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A79BA4C16D7C4A900526C51 /* main.m in Sources */,
+				8A79BA5016D7C4A900526C51 /* AppDelegate.m in Sources */,
+				8A79BA5F16D7C4A900526C51 /* ViewController.m in Sources */,
+				8A2C4D9E16D7C85400D5195D /* Client.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8A79BA4816D7C4A900526C51 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A79BA4916D7C4A900526C51 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8A79BA5716D7C4A900526C51 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A79BA5816D7C4A900526C51 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8A79BA6016D7C4A900526C51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8A79BA6116D7C4A900526C51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8A79BA6316D7C4A900526C51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Apigee App Services iOS Template/Apigee App Services iOS Template-Prefix.pch";
+				INFOPLIST_FILE = "Apigee App Services iOS Template/Apigee App Services iOS Template-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8A79BA6416D7C4A900526C51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Apigee App Services iOS Template/Apigee App Services iOS Template-Prefix.pch";
+				INFOPLIST_FILE = "Apigee App Services iOS Template/Apigee App Services iOS Template-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8A79BA3716D7C4A900526C51 /* Build configuration list for PBXProject "Apigee App Services iOS Template" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A79BA6016D7C4A900526C51 /* Debug */,
+				8A79BA6116D7C4A900526C51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8A79BA6216D7C4A900526C51 /* Build configuration list for PBXNativeTarget "Apigee App Services iOS Template" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A79BA6316D7C4A900526C51 /* Debug */,
+				8A79BA6416D7C4A900526C51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8A79BA3416D7C4A900526C51 /* Project object */;
+}
