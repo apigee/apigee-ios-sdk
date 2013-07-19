@@ -645,23 +645,12 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     NSURLResponse* response = nil;
     NSError* err = nil;
     
-    ApigeeLogVerbose(kApigeeMonitoringClientTag,[NSString stringWithFormat:@"posting request to: '%@'", urlAsString]);
-    
     NSData* responseData = [NSURLConnection sendSynchronousRequest:request
                                                  returningResponse:&response
                                                              error:&err];
     
-    if( responseData != nil ) {
-        NSString* responseDataAsString = [[NSString alloc] initWithData:responseData
-                                                               encoding:NSUTF8StringEncoding];
-        ApigeeLogVerbose(kApigeeMonitoringClientTag,[NSString stringWithFormat:@"responseData: '%@'", responseDataAsString]);
-    } else {
-        ApigeeLogDebug(kApigeeMonitoringClientTag,@"responseData is nil after attempt to post");
-        if( err != nil ) {
-            ApigeeLogError(kApigeeMonitoringClientTag, [NSString stringWithFormat:@"%@",[err localizedDescription]]);
-        } else {
-            ApigeeLogDebug(kApigeeMonitoringClientTag, @"err is nil after attempt to post" );
-        }
+    if( err != nil ) {
+        ApigeeLogError(kApigeeMonitoringClientTag, [NSString stringWithFormat:@"%@",[err localizedDescription]]);
     }
     
     return responseData;
@@ -693,23 +682,12 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     NSURLResponse* response = nil;
     NSError* err = nil;
     
-    ApigeeLogVerbose(kApigeeMonitoringClientTag,[NSString stringWithFormat:@"posting request to: '%@'", urlAsString]);
-    
     NSData* responseData = [NSURLConnection sendSynchronousRequest:request
                                                  returningResponse:&response
                                                              error:&err];
     
-    if( responseData != nil ) {
-        NSString* responseDataAsString = [[NSString alloc] initWithData:responseData
-                                                               encoding:NSUTF8StringEncoding];
-        ApigeeLogVerbose(kApigeeMonitoringClientTag,[NSString stringWithFormat:@"responseData: '%@'", responseDataAsString]);
-    } else {
-        ApigeeLogDebug(kApigeeMonitoringClientTag,@"responseData is nil after attempt to post");
-        if( err != nil ) {
-            ApigeeLogError(kApigeeMonitoringClientTag, [NSString stringWithFormat:@"%@",[err localizedDescription]]);
-        } else {
-            ApigeeLogDebug(kApigeeMonitoringClientTag, @"err is nil after attempt to post" );
-        }
+    if( err != nil ) {
+        ApigeeLogError(kApigeeMonitoringClientTag, [NSString stringWithFormat:@"%@",[err localizedDescription]]);
     }
     
     return responseData;
@@ -770,7 +748,6 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
                                                  contentType:@"text/plain"];
     if( nil != crashReportUploadResponseData ) {
         NSString* crashReportUploadResponseAsString = [[NSString alloc] initWithData:crashReportUploadResponseData encoding:NSUTF8StringEncoding];
-        NSLog( @"crash upload response: %@", crashReportUploadResponseAsString);
         [self sendCrashNotification:fileName];
         [crashReporter purgePendingCrashReport];
     } else {
@@ -885,7 +862,7 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     logEntry.timeStamp = nowTimestamp;
     logEntry.tag = @"CRASH";
     logEntry.logMessage = fileName;
-    logEntry.logLevel = [NSString stringWithFormat:@"%d", kApigeeLogLevelAssert];
+    logEntry.logLevel = @"A"; // assert
 
     ApigeeSessionMetrics *sessionMetrics = [[ApigeeSessionMetricsCompiler systemCompiler] compileMetricsForSettings:self.activeSettings];
     NSArray *logEntries = [NSArray arrayWithObject:logEntry];
