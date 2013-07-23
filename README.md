@@ -34,7 +34,7 @@ Building From Source
 To build from source, issue this command from the top-level directory of your repository:
 
 <pre>
-	./Scripts/framework.sh
+	./source/Scripts/framework.sh
 </pre>
 
 
