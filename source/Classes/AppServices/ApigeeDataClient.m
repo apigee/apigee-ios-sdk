@@ -13,6 +13,7 @@
 #import "ApigeeCollection.h"
 #import "ApigeeHTTPResult.h"
 #import "UIDevice+Apigee.h"
+#import "SSKeychain.h"
 
 static NSString* kDefaultBaseURL = @"http://api.usergrid.com";
 static NSString* kLoggingTag = @"DATA_CLIENT";
@@ -1625,31 +1626,38 @@ NSString *g_deviceUUID = nil;
 /*************************** SERVER-SIDE STORAGE ***************************/
 /*************************** SERVER-SIDE STORAGE ***************************/
 /*************************** SERVER-SIDE STORAGE ***************************/
-// fun with uuids. Apple made this needlessly complex when they decided 
-// developers were no longer allowed to access the device ID of the handset. 
 +(NSString *)getUniqueDeviceID
 {
-    // first, see if we have the value cached
-    if ( g_deviceUUID ) return g_deviceUUID;
+    // cached?
+    if (g_deviceUUID) return g_deviceUUID;
     
-    // next, see if we have the value in our database
+    // in our keychain?
+    g_deviceUUID = [SSKeychain passwordForService:@"Usergrid" account:@"DeviceUUID"];
+    if (g_deviceUUID) return g_deviceUUID;
+    
+    // in the (legacy) app defaults?
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ( !defaults ) return nil; // serious problems
-    g_deviceUUID = [defaults valueForKey:@"ApigeeClientDeviceUUID"];
-
-    // if we did, we're good
-    if ( g_deviceUUID ) return g_deviceUUID;
+    g_deviceUUID = [defaults valueForKey:@"UGClientDeviceUUID"];
     
-    // if we're here, we need to create a unique ID
-    CFUUIDRef uuidRef = CFUUIDCreate(nil);
-    g_deviceUUID = (__bridge_transfer NSString *) CFUUIDCreateString(nil, uuidRef);
-    CFRelease(uuidRef);
+    // if none found in storage, generate one
+    if (!g_deviceUUID) {
+        
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
+            // use identifierForVendor where possible
+            g_deviceUUID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        }
+        else {
+            // otherwise, create a UUID (legacy method)
+            CFUUIDRef uuidRef = CFUUIDCreate(nil);
+            CFStringRef uuidStringRef = CFUUIDCreateString(nil, uuidRef);
+            CFRelease(uuidRef);
+            g_deviceUUID = [NSString stringWithString:(__bridge NSString *)uuidStringRef];
+        }
+    }
     
-    // store it
-    [defaults setObject:g_deviceUUID forKey:@"ApigeeClientDeviceUUID"];
-    [defaults synchronize];
+    // store in keychain for future reference
+    [SSKeychain setPassword:g_deviceUUID forService:@"Usergrid" account:@"DeviceUUID"];
     
-    // done
     return g_deviceUUID;
 }
 
