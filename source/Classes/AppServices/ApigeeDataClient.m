@@ -12,6 +12,7 @@
 #import "ApigeeLogger.h"
 #import "ApigeeCollection.h"
 #import "ApigeeHTTPResult.h"
+#import "UIDevice+Apigee.h"
 
 static NSString* kDefaultBaseURL = @"http://api.usergrid.com";
 static NSString* kLoggingTag = @"DATA_CLIENT";
@@ -1514,6 +1515,18 @@ NSString *g_deviceUUID = nil;
 /*************************** REMOTE PUSH NOTIFICATIONS ***************************/
 /*************************** REMOTE PUSH NOTIFICATIONS ***************************/
 
+- (void)populateDevicePushRegistration:(NSMutableDictionary*)entity withDeviceId:(NSString*)deviceId
+{
+    [entity setObject:@"device" forKey:@"type"];
+    [entity setObject:deviceId forKey:@"uuid"];
+    
+    // grab device meta-data
+    UIDevice *currentDevice = [UIDevice currentDevice];
+    [entity setValue:[UIDevice platformStringDescriptive] forKey:@"deviceModel"];
+    [entity setValue:[currentDevice systemName] forKey:@"devicePlatform"];
+    [entity setValue:[currentDevice systemVersion] forKey:@"deviceOSVersion"];
+}
+
 - (ApigeeClientResponse *)setDevicePushToken:(NSData *)newDeviceToken forNotifier:(NSString *)notifier
 {
     // Pull the push token string out of the device token data
@@ -1526,8 +1539,7 @@ NSString *g_deviceUUID = nil;
     
     // create/update device - use deviceId for App Services entity UUID
     NSMutableDictionary *entity = [[NSMutableDictionary alloc] init];
-    [entity setObject:@"device" forKey:@"type"];
-    [entity setObject:deviceId forKey:@"uuid"];
+    [self populateDevicePushRegistration:entity withDeviceId:deviceId];
 
     NSString *notifierKey = [notifier stringByAppendingString: @".notifier.id"];
     [entity setObject: tokenString forKey: notifierKey];
@@ -1547,8 +1559,7 @@ NSString *g_deviceUUID = nil;
     
     // create/update device - use deviceId for App Services entity UUID
     NSMutableDictionary *entity = [[NSMutableDictionary alloc] init];
-    [entity setObject:@"device" forKey:@"type"];
-    [entity setObject:deviceId forKey:@"uuid"];
+    [self populateDevicePushRegistration:entity withDeviceId:deviceId];
     
     NSString *notifierKey = [notifier stringByAppendingString: @".notifier.id"];
     [entity setObject: tokenString forKey: notifierKey];
