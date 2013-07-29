@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		638C625A179F304E0066DC15 /* ApigeeHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C6259179F30470066DC15 /* ApigeeHTTPClient.m */; };
 		638C625C179F30790066DC15 /* ApigeeHTTPClient.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 638C625B179F305E0066DC15 /* ApigeeHTTPClient.h */; };
+		638C629117A71BFA0066DC15 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C629017A71BFA0066DC15 /* SSKeychain.m */; };
 		63F522BF1778C2B200FCA013 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F522BE1778C2B200FCA013 /* Foundation.framework */; };
 		63F5240B1778D24900FCA013 /* ApigeeSBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F523F61778D24900FCA013 /* ApigeeSBJsonParser.m */; };
 		63F5240C1778D24900FCA013 /* ApigeeSBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F523F81778D24900FCA013 /* ApigeeSBJsonStreamParser.m */; };
@@ -208,6 +209,8 @@
 /* Begin PBXFileReference section */
 		638C6259179F30470066DC15 /* ApigeeHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeHTTPClient.m; path = Classes/AppServices/ApigeeHTTPClient.m; sourceTree = SOURCE_ROOT; };
 		638C625B179F305E0066DC15 /* ApigeeHTTPClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ApigeeHTTPClient.h; path = Classes/AppServices/ApigeeHTTPClient.h; sourceTree = SOURCE_ROOT; };
+		638C628F17A71BEE0066DC15 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSKeychain.h; path = ThirdParty/SSKeychain/SSKeychain.h; sourceTree = "<group>"; };
+		638C629017A71BFA0066DC15 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSKeychain.m; path = ThirdParty/SSKeychain/SSKeychain.m; sourceTree = "<group>"; };
 		63F522BB1778C2B200FCA013 /* libApigeeiOSSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libApigeeiOSSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		63F522BE1778C2B200FCA013 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		63F523F41778D24900FCA013 /* ApigeeSBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSBJson.h; path = ThirdParty/JSON/ApigeeSBJson.h; sourceTree = "<group>"; };
@@ -445,6 +448,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		638C628E17A71B6B0066DC15 /* SSKeychain */ = {
+			isa = PBXGroup;
+			children = (
+				638C629017A71BFA0066DC15 /* SSKeychain.m */,
+				638C628F17A71BEE0066DC15 /* SSKeychain.h */,
+			);
+			name = SSKeychain;
+			sourceTree = "<group>";
+		};
 		63F522B21778C2B200FCA013 = {
 			isa = PBXGroup;
 			children = (
@@ -496,6 +508,7 @@
 		63F522CD1778C30900FCA013 /* ThirdPartySource */ = {
 			isa = PBXGroup;
 			children = (
+				638C628E17A71B6B0066DC15 /* SSKeychain */,
 				63F523F31778D23400FCA013 /* SBJSON */,
 			);
 			name = ThirdPartySource;
@@ -1100,6 +1113,7 @@
 				63F525721781DF4C00FCA013 /* ApigeeHTTPHelpers.m in Sources */,
 				63F525761781E07F00FCA013 /* ApigeeHTTPResult.m in Sources */,
 				638C625A179F304E0066DC15 /* ApigeeHTTPClient.m in Sources */,
+				638C629117A71BFA0066DC15 /* SSKeychain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
