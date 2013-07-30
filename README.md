@@ -55,6 +55,6 @@ New classes (ApigeeCollection, ApigeeEntity, ApigeeDevice, ApigeeGroup) to make 
 
 Migrating from UserGrid
 -----------------------
-(1) All classes named UG<ClassName> are now named Apigee<ClassName>.
-(2) UGClient is now named ApigeeDataClient
-(3) Initialization is performed with ApigeeClient (new class)
+1. All classes named UG<ClassName> are now named Apigee<ClassName>.
+2. UGClient is now named ApigeeDataClient
+3. Initialization is performed with ApigeeClient (new class)
