@@ -19,10 +19,11 @@ Add the following flags to "Other Linker Flags" in "Build Settings":
 
 Add the following frameworks:
 
-CoreGraphics.framework
-CoreLocation.framework
-CoreTelephony.framework
-SystemConfiguration.framework
+* CoreGraphics.framework
+* CoreLocation.framework
+* CoreTelephony.framework
+* SystemConfiguration.framework
+* Security.framework
 
 Technical Details
 -----------------
