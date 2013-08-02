@@ -42,4 +42,6 @@
 - (ApigeeAppIdentification*)appIdentification;
 - (NSString*)loggedInUser;
 
++ (NSString*)sdkVersion;
+
 @end

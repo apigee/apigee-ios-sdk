@@ -47,12 +47,11 @@
 
 #import "ApigeeAppIdentification.h"
 #import "ApigeeDataClient.h"
+#import "ApigeeClient.h"
 
 static const int64_t kOneMillion = 1000 * 1000;
 static mach_timebase_info_data_t s_timebase_info;
 
-
-static NSString* kSDKVersion = @"1.6.0";
 
 static ApigeeMonitoringClient *singletonInstance = nil;
 
@@ -152,7 +151,7 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
 
 + (NSString*)sdkVersion
 {
-    return kSDKVersion;
+    return [ApigeeClient sdkVersion];
 }
 
 
