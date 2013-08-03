@@ -32,10 +32,10 @@ Technical Details
 
 Building From Source
 --------------------
-To build from source, issue this command from the top-level directory of your repository:
+To build from source, issue this command from the /source directory of your repository:
 
 <pre>
-	./source/Scripts/framework.sh
+	./Scripts/framework.sh
 </pre>
 
 
