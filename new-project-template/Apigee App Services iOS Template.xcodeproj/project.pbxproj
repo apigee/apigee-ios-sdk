@@ -11,6 +11,7 @@
 		638C62541799EFF20066DC15 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C62531799EFF20066DC15 /* CoreLocation.framework */; };
 		638C62561799EFFA0066DC15 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C62551799EFFA0066DC15 /* SystemConfiguration.framework */; };
 		638C62A117AA88420066DC15 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C62A017AA88420066DC15 /* Security.framework */; };
+		638C62A317B052940066DC15 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C62A217B052940066DC15 /* ApigeeiOSSDK.framework */; };
 		8A2C4D9E16D7C85400D5195D /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2C4D9D16D7C85400D5195D /* Client.m */; };
 		8A79BA4016D7C4A900526C51 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A79BA3F16D7C4A900526C51 /* UIKit.framework */; };
 		8A79BA4216D7C4A900526C51 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A79BA4116D7C4A900526C51 /* Foundation.framework */; };
@@ -30,6 +31,7 @@
 		638C62531799EFF20066DC15 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		638C62551799EFFA0066DC15 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		638C62A017AA88420066DC15 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		638C62A217B052940066DC15 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = ../source/build/framework/ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 		8A2C4D9C16D7C85400D5195D /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
 		8A2C4D9D16D7C85400D5195D /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
 		8A79BA3C16D7C4A900526C51 /* Apigee App Services iOS Template.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Apigee App Services iOS Template.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +64,7 @@
 				8A79BA4016D7C4A900526C51 /* UIKit.framework in Frameworks */,
 				8A79BA4216D7C4A900526C51 /* Foundation.framework in Frameworks */,
 				8A79BA4416D7C4A900526C51 /* CoreGraphics.framework in Frameworks */,
+				638C62A317B052940066DC15 /* ApigeeiOSSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +91,7 @@
 		8A79BA3E16D7C4A900526C51 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				638C62A217B052940066DC15 /* ApigeeiOSSDK.framework */,
 				638C62A017AA88420066DC15 /* Security.framework */,
 				638C62511799EFE40066DC15 /* CoreTelephony.framework */,
 				638C62531799EFF20066DC15 /* CoreLocation.framework */,
@@ -287,6 +291,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../source/build/framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Apigee App Services iOS Template/Apigee App Services iOS Template-Prefix.pch";
@@ -309,6 +314,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../source/build/framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Apigee App Services iOS Template/Apigee App Services iOS Template-Prefix.pch";

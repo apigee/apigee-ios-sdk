@@ -11,6 +11,7 @@
 		638C629717A728E90066DC15 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C629617A728E90066DC15 /* CoreLocation.framework */; };
 		638C629917A728F20066DC15 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C629817A728F20066DC15 /* CoreTelephony.framework */; };
 		638C629B17A7290A0066DC15 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C629A17A729090066DC15 /* Security.framework */; };
+		638C62A917B0532C0066DC15 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C62A817B0532C0066DC15 /* ApigeeiOSSDK.framework */; };
 		C913B26616E6D46A007A526E /* sisyphus-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C913B26516E6D46A007A526E /* sisyphus-icon.png */; };
 		C913B26816E6D49A007A526E /* sisyphus-smicon.png in Resources */ = {isa = PBXBuildFile; fileRef = C913B26716E6D49A007A526E /* sisyphus-smicon.png */; };
 		C913B2AB16E7CC54007A526E /* sisyphus-i5-back.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C913B2AA16E7CC54007A526E /* sisyphus-i5-back.jpg */; };
@@ -48,6 +49,7 @@
 		638C629617A728E90066DC15 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		638C629817A728F20066DC15 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		638C629A17A729090066DC15 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		638C62A817B0532C0066DC15 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = ../../source/build/framework/ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 		C913B26516E6D46A007A526E /* sisyphus-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sisyphus-icon.png"; sourceTree = "<group>"; };
 		C913B26716E6D49A007A526E /* sisyphus-smicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sisyphus-smicon.png"; sourceTree = "<group>"; };
 		C913B2AA16E7CC54007A526E /* sisyphus-i5-back.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "sisyphus-i5-back.jpg"; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				C9AFBD1C16B71BD700D67DA3 /* UIKit.framework in Frameworks */,
 				C9AFBD1E16B71BD700D67DA3 /* Foundation.framework in Frameworks */,
 				C9AFBD2016B71BD700D67DA3 /* CoreGraphics.framework in Frameworks */,
+				638C62A917B0532C0066DC15 /* ApigeeiOSSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +131,7 @@
 		C9AFBD1A16B71BD700D67DA3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				638C62A817B0532C0066DC15 /* ApigeeiOSSDK.framework */,
 				638C629417A728D80066DC15 /* SystemConfiguration.framework */,
 				638C629617A728E90066DC15 /* CoreLocation.framework */,
 				638C629817A728F20066DC15 /* CoreTelephony.framework */,
@@ -428,6 +432,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../source/build/framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pushtest/Push Test-Prefix.pch";
@@ -447,6 +452,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../source/build/framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pushtest/Push Test-Prefix.pch";
