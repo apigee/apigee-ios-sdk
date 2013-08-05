@@ -1,5 +1,10 @@
 # Xcode
-build/
+build/ApigeeiOSSDK.build
+build/Debug-iphoneos/
+build/Debug-iphonesimulator/
+build/Release-iphoneos/
+build/Release-iphonesimulator/
+build/dist/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
