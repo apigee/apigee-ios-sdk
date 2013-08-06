@@ -17,6 +17,15 @@ fi
 # SDK version string is passed in as an argument to this script
 SDK_VERSION="$1"
 
+# the following command string pulls the version string from the sdk source
+SDK_SOURCE_VERSION=`grep "kSDKVersion =" source/Classes/ApigeeClient.m | awk '{print $5}' | cut -d'"' -f2`
+
+if [ "${SDK_VERSION}" != "${SDK_SOURCE_VERSION}" ]; then
+	echo "Error: sdk source version (${SDK_SOURCE_VERSION}) does not match specified version (${SDK_VERSION})"
+	exit 1
+fi
+
+
 # set up our tools
 BUILD_COMMAND="./Scripts/framework.sh"
 
