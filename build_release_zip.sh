@@ -24,8 +24,9 @@ BUILD_COMMAND="./Scripts/framework.sh"
 LIBRARY_BASE_NAME="apigee-ios"
 FRAMEWORK_FILE_NAME="ApigeeiOSSDK.framework"
 ZIP_BASE_NAME="${LIBRARY_BASE_NAME}-sdk"
-ZIP_FILE_NAME="${ZIP_BASE_NAME}-${SDK_VERSION}.zip"
-DEST_ZIP_DIR="zip"
+ZIP_FILE_NAME="${ZIP_BASE_NAME}.zip"
+TOPLEVEL_ZIP_DIR="zip"
+DEST_ZIP_DIR="${TOPLEVEL_ZIP_DIR}/${LIBRARY_BASE_NAME}-sdk-${SDK_VERSION}"
 BUILT_FRAMEWORK="source/build/framework/${FRAMEWORK_FILE_NAME}"
 ZIP_BIN_DIR="${DEST_ZIP_DIR}/bin"
 
@@ -60,11 +61,18 @@ do
 	if [ -f "$entry" ]; then
 		cp "$entry" "${DEST_ZIP_DIR}"
 	elif [ -d "$entry" ]; then
-		if [ "$entry" != "${DEST_ZIP_DIR}" ]; then
+		if [ "$entry" != "${TOPLEVEL_ZIP_DIR}" ]; then
 			cp -r "$entry" "${DEST_ZIP_DIR}"
 		fi
 	fi
 done
+
+
+# if we have source/build in zip directory, delete it and everything under it
+if [ -d "${DEST_ZIP_DIR}/source/build" ]; then
+	rm -rf "${DEST_ZIP_DIR}/source/build"
+	rmdir "${DEST_ZIP_DIR}/source/build"
+fi
 
 
 # create directory for binaries
@@ -75,5 +83,5 @@ cp -r "${BUILT_FRAMEWORK}" "${ZIP_BIN_DIR}"
 
 
 # create the zip file
-cd ${DEST_ZIP_DIR} && zip -r -y ${ZIP_FILE_NAME} .
+cd ${TOPLEVEL_ZIP_DIR} && zip -r -y ${ZIP_FILE_NAME} .
 
