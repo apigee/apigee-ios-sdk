@@ -107,6 +107,11 @@ NSString *g_deviceUUID = nil;
         m_baseURL = kDefaultBaseURL;
         m_loggedInUser = nil;
         m_bLogging = NO;
+
+        // if the base URL has a trailing '/', leave it off
+        if ([m_baseURL hasSuffix:@"/"]) {
+            m_baseURL = [m_baseURL substringToIndex:[m_baseURL length]-1];
+        }
     }
     return self;
 }
@@ -123,6 +128,13 @@ NSString *g_deviceUUID = nil;
         m_appID = applicationID;
         m_orgID = organizationID;
         m_baseURL = baseURL;
+        m_loggedInUser = nil;
+        m_bLogging = NO;
+        
+        // if the base URL has a trailing '/', leave it off
+        if ([m_baseURL hasSuffix:@"/"]) {
+            m_baseURL = [m_baseURL substringToIndex:[m_baseURL length]-1];
+        }
     }
     return self;
 }
