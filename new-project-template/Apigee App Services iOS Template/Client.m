@@ -56,7 +56,7 @@
     [entity setObject:@"book" forKey:@"type"];
     [entity setObject:@"the old man and the sea" forKey:@"title"];
     
-    ApigeeClientResponse *response = [usergridClient createEntity:entity];
+    ApigeeClientResponse *response = [dataClient createEntity:entity];
 
     @try {
         NSLog(@"%@",response.response);
