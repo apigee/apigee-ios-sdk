@@ -27,6 +27,8 @@
     self = [super init];
     if (self) {
         
+        //This init creates the ApigeeClient object that holds your account credentials.
+        //We also call the dataClient object we need to access data methods in the App Services SDK.
         NSString * orgName = @"YOUR APIGEE.COM USERNAME";
         NSString * appName = @"sandbox";
         
@@ -34,7 +36,7 @@
             [[ApigeeClient alloc] initWithOrganizationId:orgName
                                            applicationId:appName];
         
-        usergridClient = [apigeeClient dataClient];
+        dataClient = [apigeeClient dataClient];
         [usergridClient setLogging:true]; //comment to remove debug output from the console window
     }
     return self;
@@ -58,12 +60,13 @@
     
     ApigeeClientResponse *response = [usergridClient createEntity:entity];
 
-    @try {
+    
+    @try { //success - show us our new book!
         NSLog(@"%@",response.response);
         NSArray * books = [response.response objectForKey:@"entities"];;
         return [books objectAtIndex:0];
     }
-    @catch (NSException * e) {
+    @catch (NSException * e) { //error
         return @"false";
     }
 }
@@ -81,10 +84,10 @@
  
     - You can try adding more properties after line 60 and reloading the app!
     - You can then see the admin view of this data by logging in at https://apigee.com/usergrid
-    - Or you can go explore more advanced examples in our docs: http://apigee.com/docs/usergrid */
+    - Or you can go explore more advanced examples in our docs: http://apigee.com/docs/app-services */
 
 @end
 
 // Psst… You can add more of your own client functions to this file…
 // See our Messagee’s Client.m file for more examples!
-// https://github.com/apigee/apigee-ios-sdk/blob/master/samples/messagee/Messagee/Client.m
+// It's included with this SDK in /samples/messagee/Messagee/Client.m
