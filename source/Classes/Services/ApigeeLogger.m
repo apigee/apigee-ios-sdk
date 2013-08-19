@@ -57,6 +57,18 @@ static const int kMaxMethodLength = 30;
     return sender;
 }
 
++ (NSString *) executableName
+{
+    static NSString *executableName = nil;
+    
+    static dispatch_once_t token;
+    dispatch_once(&token, ^{
+        executableName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey];
+    });
+    
+    return executableName;
+}
+
 #pragma mark - Logging support
 
 + (void) assert:(NSString *) tag format:(NSString *) format, ... NS_FORMAT_FUNCTION(2, 3)
