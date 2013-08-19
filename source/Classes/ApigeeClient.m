@@ -30,15 +30,12 @@ static NSString* kSDKVersion = @"2.0.1-SNAPSHOT";
         _dataClient = [[ApigeeDataClient alloc] initWithOrganizationId:organizationId
                                                      withApplicationID:applicationId];
         
-        _monitoringClient = nil;
-        /*
         if( _dataClient ) {
             _monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:_appIdentification
                                                                    dataClient:_dataClient];
         } else {
             //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
         }
-         */
     }
     
     return self;
@@ -60,15 +57,12 @@ static NSString* kSDKVersion = @"2.0.1-SNAPSHOT";
                                                      withApplicationID:applicationId
                                                                baseURL:baseURL];
         
-        _monitoringClient = nil;
-        /*
         if( _dataClient ) {
             _monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:_appIdentification
                                                                    dataClient:_dataClient];
         } else {
             //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
         }
-         */
     }
     
     return self;
@@ -89,8 +83,6 @@ static NSString* kSDKVersion = @"2.0.1-SNAPSHOT";
                                                      withApplicationID:applicationId];
         
         if( _dataClient ) {
-            _monitoringClient = nil;
-            /*
             if( monitoringOptions != nil ) {
                 if( monitoringOptions.monitoringEnabled ) {
                     _monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:_appIdentification
@@ -103,7 +95,6 @@ static NSString* kSDKVersion = @"2.0.1-SNAPSHOT";
                 _monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:_appIdentification
                                                                                    dataClient:_dataClient];
             }
-             */
         } else {
             //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
         }
@@ -132,8 +123,6 @@ static NSString* kSDKVersion = @"2.0.1-SNAPSHOT";
                                                                baseURL:baseURL];
         
         if( _dataClient ) {
-            _monitoringClient = nil;
-            /*
             if( monitoringOptions != nil ) {
                 if( monitoringOptions.monitoringEnabled ) {
                     _monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:_appIdentification
@@ -146,7 +135,6 @@ static NSString* kSDKVersion = @"2.0.1-SNAPSHOT";
                 _monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:_appIdentification
                                                                                    dataClient:_dataClient];
             }
-             */
         } else {
             //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
         }
