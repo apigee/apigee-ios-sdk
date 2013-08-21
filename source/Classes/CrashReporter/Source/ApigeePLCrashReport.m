@@ -669,7 +669,7 @@ error:
  * @param cause The underlying cause, if any. May be nil.
  */
 static void populate_nserror (NSError **error, Apigee_PLCrashReporterError code, NSString *description) {
-    NSMutableDictionary *userInfo;
+    NSDictionary *userInfo;
     
     if (error == NULL)
         return;
