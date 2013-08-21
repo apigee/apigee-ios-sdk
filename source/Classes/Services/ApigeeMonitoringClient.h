@@ -18,6 +18,11 @@
 
 @property (strong, nonatomic) ApigeeActiveSettings *activeSettings;
 
+
+/**
+ Retrieves the SDK version
+ @return string version of SDK
+ */
 + (NSString*)sdkVersion;
 
 
@@ -33,52 +38,56 @@
 
 /**
  Initializes ApigeeMonitoringClient which controls the Apigee mobile agent.
- @param appId the application id for your app (uniquely assigned by portal for each app)
- @param consumerKey the consumer key for your app (uniquely assigned by portal for each app)
- @param secretKey the secret key for your app (uniquely assigned by portal for each app)
+ @param appIdentification the identification attributes for your application
+ @param dataClient the data client object initialized by Apigee SDK
  @return initialized instance of ApigeeMonitoringClient
  */
 - (id) initWithAppIdentification:(ApigeeAppIdentification*)appIdentification
                       dataClient:(ApigeeDataClient*)dataClient;
 
+/**
+ Initializes ApigeeMonitoringClient which controls the Apigee mobile agent.
+ @param appIdentification the identification attributes for your application
+ @param dataClient the data client object initialized by Apigee SDK
+ @param monitoringOptions the options desired for monitoring
+ @return initialized instance of ApigeeMonitoringClient
+ */
 - (id) initWithAppIdentification:(ApigeeAppIdentification*)appIdentification
                       dataClient:(ApigeeDataClient*)dataClient
                          options:(ApigeeMonitoringOptions*)monitoringOptions;
 
 /**
  Initializes ApigeeMonitoringClient which controls the Apigee mobile agent.
- @param appId the application id for your app (uniquely assigned by portal for each app)
- @param consumerKey the consumer key for your app (uniquely assigned by portal for each app)
- @param secretKey the secret key for your app (uniquely assigned by portal for each app)
+ @deprecated in version 2.0 - please use initializer that accepts ApigeeMonitoringOptions
+ @param appIdentification the identification attributes for your application
+ @param dataClient the data client object initialized by Apigee SDK
  @param crashReportingEnabled determines whether crash reports should be uploaded to server (allows you to opt-out of crash reports)
  @return initialized instance of ApigeeMonitoringClient
  */
 - (id) initWithAppIdentification: (ApigeeAppIdentification*) appIdentification
                       dataClient: (ApigeeDataClient*) dataClient
-                  crashReporting: (BOOL) crashReportingEnabled;
+                  crashReporting: (BOOL) crashReportingEnabled __attribute__ ((deprecated));
 
 /**
  Initializes ApigeeMonitoringClient which controls the Apigee mobile agent.
- @param appId the application id for your app (uniquely assigned by portal for each app)
- @param consumerKey the consumer key for your app (uniquely assigned by portal for each app)
- @param secretKey the secret key for your app (uniquely assigned by portal for each app)
- @param environment the environment that your app belongs to (always use 'prod' here)
- @param crashReportingEnabled determines whether crash reports should be uploaded to server (allows you to opt-out)
+ @deprecated in version 2.0 - please use initializer that accepts ApigeeMonitoringOptions
+ @param appIdentification the identification attributes for your application
+ @param dataClient the data client object initialized by Apigee SDK
+ @param crashReportingEnabled determines whether crash reports should be uploaded to server (allows you to opt-out of crash reports)
  @param autoInterceptCalls determines whether automatic interception of network calls is enabled (allows you to opt-out)
  @return initialized instance of ApigeeMonitoringClient
  */
 - (id) initWithAppIdentification: (ApigeeAppIdentification*) appIdentification
                       dataClient: (ApigeeDataClient*) dataClient
                   crashReporting: (BOOL) crashReportingEnabled
-           interceptNetworkCalls: (BOOL) autoInterceptCalls;
+           interceptNetworkCalls: (BOOL) autoInterceptCalls __attribute__ ((deprecated));
 
 /**
  Initializes ApigeeMonitoringClient which controls the Apigee mobile agent.
- @param appId the application id for your app (uniquely assigned by portal for each app)
- @param consumerKey the consumer key for your app (uniquely assigned by portal for each app)
- @param secretKey the secret key for your app (uniquely assigned by portal for each app)
- @param environment the environment that your app belongs to (always use 'prod' here)
- @param crashReportingEnabled determines whether crash reports should be uploaded to server (allows you to opt-out)
+ @deprecated in version 2.0 - please use initializer that accepts ApigeeMonitoringOptions
+ @param appIdentification the identification attributes for your application
+ @param dataClient the data client object initialized by Apigee SDK
+ @param crashReportingEnabled determines whether crash reports should be uploaded to server (allows you to opt-out of crash reports)
  @param autoInterceptCalls determines whether automatic interception of network calls is enabled (allows you to opt-out)
  @param uploadListener listener to be notified on upload of crash reports and metrics
  @return initialized instance of ApigeeMonitoringClient
@@ -87,7 +96,7 @@
                       dataClient: (ApigeeDataClient*) dataClient
                   crashReporting: (BOOL) crashReportingEnabled
            interceptNetworkCalls: (BOOL) autoInterceptCalls
-                  uploadListener: (id<ApigeeUploadListener>)uploadListener;
+                  uploadListener: (id<ApigeeUploadListener>)uploadListener __attribute__ ((deprecated));
 
 /**
  Answers the question of whether the device session is participating in the sampling
@@ -137,13 +146,36 @@
 - (BOOL)uploadAnalytics;
 
 /**
+ Forces upload of metrics asynchronously
+ @param completionHandler a completion handler to run when the upload completes
+ */
+- (void)asyncUploadAnalytics:(void (^)(BOOL))completionHandler;
+
+/**
  Forces update (re-read) of configuration information.
  @return boolean indicating whether the re-read of configuration parameters
  was successful
  */
 - (BOOL)refreshConfiguration;
 
+/**
+ Force update (re-read) of configuration asynchronously
+ @param completionHandler a completion handler to run when the refresh completes
+ */
+- (void)asyncRefreshConfiguration:(void (^)(BOOL))completionHandler;
+
+/**
+ Adds an upload listener (observer) that will be notified when uploads are sent to server
+ @param uploadListener the listener to add (and be called) when uploads occur
+ @return boolean indicating whether the listener was added
+ */
 - (BOOL)addUploadListener:(id<ApigeeUploadListener>)uploadListener;
+
+/**
+ Removes an upload listener (observer)
+ @param uploadListener the listener to remove so that it's no longer called
+ @return boolean indicating whether the listener was removed
+ */
 - (BOOL)removeUploadListener:(id<ApigeeUploadListener>)uploadListener;
 
 /**

@@ -202,23 +202,23 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
 {
     return [self initWithAppIdentification:theAppIdentification
                                 dataClient:theDataClient
-                            crashReporting:kDefaultUploadCrashReports
-                     interceptNetworkCalls:kDefaultInterceptNetworkCalls];
+                                   options:nil];
 }
 
 - (id) initWithAppIdentification:(ApigeeAppIdentification*)theAppIdentification
                       dataClient:(ApigeeDataClient*)theDataClient
-                         options:(ApigeeMonitoringOptions*)monitoringOptions
+                  crashReporting: (BOOL) crashReportingEnabled
+           interceptNetworkCalls: (BOOL) autoInterceptCalls
+                  uploadListener: (id<ApigeeUploadListener>)uploadListener
 {
-    BOOL crashReporting = monitoringOptions.crashReportingEnabled;
-    BOOL interceptNetworkCalls = monitoringOptions.interceptNetworkCalls;
-    id<ApigeeUploadListener> uploadListener = monitoringOptions.uploadListener;
+    ApigeeMonitoringOptions* options = [[ApigeeMonitoringOptions alloc] init];
+    options.crashReportingEnabled = crashReportingEnabled;
+    options.interceptNetworkCalls = autoInterceptCalls;
+    options.uploadListener = uploadListener;
     
     return [self initWithAppIdentification:theAppIdentification
                                 dataClient:theDataClient
-                            crashReporting:crashReporting
-                     interceptNetworkCalls:interceptNetworkCalls
-                            uploadListener:uploadListener];
+                                   options:options];
 }
 
 
@@ -226,10 +226,14 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
                       dataClient: (ApigeeDataClient*) theDataClient
                   crashReporting: (BOOL) enabled
 {
+    ApigeeMonitoringOptions* options = [[ApigeeMonitoringOptions alloc] init];
+    options.crashReportingEnabled = enabled;
+    options.interceptNetworkCalls = kDefaultInterceptNetworkCalls;
+    options.uploadListener = nil;
+
     return [self initWithAppIdentification:theAppIdentification
                                 dataClient:theDataClient
-                            crashReporting:enabled
-                     interceptNetworkCalls:kDefaultInterceptNetworkCalls];
+                                   options:options];
 }
 
 - (id) initWithAppIdentification: (ApigeeAppIdentification*) theAppIdentification
@@ -237,23 +241,35 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
                   crashReporting: (BOOL) crashReportingEnabled
            interceptNetworkCalls: (BOOL) interceptCalls
 {
+    ApigeeMonitoringOptions* options = [[ApigeeMonitoringOptions alloc] init];
+    options.crashReportingEnabled = crashReportingEnabled;
+    options.interceptNetworkCalls = interceptCalls;
+    options.uploadListener = nil;
+
     return [self initWithAppIdentification:theAppIdentification
                                 dataClient:theDataClient
-                            crashReporting:crashReportingEnabled
-                     interceptNetworkCalls:interceptCalls
-                            uploadListener:nil];
+                                   options:options];
 }
 
 - (id) initWithAppIdentification: (ApigeeAppIdentification*) theAppIdentification
                       dataClient: (ApigeeDataClient*) theDataClient
-                  crashReporting: (BOOL) crashReportingEnabled
-           interceptNetworkCalls: (BOOL) autoInterceptCalls
-                  uploadListener: (id<ApigeeUploadListener>)uploadListener
+                         options:(ApigeeMonitoringOptions*)monitoringOptions
+
 {
     self = [super init];
     
     if (!self) {
         return nil;
+    }
+    
+    BOOL crashReportingEnabled = YES;
+    BOOL autoInterceptNetworkCalls = YES;
+    id<ApigeeUploadListener> uploadListener = nil;
+    
+    if( monitoringOptions ) {
+        crashReportingEnabled = monitoringOptions.crashReportingEnabled;
+        autoInterceptNetworkCalls = monitoringOptions.interceptNetworkCalls;
+        uploadListener = monitoringOptions.uploadListener;
     }
     
     self.appIdentification = theAppIdentification;
@@ -332,7 +348,7 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
 
     [self applyConfig];
     
-    if (autoInterceptCalls) {
+    if (autoInterceptNetworkCalls) {
         [self enableInterceptedNetworkingCalls];
     }
     
@@ -618,7 +634,6 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
 
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        //[self performSelectorInBackground:@selector(uploadEvents) withObject:nil];
         [self uploadEvents];
     });
 }
@@ -746,7 +761,6 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
                                                        toUrl:[self crashReportUploadURL:fileName]
                                                  contentType:@"text/plain"];
     if( nil != crashReportUploadResponseData ) {
-        NSString* crashReportUploadResponseAsString = [[NSString alloc] initWithData:crashReportUploadResponseData encoding:NSUTF8StringEncoding];
         [self sendCrashNotification:fileName];
         [crashReporter purgePendingCrashReport];
     } else {
@@ -1119,6 +1133,19 @@ replacementInstanceMethod:(SEL) replacementSelector
     return analyticsUploaded;
 }
 
+- (void)asyncUploadAnalytics:(void (^)(BOOL))completionHandler
+{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    dispatch_async(queue,^{
+        BOOL uploadSucceeded = [self uploadAnalytics];
+        
+        if( completionHandler ) {
+            completionHandler(uploadSucceeded);
+        }
+    });
+}
+
 - (BOOL)refreshConfiguration
 {
     BOOL configurationUpdated = NO;
@@ -1140,6 +1167,19 @@ replacementInstanceMethod:(SEL) replacementSelector
     }
     
     return configurationUpdated;
+}
+
+- (void)asyncRefreshConfiguration:(void (^)(BOOL))completionHandler
+{
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    dispatch_async(queue,^{
+        BOOL refreshSucceeded = [self refreshConfiguration];
+        
+        if( completionHandler ) {
+            completionHandler(refreshSucceeded);
+        }
+    });
 }
 
 - (BOOL)recordNetworkSuccessForUrl:(NSString*)url
