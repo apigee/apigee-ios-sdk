@@ -1141,7 +1141,9 @@ replacementInstanceMethod:(SEL) replacementSelector
         BOOL uploadSucceeded = [self uploadAnalytics];
         
         if( completionHandler ) {
-            completionHandler(uploadSucceeded);
+            dispatch_async(dispatch_get_main_queue(),^{
+                completionHandler(uploadSucceeded);
+            });
         }
     });
 }
@@ -1177,7 +1179,9 @@ replacementInstanceMethod:(SEL) replacementSelector
         BOOL refreshSucceeded = [self refreshConfiguration];
         
         if( completionHandler ) {
-            completionHandler(refreshSucceeded);
+            dispatch_async(dispatch_get_main_queue(),^{
+                completionHandler(refreshSucceeded);
+            });
         }
     });
 }
