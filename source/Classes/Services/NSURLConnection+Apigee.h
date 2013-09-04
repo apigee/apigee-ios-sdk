@@ -34,6 +34,8 @@
 + (NSURLConnection *)swzConnectionWithRequest:(NSURLRequest *)request
                                      delegate:(id < NSURLConnectionDelegate >)delegate;
 - (id) initSwzWithRequest:(NSURLRequest *) request
+                 delegate:(id < NSURLConnectionDelegate >)delegate;
+- (id) initSwzWithRequest:(NSURLRequest *) request
                  delegate:(id < NSURLConnectionDelegate >)delegate
          startImmediately:(BOOL) startImmediately;
 - (void) swzStart;

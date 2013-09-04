@@ -946,6 +946,11 @@ replacementInstanceMethod:(SEL) replacementSelector
  replacementInstanceMethod:@selector(initSwzWithRequest:delegate:startImmediately:)];
     
         [self swizzleClass:clsNSURLConnection
+            instanceMethod:@selector(initWithRequest:delegate:)
+          replacementClass:clsNSURLConnection
+ replacementInstanceMethod:@selector(initSwzWithRequest:delegate:)];
+        
+        [self swizzleClass:clsNSURLConnection
             instanceMethod:@selector(start)
           replacementClass:clsNSURLConnection
  replacementInstanceMethod:@selector(swzStart)];

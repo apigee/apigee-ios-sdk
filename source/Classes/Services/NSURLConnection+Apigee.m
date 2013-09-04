@@ -127,6 +127,19 @@ static void *KEY_START_TIME;
 
 - (id) initSwzWithRequest:(NSURLRequest *) request
                  delegate:(id < NSURLConnectionDelegate >)delegate
+{
+    //ApigeeLogVerbose(@"MOBILE_AGENT", @"initSwzWithRequest");
+    
+    ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
+    [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
+                                                                  withRequest:request];
+    // the following looks like a recursive call, but it isn't (swizzling)
+    return [self initSwzWithRequest:request
+                           delegate:interceptor];
+}
+
+- (id) initSwzWithRequest:(NSURLRequest *) request
+                 delegate:(id < NSURLConnectionDelegate >)delegate
          startImmediately:(BOOL) startImmediately
 {
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"initSwzWithRequest");
