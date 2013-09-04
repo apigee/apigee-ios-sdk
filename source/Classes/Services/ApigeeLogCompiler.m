@@ -46,29 +46,85 @@
     [self refreshUploadTimestamp:[NSDate date]];
 }
 
-- (NSArray *) compileLogsForSettings:(ApigeeActiveSettings *) settings
+- (NSDate*) retrieveLogsEntriesForSender:(NSString*)sender
+                               sinceTime:(NSDate*)sinceTime
+                                settings:(ApigeeActiveSettings *) settings
+                              populating:(NSMutableArray*)logEntries
+                     maxNumberLogEntries:(int)maxNumberLogEntries
 {
-    aslmsg q = asl_new(ASL_TYPE_QUERY);
-    asl_set_query(q, ASL_KEY_SENDER, [[ApigeeLogger aslAppSenderKey] UTF8String], ASL_QUERY_OP_EQUAL);
-    
-    NSDate *timeStamp = [[NSUserDefaults standardUserDefaults] objectForKey:kApigeeLastLogTransmission];
+    // we only query ASL if we have a sender value
+    if([sender length] < 1) {
+        return nil;
+    }
 
-    if(timeStamp != nil) {
-        NSString *since = [NSString stringWithFormat:@"%.f", [timeStamp timeIntervalSince1970]];
+    // don't bother running query if we've already retrieved our maximum number of entries
+    if([logEntries count] >= maxNumberLogEntries) {
+        return nil;
+    }
+
+    NSDate *newestMessage = nil;
+
+    aslmsg q = asl_new(ASL_TYPE_QUERY);
+    asl_set_query(q, ASL_KEY_SENDER, [sender UTF8String], ASL_QUERY_OP_EQUAL);
+    
+    if(sinceTime != nil) {
+        NSString *since = [NSString stringWithFormat:@"%.f", [sinceTime timeIntervalSince1970]];
         asl_set_query(q, ASL_KEY_TIME, [since UTF8String], ASL_QUERY_OP_GREATER);
     }
     
     aslresponse r = asl_search(NULL, q);
- 
-    NSMutableArray *logEntries = [NSMutableArray array];
-    NSDate *newestMessage = nil;
-    
-
     aslmsg m;
-    while (NULL != (m = aslresponse_next(r)))
+    BOOL querying = YES;
+    
+    while (querying && (NULL != (m = aslresponse_next(r))))
     {
-        ApigeeLogEntry *logEntry = [ApigeeLogEntry new];
+        ApigeeLogLevel level = kApigeeLogLevelDebug;
+        const char* messageLevel = asl_get(m, kApigeeLogLevelASLMessageKey);
+        
+        if (messageLevel) {
+            const int messageLevelAsInt = atoi(messageLevel);
+            if (messageLevelAsInt > 0) {
+                level = messageLevelAsInt;
+            }
+        }
+        
+        if (level < settings.logLevelToMonitor) {
+            continue;
+        }
 
+        ApigeeLogEntry *logEntry = [ApigeeLogEntry new];
+        
+        //note: log messages persisted via our API will have the custom log level key set, but NSLog statements will not.  As such, we impose
+        //a level of debug on the message if the custom key does not exist. Otherwise, we accept the definition on the message and filter
+        //accordingly.
+
+        NSString* logLevelCode = @"D"; // debug
+        
+        switch( level )
+        {
+            case kApigeeLogLevelVerbose:
+                logLevelCode = @"V";
+                break;
+            case kApigeeLogLevelDebug:
+                logLevelCode = @"D";
+                break;
+            case kApigeeLogLevelInfo:
+                logLevelCode = @"I";
+                break;
+            case kApigeeLogLevelWarn:
+                logLevelCode = @"W";
+                break;
+            case kApigeeLogLevelError:
+                logLevelCode = @"E";
+                break;
+            case kApigeeLogLevelAssert:
+                logLevelCode = @"A";
+                break;
+        }
+        
+        logEntry.logLevel = logLevelCode;
+
+        
         if (asl_get(m, ASL_KEY_FACILITY) != NULL) {
             logEntry.tag = [NSString stringWithUTF8String:asl_get(m, ASL_KEY_FACILITY)];
         }
@@ -97,52 +153,12 @@
                 newestMessage = [entryTimestamp copy];
             }
         }
-
+        
         // convert seconds to milliseconds by appending 3 zeros
         logEntry.timeStamp = [NSString stringWithFormat:@"%@000", seconds];
-
-        //note: log messages persisted via our API will have the custom log level key set, but NSLog statements will not.  As such, we impose
-        //a level of debug on the message if the custom key does not exist. Otherwise, we accept the definition on the message and filter
-        //accordingly.
-        
-        ApigeeLogLevel level = kApigeeLogLevelDebug;
-        const char* messageLevel = asl_get(m, kApigeeLogLevelASLMessageKey);
-        
-        if (messageLevel) {
-            const int messageLevelAsInt = atoi(messageLevel);
-            if (messageLevelAsInt > 0) {
-                level = messageLevelAsInt;
-            }
-        }
-        
-        NSString* logLevelCode = @"D"; // debug
-        
-        switch( level )
-        {
-            case kApigeeLogLevelVerbose:
-                logLevelCode = @"V";
-                break;
-            case kApigeeLogLevelDebug:
-                logLevelCode = @"D";
-                break;
-            case kApigeeLogLevelInfo:
-                logLevelCode = @"I";
-                break;
-            case kApigeeLogLevelWarn:
-                logLevelCode = @"W";
-                break;
-            case kApigeeLogLevelError:
-                logLevelCode = @"E";
-                break;
-            case kApigeeLogLevelAssert:
-                logLevelCode = @"A";
-                break;
-        }
-        
-        logEntry.logLevel = logLevelCode;
         
         
-        if ((level >= settings.logLevelToMonitor) && ([logEntries count] < kApigeeMaxLogEntries)) {
+        if ([logEntries count] < kApigeeMaxLogEntries) {
             BOOL discardEntry = NO;
             
             //REVIEW: we should consider the following and how, if at all, we
@@ -159,18 +175,19 @@
                     discardEntry = YES;
                 } else {
                     NSRange rangeSubstring =
-                        [logMessage rangeOfString:@"Could not successfully update network info during" ];
+                    [logMessage rangeOfString:@"Could not successfully update network info during" ];
                     if (rangeSubstring.location != NSNotFound) {
                         discardEntry = YES;
                     }
                 }
             }
 #endif
-
+            
             if (!discardEntry) {
                 [logEntries addObject:logEntry];
             }
         } else {
+            querying = NO;  // no need to continue running query, because we'll just be ignoring the results
             SystemDebug(@"IO_Diagnostics",@"Not capturing due to log level or full queue: '%@'", logEntry.logMessage);
         }
     }
@@ -178,9 +195,37 @@
     aslresponse_free(r);
     asl_free(q);
     
+    return newestMessage;
+}
+
+- (NSArray *) compileLogsForSettings:(ApigeeActiveSettings *) settings
+{
+    NSMutableArray *logEntries = [NSMutableArray array];
+    NSDate *timeStamp = [[NSUserDefaults standardUserDefaults] objectForKey:kApigeeLastLogTransmission];
+
+    NSDate *newestAppSenderMessage = [self retrieveLogsEntriesForSender:[ApigeeLogger aslAppSenderKey]
+                                                     sinceTime:timeStamp
+                                                      settings:settings
+                                                    populating:logEntries
+                                           maxNumberLogEntries:kApigeeMaxLogEntries];
+
+    NSDate *newestExecutableSenderMessage = [self retrieveLogsEntriesForSender:[ApigeeLogger executableName]
+                                                              sinceTime:timeStamp
+                                                               settings:settings
+                                                             populating:logEntries
+                                                    maxNumberLogEntries:kApigeeMaxLogEntries];
+
+    
     // found any messages?
-    if (newestMessage != nil) {
-        [ApigeeLogCompiler refreshUploadTimestamp:newestMessage];
+    if ((newestAppSenderMessage != nil) || (newestExecutableSenderMessage != nil)) {
+        if (newestExecutableSenderMessage == nil) {
+            [ApigeeLogCompiler refreshUploadTimestamp:newestAppSenderMessage];
+        } else if (newestAppSenderMessage == nil) {
+            [ApigeeLogCompiler refreshUploadTimestamp:newestExecutableSenderMessage];
+        } else {
+            NSDate* newestMessageDate = [newestAppSenderMessage laterDate:newestExecutableSenderMessage];
+            [ApigeeLogCompiler refreshUploadTimestamp:newestMessageDate];
+        }
     }
 
     return logEntries;

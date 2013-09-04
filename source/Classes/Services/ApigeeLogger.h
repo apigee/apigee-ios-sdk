@@ -19,6 +19,7 @@ typedef enum {
 //- (ApigeeLogger *) logger;
 + (int) aslLevel:(ApigeeLogLevel) level;
 + (NSString *) aslAppSenderKey;
++ (NSString *) executableName;
 
 + (void) assert:(NSString *) tag format:(NSString *) format, ... NS_FORMAT_FUNCTION(2, 3);
 + (void) error:(NSString *) tag format:(NSString *) format, ... NS_FORMAT_FUNCTION(2, 3);
