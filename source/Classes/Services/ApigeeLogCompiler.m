@@ -63,7 +63,7 @@
     }
     
     NSDate *newestMessage = nil;
-    
+
     aslmsg q = asl_new(ASL_TYPE_QUERY);
     asl_set_query(q, ASL_KEY_SENDER, [sender UTF8String], ASL_QUERY_OP_EQUAL);
     
@@ -123,7 +123,7 @@
         }
         
         logEntry.logLevel = logLevelCode;
-        
+
         
         if (asl_get(m, ASL_KEY_FACILITY) != NULL) {
             logEntry.tag = [NSString stringWithUTF8String:asl_get(m, ASL_KEY_FACILITY)];
@@ -230,4 +230,5 @@
     
     return logEntries;
 }
+
 @end
