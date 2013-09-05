@@ -12,7 +12,7 @@
 #import "ApigeeMonitoringOptions.h"
 #import "ApigeeDefaultiOSLog.h"
 
-static NSString* kSDKVersion = @"2.0.1-SNAPSHOT";
+static NSString* kSDKVersion = @"2.0.1";
 
 
 @implementation ApigeeClient
