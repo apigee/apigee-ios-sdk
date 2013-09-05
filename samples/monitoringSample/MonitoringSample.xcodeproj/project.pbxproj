@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63AD605417D8CE2E0087F506 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63AD605317D8CE2E0087F506 /* ApigeeiOSSDK.framework */; };
 		63C7BC0E17D791EB00EBF365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC0D17D791EB00EBF365 /* Foundation.framework */; };
 		63C7BC1017D791EB00EBF365 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC0F17D791EB00EBF365 /* CoreGraphics.framework */; };
 		63C7BC1217D791EB00EBF365 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC1117D791EB00EBF365 /* UIKit.framework */; };
@@ -16,7 +17,6 @@
 		63C7BC2117D791EB00EBF365 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63C7BC1F17D791EB00EBF365 /* Main.storyboard */; };
 		63C7BC2417D791EB00EBF365 /* ApigeeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7BC2317D791EB00EBF365 /* ApigeeViewController.m */; };
 		63C7BC2617D791EB00EBF365 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63C7BC2517D791EB00EBF365 /* Images.xcassets */; };
-		63C7BC2D17D791EB00EBF365 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC2C17D791EB00EBF365 /* XCTest.framework */; };
 		63C7BC2E17D791EB00EBF365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC0D17D791EB00EBF365 /* Foundation.framework */; };
 		63C7BC2F17D791EB00EBF365 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC1117D791EB00EBF365 /* UIKit.framework */; };
 		63C7BC3717D791EB00EBF365 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63C7BC3517D791EB00EBF365 /* InfoPlist.strings */; };
@@ -25,7 +25,6 @@
 		63C7BC4717D7B7E100EBF365 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4617D7B7E100EBF365 /* CoreTelephony.framework */; };
 		63C7BC4917D7B7E900EBF365 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4817D7B7E800EBF365 /* Security.framework */; };
 		63C7BC4B17D7B7F500EBF365 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */; };
-		63C7BC5517D7D82C00EBF365 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC5417D7D82C00EBF365 /* ApigeeiOSSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		63AD605317D8CE2E0087F506 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 		63C7BC0A17D791EB00EBF365 /* MonitoringSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MonitoringSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63C7BC0D17D791EB00EBF365 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		63C7BC0F17D791EB00EBF365 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -54,7 +54,6 @@
 		63C7BC2317D791EB00EBF365 /* ApigeeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApigeeViewController.m; sourceTree = "<group>"; };
 		63C7BC2517D791EB00EBF365 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		63C7BC2B17D791EB00EBF365 /* MonitoringSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonitoringSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		63C7BC2C17D791EB00EBF365 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		63C7BC3417D791EB00EBF365 /* MonitoringSampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MonitoringSampleTests-Info.plist"; sourceTree = "<group>"; };
 		63C7BC3617D791EB00EBF365 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		63C7BC3817D791EB00EBF365 /* MonitoringSampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MonitoringSampleTests.m; sourceTree = "<group>"; };
@@ -62,7 +61,6 @@
 		63C7BC4617D7B7E100EBF365 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		63C7BC4817D7B7E800EBF365 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		63C7BC5417D7D82C00EBF365 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,12 +70,12 @@
 			files = (
 				63C7BC4B17D7B7F500EBF365 /* SystemConfiguration.framework in Frameworks */,
 				63C7BC4917D7B7E900EBF365 /* Security.framework in Frameworks */,
-				63C7BC5517D7D82C00EBF365 /* ApigeeiOSSDK.framework in Frameworks */,
 				63C7BC4717D7B7E100EBF365 /* CoreTelephony.framework in Frameworks */,
 				63C7BC4517D7B7D900EBF365 /* CoreLocation.framework in Frameworks */,
 				63C7BC1017D791EB00EBF365 /* CoreGraphics.framework in Frameworks */,
 				63C7BC1217D791EB00EBF365 /* UIKit.framework in Frameworks */,
 				63C7BC0E17D791EB00EBF365 /* Foundation.framework in Frameworks */,
+				63AD605417D8CE2E0087F506 /* ApigeeiOSSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +83,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63C7BC2D17D791EB00EBF365 /* XCTest.framework in Frameworks */,
 				63C7BC2F17D791EB00EBF365 /* UIKit.framework in Frameworks */,
 				63C7BC2E17D791EB00EBF365 /* Foundation.framework in Frameworks */,
 			);
@@ -116,7 +113,7 @@
 		63C7BC0C17D791EB00EBF365 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				63C7BC5417D7D82C00EBF365 /* ApigeeiOSSDK.framework */,
+				63AD605317D8CE2E0087F506 /* ApigeeiOSSDK.framework */,
 				63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */,
 				63C7BC4817D7B7E800EBF365 /* Security.framework */,
 				63C7BC4617D7B7E100EBF365 /* CoreTelephony.framework */,
@@ -124,7 +121,6 @@
 				63C7BC0D17D791EB00EBF365 /* Foundation.framework */,
 				63C7BC0F17D791EB00EBF365 /* CoreGraphics.framework */,
 				63C7BC1117D791EB00EBF365 /* UIKit.framework */,
-				63C7BC2C17D791EB00EBF365 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -398,10 +394,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/ApigeeCorporation/github/apigee-ios-sdk/samples/monitoring/MonitoringSample",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MonitoringSample/MonitoringSample-Prefix.pch";
 				INFOPLIST_FILE = "MonitoringSample/MonitoringSample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -419,10 +417,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/ApigeeCorporation/github/apigee-ios-sdk/samples/monitoring/MonitoringSample",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MonitoringSample/MonitoringSample-Prefix.pch";
 				INFOPLIST_FILE = "MonitoringSample/MonitoringSample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -491,6 +491,7 @@
 				63C7BC3E17D791EB00EBF365 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		63C7BC3F17D791EB00EBF365 /* Build configuration list for PBXNativeTarget "MonitoringSampleTests" */ = {
 			isa = XCConfigurationList;
@@ -499,6 +500,7 @@
 				63C7BC4117D791EB00EBF365 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

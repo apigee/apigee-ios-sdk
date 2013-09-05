@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Apigee. All rights reserved.
 //
 
-#import <ApigeeiOSSDK/Apigee.h>
 #import <ApigeeiOSSDK/ApigeeClient.h>
 #import <ApigeeiOSSDK/ApigeeMonitoringClient.h>
+#import <ApigeeiOSSDK/Apigee.h>
 
 #import "ApigeeViewController.h"
 
