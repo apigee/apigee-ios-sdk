@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		63AD605417D8CE2E0087F506 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63AD605317D8CE2E0087F506 /* ApigeeiOSSDK.framework */; };
+		63AD605617D8F2150087F506 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63AD605517D8F2150087F506 /* ApigeeiOSSDK.framework */; };
 		63C7BC0E17D791EB00EBF365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC0D17D791EB00EBF365 /* Foundation.framework */; };
 		63C7BC1017D791EB00EBF365 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC0F17D791EB00EBF365 /* CoreGraphics.framework */; };
 		63C7BC1217D791EB00EBF365 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC1117D791EB00EBF365 /* UIKit.framework */; };
@@ -38,7 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		63AD605317D8CE2E0087F506 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ApigeeiOSSDK.framework; sourceTree = "<group>"; };
+		63AD605517D8F2150087F506 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 		63C7BC0A17D791EB00EBF365 /* MonitoringSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MonitoringSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63C7BC0D17D791EB00EBF365 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		63C7BC0F17D791EB00EBF365 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -75,7 +75,7 @@
 				63C7BC1017D791EB00EBF365 /* CoreGraphics.framework in Frameworks */,
 				63C7BC1217D791EB00EBF365 /* UIKit.framework in Frameworks */,
 				63C7BC0E17D791EB00EBF365 /* Foundation.framework in Frameworks */,
-				63AD605417D8CE2E0087F506 /* ApigeeiOSSDK.framework in Frameworks */,
+				63AD605617D8F2150087F506 /* ApigeeiOSSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,7 +113,7 @@
 		63C7BC0C17D791EB00EBF365 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				63AD605317D8CE2E0087F506 /* ApigeeiOSSDK.framework */,
+				63AD605517D8F2150087F506 /* ApigeeiOSSDK.framework */,
 				63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */,
 				63C7BC4817D7B7E800EBF365 /* Security.framework */,
 				63C7BC4617D7B7E100EBF365 /* CoreTelephony.framework */,
