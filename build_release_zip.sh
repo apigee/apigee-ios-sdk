@@ -71,7 +71,7 @@ do
 		cp "$entry" "${DEST_ZIP_DIR}"
 	elif [ -d "$entry" ]; then
 		if [ "$entry" != "${TOPLEVEL_ZIP_DIR}" ]; then
-			cp -r "$entry" "${DEST_ZIP_DIR}"
+			cp -R "$entry" "${DEST_ZIP_DIR}"
 		fi
 	fi
 done
@@ -88,7 +88,7 @@ fi
 mkdir -p "${ZIP_BIN_DIR}"
 
 # copy framework to destination directory
-cp -r "${BUILT_FRAMEWORK}" "${ZIP_BIN_DIR}"
+cp -R "${BUILT_FRAMEWORK}" "${ZIP_BIN_DIR}"
 
 
 # create the zip file
