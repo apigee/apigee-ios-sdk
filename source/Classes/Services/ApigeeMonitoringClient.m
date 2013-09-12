@@ -316,6 +316,13 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     
     [self reset];
     [self updateConfig];
+    
+#ifdef __arm64__
+    if (crashReportingEnabled) {
+        crashReportingEnabled = NO;
+        ApigeeLogWarn(kApigeeMonitoringClientTag, @"Disabling crash reporting on arm64 (not supported yet)");
+    }
+#endif
 
     if (crashReportingEnabled) {
         

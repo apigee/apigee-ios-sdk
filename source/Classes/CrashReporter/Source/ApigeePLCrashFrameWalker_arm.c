@@ -247,5 +247,6 @@ const char *Apigee_plframe_get_regname (Apigee_plframe_regnum_t regnum) {
     abort();
 }
 
+#else
 
 #endif /* __arm__ */

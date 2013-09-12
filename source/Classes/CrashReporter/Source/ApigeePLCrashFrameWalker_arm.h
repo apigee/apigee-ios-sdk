@@ -78,4 +78,59 @@ typedef enum {
     Apigee_PLFRAME_PDEF_LAST_REG = Apigee_PLFRAME_ARM_CPSR
 } Apigee_plframe_arm_regnum_t;
 
+#else
+
+#ifdef __arm64__
+// 64-bit
+typedef uintptr_t Apigee_plframe_pdef_greg_t;
+typedef uintptr_t Apigee_plframe_pdef_fpreg_t;
+
+// Data we'll read off the stack frame
+#define Apigee_PLFRAME_PDEF_STACKFRAME_LEN 2
+
+/**
+ * @internal
+ * Arm registers
+ */
+typedef enum {
+    /*
+     * General
+     */
+    
+    Apigee_PLFRAME_ARM_R0 = 0,
+    Apigee_PLFRAME_ARM_R1,
+    Apigee_PLFRAME_ARM_R2,
+    Apigee_PLFRAME_ARM_R3,
+    Apigee_PLFRAME_ARM_R4,
+    Apigee_PLFRAME_ARM_R5,
+    Apigee_PLFRAME_ARM_R6,
+    Apigee_PLFRAME_ARM_R7,
+    Apigee_PLFRAME_ARM_R8,
+    Apigee_PLFRAME_ARM_R9,
+    Apigee_PLFRAME_ARM_R10,
+    Apigee_PLFRAME_ARM_R11,
+    Apigee_PLFRAME_ARM_R12,
+    
+    /* stack pointer (r13) */
+    Apigee_PLFRAME_ARM_SP,
+    
+    /* link register (r14) */
+    Apigee_PLFRAME_ARM_LR,
+    
+    /** Program counter (r15) */
+    Apigee_PLFRAME_ARM_PC,
+    
+    /** Current program status register */
+    Apigee_PLFRAME_ARM_CPSR,
+    
+    /* Common registers */
+    
+    Apigee_PLFRAME_PDEF_REG_IP = Apigee_PLFRAME_ARM_PC,
+    
+    /** Last register */
+    Apigee_PLFRAME_PDEF_LAST_REG = Apigee_PLFRAME_ARM_CPSR
+} Apigee_plframe_arm_regnum_t;
+
+#endif
+
 #endif

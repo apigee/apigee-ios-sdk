@@ -90,8 +90,11 @@ typedef enum {
     /** ARMv7s */
     Apigee_PLCrashReportArchitectureARMv7s = 6,
     
+    /** ARMv8 (arm64) */
+    Apigee_PLCrashReportArchitectureARMv8 = 7,
+    
     /** Unknown */
-    Apigee_PLCrashReportArchitectureUnknown = 7
+    Apigee_PLCrashReportArchitectureUnknown = 8
 } Apigee_PLCrashReportArchitecture;
 
 

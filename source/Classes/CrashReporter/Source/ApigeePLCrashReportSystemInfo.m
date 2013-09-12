@@ -65,6 +65,8 @@ Apigee_PLCrashReportArchitecture Apigee_PLCrashReportHostArchitecture =
     Apigee_PLCrashReportArchitectureARMv7s;
 #elif defined(__ppc__)
     Apigee_PLCrashReportArchitecturePPC;
+#elif defined(__arm64__)
+    Apigee_PLCrashReportArchitectureARMv8;
 #else
     #error Unknown machine architecture
 #endif
