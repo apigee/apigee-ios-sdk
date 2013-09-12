@@ -7,18 +7,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class ApigeeAppIdentification;
 @class ApigeeDataClient;
 @class ApigeeMonitoringClient;
-@class ApigeeAppIdentification;
 @class ApigeeMonitoringOptions;
 
+
 @interface ApigeeClient : NSObject
-{
-    ApigeeDataClient* _dataClient;
-    ApigeeMonitoringClient* _monitoringClient;
-    ApigeeAppIdentification* _appIdentification;
-    NSString* _loggedInUser;
-}
 
 - (id)initWithOrganizationId:(NSString*)organizationId
                applicationId:(NSString*)applicationId;

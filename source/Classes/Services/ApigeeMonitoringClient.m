@@ -89,8 +89,8 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
 
 @property (strong) NSMutableArray *listListeners;
 
-@property (unsafe_unretained) ApigeeAppIdentification *appIdentification;
-@property (unsafe_unretained) ApigeeDataClient *dataClient;
+@property (strong) ApigeeAppIdentification *appIdentification;
+@property (strong) ApigeeDataClient *dataClient;
 
 
 - (BOOL) uploadEvents;

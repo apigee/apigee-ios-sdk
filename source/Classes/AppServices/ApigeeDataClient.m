@@ -127,7 +127,13 @@ NSString *g_deviceUUID = nil;
         m_delegateLock = [NSRecursiveLock new];
         m_appID = applicationID;
         m_orgID = organizationID;
-        m_baseURL = baseURL;
+        
+        if ([baseURL length] > 0) {
+            m_baseURL = [NSString stringWithString:baseURL];
+        } else {
+            m_baseURL = [ApigeeDataClient defaultBaseURL];
+        }
+        
         m_loggedInUser = nil;
         m_bLogging = NO;
         
