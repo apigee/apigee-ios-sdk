@@ -420,8 +420,9 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../../source/build/framework\"",
+					"$(SRCROOT)",
+					"\\\"$(SRCROOT)/../../source/build/framework\\\"",
+					"/Users/ApigeeCorporation/github-master/apigee-ios-sdk/samples/messagee",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Messagee/Messagee-Prefix.pch";
@@ -431,6 +432,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -440,8 +442,9 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../../source/build/framework\"",
+					"$(SRCROOT)",
+					"\\\"$(SRCROOT)/../../source/build/framework\\\"",
+					"/Users/ApigeeCorporation/github-master/apigee-ios-sdk/samples/messagee",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Messagee/Messagee-Prefix.pch";
@@ -451,6 +454,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

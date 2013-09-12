@@ -8,6 +8,7 @@
 
 #import "Client.h"
 #import <ApigeeiOSSDK/ApigeeClient.h>
+#import <ApigeeiOSSDK/ApigeeMonitoringOptions.h>
 
 @implementation Client
 
@@ -21,10 +22,17 @@
         //configure the org and app
         NSString * orgName = @"ApigeeOrg";
         NSString * appName = @"MessageeApp";
+        NSString * baseURL = @"https://api.usergrid.com";
+        
+        ApigeeMonitoringOptions* monitoringOptions = [[ApigeeMonitoringOptions alloc] init];
+        monitoringOptions.crashReportingEnabled = NO;
+        monitoringOptions.monitoringEnabled = NO;
 
         ApigeeClient *apigeeClient =
             [[ApigeeClient alloc] initWithOrganizationId:orgName
-                                           applicationId:appName];
+                                           applicationId:appName
+                                                 baseURL:baseURL
+                                                 options:monitoringOptions];
         usergridClient = [apigeeClient dataClient];
         //[usergridClient setLogging:true]; //uncomment to see debug output in console window
     }
