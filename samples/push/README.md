@@ -3,6 +3,9 @@ apigee-ios-push-test
 
 A simple iOS app that registers itself and pushes an APNs notification to itself via Apigee's App Services.
 
+In order to compile and run this application, you must first add ApigeeiOSSDK.framework to this application.
+
+Also, please configure the org name, app name, and notifier values as appropriate in AppDelegate.m.
 
 
 

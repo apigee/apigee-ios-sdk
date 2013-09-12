@@ -14,7 +14,7 @@ ApigeeDataClient * usergridClient;
 // Also ensure that you update the Bundle Identifier and Provisioning Profile in the project Build Settings.
 // You will need to set the "Code Signing Identity" options for "Debug" to your Provisioning Profile.
 
-
+#error update your org name, app name, and notifier here
 NSString * orgName = @"scottganyo";
 NSString * appName = @"pushtest";
 NSString * notifier = @"apple";
