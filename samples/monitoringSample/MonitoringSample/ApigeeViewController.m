@@ -71,14 +71,13 @@ static NSString* kLoggingTag = @"Sample App";
             @"http://www.bbc.co.uk",       // one in Europe
             nil];
     
-    NSString* orgName = @"pdardeau";
-    NSString* appName = @"sandbox";
-    NSString* baseURL = @"http://apigee-internal-prod.jupiter.apigee.net";
+#error configure your org name and app name here
+    NSString* orgName = @"<YOUR_ORG_NAME>";
+    NSString* appName = @"<YOUR_APP_NAME>";
     
     self.apigeeClient = [[ApigeeClient alloc]
                             initWithOrganizationId:orgName
-                            applicationId:appName
-                            baseURL:baseURL];
+                            applicationId:appName];
 }
 
 - (NSString*)randomStringFromList:(NSArray*)list

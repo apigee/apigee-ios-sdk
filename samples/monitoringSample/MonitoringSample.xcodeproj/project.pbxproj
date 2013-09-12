@@ -390,7 +390,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/ApigeeCorporation/github/apigee-ios-sdk/samples/monitoring/MonitoringSample",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"/Users/ApigeeCorporation/github-master/apigee-ios-sdk/samples/monitoringSample",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MonitoringSample/MonitoringSample-Prefix.pch";
@@ -413,7 +414,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/ApigeeCorporation/github/apigee-ios-sdk/samples/monitoring/MonitoringSample",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
+					"/Users/ApigeeCorporation/github-master/apigee-ios-sdk/samples/monitoringSample",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MonitoringSample/MonitoringSample-Prefix.pch";
@@ -431,6 +433,7 @@
 		63C7BC4017D791EB00EBF365 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MonitoringSample.app/MonitoringSample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -444,8 +447,10 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "MonitoringSampleTests/MonitoringSampleTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				VALID_ARCHS = "i386 armv7 armv7s";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -453,6 +458,7 @@
 		63C7BC4117D791EB00EBF365 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MonitoringSample.app/MonitoringSample";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -462,8 +468,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MonitoringSample/MonitoringSample-Prefix.pch";
 				INFOPLIST_FILE = "MonitoringSampleTests/MonitoringSampleTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				VALID_ARCHS = "i386 armv7 armv7s";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
