@@ -1,5 +1,7 @@
 Welcome to the Apigee App Services template app for iOS!
 
+In order to compile and run this application, you must first add ApigeeiOSSDK.framework to this application.
+
 App Services is Apigee’s hosted version of the open-source technology “Usergrid” — you may find references to that name in a few places. 
 
 To get started, open this project in XCode: just double-click the file called “Apigee App Services iOS Template.xcodeproj” in the Finder.
