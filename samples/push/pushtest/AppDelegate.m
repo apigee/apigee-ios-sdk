@@ -5,7 +5,7 @@
 
 @implementation AppDelegate
 
-ApigeeDataClient * usergridClient;
+ApigeeDataClient * dataClient;
 
 // The following values must be changed to the organization, application, and notifier
 // to match the names that you've created on the App Services platform. Be sure that
@@ -15,9 +15,9 @@ ApigeeDataClient * usergridClient;
 // You will need to set the "Code Signing Identity" options for "Debug" to your Provisioning Profile.
 
 #error update your org name, app name, and notifier here
-NSString * orgName = @"scottganyo";
-NSString * appName = @"pushtest";
-NSString * notifier = @"apple";
+NSString * orgName = @"<YOUR_ORG_NAME>";
+NSString * appName = @"<YOUR_APP_NAME>";
+NSString * notifier = @"<YOUR_PUSH_NOTIFIER>";
 
 NSString * baseURL = @"https://api.usergrid.com";
 
@@ -29,8 +29,8 @@ NSString * baseURL = @"https://api.usergrid.com";
         [[ApigeeClient alloc] initWithOrganizationId:orgName
                                        applicationId:appName
                                              baseURL:baseURL];
-    usergridClient = [apigeeClient dataClient];
-    [usergridClient setLogging:true]; //comment out to remove debug output from the console window
+    dataClient = [apigeeClient dataClient];
+    [dataClient setLogging:true]; //comment out to remove debug output from the console window
 
     // it's not necessary to explicitly login to App Services if the Guest role allows access
 //    NSLog(@"logging in user");
@@ -49,7 +49,7 @@ NSString * baseURL = @"https://api.usergrid.com";
 {
     // register device token with App Services (will create the Device entity if it doesn't exist)
     NSLog(@"registering token with app services");
-    ApigeeClientResponse *response = [usergridClient setDevicePushToken: newDeviceToken forNotifier: notifier];
+    ApigeeClientResponse *response = [dataClient setDevicePushToken: newDeviceToken forNotifier: notifier];
     
     // you could use this if you log in as an app services user to associate the Device to your User
 //    if (response.transactionState == kUGClientResponseSuccess) {
@@ -71,7 +71,7 @@ NSString * baseURL = @"https://api.usergrid.com";
     NSString *deviceId = [ApigeeDataClient getUniqueDeviceID];
     NSString *thisDevice = [@"devices/" stringByAppendingString: deviceId];
     
-    ApigeeClientResponse *response = [usergridClient pushAlert: message
+    ApigeeClientResponse *response = [dataClient pushAlert: message
                                                  withSound: @"chime"
                                                         to: thisDevice
                                              usingNotifier: notifier];

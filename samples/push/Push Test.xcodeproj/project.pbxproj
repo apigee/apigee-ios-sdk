@@ -425,6 +425,7 @@
 		C9AFBD5416B71BD700D67DA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Production IOS Push Services: com.apigee.pushtest";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -440,6 +441,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "Push Test";
+				PROVISIONING_PROFILE = "247A1F25-8A75-4468-A824-080498FC342F";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
@@ -448,6 +450,7 @@
 		C9AFBD5516B71BD700D67DA3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Production IOS Push Services: com.apigee.pushtest";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -463,6 +466,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "Push Test";
+				PROVISIONING_PROFILE = "247A1F25-8A75-4468-A824-080498FC342F";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
