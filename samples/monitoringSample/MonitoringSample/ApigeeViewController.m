@@ -10,6 +10,7 @@
 #import <ApigeeiOSSDK/ApigeeMonitoringClient.h>
 #import <ApigeeiOSSDK/Apigee.h>
 
+#import "ApigeeAppDelegate.h"
 #import "ApigeeViewController.h"
 
 static NSString* kLoggingTag = @"Sample App";
@@ -17,7 +18,7 @@ static NSString* kLoggingTag = @"Sample App";
 
 @interface ApigeeViewController ()
 
-@property (strong, nonatomic) ApigeeClient* apigeeClient;
+@property (strong, nonatomic) ApigeeMonitoringClient* monitoringClient;
 @property (strong, nonatomic) IBOutlet UISegmentedControl* logLevelControl;
 @property (strong, nonatomic) IBOutlet UISegmentedControl* errorLevelControl;
 @property (weak, nonatomic) NSString* urlString;
@@ -31,6 +32,8 @@ static NSString* kLoggingTag = @"Sample App";
 @end
 
 @implementation ApigeeViewController
+
+@synthesize monitoringClient;
 
 - (void)viewDidLoad
 {
@@ -70,14 +73,18 @@ static NSString* kLoggingTag = @"Sample App";
             @"http://www.cbsnews.com",
             @"http://www.bbc.co.uk",       // one in Europe
             nil];
-    
+
+    ApigeeAppDelegate* appDelegate =
+        (ApigeeAppDelegate*) [[UIApplication sharedApplication] delegate];
+
 #error configure your org name and app name here
     NSString* orgName = @"<YOUR_ORG_NAME>";
     NSString* appName = @"<YOUR_APP_NAME>";
     
-    self.apigeeClient = [[ApigeeClient alloc]
-                            initWithOrganizationId:orgName
-                            applicationId:appName];
+    appDelegate.apigeeClient = [[ApigeeClient alloc]
+                                initWithOrganizationId:orgName
+                                applicationId:appName];
+    self.monitoringClient = [appDelegate.apigeeClient monitoringClient];
 }
 
 - (NSString*)randomStringFromList:(NSArray*)list
