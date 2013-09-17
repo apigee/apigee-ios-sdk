@@ -527,7 +527,7 @@
 		63F522E61778C41600FCA013 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				63F522ED1778C47E00FCA013 /* MobileAnalyticsServices */,
+				63F522ED1778C47E00FCA013 /* MonitoringServices */,
 				63F522EC1778C47100FCA013 /* Models */,
 				63F522EB1778C45B00FCA013 /* Categories */,
 				63F522EA1778C44F00FCA013 /* Support */,
@@ -641,13 +641,13 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
-		63F522ED1778C47E00FCA013 /* MobileAnalyticsServices */ = {
+		63F522ED1778C47E00FCA013 /* MonitoringServices */ = {
 			isa = PBXGroup;
 			children = (
 				63F523321778C70D00FCA013 /* DiskCache */,
 				63F523311778C70500FCA013 /* Core */,
 			);
-			name = MobileAnalyticsServices;
+			name = MonitoringServices;
 			sourceTree = "<group>";
 		};
 		63F523001778C4FD00FCA013 /* Metrics */ = {

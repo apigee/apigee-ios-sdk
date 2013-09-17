@@ -1125,32 +1125,32 @@ replacementInstanceMethod:(SEL) replacementSelector
     return [self.dictCustomConfigValuesByCategoryAndKey valueForKey:dictKey];
 }
 
-- (BOOL)uploadAnalytics
+- (BOOL)uploadMetrics
 {
-    BOOL analyticsUploaded = NO;
+    BOOL metricsUploaded = NO;
     
     if(self.isInitialized && self.isActive)
     {
         // are we currently connected to network?
         if( [self isDeviceNetworkConnected] ) {
-            ApigeeLogInfo(kApigeeMonitoringClientTag, @"Manually uploading analytics now");
-            analyticsUploaded = [self uploadEvents];
+            ApigeeLogInfo(kApigeeMonitoringClientTag, @"Manually uploading metrics now");
+            metricsUploaded = [self uploadEvents];
         } else {
-            ApigeeLogInfo(kApigeeMonitoringClientTag, @"uploadAnalytics called, device not connected to network");
+            ApigeeLogInfo(kApigeeMonitoringClientTag, @"uploadMetrics called, device not connected to network");
         }
     } else {
-        ApigeeLogInfo(kApigeeMonitoringClientTag, @"Configuration was not able to initialize. Not initiating analytics send loop");
+        ApigeeLogInfo(kApigeeMonitoringClientTag, @"Configuration was not able to initialize. Not uploading metrics.");
     }
     
-    return analyticsUploaded;
+    return metricsUploaded;
 }
 
-- (void)asyncUploadAnalytics:(void (^)(BOOL))completionHandler
+- (void)asyncUploadMetrics:(void (^)(BOOL))completionHandler
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
     dispatch_async(queue,^{
-        BOOL uploadSucceeded = [self uploadAnalytics];
+        BOOL uploadSucceeded = [self uploadMetrics];
         
         if( completionHandler ) {
             dispatch_async(dispatch_get_main_queue(),^{

@@ -143,13 +143,13 @@
  Forces device metrics to be uploaded.
  @return boolean indicating whether metrics were able to be uploaded
  */
-- (BOOL)uploadAnalytics;
+- (BOOL)uploadMetrics;
 
 /**
  Forces upload of metrics asynchronously
  @param completionHandler a completion handler to run when the upload completes
  */
-- (void)asyncUploadAnalytics:(void (^)(BOOL))completionHandler;
+- (void)asyncUploadMetrics:(void (^)(BOOL))completionHandler;
 
 /**
  Forces update (re-read) of configuration information.
@@ -203,8 +203,8 @@
                              error:(NSString*)errorDescription;
 
 /**
- Retrieves the base URL path used by mobile analytics
- @return string indicating base URL path used by mobile analytics
+ Retrieves the base URL path used by monitoring
+ @return string indicating base URL path used by monitoring
  */
 - (NSString*)baseURLPath;
 
