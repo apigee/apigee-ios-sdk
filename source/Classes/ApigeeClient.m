@@ -35,89 +35,31 @@ static NSString* kSDKVersion = @"2.0.2-SNAPSHOT";
 - (id)initWithOrganizationId:(NSString*)organizationId
                applicationId:(NSString*)applicationId
 {
-    self = [super init];
-    if( self )
-    {
-        self.appIdentification =
-            [[ApigeeAppIdentification alloc] initWithOrganizationId:organizationId
-                                                      applicationId:applicationId];
-        
-        self.dataClient = [[ApigeeDataClient alloc] initWithOrganizationId:organizationId
-                                                     withApplicationID:applicationId];
-        
-        if( self.dataClient ) {
-            self.monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:self.appIdentification
-                                                                   dataClient:self.dataClient];
-        } else {
-            //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
-        }
-    }
-    
-    return self;
+    return [self initWithOrganizationId:organizationId
+                          applicationId:applicationId
+                                baseURL:nil
+                                options:nil];
 }
 
 - (id)initWithOrganizationId:(NSString*)organizationId
                applicationId:(NSString*)applicationId
                      baseURL:(NSString*)baseURL
 {
-    self = [super init];
-    if( self )
-    {
-        self.appIdentification =
-        [[ApigeeAppIdentification alloc] initWithOrganizationId:organizationId
-                                                  applicationId:applicationId];
-        self.appIdentification.baseURL = baseURL;
-        
-        self.dataClient = [[ApigeeDataClient alloc] initWithOrganizationId:organizationId
-                                                     withApplicationID:applicationId
-                                                               baseURL:baseURL];
-        
-        if( self.dataClient ) {
-            self.monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:self.appIdentification
-                                                                   dataClient:self.dataClient];
-        } else {
-            //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
-        }
-    }
-    
-    return self;
+    return [self initWithOrganizationId:organizationId
+                          applicationId:applicationId
+                                baseURL:baseURL
+                                options:nil];
 }
 
 - (id)initWithOrganizationId:(NSString*)organizationId
                applicationId:(NSString*)applicationId
                      options:(ApigeeMonitoringOptions*)monitoringOptions
 {
-    self = [super init];
-    if( self )
-    {
-        self.appIdentification =
-        [[ApigeeAppIdentification alloc] initWithOrganizationId:organizationId
-                                                  applicationId:applicationId];
-        
-        self.dataClient = [[ApigeeDataClient alloc] initWithOrganizationId:organizationId
-                                                     withApplicationID:applicationId];
-        
-        if( self.dataClient ) {
-            if( monitoringOptions != nil ) {
-                if( monitoringOptions.monitoringEnabled ) {
-                    self.monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:self.appIdentification
-                                                                                       dataClient:self.dataClient
-                                                                                          options:monitoringOptions];
-                } else {
-                    self.monitoringClient = nil;
-                }
-            } else {
-                self.monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:self.appIdentification
-                                                                                   dataClient:self.dataClient];
-            }
-        } else {
-            //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
-        }
-    }
-    
-    return self;
+    return [self initWithOrganizationId:organizationId
+                          applicationId:applicationId
+                                baseURL:nil
+                                options:monitoringOptions];
 }
-
 
 - (id)initWithOrganizationId:(NSString*)organizationId
                applicationId:(NSString*)applicationId
@@ -130,14 +72,19 @@ static NSString* kSDKVersion = @"2.0.2-SNAPSHOT";
         self.appIdentification =
         [[ApigeeAppIdentification alloc] initWithOrganizationId:organizationId
                                                   applicationId:applicationId];
-        self.appIdentification.baseURL = baseURL;
-
+        
+        if( [baseURL length] > 0 ) {
+            self.appIdentification.baseURL = baseURL;
+        } else {
+            self.appIdentification.baseURL = [ApigeeDataClient defaultBaseURL];
+        }
         
         self.dataClient = [[ApigeeDataClient alloc] initWithOrganizationId:organizationId
                                                      withApplicationID:applicationId
                                                                baseURL:baseURL];
         
         if( self.dataClient ) {
+            NSLog( @"apigee: dataClient created" );
             if( monitoringOptions != nil ) {
                 if( monitoringOptions.monitoringEnabled ) {
                     self.monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:self.appIdentification
@@ -150,7 +97,15 @@ static NSString* kSDKVersion = @"2.0.2-SNAPSHOT";
                 self.monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:self.appIdentification
                                                                                    dataClient:self.dataClient];
             }
+            
+            if( self.monitoringClient ) {
+                NSLog( @"apigee: monitoringClient created" );
+            } else {
+                NSLog( @"apigee: unable to create monitoringClient" );
+            }
         } else {
+            NSLog( @"apigee: unable to create dataClient" );
+            NSLog( @"apigee: no monitoringClient will be created" );
             //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
         }
     }
