@@ -37,7 +37,7 @@ ZIP_FILE_NAME="${ZIP_BASE_NAME}.zip"
 TOPLEVEL_ZIP_DIR="zip"
 DEST_ZIP_DIR="${TOPLEVEL_ZIP_DIR}/${LIBRARY_BASE_NAME}-sdk-${SDK_VERSION}"
 BUILT_FRAMEWORK="source/build/framework/${FRAMEWORK_FILE_NAME}"
-ZIP_BIN_DIR="${DEST_ZIP_DIR}/bin"
+ZIP_LIB_DIR="${DEST_ZIP_DIR}/lib"
 
 # make a clean build
 cd source
@@ -84,11 +84,11 @@ if [ -d "${DEST_ZIP_DIR}/source/build" ]; then
 fi
 
 
-# create directory for binaries
-mkdir -p "${ZIP_BIN_DIR}"
+# create directory for framework
+mkdir -p "${ZIP_LIB_DIR}"
 
 # copy framework to destination directory
-cp -R "${BUILT_FRAMEWORK}" "${ZIP_BIN_DIR}"
+cp -R "${BUILT_FRAMEWORK}" "${ZIP_LIB_DIR}"
 
 
 # create the zip file
