@@ -63,7 +63,7 @@ static void PrintReachabilityFlags(SCNetworkReachabilityFlags    flags, const ch
 {
 #if kShouldPrintReachabilityFlags
 	
-    SystemInfo(@"ApigeeReachability", @"Insta Ops Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
+    SystemInfo(@"ApigeeReachability", @"Apigee Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
 			(flags & kSCNetworkReachabilityFlagsIsWWAN)				  ? 'W' : '-',
 			(flags & kSCNetworkReachabilityFlagsReachable)            ? 'R' : '-',
 			
