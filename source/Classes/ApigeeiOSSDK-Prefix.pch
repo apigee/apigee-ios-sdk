@@ -1,7 +1,7 @@
 //  ApigeeAppMonitoring-Prefix.pch
 //  ApigeeAppMonitoring
 //
-//  Copyright (c) 2012 Insta Ops. All rights reserved.
+//  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
 #ifdef __OBJC__
