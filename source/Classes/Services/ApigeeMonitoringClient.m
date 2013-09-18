@@ -314,7 +314,6 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     self.reachability = [ApigeeReachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
     
-    [self reset];
     [self updateConfig];
     
 #ifdef __arm64__
@@ -379,7 +378,7 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
         self.isInitialized = YES;
         
         //coin flip for sample rate
-        const uint32_t r = arc4random() % 100;
+        const uint32_t r = arc4random_uniform(100);
         
         if (r < self.activeSettings.samplingRate) {
             self.isPartOfSample = YES;
@@ -421,6 +420,8 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
                                  name:UIApplicationWillTerminateNotification
                                object:nil];
             
+            [self reset];
+            
             ApigeeLogInfo(kApigeeMonitoringClientTag, @"Configuration values applied");
             
         } else {
@@ -430,6 +431,8 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
                 [self.timer cancel];
                 self.timer = nil;
             }
+            
+            NSLog( @"r = %d, samplingRate = %d", r, self.activeSettings.samplingRate);
             
             SystemDebug(@"IO_Diagnostics",@"Device not chosen for sample");
         }
@@ -555,6 +558,7 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     @synchronized (self) {
         if (self.timer) {
             [self.timer cancel];
+            self.timer = nil;
         }
         
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -619,11 +623,18 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
         }
 #endif
         
-        self.timer = [[ApigeeIntervalTimer alloc] init];
-        [self.timer fireOnInterval:self.activeSettings.agentUploadIntervalInSeconds
-                            target:self
-                          selector:@selector(timerFired)
-                           repeats:NO];
+        // if we've never sent any data to server, do so now
+        if (!self.sentStartingSessionData) {
+            NSLog( @"never sent starting session data, calling timerFired");
+            [self timerFired];
+        } else {
+            NSLog( @"sentStartingSessionData = true, not sending session data (starting timer)");
+            self.timer = [[ApigeeIntervalTimer alloc] init];
+            [self.timer fireOnInterval:self.activeSettings.agentUploadIntervalInSeconds
+                                target:self
+                              selector:@selector(timerFired)
+                               repeats:NO];
+        }
     }
 }
 
@@ -914,13 +925,12 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
     
     [ApigeeCachedConfigUtil updateConfiguration:data error:&error];
+    [self reset];
     
     if (error) {
         SystemError(kApigeeMonitoringClientTag, @"Error updating cached config file: %@", [error localizedDescription]);
         return;
     }
-    
-    [self reset];
 }
 
 - (BOOL) swizzleClass:(Class) targetClass
@@ -1098,6 +1108,8 @@ replacementInstanceMethod:(SEL) replacementSelector
 {
     if (self.activeSettings) {
         return (Apigee_NotReachable != self.activeSettings.activeNetworkStatus);
+    } else {
+        return (Apigee_NotReachable != [self.reachability currentReachabilityStatus]);
     }
     
     return NO;
@@ -1169,7 +1181,6 @@ replacementInstanceMethod:(SEL) replacementSelector
         // are we currently connected to network?
         if( [self isDeviceNetworkConnected] ) {
             ApigeeLogInfo(kApigeeMonitoringClientTag, @"Manually refreshing configuration now");
-            [self reset];
             [self updateConfig];
             [self applyConfig];
             configurationUpdated = YES;
