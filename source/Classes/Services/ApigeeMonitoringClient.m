@@ -432,8 +432,6 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
                 self.timer = nil;
             }
             
-            NSLog( @"r = %d, samplingRate = %d", r, self.activeSettings.samplingRate);
-            
             SystemDebug(@"IO_Diagnostics",@"Device not chosen for sample");
         }
     } else {
@@ -625,10 +623,8 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
         
         // if we've never sent any data to server, do so now
         if (!self.sentStartingSessionData) {
-            NSLog( @"never sent starting session data, calling timerFired");
             [self timerFired];
         } else {
-            NSLog( @"sentStartingSessionData = true, not sending session data (starting timer)");
             self.timer = [[ApigeeIntervalTimer alloc] init];
             [self.timer fireOnInterval:self.activeSettings.agentUploadIntervalInSeconds
                                 target:self
