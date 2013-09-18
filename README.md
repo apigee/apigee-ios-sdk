@@ -41,12 +41,13 @@ To build from source, issue this command from the /source directory of your repo
 
 Compatibility with iOS 7
 ------------------------
-We have done some testing with iOS 7 beta and have not encountered any problems. There is some new functionality related to networking that will be added.
+We have done some testing with iOS 7 and have not encountered any problems. There is some new functionality related to networking that will be added.
 
 
-Building With Xcode 5 DP
-------------------------
-Uncomment the code that assigns the path for DEVELOPER_DIR in Scripts/dist.sh.  You may need to adjust the path for your system.
+Explicitly Setting Xcode Version
+--------------------------------
+The build script makes use of the default installation of Xcode.  If you need to configure the build to use a
+different version of Xcode, please uncomment the code that assigns the path for DEVELOPER_DIR in source/Scripts/dist.sh.
 
 
 New Functionality for UserGrid
