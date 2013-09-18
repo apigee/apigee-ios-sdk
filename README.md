@@ -5,10 +5,10 @@ This SDK has not been released yet -- it should not be used for active developme
 Apigee iOS SDK Overview
 =======================
 
-There are 2 main areas of functionality provided: (1) AppServices (UserGrid), and (2) Mobile Analytics.  App Services provides server-side storage functionality.  Mobile Analytics provides crash reporting, error tracking, application configuration management, and network performance monitoring.  You may use both of these areas or decide to just use one of them.
+There are 2 main areas of functionality provided: (1) AppServices (UserGrid), and (2) App Monitoring.  App Services provides server-side storage functionality.  App Monitoring provides crash reporting, error tracking, application configuration management, and network performance monitoring.  You may use both of these areas or decide to just use one of them.
 
 
-NOTE -- mobile analytics is temporarily disabled until the back-end systems are configured.
+NOTE -- app monitoring is temporarily disabled until the back-end systems are configured.
 
 Linking in Xcode
 ----------------
