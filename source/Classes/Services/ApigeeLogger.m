@@ -17,6 +17,11 @@
 
 static const int kMaxMethodLength = 30;
 
+#define GID_UID_LENGTH 12
+static char gidValue[GID_UID_LENGTH];
+static char uidValue[GID_UID_LENGTH];
+static BOOL haveGidAndUid = NO;
+
 
 @implementation ApigeeLogger
 
@@ -155,14 +160,27 @@ static const int kMaxMethodLength = 30;
     aslmsg msg = asl_new(ASL_TYPE_MSG);
     
     if (msg != NULL) {
-        NSString * gid = [NSString stringWithFormat:@"%d", getgid()];
-        NSString * uid = [NSString stringWithFormat:@"%d", getuid()];
+
+        if( ! haveGidAndUid ) {
+            NSString * gid = [NSString stringWithFormat:@"%d", getgid()];
+            NSString * uid = [NSString stringWithFormat:@"%d", getuid()];
+            strncpy(gidValue,[gid UTF8String],GID_UID_LENGTH);
+            strncpy(uidValue,[uid UTF8String],GID_UID_LENGTH);
+            gidValue[GID_UID_LENGTH-1] = '\0';
+            uidValue[GID_UID_LENGTH-1] = '\0';
+            haveGidAndUid = YES;
+        }
         
         //security for messages, only we can query for these
-        asl_set(msg, ASL_KEY_READ_GID, [gid UTF8String]);
-        asl_set(msg, ASL_KEY_READ_UID, [uid UTF8String]);
-
-        asl_set(msg, kApigeeLogLevelASLMessageKey, [[NSString stringWithFormat:@"%d", level] UTF8String]);
+        if (haveGidAndUid) {
+            asl_set(msg, ASL_KEY_READ_GID, gidValue);
+            asl_set(msg, ASL_KEY_READ_UID, uidValue);
+        }
+            
+        char logLevelAsString[8];
+        snprintf(logLevelAsString, 8, "%d", (int) level);
+        
+        asl_set(msg, kApigeeLogLevelASLMessageKey, logLevelAsString);
         
         NSString *output = [[NSString alloc] initWithFormat:format arguments:args];
         
