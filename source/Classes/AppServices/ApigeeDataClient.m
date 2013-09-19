@@ -13,7 +13,7 @@
 #import "SSKeychain.h"
 #import "ApigeeJsonUtils.h"
 
-static NSString* kDefaultBaseURL = @"http://apigee-internal-prod.jupiter.apigee.net"; //@"https://api.usergrid.com";
+static NSString* kDefaultBaseURL = @"https://api.usergrid.com";
 static NSString* kLoggingTag = @"DATA_CLIENT";
 static const int kInvalidTransactionID = -1;
 
