@@ -447,7 +447,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "MonitoringSampleTests/MonitoringSampleTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				VALID_ARCHS = "i386 armv7 armv7s";
@@ -468,7 +468,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MonitoringSample/MonitoringSample-Prefix.pch";
 				INFOPLIST_FILE = "MonitoringSampleTests/MonitoringSampleTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				VALID_ARCHS = "i386 armv7 armv7s";

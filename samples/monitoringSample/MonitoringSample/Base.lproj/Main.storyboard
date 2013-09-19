@@ -125,6 +125,9 @@
                                     <segment title="Info"/>
                                     <segment title="Warn"/>
                                 </segments>
+                                <connections>
+                                    <action selector="logLevelSettingChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="eoI-hp-4sC"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -132,11 +135,12 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
                     <connections>
                         <outlet property="errorLevelControl" destination="EZJ-BW-491" id="uia-39-rpO"/>
+                        <outlet property="logLevelControl" destination="VOR-7u-8SC" id="VZj-aP-vsm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="560" y="102"/>
+            <point key="canvasLocation" x="259" y="106"/>
         </scene>
     </scenes>
     <classes>
