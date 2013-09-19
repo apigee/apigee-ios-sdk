@@ -27,7 +27,7 @@ Add the following frameworks:
 
 Technical Details
 -----------------
-- The majority of the Objective-C classes make use of ARC (iOS 4.3 and newer)
+- The majority of the Objective-C classes make use of ARC. This framework is targeted for iOS 5.0 and newer.
 
 
 Building From Source
