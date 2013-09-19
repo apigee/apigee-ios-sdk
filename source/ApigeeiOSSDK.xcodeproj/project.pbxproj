@@ -11,16 +11,6 @@
 		638C625C179F30790066DC15 /* ApigeeHTTPClient.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 638C625B179F305E0066DC15 /* ApigeeHTTPClient.h */; };
 		638C629117A71BFA0066DC15 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C629017A71BFA0066DC15 /* SSKeychain.m */; };
 		63F522BF1778C2B200FCA013 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F522BE1778C2B200FCA013 /* Foundation.framework */; };
-		63F5240B1778D24900FCA013 /* ApigeeSBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F523F61778D24900FCA013 /* ApigeeSBJsonParser.m */; };
-		63F5240C1778D24900FCA013 /* ApigeeSBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F523F81778D24900FCA013 /* ApigeeSBJsonStreamParser.m */; };
-		63F5240D1778D24900FCA013 /* ApigeeSBJsonStreamParserAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F523FA1778D24900FCA013 /* ApigeeSBJsonStreamParserAccumulator.m */; };
-		63F5240E1778D24900FCA013 /* ApigeeSBJsonStreamParserAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F523FC1778D24900FCA013 /* ApigeeSBJsonStreamParserAdapter.m */; };
-		63F5240F1778D24900FCA013 /* ApigeeSBJsonStreamParserState.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F523FE1778D24900FCA013 /* ApigeeSBJsonStreamParserState.m */; };
-		63F524101778D24900FCA013 /* ApigeeSBJsonStreamTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524001778D24900FCA013 /* ApigeeSBJsonStreamTokeniser.m */; };
-		63F524111778D24900FCA013 /* ApigeeSBJsonStreamWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524021778D24900FCA013 /* ApigeeSBJsonStreamWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		63F524121778D24900FCA013 /* ApigeeSBJsonStreamWriterAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524041778D24900FCA013 /* ApigeeSBJsonStreamWriterAccumulator.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		63F524131778D24900FCA013 /* ApigeeSBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524061778D24900FCA013 /* ApigeeSBJsonStreamWriterState.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		63F524141778D24900FCA013 /* ApigeeSBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524081778D24900FCA013 /* ApigeeSBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		63F524311778D31A00FCA013 /* ApigeeActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5241A1778D31A00FCA013 /* ApigeeActivity.m */; };
 		63F524321778D31A00FCA013 /* ApigeeClientResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5241C1778D31A00FCA013 /* ApigeeClientResponse.m */; };
 		63F524331778D31A00FCA013 /* ApigeeCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5241E1778D31A00FCA013 /* ApigeeCollection.m */; };
@@ -34,7 +24,6 @@
 		63F5243C1778D31A00FCA013 /* ApigeeUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524301778D31A00FCA013 /* ApigeeUser.m */; };
 		63F5244B1778D34700FCA013 /* NSArray+ApigeeConfigFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5243E1778D34700FCA013 /* NSArray+ApigeeConfigFilters.m */; };
 		63F5244C1778D34700FCA013 /* NSDate+Apigee.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524401778D34700FCA013 /* NSDate+Apigee.m */; };
-		63F5244E1778D34700FCA013 /* NSObject+ApigeeSBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524441778D34700FCA013 /* NSObject+ApigeeSBJson.m */; };
 		63F524501778D34700FCA013 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524481778D34700FCA013 /* NSString+UUID.m */; };
 		63F524511778D34700FCA013 /* UIDevice+Apigee.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5244A1778D34700FCA013 /* UIDevice+Apigee.m */; };
 		63F524561778D35E00FCA013 /* ApigeeOpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F524531778D35E00FCA013 /* ApigeeOpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -141,7 +130,6 @@
 		63F52562177A39E300FCA013 /* ApigeeDevice.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524211778D31A00FCA013 /* ApigeeDevice.h */; };
 		63F52563177A39F300FCA013 /* ApigeeAppIdentification.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524821778E9E400FCA013 /* ApigeeAppIdentification.h */; };
 		63F52564177A39FD00FCA013 /* ApigeeMessage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524291778D31A00FCA013 /* ApigeeMessage.h */; };
-		63F52565177A3A0A00FCA013 /* NSObject+ApigeeSBJson.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524431778D34700FCA013 /* NSObject+ApigeeSBJson.h */; };
 		63F52566177A3A1600FCA013 /* ApigeeUser.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5242F1778D31A00FCA013 /* ApigeeUser.h */; };
 		63F5256C1781DC6700FCA013 /* ApigeeConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5256B1781DC6100FCA013 /* ApigeeConnection.m */; };
 		63F525721781DF4C00FCA013 /* ApigeeHTTPHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F525711781DF4500FCA013 /* ApigeeHTTPHelpers.m */; };
@@ -161,7 +149,6 @@
 			dstSubfolderSpec = 16;
 			files = (
 				63F52566177A3A1600FCA013 /* ApigeeUser.h in CopyFiles */,
-				63F52565177A3A0A00FCA013 /* NSObject+ApigeeSBJson.h in CopyFiles */,
 				63F52564177A39FD00FCA013 /* ApigeeMessage.h in CopyFiles */,
 				63F52563177A39F300FCA013 /* ApigeeAppIdentification.h in CopyFiles */,
 				63F52562177A39E300FCA013 /* ApigeeDevice.h in CopyFiles */,
@@ -213,29 +200,6 @@
 		638C629017A71BFA0066DC15 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSKeychain.m; path = ThirdParty/SSKeychain/SSKeychain.m; sourceTree = "<group>"; };
 		63F522BB1778C2B200FCA013 /* libApigeeiOSSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libApigeeiOSSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		63F522BE1778C2B200FCA013 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		63F523F41778D24900FCA013 /* ApigeeSBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSBJson.h; path = ThirdParty/JSON/ApigeeSBJson.h; sourceTree = "<group>"; };
-		63F523F51778D24900FCA013 /* ApigeeSBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSBJsonParser.h; path = ThirdParty/JSON/ApigeeSBJsonParser.h; sourceTree = "<group>"; };
-		63F523F61778D24900FCA013 /* ApigeeSBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeSBJsonParser.m; path = ThirdParty/JSON/ApigeeSBJsonParser.m; sourceTree = "<group>"; };
-		63F523F71778D24900FCA013 /* ApigeeSBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSBJsonStreamParser.h; path = ThirdParty/JSON/ApigeeSBJsonStreamParser.h; sourceTree = "<group>"; };
-		63F523F81778D24900FCA013 /* ApigeeSBJsonStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeSBJsonStreamParser.m; path = ThirdParty/JSON/ApigeeSBJsonStreamParser.m; sourceTree = "<group>"; };
-		63F523F91778D24900FCA013 /* ApigeeSBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSBJsonStreamParserAccumulator.h; path = ThirdParty/JSON/ApigeeSBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
-		63F523FA1778D24900FCA013 /* ApigeeSBJsonStreamParserAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeSBJsonStreamParserAccumulator.m; path = ThirdParty/JSON/ApigeeSBJsonStreamParserAccumulator.m; sourceTree = "<group>"; };
-		63F523FB1778D24900FCA013 /* ApigeeSBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSBJsonStreamParserAdapter.h; path = ThirdParty/JSON/ApigeeSBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
-		63F523FC1778D24900FCA013 /* ApigeeSBJsonStreamParserAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeSBJsonStreamParserAdapter.m; path = ThirdParty/JSON/ApigeeSBJsonStreamParserAdapter.m; sourceTree = "<group>"; };
-		63F523FD1778D24900FCA013 /* ApigeeSBJsonStreamParserState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSBJsonStreamParserState.h; path = ThirdParty/JSON/ApigeeSBJsonStreamParserState.h; sourceTree = "<group>"; };
-		63F523FE1778D24900FCA013 /* ApigeeSBJsonStreamParserState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeSBJsonStreamParserState.m; path = ThirdParty/JSON/ApigeeSBJsonStreamParserState.m; sourceTree = "<group>"; };
-		63F523FF1778D24900FCA013 /* ApigeeSBJsonStreamTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSBJsonStreamTokeniser.h; path = ThirdParty/JSON/ApigeeSBJsonStreamTokeniser.h; sourceTree = "<group>"; };
-		63F524001778D24900FCA013 /* ApigeeSBJsonStreamTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeSBJsonStreamTokeniser.m; path = ThirdParty/JSON/ApigeeSBJsonStreamTokeniser.m; sourceTree = "<group>"; };
-		63F524011778D24900FCA013 /* ApigeeSBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSBJsonStreamWriter.h; path = ThirdParty/JSON/ApigeeSBJsonStreamWriter.h; sourceTree = "<group>"; };
-		63F524021778D24900FCA013 /* ApigeeSBJsonStreamWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeSBJsonStreamWriter.m; path = ThirdParty/JSON/ApigeeSBJsonStreamWriter.m; sourceTree = "<group>"; };
-		63F524031778D24900FCA013 /* ApigeeSBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSBJsonStreamWriterAccumulator.h; path = ThirdParty/JSON/ApigeeSBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
-		63F524041778D24900FCA013 /* ApigeeSBJsonStreamWriterAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeSBJsonStreamWriterAccumulator.m; path = ThirdParty/JSON/ApigeeSBJsonStreamWriterAccumulator.m; sourceTree = "<group>"; };
-		63F524051778D24900FCA013 /* ApigeeSBJsonStreamWriterState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSBJsonStreamWriterState.h; path = ThirdParty/JSON/ApigeeSBJsonStreamWriterState.h; sourceTree = "<group>"; };
-		63F524061778D24900FCA013 /* ApigeeSBJsonStreamWriterState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeSBJsonStreamWriterState.m; path = ThirdParty/JSON/ApigeeSBJsonStreamWriterState.m; sourceTree = "<group>"; };
-		63F524071778D24900FCA013 /* ApigeeSBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSBJsonWriter.h; path = ThirdParty/JSON/ApigeeSBJsonWriter.h; sourceTree = "<group>"; };
-		63F524081778D24900FCA013 /* ApigeeSBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeSBJsonWriter.m; path = ThirdParty/JSON/ApigeeSBJsonWriter.m; sourceTree = "<group>"; };
-		63F524091778D24900FCA013 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSON.h; path = ThirdParty/JSON/JSON.h; sourceTree = "<group>"; };
-		63F5240A1778D24900FCA013 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ThirdParty/JSON/LICENSE; sourceTree = "<group>"; };
 		63F524151778D28600FCA013 /* dist.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = dist.sh; path = Scripts/dist.sh; sourceTree = SOURCE_ROOT; };
 		63F524161778D28600FCA013 /* framework.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = framework.sh; path = Scripts/framework.sh; sourceTree = SOURCE_ROOT; };
 		63F524171778D28600FCA013 /* symbolicatecrash.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; name = symbolicatecrash.pl; path = Scripts/symbolicatecrash.pl; sourceTree = SOURCE_ROOT; };
@@ -266,8 +230,6 @@
 		63F5243E1778D34700FCA013 /* NSArray+ApigeeConfigFilters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+ApigeeConfigFilters.m"; path = "Classes/Categories/NSArray+ApigeeConfigFilters.m"; sourceTree = SOURCE_ROOT; };
 		63F5243F1778D34700FCA013 /* NSDate+Apigee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+Apigee.h"; path = "Classes/Categories/NSDate+Apigee.h"; sourceTree = SOURCE_ROOT; };
 		63F524401778D34700FCA013 /* NSDate+Apigee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Apigee.m"; path = "Classes/Categories/NSDate+Apigee.m"; sourceTree = SOURCE_ROOT; };
-		63F524431778D34700FCA013 /* NSObject+ApigeeSBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+ApigeeSBJson.h"; path = "Classes/Categories/NSObject+ApigeeSBJson.h"; sourceTree = SOURCE_ROOT; };
-		63F524441778D34700FCA013 /* NSObject+ApigeeSBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+ApigeeSBJson.m"; path = "Classes/Categories/NSObject+ApigeeSBJson.m"; sourceTree = SOURCE_ROOT; };
 		63F524471778D34700FCA013 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+UUID.h"; path = "Classes/Categories/NSString+UUID.h"; sourceTree = SOURCE_ROOT; };
 		63F524481778D34700FCA013 /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+UUID.m"; path = "Classes/Categories/NSString+UUID.m"; sourceTree = SOURCE_ROOT; };
 		63F524491778D34700FCA013 /* UIDevice+Apigee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice+Apigee.h"; path = "Classes/Categories/UIDevice+Apigee.h"; sourceTree = SOURCE_ROOT; };
@@ -509,7 +471,6 @@
 			isa = PBXGroup;
 			children = (
 				638C628E17A71B6B0066DC15 /* SSKeychain */,
-				63F523F31778D23400FCA013 /* SBJSON */,
 			);
 			name = ThirdPartySource;
 			sourceTree = "<group>";
@@ -621,8 +582,6 @@
 				63F5243E1778D34700FCA013 /* NSArray+ApigeeConfigFilters.m */,
 				63F5243F1778D34700FCA013 /* NSDate+Apigee.h */,
 				63F524401778D34700FCA013 /* NSDate+Apigee.m */,
-				63F524431778D34700FCA013 /* NSObject+ApigeeSBJson.h */,
-				63F524441778D34700FCA013 /* NSObject+ApigeeSBJson.m */,
 				63F524471778D34700FCA013 /* NSString+UUID.h */,
 				63F524481778D34700FCA013 /* NSString+UUID.m */,
 				63F524491778D34700FCA013 /* UIDevice+Apigee.h */,
@@ -912,36 +871,6 @@
 			name = "protobuf-c";
 			sourceTree = "<group>";
 		};
-		63F523F31778D23400FCA013 /* SBJSON */ = {
-			isa = PBXGroup;
-			children = (
-				63F523F41778D24900FCA013 /* ApigeeSBJson.h */,
-				63F523F51778D24900FCA013 /* ApigeeSBJsonParser.h */,
-				63F523F61778D24900FCA013 /* ApigeeSBJsonParser.m */,
-				63F523F71778D24900FCA013 /* ApigeeSBJsonStreamParser.h */,
-				63F523F81778D24900FCA013 /* ApigeeSBJsonStreamParser.m */,
-				63F523F91778D24900FCA013 /* ApigeeSBJsonStreamParserAccumulator.h */,
-				63F523FA1778D24900FCA013 /* ApigeeSBJsonStreamParserAccumulator.m */,
-				63F523FB1778D24900FCA013 /* ApigeeSBJsonStreamParserAdapter.h */,
-				63F523FC1778D24900FCA013 /* ApigeeSBJsonStreamParserAdapter.m */,
-				63F523FD1778D24900FCA013 /* ApigeeSBJsonStreamParserState.h */,
-				63F523FE1778D24900FCA013 /* ApigeeSBJsonStreamParserState.m */,
-				63F523FF1778D24900FCA013 /* ApigeeSBJsonStreamTokeniser.h */,
-				63F524001778D24900FCA013 /* ApigeeSBJsonStreamTokeniser.m */,
-				63F524011778D24900FCA013 /* ApigeeSBJsonStreamWriter.h */,
-				63F524021778D24900FCA013 /* ApigeeSBJsonStreamWriter.m */,
-				63F524031778D24900FCA013 /* ApigeeSBJsonStreamWriterAccumulator.h */,
-				63F524041778D24900FCA013 /* ApigeeSBJsonStreamWriterAccumulator.m */,
-				63F524051778D24900FCA013 /* ApigeeSBJsonStreamWriterState.h */,
-				63F524061778D24900FCA013 /* ApigeeSBJsonStreamWriterState.m */,
-				63F524071778D24900FCA013 /* ApigeeSBJsonWriter.h */,
-				63F524081778D24900FCA013 /* ApigeeSBJsonWriter.m */,
-				63F524091778D24900FCA013 /* JSON.h */,
-				63F5240A1778D24900FCA013 /* LICENSE */,
-			);
-			name = SBJSON;
-			sourceTree = "<group>";
-		};
 		63F525131778FE1000FCA013 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -1016,16 +945,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63F5240B1778D24900FCA013 /* ApigeeSBJsonParser.m in Sources */,
-				63F5240C1778D24900FCA013 /* ApigeeSBJsonStreamParser.m in Sources */,
-				63F5240D1778D24900FCA013 /* ApigeeSBJsonStreamParserAccumulator.m in Sources */,
-				63F5240E1778D24900FCA013 /* ApigeeSBJsonStreamParserAdapter.m in Sources */,
-				63F5240F1778D24900FCA013 /* ApigeeSBJsonStreamParserState.m in Sources */,
-				63F524101778D24900FCA013 /* ApigeeSBJsonStreamTokeniser.m in Sources */,
-				63F524111778D24900FCA013 /* ApigeeSBJsonStreamWriter.m in Sources */,
-				63F524121778D24900FCA013 /* ApigeeSBJsonStreamWriterAccumulator.m in Sources */,
-				63F524131778D24900FCA013 /* ApigeeSBJsonStreamWriterState.m in Sources */,
-				63F524141778D24900FCA013 /* ApigeeSBJsonWriter.m in Sources */,
 				63F524311778D31A00FCA013 /* ApigeeActivity.m in Sources */,
 				63F524321778D31A00FCA013 /* ApigeeClientResponse.m in Sources */,
 				63F524331778D31A00FCA013 /* ApigeeCollection.m in Sources */,
@@ -1039,7 +958,6 @@
 				63F5243C1778D31A00FCA013 /* ApigeeUser.m in Sources */,
 				63F5244B1778D34700FCA013 /* NSArray+ApigeeConfigFilters.m in Sources */,
 				63F5244C1778D34700FCA013 /* NSDate+Apigee.m in Sources */,
-				63F5244E1778D34700FCA013 /* NSObject+ApigeeSBJson.m in Sources */,
 				63F524501778D34700FCA013 /* NSString+UUID.m in Sources */,
 				63F524511778D34700FCA013 /* UIDevice+Apigee.m in Sources */,
 				63F524561778D35E00FCA013 /* ApigeeOpenUDID.m in Sources */,
@@ -1185,7 +1103,7 @@
 					"$(SRCROOT)/CrashReporter/Generated/iOS",
 					"$(SRCROOT)/CrashReporter/Dependencies/protobuf-2.0.3/include/google/protobuf-c",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1207,7 +1125,7 @@
 					"$(SRCROOT)/CrashReporter/Generated/iOS",
 					"$(SRCROOT)/CrashReporter/Dependencies/protobuf-2.0.3/include/google/protobuf-c",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

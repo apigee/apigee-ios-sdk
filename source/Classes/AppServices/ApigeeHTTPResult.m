@@ -6,14 +6,14 @@
 //
 
 #import "ApigeeHTTPResult.h"
+#import "ApigeeJsonUtils.h"
 
 @implementation ApigeeHTTPResult
 
 - (id) object {
     if (!_object && !_error) {
         NSError *error;
-        // NSLog(@"JSON %@", [[NSString alloc] initWithData:_data encoding:NSUTF8StringEncoding]);
-        _object = [NSJSONSerialization JSONObjectWithData:_data options:0 error:&error];
+        _object = [ApigeeJsonUtils decodeData:_data error:&error];
         _error = error;
         if (_error) {
             NSLog(@"JSON ERROR: %@", [error description]);

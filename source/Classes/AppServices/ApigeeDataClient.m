@@ -1,8 +1,5 @@
 #import "ApigeeDataClient.h"
 #import "ApigeeHTTPManager.h"
-#import "ApigeeSBJson.h"
-#import "ApigeeSBJsonParser.h"
-#import "NSObject+ApigeeSBJson.h"
 #import "ApigeeActivity.h"
 #import "ApigeeEntity.h"
 #import "ApigeeDevice.h"
@@ -14,6 +11,7 @@
 #import "ApigeeHTTPResult.h"
 #import "UIDevice+Apigee.h"
 #import "SSKeychain.h"
+#import "ApigeeJsonUtils.h"
 
 static NSString* kDefaultBaseURL = @"http://apigee-internal-prod.jupiter.apigee.net"; //@"https://api.usergrid.com";
 static NSString* kLoggingTag = @"DATA_CLIENT";
@@ -420,9 +418,8 @@ NSString *g_deviceUUID = nil;
     [response setTransactionID:transactionID];
     
     // parse the json
-    ApigeeSBJsonParser *parser = [ApigeeSBJsonParser new];
     NSError *error;
-    id result = [parser objectWithString:jsonStr error:&error];
+    id result = [ApigeeJsonUtils decode:jsonStr error:&error];
     
     if ( result )
     {
@@ -558,21 +555,15 @@ NSString *g_deviceUUID = nil;
 
 -(NSString *)createJSON:(NSDictionary *)data error:(NSString **)error
 {
-    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
-    NSError *jsonError;
-    NSString *jsonStr = [writer stringWithObject:data error:&jsonError];
-
-    if ( jsonStr )
-    {
-        return jsonStr;
+    NSError* errorObject = nil;
+    NSString* jsonStr = [ApigeeJsonUtils encode:data error:&errorObject];
+    if (jsonStr == nil) {
+        if (*error) {
+            *error = [errorObject localizedDescription];
+        }
     }
     
-    // if we're here, there was an assembly error
-    if ( error )
-    {
-        *error = [jsonError localizedDescription];
-    }
-    return nil;
+    return jsonStr;
 }
 
 /************************** ApigeeHTTPMANAGER DELEGATES *******************************/
@@ -878,9 +869,8 @@ NSString *g_deviceUUID = nil;
     // to work. Therefore we can't use our internal convenience 
     // function for making the json. We go straight to SBJson, so
     // we can identify and report any errors.
-    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
     NSError *jsonError = nil;
-    NSString *toPostStr = [writer stringWithObject:activity error:&jsonError];
+    NSString *toPostStr = [ApigeeJsonUtils encode:activity error:&jsonError];
 
     if ( !toPostStr )
     {
@@ -901,11 +891,10 @@ NSString *g_deviceUUID = nil;
     // we have to json-ify a dictionary that was sent
     // in by the client. So naturally, we can't just trust it
     // to work. Therefore we can't use our internal convenience
-    // function for making the json. We go straight to SBJson, so
-    // we can identify and report any errors.
-    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
-    NSError *jsonError = nil;
-    NSString *toPostStr = [writer stringWithObject:activity error:&jsonError];
+    // function for making the json.
+    
+    NSError* jsonError = nil;
+    NSString* toPostStr = [ApigeeJsonUtils encode:activity error:&jsonError];
     
     if ( !toPostStr )
     {
@@ -930,9 +919,8 @@ NSString *g_deviceUUID = nil;
     NSDictionary *dictActivityProps = [activity toNSDictionary];
 
     // make sure it can parse to a json
-    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
-    NSError *jsonError = nil;
-    NSString *jsonStr = [writer stringWithObject:dictActivityProps error:&jsonError];
+    NSError* jsonError = nil;
+    NSString* jsonStr = [ApigeeJsonUtils encode:dictActivityProps error:&jsonError];
     if ( !jsonStr )
     {
         ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
@@ -959,9 +947,8 @@ NSString *g_deviceUUID = nil;
     NSDictionary *dictActivityProps = [activity toNSDictionary];
     
     // make sure it can parse to a json
-    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
     NSError *jsonError = nil;
-    NSString *jsonStr = [writer stringWithObject:dictActivityProps error:&jsonError];
+    NSString *jsonStr = [ApigeeJsonUtils encode:dictActivityProps error:&jsonError];
     if ( !jsonStr )
     {
         ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
@@ -1002,9 +989,8 @@ NSString *g_deviceUUID = nil;
     NSDictionary *dictActivityProps = [activity toNSDictionary];
     
     // make sure it can parse to a json
-    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
     NSError *jsonError = nil;
-    NSString *jsonStr = [writer stringWithObject:dictActivityProps error:&jsonError];
+    NSString *jsonStr = [ApigeeJsonUtils encode:dictActivityProps error:&jsonError];
     if ( !jsonStr )
     {
         ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
@@ -1031,9 +1017,8 @@ NSString *g_deviceUUID = nil;
     NSDictionary *dictActivityProps = [activity toNSDictionary];
     
     // make sure it can parse to a json
-    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
     NSError *jsonError = nil;
-    NSString *jsonStr = [writer stringWithObject:dictActivityProps error:&jsonError];
+    NSString *jsonStr = [ApigeeJsonUtils encode:dictActivityProps error:&jsonError];
     if ( !jsonStr )
     {
         ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
@@ -1249,9 +1234,8 @@ NSString *g_deviceUUID = nil;
     }
     
     // make sure it can parse to a json
-    ApigeeSBJsonWriter *writer = [ApigeeSBJsonWriter new];
     NSError *jsonError;
-    *jsonStr = [writer stringWithObject:newEntity error:&jsonError];
+    *jsonStr = [ApigeeJsonUtils encode:newEntity error:&jsonError];
     if ( !*jsonStr )
     {
         error = [jsonError localizedDescription];
@@ -1669,7 +1653,8 @@ NSString *g_deviceUUID = nil;
             CFUUIDRef uuidRef = CFUUIDCreate(nil);
             CFStringRef uuidStringRef = CFUUIDCreateString(nil, uuidRef);
             CFRelease(uuidRef);
-            g_deviceUUID = [NSString stringWithString:(__bridge NSString *)uuidStringRef];
+            g_deviceUUID = [NSString stringWithString:(__bridge NSString*) uuidStringRef];
+            CFRelease(uuidStringRef);
         }
     }
     

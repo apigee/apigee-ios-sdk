@@ -22,7 +22,7 @@
 
 @interface ApigeeLocationService : NSObject<CLLocationManagerDelegate>
 
-@property (assign, nonatomic) id<ApigeeLocationServiceDelegate> delegate;
+@property (weak, nonatomic) id<ApigeeLocationServiceDelegate> delegate;
 @property (readonly, nonatomic) CLLocation *location;
 @property (readonly, nonatomic) BOOL working;
 

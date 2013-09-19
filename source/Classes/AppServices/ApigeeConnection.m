@@ -8,6 +8,7 @@
 #import "ApigeeHTTPResult.h"
 #import "ApigeeConnection.h"
 #import "ApigeeDataClient.h"
+#import "ApigeeJsonUtils.h"
 
 static NSString *boolean_representation(BOOL value)
 {
@@ -558,11 +559,7 @@ static NSString *boolean_representation(BOOL value)
 {
     NSString *path = [NSMutableString stringWithFormat:@"%@/%@",
                       self.root, collection];
-    NSError *error;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:values options:0 error:&error];
-    if (!data) {
-        NSLog(@"%@", error);
-    }
+    NSData *data = [ApigeeJsonUtils encodeAsData:values];
     return [self authorizedRequestWithMethod:@"POST"
                                         path:path
                                         body:data];
@@ -582,11 +579,7 @@ static NSString *boolean_representation(BOOL value)
                           inCollection:(NSString *) collection
                             withValues:(NSDictionary *) values {
     NSString *path = [NSString stringWithFormat:@"%@/%@/%@", self.root, collection, entityIdentifier];
-    NSError *error;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:values options:0 error:&error];
-    if (!data) {
-        NSLog(@"%@", error);
-    }
+    NSData *data = [ApigeeJsonUtils encodeAsData:values];
     return [self authorizedRequestWithMethod:@"PUT"
                                         path:path
                                         body:data];

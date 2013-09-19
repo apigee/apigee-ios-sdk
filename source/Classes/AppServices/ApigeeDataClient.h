@@ -376,8 +376,7 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
 //         operation is GET, this value is ignored. Usually, this would be
 //         expected to be in json format. With this oblique approach, it is
 //         your responsibility to format the data correctly for whatever you're
-//         doing. Bear in mind that this api comes with SBJson, which provides
-//         some very simple ways to assemble json formatted strings. See SBJsonWriter.
+//         doing.
 //
 // NOTE - This function will be synchronous or asynchronous the same as any
 // other function in the API. It is based on the value sent to setDelegate.

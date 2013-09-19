@@ -23,7 +23,7 @@
 	NSString* _cursor;
 }
 
-@property (unsafe_unretained) ApigeeDataClient* dataClient; // weak
+@property (weak, nonatomic) ApigeeDataClient* dataClient;
 @property (strong, nonatomic) NSString* type;
 @property (strong, nonatomic) NSMutableDictionary* qs;
 @property (strong, nonatomic) NSMutableArray* list;

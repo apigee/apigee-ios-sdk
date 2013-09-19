@@ -9,7 +9,7 @@
 #import "ApigeeCompositeConfiguration+JSON.h"
 #import "ApigeeCompositeConfiguration+Initializers.h"
 #import "ApigeeCachedConfigUtil.h"
-#import "ApigeeSBJsonParser.h"
+#import "ApigeeJsonUtils.h"
 
 static NSString* kApigeeDisckCacheErrorDomain = @"apigee-disk-cache";
 static NSString* kApigeeConfigFileName = @"webmanagerclientconfig.json";
@@ -68,31 +68,17 @@ static NSString* kApigeeConfigFileName = @"webmanagerclientconfig.json";
         return nil;
     }
     
-    // NSJSONSerialization is only available in iOS 5.0 and later!
-    //id objects = [NSJSONSerialization JSONObjectWithData:contents options:NSJSONReadingMutableContainers error: error];
-
-    /*
-     if (*error) {
-     NSLog(@"have error after calling NSJSONSerialization.JSONObjectWithData");
-     return nil;
-     }
-     */
-
-    @try {
-        ApigeeSBJsonParser *jsonParser = [[ApigeeSBJsonParser alloc] init];
-        id objects = [jsonParser objectWithData:contents];
+    NSString* contentsAsString = [[NSString alloc] initWithData:contents
+                                                       encoding:NSUTF8StringEncoding];
     
-        if( objects == nil )
-        {
-            NSLog(@"JSON serialization returned nil");
-            return nil;
-        }
-
-        return [ApigeeCompositeConfiguration fromDictionary:objects];
-    } @catch(NSException* e) {
-        NSLog( @"exception caught trying to parse JSON configuration: %@", e);
+    id objects = [ApigeeJsonUtils decode:contentsAsString error:error];
+        
+    if( objects == nil || *error ) {
+        NSLog(@"JSON serialization returned nil");
         return nil;
     }
+
+    return [ApigeeCompositeConfiguration fromDictionary:objects];
 }
 
 + (BOOL) updateConfiguration:(NSData *) fileData error:(NSError **) error

@@ -15,7 +15,6 @@
 #import "ApigeeCrashReporter.h"
 #import "NSString+UUID.h"
 #import "NSDate+Apigee.h"
-#import "NSObject+ApigeeSBJson.h"
 #import "ApigeeSystemLogger.h"
 #import "ApigeeReachability.h"
 #import "ApigeeOpenUDID.h"
@@ -48,6 +47,7 @@
 #import "ApigeeAppIdentification.h"
 #import "ApigeeDataClient.h"
 #import "ApigeeClient.h"
+#import "ApigeeJsonUtils.h"
 
 static const int64_t kOneMillion = 1000 * 1000;
 static mach_timebase_info_data_t s_timebase_info;
@@ -505,7 +505,7 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
         
         BOOL willUpdateCacheFromServer = YES;  // until we find out otherwise
         
-        NSDictionary* configDict = [jsonConfig JSONValue];
+        NSDictionary* configDict = [ApigeeJsonUtils decode:jsonConfig];
         if( configDict != nil ) {
             id lastModifedDate = [configDict valueForKey:@"lastModifiedDate"];
             if( lastModifedDate != nil ) {
@@ -856,26 +856,37 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
         [clientMetricsEnvelope setObject:[ApigeeNetworkEntry toDictionaries:networkMetrics] forKey:@"metrics"];
         [clientMetricsEnvelope setObject:[sessionMetrics asDictionary] forKey:@"sessionMetrics"];
     
-        NSString *json = [clientMetricsEnvelope JSONRepresentation];
+        NSError* error = nil;
+        NSString *json = [ApigeeJsonUtils encode:clientMetricsEnvelope error:&error];
         
-        if( self.listListeners && ([self.listListeners count] > 0) ) {
-            for( id<ApigeeUploadListener> listener in self.listListeners ) {
-                [listener onUploadMetrics:json];
+        if( json != nil ) {
+            if( self.listListeners && ([self.listListeners count] > 0) ) {
+                for( id<ApigeeUploadListener> listener in self.listListeners ) {
+                    [listener onUploadMetrics:json];
+                }
             }
-        }
         
-        if( nil != [self postString:json
-                       toUrl:[self metricsUploadURL]] ) {
-            if (!self.sentStartingSessionData) {
-                self.sentStartingSessionData = YES;
+            if( nil != [self postString:json
+                                  toUrl:[self metricsUploadURL]] ) {
+                if (!self.sentStartingSessionData) {
+                    self.sentStartingSessionData = YES;
+                }
+            
+                self.lastUploadTime = mach_absolute_time();
+            
+                //[ApigeeLogCompiler refreshUploadTimestamp];
+            
+                return YES;
+            } else {
+                return NO;
             }
-            
-            self.lastUploadTime = mach_absolute_time();
-            
-            //[ApigeeLogCompiler refreshUploadTimestamp];
-            
-            return YES;
         } else {
+            NSLog( @"error: unable to encode metrics to json, not sending to server. %@", clientMetricsEnvelope );
+            if( error != nil ) {
+                NSLog( @"error: %@", [error localizedDescription]);
+            } else {
+                NSLog( @"no error given");
+            }
             return NO;
         }
     }
@@ -901,13 +912,17 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     [clientMetricsEnvelope setObject:[NSArray array] forKey:@"metrics"];
     [clientMetricsEnvelope setObject:[sessionMetrics asDictionary] forKey:@"sessionMetrics"];
     
-    NSString *json = [clientMetricsEnvelope JSONRepresentation];
+    NSString *json = [ApigeeJsonUtils encode:clientMetricsEnvelope];
     
-    if( nil != [self postString:json
-                   toUrl:[self metricsUploadURL]] ) {
-        self.lastUploadTime = mach_absolute_time();
-        SystemAssert(@"Crash Log", @"Crash notification sent for %@", fileName);
-    }    
+    if (json != nil) {
+        if( nil != [self postString:json
+                              toUrl:[self metricsUploadURL]] ) {
+            self.lastUploadTime = mach_absolute_time();
+            SystemAssert(@"Crash Log", @"Crash notification sent for %@", fileName);
+        }
+    } else {
+        NSLog( @"error: unable to encode crash notification to JSON. %@", clientMetricsEnvelope );
+    }
 }
 
 - (void) saveConfig:(NSString *) json

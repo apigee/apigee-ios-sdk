@@ -12,7 +12,7 @@
 
 @interface ApigeeUIWebViewDelegateInterceptor()
 
-@property (assign) id<UIWebViewDelegate> target;
+@property (weak) id<UIWebViewDelegate> target;
 @property (strong) NSDate *started;
 @property (strong) ApigeeNetworkEntry *networkEntry;
 @end
