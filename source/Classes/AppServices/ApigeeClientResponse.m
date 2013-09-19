@@ -7,6 +7,7 @@
 #import "ApigeeGroup.h"
 #import "ApigeeMessage.h"
 #import "ApigeeUser.h"
+#import "ApigeeJsonUtils.h"
 
 @implementation ApigeeClientResponse
 
@@ -51,7 +52,8 @@
     //NSLog( @"%@", serverResponse);
     //NSLog( @"======== end server response ==========");
 
-    NSDictionary* replyDict = [serverResponse JSONValue];
+    //NSDictionary* replyDict = [serverResponse JSONValue];
+    NSDictionary* replyDict = [ApigeeJsonUtils decode:serverResponse];
     
     self.action = [replyDict valueForKey:@"action"];
     self.organization = [replyDict valueForKey:@"organization"];
