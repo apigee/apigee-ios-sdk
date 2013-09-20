@@ -11,6 +11,10 @@
 #include <objc/runtime.h>
 #include <mach/mach.h>
 #include <mach/mach_time.h>
+#include <stdbool.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/sysctl.h>
 
 #import "ApigeeCrashReporter.h"
 #import "NSString+UUID.h"
@@ -59,6 +63,30 @@ static const BOOL kDefaultUploadCrashReports    = YES;
 static const BOOL kDefaultInterceptNetworkCalls = YES;
 
 static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
+
+
+static bool AmIBeingDebugged(void)
+{
+    int                 mib[4];
+    struct kinfo_proc   info;
+    
+    info.kp_proc.p_flag = 0;
+    
+    mib[0] = CTL_KERN;
+    mib[1] = KERN_PROC;
+    mib[2] = KERN_PROC_PID;
+    mib[3] = getpid();
+    
+    size_t size = sizeof(info);
+    const int rc = sysctl(mib, sizeof(mib) / sizeof(*mib), &info, &size, NULL, 0);
+    
+    if ( rc == 0 ) {
+        // We're being debugged if the P_TRACED flag is set.
+        return ( (info.kp_proc.p_flag & P_TRACED) != 0 );
+    } else {
+        return false;
+    }
+}
 
 
 
@@ -323,6 +351,11 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     }
 #endif
 
+    if (AmIBeingDebugged()) {
+        crashReportingEnabled = NO;
+        ApigeeLogWarn(kApigeeMonitoringClientTag, @"Disabling crash reporting under debugger");
+    }
+    
     if (crashReportingEnabled) {
         
         // look for other crash reporters that may be present
