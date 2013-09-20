@@ -14,7 +14,6 @@
 		8A2C4D9E16D7C85400D5195D /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2C4D9D16D7C85400D5195D /* Client.m */; };
 		8A79BA4016D7C4A900526C51 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A79BA3F16D7C4A900526C51 /* UIKit.framework */; };
 		8A79BA4216D7C4A900526C51 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A79BA4116D7C4A900526C51 /* Foundation.framework */; };
-		8A79BA4416D7C4A900526C51 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A79BA4316D7C4A900526C51 /* CoreGraphics.framework */; };
 		8A79BA4A16D7C4A900526C51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A79BA4816D7C4A900526C51 /* InfoPlist.strings */; };
 		8A79BA4C16D7C4A900526C51 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A79BA4B16D7C4A900526C51 /* main.m */; };
 		8A79BA5016D7C4A900526C51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A79BA4F16D7C4A900526C51 /* AppDelegate.m */; };
@@ -35,7 +34,6 @@
 		8A79BA3C16D7C4A900526C51 /* Apigee App Services iOS Template.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Apigee App Services iOS Template.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A79BA3F16D7C4A900526C51 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8A79BA4116D7C4A900526C51 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		8A79BA4316D7C4A900526C51 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8A79BA4716D7C4A900526C51 /* Apigee App Services iOS Template-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Apigee App Services iOS Template-Info.plist"; sourceTree = "<group>"; };
 		8A79BA4916D7C4A900526C51 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8A79BA4B16D7C4A900526C51 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -61,7 +59,6 @@
 				638C62521799EFE40066DC15 /* CoreTelephony.framework in Frameworks */,
 				8A79BA4016D7C4A900526C51 /* UIKit.framework in Frameworks */,
 				8A79BA4216D7C4A900526C51 /* Foundation.framework in Frameworks */,
-				8A79BA4416D7C4A900526C51 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,7 +91,6 @@
 				638C62551799EFFA0066DC15 /* SystemConfiguration.framework */,
 				8A79BA3F16D7C4A900526C51 /* UIKit.framework */,
 				8A79BA4116D7C4A900526C51 /* Foundation.framework */,
-				8A79BA4316D7C4A900526C51 /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
