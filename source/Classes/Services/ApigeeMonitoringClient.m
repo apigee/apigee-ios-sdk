@@ -901,18 +901,17 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
     logEntry.tag = @"CRASH";
     logEntry.logMessage = fileName;
     logEntry.logLevel = @"A"; // assert
-
+    
     ApigeeSessionMetrics *sessionMetrics = [[ApigeeSessionMetricsCompiler systemCompiler] compileMetricsForSettings:self.activeSettings];
     NSArray *logEntries = [NSArray arrayWithObject:logEntry];
-    
+
     NSMutableDictionary *clientMetricsEnvelope = [NSMutableDictionary dictionary];
     [self populateClientMetricsEnvelope:clientMetricsEnvelope];
-    
     [clientMetricsEnvelope setObject:[ApigeeLogEntry toDictionaries:logEntries] forKey:@"logs"];
-    [clientMetricsEnvelope setObject:[NSArray array] forKey:@"metrics"];
     [clientMetricsEnvelope setObject:[sessionMetrics asDictionary] forKey:@"sessionMetrics"];
-    
-    NSString *json = [ApigeeJsonUtils encode:clientMetricsEnvelope];
+
+    NSError* error = nil;
+    NSString *json = [ApigeeJsonUtils encode:clientMetricsEnvelope error:&error];
     
     if (json != nil) {
         if( nil != [self postString:json
@@ -922,6 +921,11 @@ static NSString* kApigeeMonitoringClientTag = @"MOBILE_AGENT";
         }
     } else {
         NSLog( @"error: unable to encode crash notification to JSON. %@", clientMetricsEnvelope );
+        if (error != nil) {
+            NSLog( @"encoding error: %@", [error localizedDescription]);
+        } else {
+            NSLog( @"no error given");
+        }
     }
 }
 
