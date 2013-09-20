@@ -96,7 +96,6 @@
 		63F5253B177A36E600FCA013 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253A177A36E600FCA013 /* CoreLocation.framework */; };
 		63F5253D177A36F100FCA013 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253C177A36F100FCA013 /* SystemConfiguration.framework */; };
 		63F5253F177A36FB00FCA013 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253E177A36FB00FCA013 /* CoreTelephony.framework */; };
-		63F52541177A370A00FCA013 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F52540177A370A00FCA013 /* CoreGraphics.framework */; };
 		63F52542177A382B00FCA013 /* ApigeeCompositeConfiguration.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5248B1778EA4E00FCA013 /* ApigeeCompositeConfiguration.h */; };
 		63F52543177A383E00FCA013 /* ApigeeLogEntry.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5246B1778E73C00FCA013 /* ApigeeLogEntry.h */; };
 		63F52545177A385B00FCA013 /* ApigeeSessionMetrics.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F524711778E82700FCA013 /* ApigeeSessionMetrics.h */; };
@@ -384,7 +383,6 @@
 		63F5253A177A36E600FCA013 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		63F5253C177A36F100FCA013 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		63F5253E177A36FB00FCA013 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		63F52540177A370A00FCA013 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		63F525691781D9B800FCA013 /* ApigeeClientDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ApigeeClientDelegate.h; path = Classes/AppServices/ApigeeClientDelegate.h; sourceTree = SOURCE_ROOT; };
 		63F5256A1781DC5E00FCA013 /* ApigeeConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeConnection.h; path = Classes/AppServices/ApigeeConnection.h; sourceTree = SOURCE_ROOT; };
 		63F5256B1781DC6100FCA013 /* ApigeeConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeConnection.m; path = Classes/AppServices/ApigeeConnection.m; sourceTree = SOURCE_ROOT; };
@@ -399,7 +397,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63F52541177A370A00FCA013 /* CoreGraphics.framework in Frameworks */,
 				63F5253F177A36FB00FCA013 /* CoreTelephony.framework in Frameworks */,
 				63F5253D177A36F100FCA013 /* SystemConfiguration.framework in Frameworks */,
 				63F5253B177A36E600FCA013 /* CoreLocation.framework in Frameworks */,
@@ -443,7 +440,6 @@
 				63F5253A177A36E600FCA013 /* CoreLocation.framework */,
 				63F5253C177A36F100FCA013 /* SystemConfiguration.framework */,
 				63F5253E177A36FB00FCA013 /* CoreTelephony.framework */,
-				63F52540177A370A00FCA013 /* CoreGraphics.framework */,
 				63F522BE1778C2B200FCA013 /* Foundation.framework */,
 			);
 			name = Frameworks;

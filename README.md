@@ -5,7 +5,7 @@ This SDK has not been released yet -- it should not be used for active developme
 Apigee iOS SDK Overview
 =======================
 
-There are 2 main areas of functionality provided: (1) AppServices (UserGrid), and (2) App Monitoring.  App Services provides server-side storage functionality.  App Monitoring provides crash reporting, error tracking, application configuration management, and network performance monitoring.  You may use both of these areas or decide to just use one of them.
+There are 2 main areas of functionality provided: (1) App Services (Usergrid), and (2) App Monitoring.  App Services provides server-side storage functionality.  App Monitoring provides crash reporting, error tracking, application configuration management, and network performance monitoring.  You may use both of these areas or decide to just use one of them.
 
 
 NOTE -- app monitoring is temporarily disabled until the back-end systems are configured.
@@ -19,7 +19,6 @@ Add the following flags to "Other Linker Flags" in "Build Settings":
 
 Add the following frameworks:
 
-* CoreGraphics.framework
 * CoreLocation.framework
 * CoreTelephony.framework
 * SystemConfiguration.framework
@@ -50,11 +49,11 @@ The build script makes use of the default installation of Xcode.  If you need to
 different version of Xcode, please uncomment the code that assigns the path for DEVELOPER_DIR in source/Scripts/dist.sh.
 
 
-New Functionality for UserGrid
+New Functionality for Usergrid
 ------------------------------
 New classes (ApigeeCollection, ApigeeEntity, ApigeeDevice, ApigeeGroup) to make working with entities and collections easier. The functionality has been modeled after our JavaScript and PHP SDKs.
 
-Migrating from UserGrid
+Migrating from Usergrid
 -----------------------
 1. All classes named with 'UG' prefix are now named with 'Apigee' prefix (UGClassName becomes ApigeeClassName)
 2. UGClient is now named ApigeeDataClient
