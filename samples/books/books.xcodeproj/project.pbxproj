@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		6326DFD2176A6BD40016932F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6326DFD1176A6BD40016932F /* UIKit.framework */; };
 		6326DFD4176A6BD40016932F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6326DFD3176A6BD40016932F /* Foundation.framework */; };
-		6326DFD6176A6BD40016932F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6326DFD5176A6BD40016932F /* CoreGraphics.framework */; };
 		6326DFDC176A6BD40016932F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6326DFDA176A6BD40016932F /* InfoPlist.strings */; };
 		6326DFDE176A6BD40016932F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6326DFDD176A6BD40016932F /* main.m */; };
 		6326DFE2176A6BD40016932F /* APGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6326DFE1176A6BD40016932F /* APGAppDelegate.m */; };
@@ -46,7 +45,6 @@
 		6326DFCE176A6BD40016932F /* Books.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Books.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6326DFD1176A6BD40016932F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6326DFD3176A6BD40016932F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		6326DFD5176A6BD40016932F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6326DFD9176A6BD40016932F /* Books-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Books-Info.plist"; sourceTree = "<group>"; };
 		6326DFDB176A6BD40016932F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6326DFDD176A6BD40016932F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -85,7 +83,6 @@
 				6340FFB9179ED2D100700CB1 /* CoreLocation.framework in Frameworks */,
 				6340FFBA179ED2D100700CB1 /* CoreTelephony.framework in Frameworks */,
 				6340FFBB179ED2D100700CB1 /* SystemConfiguration.framework in Frameworks */,
-				6326DFD6176A6BD40016932F /* CoreGraphics.framework in Frameworks */,
 				6326DFD2176A6BD40016932F /* UIKit.framework in Frameworks */,
 				6326DFD4176A6BD40016932F /* Foundation.framework in Frameworks */,
 			);
@@ -132,7 +129,6 @@
 				6340FFB8179ED2D100700CB1 /* SystemConfiguration.framework */,
 				6326DFD1176A6BD40016932F /* UIKit.framework */,
 				6326DFD3176A6BD40016932F /* Foundation.framework */,
-				6326DFD5176A6BD40016932F /* CoreGraphics.framework */,
 				6326DFFB176A6BD40016932F /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
