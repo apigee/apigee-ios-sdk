@@ -13,7 +13,7 @@
 @interface ApigeeEntity : NSObject
 
 
-@property (unsafe_unretained) ApigeeDataClient* dataClient;
+@property (weak) ApigeeDataClient* dataClient;
 @property (strong, nonatomic) NSMutableDictionary* properties;
 @property (strong, nonatomic) NSString* type;
 @property (strong, nonatomic) NSString* uuid;

@@ -38,11 +38,11 @@ enum
 
 // This is the response. The type of this variable is dependant on the call that caused
 // this response. 
-@property (unsafe_unretained) id response;
+@property (weak) id response;
 
 // This is the raw text that was returned by the server. 
-@property (unsafe_unretained) NSString *rawResponse;
-@property (unsafe_unretained) ApigeeDataClient *dataClient;
+@property (weak) NSString *rawResponse;
+@property (weak) ApigeeDataClient *dataClient;
 
 @property (copy, nonatomic) NSString *action;
 @property (copy, nonatomic) NSString *organization;
