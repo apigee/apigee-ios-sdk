@@ -2,13 +2,9 @@
 //  ApigeeViewController.m
 //  MonitoringSample
 //
-//  Created by Paul Dardeau on 9/4/13.
 //  Copyright (c) 2013 Apigee. All rights reserved.
 //
 
-#import <ApigeeiOSSDK/ApigeeClient.h>
-#import <ApigeeiOSSDK/ApigeeMonitoringClient.h>
-#import <ApigeeiOSSDK/ApigeeMonitoringOptions.h>
 #import <ApigeeiOSSDK/Apigee.h>
 
 #import "ApigeeAppDelegate.h"
