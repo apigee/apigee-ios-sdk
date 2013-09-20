@@ -2,13 +2,10 @@
 //  Client.m
 //  Messagee
 //
-//  Created by Rod Simpson on 12/27/12.
-//  Copyright (c) 2012 Rod Simpson. All rights reserved.
+//  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
 #import "Client.h"
-#import <ApigeeiOSSDK/ApigeeClient.h>
-#import <ApigeeiOSSDK/ApigeeMonitoringOptions.h>
 
 @implementation Client
 
@@ -24,15 +21,10 @@
         NSString * appName = @"MessageeApp";
         NSString * baseURL = @"https://api.usergrid.com";
         
-        ApigeeMonitoringOptions* monitoringOptions = [[ApigeeMonitoringOptions alloc] init];
-        monitoringOptions.crashReportingEnabled = NO;
-        monitoringOptions.monitoringEnabled = NO;
-
         ApigeeClient *apigeeClient =
             [[ApigeeClient alloc] initWithOrganizationId:orgName
                                            applicationId:appName
-                                                 baseURL:baseURL
-                                                 options:monitoringOptions];
+                                                 baseURL:baseURL];
         usergridClient = [apigeeClient dataClient];
         //[usergridClient setLogging:true]; //uncomment to see debug output in console window
     }
