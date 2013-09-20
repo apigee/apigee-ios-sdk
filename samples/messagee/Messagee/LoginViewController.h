@@ -2,8 +2,7 @@
 //  LoginViewController.h
 //  Messagee
 //
-//  Created by Rod Simpson on 12/27/12.
-//  Copyright (c) 2012 Rod Simpson. All rights reserved.
+//  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

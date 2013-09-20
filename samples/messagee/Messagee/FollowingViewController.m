@@ -2,8 +2,7 @@
 //  UsersViewController.m
 //  Messagee
 //
-//  Created by Rod Simpson on 12/30/12.
-//  Copyright (c) 2012 Rod Simpson. All rights reserved.
+//  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
 #import "FollowingViewController.h"
