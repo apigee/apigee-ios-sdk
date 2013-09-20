@@ -2,18 +2,15 @@
 //  APGMasterViewController.m
 //  Books
 //
-//  Created by Matthew Dobson on 6/13/13.
-//  Copyright (c) 2013 Matthew Dobson. All rights reserved.
+//  Copyright (c) 2013 Apigee. All rights reserved.
 //
 
 #import "APGMasterViewController.h"
-
 #import "APGDetailViewController.h"
-
 #import "APGNewBookViewController.h"
 
-#import <ApigeeiOSSDK/ApigeeClient.h>
-#import <ApigeeiOSSDK/ApigeeDataClient.h>
+#import <ApigeeiOSSDK/Apigee.h>
+
 
 @interface APGMasterViewController () {
     NSMutableArray *_objects;
