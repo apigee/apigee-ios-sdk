@@ -8,6 +8,7 @@
 
 #import <ApigeeiOSSDK/ApigeeClient.h>
 #import <ApigeeiOSSDK/ApigeeMonitoringClient.h>
+#import <ApigeeiOSSDK/ApigeeMonitoringOptions.h>
 #import <ApigeeiOSSDK/Apigee.h>
 
 #import "ApigeeAppDelegate.h"
@@ -81,9 +82,13 @@ static NSString* kLoggingTag = @"Sample App";
     NSString* orgName = @"<YOUR_ORG_NAME>";
     NSString* appName = @"<YOUR_APP_NAME>";
     
+    ApigeeMonitoringOptions* monitoringOptions = [[ApigeeMonitoringOptions alloc] init];
+    monitoringOptions.crashReportingEnabled = YES;
+    
     appDelegate.apigeeClient = [[ApigeeClient alloc]
                                 initWithOrganizationId:orgName
-                                applicationId:appName];
+                                applicationId:appName
+                                baseURL:nil options:monitoringOptions];
     self.monitoringClient = [appDelegate.apigeeClient monitoringClient];
 }
 

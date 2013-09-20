@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		635C6E8017ECAADB004F9C9E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635C6E7F17ECAADB004F9C9E /* CoreTelephony.framework */; };
 		63C7BC0E17D791EB00EBF365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC0D17D791EB00EBF365 /* Foundation.framework */; };
-		63C7BC1017D791EB00EBF365 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC0F17D791EB00EBF365 /* CoreGraphics.framework */; };
 		63C7BC1217D791EB00EBF365 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC1117D791EB00EBF365 /* UIKit.framework */; };
 		63C7BC1817D791EB00EBF365 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63C7BC1617D791EB00EBF365 /* InfoPlist.strings */; };
 		63C7BC1A17D791EB00EBF365 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7BC1917D791EB00EBF365 /* main.m */; };
@@ -21,7 +21,6 @@
 		63C7BC3717D791EB00EBF365 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63C7BC3517D791EB00EBF365 /* InfoPlist.strings */; };
 		63C7BC3917D791EB00EBF365 /* MonitoringSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7BC3817D791EB00EBF365 /* MonitoringSampleTests.m */; };
 		63C7BC4517D7B7D900EBF365 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4417D7B7D900EBF365 /* CoreLocation.framework */; };
-		63C7BC4717D7B7E100EBF365 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4617D7B7E100EBF365 /* CoreTelephony.framework */; };
 		63C7BC4917D7B7E900EBF365 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4817D7B7E800EBF365 /* Security.framework */; };
 		63C7BC4B17D7B7F500EBF365 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
@@ -37,9 +36,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		635C6E7F17ECAADB004F9C9E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		63C7BC0A17D791EB00EBF365 /* MonitoringSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MonitoringSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63C7BC0D17D791EB00EBF365 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		63C7BC0F17D791EB00EBF365 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		63C7BC1117D791EB00EBF365 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		63C7BC1517D791EB00EBF365 /* MonitoringSample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MonitoringSample-Info.plist"; sourceTree = "<group>"; };
 		63C7BC1717D791EB00EBF365 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -56,7 +55,6 @@
 		63C7BC3617D791EB00EBF365 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		63C7BC3817D791EB00EBF365 /* MonitoringSampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MonitoringSampleTests.m; sourceTree = "<group>"; };
 		63C7BC4417D7B7D900EBF365 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		63C7BC4617D7B7E100EBF365 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		63C7BC4817D7B7E800EBF365 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -66,11 +64,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				635C6E8017ECAADB004F9C9E /* CoreTelephony.framework in Frameworks */,
 				63C7BC4B17D7B7F500EBF365 /* SystemConfiguration.framework in Frameworks */,
 				63C7BC4917D7B7E900EBF365 /* Security.framework in Frameworks */,
-				63C7BC4717D7B7E100EBF365 /* CoreTelephony.framework in Frameworks */,
 				63C7BC4517D7B7D900EBF365 /* CoreLocation.framework in Frameworks */,
-				63C7BC1017D791EB00EBF365 /* CoreGraphics.framework in Frameworks */,
 				63C7BC1217D791EB00EBF365 /* UIKit.framework in Frameworks */,
 				63C7BC0E17D791EB00EBF365 /* Foundation.framework in Frameworks */,
 			);
@@ -91,6 +88,7 @@
 		63C7BC0117D791EB00EBF365 = {
 			isa = PBXGroup;
 			children = (
+				635C6E7F17ECAADB004F9C9E /* CoreTelephony.framework */,
 				63C7BC1317D791EB00EBF365 /* MonitoringSample */,
 				63C7BC3217D791EB00EBF365 /* MonitoringSampleTests */,
 				63C7BC0C17D791EB00EBF365 /* Frameworks */,
@@ -112,10 +110,8 @@
 			children = (
 				63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */,
 				63C7BC4817D7B7E800EBF365 /* Security.framework */,
-				63C7BC4617D7B7E100EBF365 /* CoreTelephony.framework */,
 				63C7BC4417D7B7D900EBF365 /* CoreLocation.framework */,
 				63C7BC0D17D791EB00EBF365 /* Foundation.framework */,
-				63C7BC0F17D791EB00EBF365 /* CoreGraphics.framework */,
 				63C7BC1117D791EB00EBF365 /* UIKit.framework */,
 			);
 			name = Frameworks;
