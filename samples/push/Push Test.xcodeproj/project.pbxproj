@@ -16,7 +16,6 @@
 		C913B2AB16E7CC54007A526E /* sisyphus-i5-back.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C913B2AA16E7CC54007A526E /* sisyphus-i5-back.jpg */; };
 		C9AFBD1C16B71BD700D67DA3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AFBD1B16B71BD700D67DA3 /* UIKit.framework */; };
 		C9AFBD1E16B71BD700D67DA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AFBD1D16B71BD700D67DA3 /* Foundation.framework */; };
-		C9AFBD2016B71BD700D67DA3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AFBD1F16B71BD700D67DA3 /* CoreGraphics.framework */; };
 		C9AFBD2616B71BD700D67DA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9AFBD2416B71BD700D67DA3 /* InfoPlist.strings */; };
 		C9AFBD2816B71BD700D67DA3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9AFBD2716B71BD700D67DA3 /* main.m */; };
 		C9AFBD2C16B71BD700D67DA3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9AFBD2B16B71BD700D67DA3 /* AppDelegate.m */; };
@@ -87,7 +86,6 @@
 				638C629517A728D80066DC15 /* SystemConfiguration.framework in Frameworks */,
 				C9AFBD1C16B71BD700D67DA3 /* UIKit.framework in Frameworks */,
 				C9AFBD1E16B71BD700D67DA3 /* Foundation.framework in Frameworks */,
-				C9AFBD2016B71BD700D67DA3 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
