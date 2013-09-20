@@ -1,7 +1,5 @@
 #import "AppDelegate.h"
-#import <ApigeeiOSSDK/ApigeeClient.h>
-#import <ApigeeiOSSDK/ApigeeDataClient.h>
-#import <ApigeeiOSSDK/ApigeeClientResponse.h>
+#import <ApigeeiOSSDK/Apigee.h>
 
 @implementation AppDelegate
 
