@@ -5,12 +5,11 @@
 //  This class allows you to connnect to a remote instance
 //  of Apigee App Services / Usergrid
 //
-//  Created by Tim Anglade on 2/22/13.
 //  Copyright (c) 2013 Apigee. All rights reserved.
 //
 
 #import "Client.h"
-#import <ApigeeiOSSDK/ApigeeClient.h>
+#import <ApigeeiOSSDK/Apigee.h>
 
 @implementation Client
 
