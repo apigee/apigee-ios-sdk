@@ -21,10 +21,14 @@
         NSString * appName = @"MessageeApp";
         NSString * baseURL = @"https://api.usergrid.com";
         
+        ApigeeMonitoringOptions* monitoringOptions = [[ApigeeMonitoringOptions alloc] init];
+        monitoringOptions.monitoringEnabled = NO;
+        
         ApigeeClient *apigeeClient =
             [[ApigeeClient alloc] initWithOrganizationId:orgName
                                            applicationId:appName
-                                                 baseURL:baseURL];
+                                                 baseURL:baseURL
+                                                 options:monitoringOptions];
         usergridClient = [apigeeClient dataClient];
         //[usergridClient setLogging:true]; //uncomment to see debug output in console window
     }
