@@ -208,34 +208,38 @@ enum
     return YES;
 }
 
+- (BOOL)setValue:(id)valueObject forKey:(NSString*)key into:(NSMutableDictionary*)dict
+{
+    if (valueObject != nil) {
+        [dict setValue:valueObject forKey:key];
+        return YES;
+    }
+    
+    return NO;
+}
+
 -(NSDictionary *)toNSDictionary
 {
     NSMutableDictionary *ret = [NSMutableDictionary new];
     
     // add all the fields in
-    [ret setObject:kTypeActivity forKey:kKeyType];
-    [ret setObject:m_verb forKey:kKeyVerb];
-    [ret setObject:m_category forKey:kKeyCategory];
-    [ret setObject:m_content forKey:kKeyContent];
-    [ret setObject:m_title forKey:kKeyTitle];
+    [self setValue:kTypeActivity forKey:kKeyType into:ret];
+    [self setValue:m_verb forKey:kKeyVerb into:ret];
+    [self setValue:m_category forKey:kKeyCategory into:ret];
+    [self setValue:m_content forKey:kKeyContent into:ret];
+    [self setValue:m_title forKey:kKeyTitle into:ret];
     
     // make the actor's subdictionary
     NSMutableDictionary *actor = [NSMutableDictionary new];
-    [actor setObject:kTypePerson forKey:kKeyType];
-    [actor setObject:kTypeUser forKey:kKeyEntityType];
-    [actor setObject:m_actorDisplayName forKey:kKeyDisplayName];
+    [self setValue:kTypePerson forKey:kKeyType into:actor];
+    [self setValue:kTypeUser forKey:kKeyEntityType into:actor];
+    [self setValue:m_actorDisplayName forKey:kKeyDisplayName into:actor];
     
-    if ( m_actorUUID )
-    {
-        [actor setObject:m_actorUUID forKey:kKeyActorUuid];
-    }
-    if ( m_actorEmail )
-    {
-        [actor setObject:m_actorEmail forKey:kKeyActorEmail];
-    }
+    [self setValue:m_actorUUID forKey:kKeyActorUuid into:actor];
+    [self setValue:m_actorEmail forKey:kKeyActorEmail into:actor];
     
     // add the actor to the main dict
-    [ret setObject:actor forKey:kKeyActor];
+    [self setValue:actor forKey:kKeyActor into:ret];
     
     if ( m_objectDataType != kApigeeActivityNoObject )
     {
@@ -243,25 +247,25 @@ enum
         NSMutableDictionary *object = [NSMutableDictionary new];
         
         // these fields are involved in all cases
-        [object setObject:m_objectType forKey:kKeyType];
-        [object setObject:m_objectDisplayName forKey:kKeyDisplayName];
+        [self setValue:m_objectType forKey:kKeyType into:object];
+        [self setValue:m_objectDisplayName forKey:kKeyDisplayName into:object];
         
         if ( m_objectDataType == kApigeeActivityObjectContent )
         {
-            [object setObject:m_objectContent forKey:kKeyContent];
+            [self setValue:m_objectContent forKey:kKeyContent into:object];
         }
         else if ( m_objectDataType == kApigeeActivityObjectNameOnly )
         {
-            [object setObject:m_content forKey:kKeyContent];
+            [self setValue:m_content forKey:kKeyContent into:object];
         }
         else if ( m_objectDataType == kApigeeActivityObjectEntity )
         {
-            [object setObject:m_entityType forKey:kKeyEntityType];
-            [object setObject:m_entityUUID forKey:kKeyEntityUuid];
+            [self setValue:m_entityType forKey:kKeyEntityType into:object];
+            [self setValue:m_entityUUID forKey:kKeyEntityUuid into:object];
         }
         
         // add to the dict
-        [ret setObject:object forKey:kKeyObject];
+        [self setValue:object forKey:kKeyObject into:ret];
     }
     
     // done with the assembly
