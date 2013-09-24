@@ -12,7 +12,7 @@
 #import "ApigeeMonitoringOptions.h"
 #import "ApigeeDefaultiOSLog.h"
 
-static NSString* kSDKVersion = @"2.0.3-SNAPSHOT";
+static NSString* kSDKVersion = @"2.0.3";
 
 
 @interface ApigeeClient ()
@@ -85,6 +85,9 @@ static NSString* kSDKVersion = @"2.0.3-SNAPSHOT";
         
         if( self.dataClient ) {
             NSLog( @"apigee: dataClient created" );
+            NSLog( @"apigee: monitoring not enabled" );
+            
+            /*
             if( monitoringOptions != nil ) {
                 if( monitoringOptions.monitoringEnabled ) {
                     self.monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:self.appIdentification
@@ -103,9 +106,10 @@ static NSString* kSDKVersion = @"2.0.3-SNAPSHOT";
             } else {
                 NSLog( @"apigee: unable to create monitoringClient" );
             }
+             */
         } else {
             NSLog( @"apigee: unable to create dataClient" );
-            NSLog( @"apigee: no monitoringClient will be created" );
+            //NSLog( @"apigee: no monitoringClient will be created" );
             //[ApigeeDataClient setLogger:[[ApigeeDefaultiOSLog alloc] init]];
         }
     }
