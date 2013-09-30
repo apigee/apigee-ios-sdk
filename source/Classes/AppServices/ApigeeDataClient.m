@@ -1,3 +1,5 @@
+#import <CoreLocation/CoreLocation.h>
+
 #import "ApigeeDataClient.h"
 #import "ApigeeHTTPManager.h"
 #import "ApigeeActivity.h"
@@ -12,14 +14,22 @@
 #import "UIDevice+Apigee.h"
 #import "SSKeychain.h"
 #import "ApigeeJsonUtils.h"
+#import "ApigeeLocationService.h"
 
-static NSString* kDefaultBaseURL = @"https://api.usergrid.com";
+static NSString* kDefaultBaseURL = @"http://apigee-internal-prod.jupiter.apigee.net"; //@"https://api.usergrid.com";
 static NSString* kLoggingTag = @"DATA_CLIENT";
 static const int kInvalidTransactionID = -1;
 
 static id<ApigeeLogger> logger = nil;
 
 NSString *g_deviceUUID = nil;
+
+@interface ApigeeDataClient () <CLLocationManagerDelegate>
+
+@property CLLocationManager *locationManager;
+
+@end
+
 
 @implementation ApigeeDataClient
 {
@@ -52,6 +62,8 @@ NSString *g_deviceUUID = nil;
     BOOL m_bLogging;
 }
 
+@synthesize locationManager;
+
 /************************** ACCESSORS *******************************/
 /************************** ACCESSORS *******************************/
 /************************** ACCESSORS *******************************/
@@ -80,6 +92,44 @@ NSString *g_deviceUUID = nil;
     return m_delegate;
 }
 
+- (void)notifyApplicationDidFinishLaunching:(id)sender
+{
+    [self.locationManager startUpdatingLocation];
+}
+
+- (void)notifyApplicationWillEnterForeground:(id)sender
+{
+    [self.locationManager startUpdatingLocation];
+}
+
+- (void)registerWithNotificationCenter
+{
+    NSLog( @"registerWithNotificationCenter called");
+    NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
+    if( notifyCenter ) {
+        [notifyCenter addObserver:self
+                         selector:@selector(notifyApplicationDidFinishLaunching:)
+                             name:UIApplicationDidFinishLaunchingNotification
+                           object:nil];
+        [notifyCenter addObserver:self
+                         selector:@selector(notifyApplicationWillEnterForeground:)
+                             name:UIApplicationWillEnterForegroundNotification
+                           object:nil];
+    }
+}
+
+- (void)deregisterWithNotificationCenter
+{
+    NSLog( @"deregisterWithNotificationCenter called");
+    NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
+    [notifyCenter removeObserver:self
+                            name:UIApplicationDidFinishLaunchingNotification
+                          object:nil];
+    [notifyCenter removeObserver:self
+                            name:UIApplicationWillEnterForegroundNotification
+                          object:nil];
+}
+
 /******************************* INIT *************************************/
 /******************************* INIT *************************************/
 /******************************* INIT *************************************/
@@ -94,27 +144,11 @@ NSString *g_deviceUUID = nil;
 
 -(id) initWithOrganizationId: (NSString *)organizationID withApplicationID:(NSString *)applicationID
 {
-    self = [super init];
-    if ( self )
-    {
-        m_delegate = nil;
-        m_httpManagerPool = [NSMutableArray new];
-        m_delegateLock = [NSRecursiveLock new];
-        m_appID = applicationID;
-        m_orgID = organizationID;
-        m_baseURL = kDefaultBaseURL;
-        m_loggedInUser = nil;
-        m_bLogging = NO;
-
-        // if the base URL has a trailing '/', leave it off
-        if ([m_baseURL hasSuffix:@"/"]) {
-            m_baseURL = [m_baseURL substringToIndex:[m_baseURL length]-1];
-        }
-    }
-    return self;
+    return [self initWithOrganizationId:organizationID
+                      withApplicationID:applicationID
+                                baseURL:nil];
 }
 
-//-(id) initWithApplicationID:(NSString *)applicationID baseURL:(NSString *)baseURL
 -(id) initWithOrganizationId: (NSString *)organizationID withApplicationID:(NSString *)applicationID baseURL:(NSString *)baseURL
 {
     self = [super init];
@@ -139,8 +173,21 @@ NSString *g_deviceUUID = nil;
         if ([m_baseURL hasSuffix:@"/"]) {
             m_baseURL = [m_baseURL substringToIndex:[m_baseURL length]-1];
         }
+        
+        self.locationManager = [[CLLocationManager alloc] init];
+        
+        if ([CLLocationManager locationServicesEnabled]) {
+            self.locationManager.delegate = self;
+        }
+        
+        [self registerWithNotificationCenter];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [self deregisterWithNotificationCenter];
 }
 
 -(BOOL) setDelegate:(id)delegate
@@ -1818,6 +1865,87 @@ NSString *g_deviceUUID = nil;
     return [[ApigeeCollection alloc] init:self type:type qs:qs];
 }
 
+//**********************  LOCATION  ***************************
+
+- (void)updateLocation:(CLLocation*)location
+{
+    if (location != nil) {
+        [self.locationManager stopUpdatingLocation];
+        
+        NSString *deviceId = [ApigeeDataClient getUniqueDeviceID];
+        
+        NSMutableDictionary *entity = [[NSMutableDictionary alloc] init];
+        [entity setObject:@"device" forKey:@"type"];
+        [entity setObject:deviceId forKey:@"uuid"];
+        
+        // grab device meta-data
+        UIDevice *currentDevice = [UIDevice currentDevice];
+        [entity setValue:[UIDevice platformStringDescriptive] forKey:@"deviceModel"];
+        [entity setValue:[currentDevice systemName] forKey:@"devicePlatform"];
+        [entity setValue:[currentDevice systemVersion] forKey:@"deviceOSVersion"];
+
+
+        NSMutableDictionary *locationData = [[NSMutableDictionary alloc] init];
+        [locationData setValue:[NSNumber numberWithFloat:location.coordinate.latitude]
+                        forKey:@"latitude"];
+        [locationData setValue:[NSNumber numberWithFloat:location.coordinate.longitude]
+                        forKey:@"longitude"];
+
+        [entity setValue:locationData forKey:@"location"];
+
+        [self updateEntity:deviceId entity:entity];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+     didUpdateLocations:(NSArray *)locations
+{
+    // iOS 6.0 and later
+    if ([locations count] > 0) {
+        [self updateLocation:[locations lastObject]];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation
+{
+    // deprecated in iOS 6.0
+    [self updateLocation:newLocation];
+}
+
+- (void)locationManagerDidPauseLocationUpdates:(CLLocationManager *)manager
+{
+    // iOS 6.0 and later
+}
+
+- (void)locationManagerDidResumeLocationUpdates:(CLLocationManager *)manager
+{
+    // iOS 6.0 and later
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+      didDetermineState:(CLRegionState)state
+              forRegion:(CLRegion *)region
+{
+    // iOS 7.0 and later
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+        didRangeBeacons:(NSArray *)beacons
+               inRegion:(CLBeaconRegion *)region
+{
+    // iOS 7.0 and later
+}
+
+- (void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error
+{
+    // iOS 7.0 and later
+}
 
 @end
 
