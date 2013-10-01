@@ -19,7 +19,7 @@
     self = [super init];
     if( self )
     {
-        self.monitoringEnabled = YES;
+        self.monitoringEnabled = NO;
         self.crashReportingEnabled = YES;
         self.interceptNetworkCalls = YES;
         self.uploadListener = nil;

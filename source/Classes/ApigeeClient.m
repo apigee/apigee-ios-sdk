@@ -95,14 +95,19 @@ static NSString* kSDKVersion = @"2.0.4-SNAPSHOT";
                     self.monitoringClient = nil;
                 }
             } else {
+                // The following code will be uncommented once app monitoring goes live
+                /*
                 self.monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:self.appIdentification
                                                                                    dataClient:self.dataClient];
+                 */
             }
             
             if( self.monitoringClient ) {
                 NSLog( @"apigee: monitoringClient created" );
             } else {
-                NSLog( @"apigee: unable to create monitoringClient" );
+                if (monitoringOptions && monitoringOptions.monitoringEnabled) {
+                    NSLog( @"apigee: unable to create monitoringClient" );
+                }
             }
         } else {
             NSLog( @"apigee: unable to create dataClient" );
