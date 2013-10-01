@@ -104,7 +104,6 @@ NSString *g_deviceUUID = nil;
 
 - (void)registerWithNotificationCenter
 {
-    NSLog( @"registerWithNotificationCenter called");
     NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
     if( notifyCenter ) {
         [notifyCenter addObserver:self
@@ -120,7 +119,6 @@ NSString *g_deviceUUID = nil;
 
 - (void)deregisterWithNotificationCenter
 {
-    NSLog( @"deregisterWithNotificationCenter called");
     NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
     [notifyCenter removeObserver:self
                             name:UIApplicationDidFinishLaunchingNotification
