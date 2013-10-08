@@ -10,6 +10,9 @@ There are 2 main areas of functionality provided: (1) AppServices (UserGrid), an
 
 NOTE -- mobile analytics is temporarily disabled until the back-end systems are configured.
 
+Installing the SDK
+------------------
+
 1. Add 'ApigeeiOSSDK.framework' to your project.
 2. Add the following iOS frameworks to your project:
 <pre>
