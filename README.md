@@ -32,16 +32,13 @@ Confirm that flags are set for both 'DEBUG' and 'RELEASE'.
 <pre>
 //Instantiate the AppDelegate
 AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-
 //Sepcify your App Services organization and application names
 NSString *orgName = @"YOUR-ORG";
 NSString *appName = @"YOUR-APP";
-
 //Instantiate ApigeeClient to initialize the SDK
 appDelegate.apigeeClient = [[ApigeeClient alloc]
                             initWithOrganizationId:orgName
                             applicationId:appName];
-                            
 //Retrieve instances of ApigeeClient.monitoringClient and ApigeeClient.dataClient
 self.monitoringClient = [appDelegate.apigeeClient monitoringClient]; //used to call App Monitoring methods
 self.dataClient = [appDelegate.apigeeClient dataClient]; //used to call data methods
