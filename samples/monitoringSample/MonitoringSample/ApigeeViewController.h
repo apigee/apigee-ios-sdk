@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ApigeeViewController : UIViewController
+@interface ApigeeViewController : UIViewController <NSURLSessionDelegate,NSURLSessionDataDelegate>
 
 - (IBAction)forceCrashPressed:(id)sender;
 - (IBAction)generateLoggingEntryPressed:(id)sender;

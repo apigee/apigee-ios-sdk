@@ -53,6 +53,9 @@
 #import "ApigeeClient.h"
 #import "ApigeeJsonUtils.h"
 
+#import "NSURLSession+Apigee.h"
+#import "ApigeeNSURLSessionDataTaskInfo.h"
+
 static const int64_t kOneMillion = 1000 * 1000;
 static mach_timebase_info_data_t s_timebase_info;
 
@@ -90,6 +93,7 @@ static bool AmIBeingDebugged(void)
 
 
 
+
 @interface ApigeeMonitoringClient ()
 
 @property (strong) NSString *appName;
@@ -101,6 +105,7 @@ static bool AmIBeingDebugged(void)
 @property (strong) ApigeeIntervalTimer* timer;
 
 @property (assign) BOOL swizzledNSURLConnection;
+@property (assign) BOOL swizzledNSURLSession;
 @property (assign) BOOL sentStartingSessionData;
 @property (assign) BOOL isPartOfSample;
 @property (assign) BOOL isInitialized;
@@ -120,6 +125,8 @@ static bool AmIBeingDebugged(void)
 @property (strong) ApigeeAppIdentification *appIdentification;
 @property (strong) ApigeeDataClient *dataClient;
 
+@property (strong) NSMutableDictionary *dictRegisteredDataTasks;
+@property (strong) NSRecursiveLock *lockDataTasks;
 
 - (BOOL) uploadEvents;
 - (void) applyConfig;
@@ -313,8 +320,12 @@ static bool AmIBeingDebugged(void)
     
     singletonInstance = self;
     
+    self.lockDataTasks = [[NSRecursiveLock alloc] init];
+    self.dictRegisteredDataTasks = [[NSMutableDictionary alloc] init];
+    
     
     self.swizzledNSURLConnection = NO;
+    self.swizzledNSURLSession = NO;
     self.sentStartingSessionData = NO;
     
     NSDate *startLogSearchDate = [self.startupTime dateByAddingTimeInterval:-2.0];
@@ -983,23 +994,124 @@ static bool AmIBeingDebugged(void)
 
 - (BOOL) swizzleClass:(Class) targetClass
           classMethod:(SEL) originalSelector
-     replacementClass:(Class) swizzleClass
 replacementClassMethod:(SEL) replacementSelector
 {
     Method origMethod = class_getClassMethod(targetClass, originalSelector);
-    Method newMethod = class_getClassMethod(swizzleClass, replacementSelector);
+    Method newMethod = class_getClassMethod(targetClass, replacementSelector);
+    
+    if( origMethod == NULL ) {
+        NSLog( @"error: can't find method %@ in class %@",
+              NSStringFromSelector(originalSelector),
+              NSStringFromClass(targetClass));
+        return NO;
+    }
+    
+    if( newMethod == NULL ) {
+        NSLog( @"error: can't find method %@ in class %@",
+              NSStringFromSelector(replacementSelector),
+              NSStringFromClass(targetClass));
+        return NO;
+    }
+    
     method_exchangeImplementations(origMethod, newMethod);
+    
     return YES;
 }
 
 - (BOOL) swizzleClass:(Class) targetClass
        instanceMethod:(SEL) originalSelector
-     replacementClass:(Class) swizzleClass
 replacementInstanceMethod:(SEL) replacementSelector
 {
-    Method origMethod = class_getInstanceMethod(targetClass, originalSelector);
-    Method newMethod = class_getInstanceMethod(swizzleClass, replacementSelector);
-    method_exchangeImplementations(origMethod, newMethod);
+    Method originalMethod = class_getInstanceMethod(targetClass, originalSelector);
+    Method replacementMethod = class_getInstanceMethod(targetClass, replacementSelector);
+    
+    /*
+     If the method we're swizzling is actually defined in a superclass, we have
+     to use class_addMethod to add an implementation to the target class, which
+     we do using our replacement implementation. Then we can use
+     class_replaceMethod to replace with the superclass's implementation, so
+     our new version will be able to correctly call the old.
+     
+     If the method is defined in the target class, class_addMethod will fail
+     but then we can use method_exchangeImplementations to just swap the new
+     and old versions.
+     */
+
+    if( originalMethod == NULL ) {
+        NSLog( @"error: can't find method %@ in class %@",
+              NSStringFromSelector(originalSelector),
+              NSStringFromClass(targetClass));
+        return NO;
+    }
+    
+    if( replacementMethod == NULL ) {
+        NSLog( @"error: can't find method %@ in class %@",
+              NSStringFromSelector(replacementSelector),
+              NSStringFromClass(targetClass));
+        return NO;
+    }
+
+    if (class_addMethod(targetClass,
+                        originalSelector,
+                        method_getImplementation(replacementMethod),
+                        method_getTypeEncoding(replacementMethod))) {
+        class_replaceMethod(targetClass,
+                            replacementSelector,
+                            method_getImplementation(originalMethod),
+                            method_getTypeEncoding(originalMethod));
+    } else {
+        method_exchangeImplementations(originalMethod, replacementMethod);
+    }
+
+    return YES;
+}
+
+- (BOOL) swizzleClass:(Class) targetClass
+       instanceMethod:(SEL) originalSelector
+     replacementClass:(Class) replacementClass
+replacementInstanceMethod:(SEL) replacementSelector
+{
+    Method originalMethod = class_getInstanceMethod(targetClass, originalSelector);
+    Method replacementMethod = class_getInstanceMethod(replacementClass, replacementSelector);
+    
+    /*
+     If the method we're swizzling is actually defined in a superclass, we have
+     to use class_addMethod to add an implementation to the target class, which
+     we do using our replacement implementation. Then we can use
+     class_replaceMethod to replace with the superclass's implementation, so
+     our new version will be able to correctly call the old.
+     
+     If the method is defined in the target class, class_addMethod will fail
+     but then we can use method_exchangeImplementations to just swap the new
+     and old versions.
+     */
+    
+    if( originalMethod == NULL ) {
+        NSLog( @"error: can't find method %@ in class %@",
+              NSStringFromSelector(originalSelector),
+              NSStringFromClass(targetClass));
+        return NO;
+    }
+    
+    if( replacementMethod == NULL ) {
+        NSLog( @"error: can't find method %@ in class %@",
+              NSStringFromSelector(replacementSelector),
+              NSStringFromClass(replacementClass));
+        return NO;
+    }
+    
+     if (class_addMethod(targetClass,
+                         originalSelector,
+                         method_getImplementation(replacementMethod),
+                         method_getTypeEncoding(replacementMethod))) {
+         class_replaceMethod(targetClass,
+                             replacementSelector,
+                             method_getImplementation(originalMethod),
+                             method_getTypeEncoding(originalMethod));
+     } else {
+         method_exchangeImplementations(originalMethod, replacementMethod);
+    }
+    
     return YES;
 }
 
@@ -1011,30 +1123,34 @@ replacementInstanceMethod:(SEL) replacementSelector
     
         [self swizzleClass:clsNSURLConnection
                classMethod:@selector(sendSynchronousRequest:returningResponse:error:)
-          replacementClass:clsNSURLConnection
     replacementClassMethod:@selector(swzSendSynchronousRequest:returningResponse:error:)];
 
         [self swizzleClass:clsNSURLConnection
                classMethod:@selector(connectionWithRequest:delegate:)
-          replacementClass:clsNSURLConnection
     replacementClassMethod:@selector(swzConnectionWithRequest:delegate:)];
 
         [self swizzleClass:clsNSURLConnection
             instanceMethod:@selector(initWithRequest:delegate:startImmediately:)
-          replacementClass:clsNSURLConnection
  replacementInstanceMethod:@selector(initSwzWithRequest:delegate:startImmediately:)];
     
         [self swizzleClass:clsNSURLConnection
             instanceMethod:@selector(initWithRequest:delegate:)
-          replacementClass:clsNSURLConnection
  replacementInstanceMethod:@selector(initSwzWithRequest:delegate:)];
         
         [self swizzleClass:clsNSURLConnection
             instanceMethod:@selector(start)
-          replacementClass:clsNSURLConnection
  replacementInstanceMethod:@selector(swzStart)];
     
         self.swizzledNSURLConnection = YES;
+        
+        // swizzle NSURLSession if we're on iOS 7.0 or later
+        Class clsNSURLSession = NSClassFromString(@"NSURLSession");
+        
+        if( clsNSURLSession != nil )  // iOS 7.0 or later?
+        {
+            [NSURLSession apigeeOneTimeSetup];
+            self.swizzledNSURLSession = YES;
+        }
     }
 }
 
@@ -1336,6 +1452,106 @@ replacementInstanceMethod:(SEL) replacementSelector
     }
     
     return listenerRemoved;
+}
+
+- (id)generateIdentifierForDataTask
+{
+    NSDate* identifier = nil;
+    [self.lockDataTasks lock];
+    identifier = [NSDate date];
+    [self.lockDataTasks unlock];
+    return identifier;
+}
+
+- (void)registerDataTaskInfo:(ApigeeNSURLSessionDataTaskInfo*)dataTaskInfo
+              withIdentifier:(id)identifier
+{
+    [self.lockDataTasks lock];
+    [self.dictRegisteredDataTasks setObject:dataTaskInfo
+                                     forKey:identifier];
+    [self.lockDataTasks unlock];
+}
+
+- (ApigeeNSURLSessionDataTaskInfo*)dataTaskInfoForIdentifier:(id)identifier
+{
+    ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo = nil;
+    
+    [self.lockDataTasks lock];
+    sessionDataTaskInfo = [self.dictRegisteredDataTasks objectForKey:identifier];
+    [self.lockDataTasks unlock];
+    
+    return sessionDataTaskInfo;
+}
+
+- (ApigeeNSURLSessionDataTaskInfo*)dataTaskInfoForTask:(NSURLSessionTask*)task
+{
+    ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo = nil;
+    
+    [self.lockDataTasks lock];
+    NSArray* listAllValues = [self.dictRegisteredDataTasks allValues];
+    for( ApigeeNSURLSessionDataTaskInfo* taskInfo in listAllValues )
+    {
+        if( taskInfo.sessionDataTask == task )
+        {
+            sessionDataTaskInfo = taskInfo;
+            break;
+        }
+    }
+    [self.lockDataTasks unlock];
+    
+    return sessionDataTaskInfo;
+}
+
+- (void)removeDataTaskInfoForIdentifier:(id)identifier
+{
+    [self.lockDataTasks lock];
+    [self.dictRegisteredDataTasks removeObjectForKey:identifier];
+    [self.lockDataTasks unlock];
+}
+
+- (void)removeDataTaskInfoForTask:(NSURLSessionTask*)task
+{
+    [self.lockDataTasks lock];
+    NSArray* listAllValues = [self.dictRegisteredDataTasks allValues];
+    for( ApigeeNSURLSessionDataTaskInfo* taskInfo in listAllValues )
+    {
+        if( taskInfo.sessionDataTask == task )
+        {
+            [self.dictRegisteredDataTasks removeObjectForKey:taskInfo.key];
+            break;
+        }
+    }
+    [self.lockDataTasks unlock];
+}
+
+- (void)setStartTime:(NSDate*)startTime forSessionDataTask:(NSURLSessionDataTask*)dataTask
+{
+    //NSLog(@"+++++ ApigeeMonitoringClient setStartTime:forSessionDataTask:");
+    
+    if( startTime && dataTask )
+    {
+        [self.lockDataTasks lock];
+        NSArray* listDataTaskInfoKeys = [self.dictRegisteredDataTasks allKeys];
+    
+        for( NSDate* date in listDataTaskInfoKeys )
+        {
+            ApigeeNSURLSessionDataTaskInfo* dataTaskInfo =
+                [self.dictRegisteredDataTasks objectForKey:date];
+            if( dataTaskInfo && (dataTaskInfo.sessionDataTask == dataTask) )
+            {
+                //NSLog(@"ApigeeMonitoringClient setStartTime assigning startTime for dataTask=%@",dataTaskInfo.sessionDataTask);
+                dataTaskInfo.startTime = startTime;
+                //[dataTaskInfo debugPrint];
+                [self.lockDataTasks unlock];
+                return;
+            }
+        }
+        [self.lockDataTasks unlock];
+        
+        //NSLog(@"ApigeeMonitoringClient setStartTime error (no match for dataTask)");
+    }
+    
+    //NSLog(@"----- ApigeeMonitoringClient setStartTime:forSessionDataTask:");
 }
 
 @end

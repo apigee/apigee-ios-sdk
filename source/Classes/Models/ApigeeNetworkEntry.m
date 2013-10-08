@@ -105,8 +105,12 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
 
 - (void)populateWithResponseData:(NSData*)responseData
 {
-    self.responseDataSize = [NSString stringWithFormat:@"%d",
-                             [responseData length]];
+    [self populateWithResponseDataSize:[responseData length]];
+}
+
+- (void)populateWithResponseDataSize:(NSUInteger)dataSize
+{
+    self.responseDataSize = [NSString stringWithFormat:@"%d", dataSize];
 }
 
 - (void)populateWithError:(NSError*)error
@@ -119,6 +123,8 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
 
 - (void)populateStartTime:(NSDate*)started ended:(NSDate*)ended
 {
+    //NSLog(@"ApigeeNetworkEntry populateStartTime:ended: called");
+    //NSLog(@"started=%@, ended=%@", started, ended);
     NSDate *copyOfStartedDate = [started copy];
     NSString* startedTimestampMillis = [NSDate stringFromMilliseconds:[started dateAsMilliseconds]];
     self.timeStamp = startedTimestampMillis;
@@ -128,6 +134,27 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
     const long latencyMillis = [ended timeIntervalSinceDate:copyOfStartedDate] * 1000;
     
     self.latency = [NSString stringWithFormat:@"%ld", latencyMillis ];
+}
+
+- (void)debugPrint
+{
+    NSLog(@"========= Start ApigeeNetworkEntry ========");
+    NSLog(@"url='%@'", self.url);
+    NSLog(@"timeStamp='%@'", self.timeStamp);
+    NSLog(@"startTime='%@'", self.startTime);
+    NSLog(@"endTime='%@'", self.endTime);
+    NSLog(@"latency='%@'", self.latency);
+    NSLog(@"numSamples='%@'", self.numSamples);
+    NSLog(@"numErrors='%@'", self.numErrors);
+    NSLog(@"transactionDetails='%@'", self.transactionDetails);
+    NSLog(@"httpStatusCode='%@'", self.httpStatusCode);
+    NSLog(@"responseDataSize='%@'", self.responseDataSize);
+    NSLog(@"serverProcessingTime='%@'", self.serverProcessingTime);
+    NSLog(@"serverReceiptTime='%@'", self.serverReceiptTime);
+    NSLog(@"serverResponseTime='%@'", self.serverResponseTime);
+    NSLog(@"serverId='%@'", self.serverId);
+    NSLog(@"domain='%@'", self.domain);
+    NSLog(@"========= End ApigeeNetworkEntry ========");
 }
 
 @end

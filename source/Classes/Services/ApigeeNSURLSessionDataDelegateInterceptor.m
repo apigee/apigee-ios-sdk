@@ -1,0 +1,275 @@
+//
+//  ApigeeNSURLSessionDataDelegateInterceptor.m
+//  ApigeeiOSSDK
+//
+//  Created by Paul Dardeau on 10/4/13.
+//  Copyright (c) 2013 Apigee. All rights reserved.
+//
+
+#import "ApigeeNSURLSessionDataDelegateInterceptor.h"
+#import "ApigeeMonitoringClient.h"
+#import "ApigeeNSURLSessionDataTaskInfo.h"
+#import "ApigeeNetworkEntry.h"
+#import "ApigeeQueue+NetworkMetrics.h"
+
+@interface ApigeeNSURLSessionDataDelegateInterceptor ()
+
+@property (strong) id target;
+@property (strong) NSURL* url;
+@property (strong) NSURLRequest* request;
+
+@end
+
+
+@implementation ApigeeNSURLSessionDataDelegateInterceptor
+
+@synthesize target;
+
+- (id) initAndInterceptFor:(id)theTarget
+{
+    self = [super init];
+    if( self )
+    {
+        self.target = theTarget;
+    }
+    
+    return self;
+}
+
+#pragma mark NSURLSessionDelegate methods
+
+- (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
+{
+    //NSLog(@"interceptor URLSession:didBecomeInvalidWithError:");
+    
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:didBecomeInvalidWithError:)])
+    {
+        [self.target URLSession:session didBecomeInvalidWithError:error];
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session
+didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
+ completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler
+{
+    //NSLog(@"interceptor URLSession:didReceiveChallenge:completionHandler:");
+    
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:didReceiveChallenge:completionHandler:)])
+    {
+        [self.target URLSession:session
+            didReceiveChallenge:challenge
+              completionHandler:completionHandler];
+    } else {
+        completionHandler(NSURLSessionAuthChallengePerformDefaultHandling,NULL);
+    }
+}
+
+- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
+{
+    //NSLog(@"interceptor URLSessionDidFinishEventsForBackgroundURLSession:");
+    
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSessionDidFinishEventsForBackgroundURLSession:)])
+    {
+        [self.target URLSessionDidFinishEventsForBackgroundURLSession:session];
+    }
+}
+
+#pragma mark NSURLSessionDataDelegate methods
+
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
+didReceiveResponse:(NSURLResponse *)response
+ completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
+{
+    //NSLog(@"interceptor URLSession:dataTask:didReceiveResponse:completionHandler:");
+    
+    if( response != nil )
+    {
+        ApigeeMonitoringClient* monitoringClient =
+            [ApigeeMonitoringClient sharedInstance];
+        ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo =
+            [monitoringClient dataTaskInfoForTask:dataTask];
+        
+        if( sessionDataTaskInfo )
+        {
+            [sessionDataTaskInfo.networkEntry populateWithResponse:response];
+        }
+    }
+
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:dataTask:didReceiveResponse:completionHandler:)])
+    {
+        [self.target URLSession:session
+                       dataTask:dataTask
+             didReceiveResponse:response
+              completionHandler:completionHandler];
+    } else {
+        completionHandler(NSURLSessionResponseAllow); // allow response to proceed
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
+didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
+{
+    NSLog(@"interceptor URLSession:dataTask:didBecomeDownloadTask:");
+    
+    //TODO: remove the request from being monitored??
+    
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:dataTask:didBecomeDownloadTask:)])
+    {
+        [self.target URLSession:session
+                       dataTask:dataTask
+          didBecomeDownloadTask:downloadTask];
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
+    didReceiveData:(NSData *)data
+{
+    //NSLog(@"interceptor URLSession:dataTask:didReceiveData:");
+    
+    if( data && ([data length] > 0) ) {
+        ApigeeMonitoringClient* monitoringClient =
+            [ApigeeMonitoringClient sharedInstance];
+        ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo =
+            [monitoringClient dataTaskInfoForTask:dataTask];
+    
+        if( sessionDataTaskInfo )
+        {
+            sessionDataTaskInfo.dataSize += [data length];
+        }
+    }
+
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:dataTask:didReceiveData:)])
+    {
+        [self.target URLSession:session
+                       dataTask:dataTask
+                 didReceiveData:data];
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
+ willCacheResponse:(NSCachedURLResponse *)proposedResponse
+ completionHandler:(void (^)(NSCachedURLResponse *cachedResponse))completionHandler
+{
+    //NSLog(@"interceptor URLSession:dataTask:willCacheResponse:completionHandler:");
+    
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:dataTask:willCacheResponse:completionHandler:)])
+    {
+        [self.target URLSession:session
+                       dataTask:dataTask
+              willCacheResponse:proposedResponse
+              completionHandler:completionHandler];
+    } else {
+        completionHandler(proposedResponse);  // let default behavior apply
+    }
+}
+
+#pragma mark NSURLSessionTaskDelegate methods
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
+{
+    //NSLog(@"interceptor URLSession:task:didCompleteWithError:");
+    
+    NSDate* endTime = [NSDate date];
+    
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    
+    ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo =
+        [monitoringClient dataTaskInfoForTask:task];
+    
+    if( sessionDataTaskInfo )
+    {
+        [sessionDataTaskInfo.networkEntry populateWithResponseDataSize:sessionDataTaskInfo.dataSize];
+        [sessionDataTaskInfo.networkEntry populateWithError:error];
+        [sessionDataTaskInfo.networkEntry populateStartTime:sessionDataTaskInfo.startTime
+                                                      ended:endTime];
+        
+        [ApigeeQueue recordNetworkEntry:sessionDataTaskInfo.networkEntry];
+        
+        [monitoringClient removeDataTaskInfoForTask:task];
+    }
+
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:task:didCompleteWithError:)])
+    {
+        [self.target URLSession:session
+                           task:task
+           didCompleteWithError:error];
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler
+{
+    //NSLog(@"interceptor URLSession:task:didReceiveChallenge:completionHandler:");
+    
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:task:didReceiveChallenge:completionHandler:)])
+    {
+        [self.target URLSession:session
+                           task:task
+            didReceiveChallenge:challenge
+              completionHandler:completionHandler];
+    } else {
+        completionHandler(NSURLSessionAuthChallengePerformDefaultHandling,NULL);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
+{
+    //NSLog(@"interceptor URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:");
+    
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:)])
+    {
+        [self.target URLSession:session
+                           task:task
+                didSendBodyData:bytesSent
+                 totalBytesSent:totalBytesSent
+       totalBytesExpectedToSend:totalBytesExpectedToSend];
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task needNewBodyStream:(void (^)(NSInputStream *bodyStream))completionHandler
+{
+    NSLog(@"interceptor URLSession:task:needNewBodyStream:");
+    
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:task:needNewBodyStream:)])
+    {
+        [self.target URLSession:session
+                           task:task
+              needNewBodyStream:completionHandler];
+    } else {
+        //TODO: ???
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest *))completionHandler
+{
+    //NSLog(@"interceptor URLSession:task:willPerformHTTPRedirection:newRequest:completionHandler:");
+    
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:task:willPerformHTTPRedirection:newRequest:completionHandler:)])
+    {
+        [self.target URLSession:session
+                           task:task
+     willPerformHTTPRedirection:response
+                     newRequest:request
+              completionHandler:completionHandler];
+        
+    } else {
+        completionHandler(request);  // allow the redirect
+    }
+}
+
+@end

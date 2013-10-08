@@ -35,7 +35,10 @@
 - (void)populateWithRequest:(NSURLRequest*)request;
 - (void)populateWithResponse:(NSURLResponse*)response;
 - (void)populateWithResponseData:(NSData*)responseData;
+- (void)populateWithResponseDataSize:(NSUInteger)dataSize;
 - (void)populateWithError:(NSError*)error;
 - (void)populateStartTime:(NSDate*)started ended:(NSDate*)ended;
+
+- (void)debugPrint;
 
 @end

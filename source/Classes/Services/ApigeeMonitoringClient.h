@@ -10,6 +10,7 @@
 @class ApigeeAppIdentification;
 @class ApigeeDataClient;
 @class ApigeeMonitoringOptions;
+@class ApigeeNSURLSessionDataTaskInfo;
 
 
 @interface ApigeeMonitoringClient : NSObject
@@ -246,5 +247,13 @@
 /*
 - (void) updateLastNetworkTransmissionTime:(NSString*) networkTransmissionTime;
 */
+
+- (id)generateIdentifierForDataTask;
+- (void)registerDataTaskInfo:(ApigeeNSURLSessionDataTaskInfo*)dataTaskInfo withIdentifier:(id)identifier;
+- (ApigeeNSURLSessionDataTaskInfo*)dataTaskInfoForIdentifier:(id)identifier;
+- (ApigeeNSURLSessionDataTaskInfo*)dataTaskInfoForTask:(NSURLSessionTask*)task;
+- (void)removeDataTaskInfoForIdentifier:(id)identifier;
+- (void)removeDataTaskInfoForTask:(NSURLSessionTask*)task;
+- (void)setStartTime:(NSDate*)startTime forSessionDataTask:(NSURLSessionDataTask*)dataTask;
 
 @end
