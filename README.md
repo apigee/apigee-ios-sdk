@@ -12,11 +12,11 @@ NOTE -- mobile analytics is temporarily disabled until the back-end systems are 
 
 1. Add 'ApigeeiOSSDK.framework' to your project.
 2. Add the following iOS frameworks to your project:
-* CoreLocation.framework
-* Security.framework
-* CoreTelephony.framework
-* SystemConfiguration.framework
-* UIKit.framework
+- CoreLocation.framework
+- Security.framework
+- CoreTelephony.framework
+- SystemConfiguration.framework
+- UIKit.framework
 3. Add the following flags to 'Other Linker Flags' in 'Build Settings':
 <pre>-ObjC -all_load</pre>
 Confirm that flags are set for both 'DEBUG' and 'RELEASE'.
