@@ -12,6 +12,7 @@
 @synthesize monitoringEnabled;
 @synthesize crashReportingEnabled;
 @synthesize interceptNetworkCalls;
+@synthesize interceptNSURLSessionCalls;
 @synthesize autoPromoteLoggedErrors;
 @synthesize uploadListener;
 
@@ -23,6 +24,7 @@
         self.monitoringEnabled = NO;
         self.crashReportingEnabled = YES;
         self.interceptNetworkCalls = YES;
+        self.interceptNSURLSessionCalls = NO;
         self.autoPromoteLoggedErrors = YES;
         self.uploadListener = nil;
     }

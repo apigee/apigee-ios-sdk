@@ -130,6 +130,9 @@ static bool AmIBeingDebugged(void)
 
 @property (assign) BOOL autoPromoteLoggedErrors;
 
+@property (assign) BOOL interceptNSURLSessionCalls;
+
+
 - (BOOL) uploadEvents;
 - (void) applyConfig;
 - (BOOL) hasPendingCrashReports;
@@ -308,8 +311,10 @@ static bool AmIBeingDebugged(void)
         autoInterceptNetworkCalls = monitoringOptions.interceptNetworkCalls;
         uploadListener = monitoringOptions.uploadListener;
         self.autoPromoteLoggedErrors = monitoringOptions.autoPromoteLoggedErrors;
+        self.interceptNSURLSessionCalls = monitoringOptions.interceptNSURLSessionCalls;
     } else {
         self.autoPromoteLoggedErrors = YES;
+        self.interceptNSURLSessionCalls = NO;
     }
     
     self.appIdentification = theAppIdentification;
@@ -1149,13 +1154,16 @@ replacementInstanceMethod:(SEL) replacementSelector
     
         self.swizzledNSURLConnection = YES;
         
-        // swizzle NSURLSession if we're on iOS 7.0 or later
-        Class clsNSURLSession = NSClassFromString(@"NSURLSession");
+        if (self.interceptNSURLSessionCalls) {
         
-        if( clsNSURLSession != nil )  // iOS 7.0 or later?
-        {
-            [NSURLSession apigeeOneTimeSetup];
-            self.swizzledNSURLSession = YES;
+            // swizzle NSURLSession if we're on iOS 7.0 or later
+            Class clsNSURLSession = NSClassFromString(@"NSURLSession");
+        
+            if( clsNSURLSession != nil )  // iOS 7.0 or later?
+            {
+                [NSURLSession apigeeOneTimeSetup];
+                self.swizzledNSURLSession = YES;
+            }
         }
     }
 }
