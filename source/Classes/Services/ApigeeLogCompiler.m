@@ -51,6 +51,7 @@
                                 settings:(ApigeeActiveSettings *) settings
                               populating:(NSMutableArray*)logEntries
                      maxNumberLogEntries:(int)maxNumberLogEntries
+                       autoPromoteErrors:(BOOL)autoPromoteErrors
 {
     // we only query ASL if we have a sender value
     if([sender length] < 1) {
@@ -182,7 +183,28 @@
                 }
             }
 #endif
-            
+      
+            // auto-promotion of errors
+            // the test here is for level = 'debug' because that's how the
+            // NSLog messages get reported
+            if (autoPromoteErrors && (level == kApigeeLogLevelDebug)) {
+                if ([logEntry.logMessage length] > 5) {
+                    NSString* logMessagePrefix = [logEntry.logMessage substringToIndex:5];
+                    NSString* lowerLogMessagePrefix = [logMessagePrefix lowercaseString];
+                    if ([lowerLogMessagePrefix isEqualToString:@"error"]) {
+                        unichar sixthChar = [logEntry.logMessage characterAtIndex:5];
+                        if (sixthChar < 'a' || sixthChar > 'z') {
+                            // promote to error
+                            NSCharacterSet* setWhitespace = [NSCharacterSet whitespaceCharacterSet];
+                            NSString* updatedLogMessage = [logEntry.logMessage substringFromIndex:6];
+                            NSString* trimmedUpatedLogMessage = [updatedLogMessage stringByTrimmingCharactersInSet:setWhitespace];
+                            logEntry.logLevel = @"E";
+                            logEntry.logMessage = trimmedUpatedLogMessage;
+                        }
+                    }
+                }
+            }
+
             if (!discardEntry) {
                 [logEntries addObject:logEntry];
             }
@@ -199,21 +221,30 @@
 }
 
 - (NSArray *) compileLogsForSettings:(ApigeeActiveSettings *) settings
+                   autoPromoteErrors:(BOOL)autoPromoteErrors
 {
     NSMutableArray *logEntries = [NSMutableArray array];
     NSDate *timeStamp = [[NSUserDefaults standardUserDefaults] objectForKey:kApigeeLastLogTransmission];
     
-    NSDate *newestAppSenderMessage = [self retrieveLogsEntriesForSender:[ApigeeLogger aslAppSenderKey]
+    NSString* aslAppSenderKey = [ApigeeLogger aslAppSenderKey];
+    NSString* executableName = [ApigeeLogger executableName];
+    NSDate* newestExecutableSenderMessage = nil;
+    
+    NSDate *newestAppSenderMessage = [self retrieveLogsEntriesForSender:aslAppSenderKey
                                                               sinceTime:timeStamp
                                                                settings:settings
                                                              populating:logEntries
-                                                    maxNumberLogEntries:kApigeeMaxLogEntries];
+                                                    maxNumberLogEntries:kApigeeMaxLogEntries
+                                                      autoPromoteErrors:autoPromoteErrors];
     
-    NSDate *newestExecutableSenderMessage = [self retrieveLogsEntriesForSender:[ApigeeLogger executableName]
-                                                                     sinceTime:timeStamp
-                                                                      settings:settings
-                                                                    populating:logEntries
-                                                           maxNumberLogEntries:kApigeeMaxLogEntries];
+    if( ! [aslAppSenderKey isEqualToString:executableName]) {
+        newestExecutableSenderMessage = [self retrieveLogsEntriesForSender:executableName
+                                                                 sinceTime:timeStamp
+                                                                  settings:settings
+                                                                populating:logEntries
+                                                       maxNumberLogEntries:kApigeeMaxLogEntries
+                                                         autoPromoteErrors:autoPromoteErrors];
+    }
     
     
     // found any messages?

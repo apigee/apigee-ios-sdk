@@ -128,6 +128,8 @@ static bool AmIBeingDebugged(void)
 @property (strong) NSMutableDictionary *dictRegisteredDataTasks;
 @property (strong) NSRecursiveLock *lockDataTasks;
 
+@property (assign) BOOL autoPromoteLoggedErrors;
+
 - (BOOL) uploadEvents;
 - (void) applyConfig;
 - (BOOL) hasPendingCrashReports;
@@ -305,6 +307,9 @@ static bool AmIBeingDebugged(void)
         crashReportingEnabled = monitoringOptions.crashReportingEnabled;
         autoInterceptNetworkCalls = monitoringOptions.interceptNetworkCalls;
         uploadListener = monitoringOptions.uploadListener;
+        self.autoPromoteLoggedErrors = monitoringOptions.autoPromoteLoggedErrors;
+    } else {
+        self.autoPromoteLoggedErrors = YES;
     }
     
     self.appIdentification = theAppIdentification;
@@ -877,7 +882,8 @@ static bool AmIBeingDebugged(void)
             }
         }
         
-        NSArray *logEntries = [[ApigeeLogCompiler systemCompiler] compileLogsForSettings:self.activeSettings];
+        NSArray *logEntries = [[ApigeeLogCompiler systemCompiler] compileLogsForSettings:self.activeSettings
+                               autoPromoteErrors:self.autoPromoteLoggedErrors];
         
         NSArray *networkMetrics = [[ApigeeQueue networkMetricsQueue] dequeueAll];
 

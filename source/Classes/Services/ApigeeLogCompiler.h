@@ -12,6 +12,7 @@
 + (ApigeeLogCompiler *) systemCompiler;
 + (void) refreshUploadTimestamp;
 + (void) refreshUploadTimestamp:(NSDate*)lastLogTransmissionDate;
-- (NSArray *) compileLogsForSettings:(ApigeeActiveSettings *) settings;
+- (NSArray *) compileLogsForSettings:(ApigeeActiveSettings *) settings
+                   autoPromoteErrors:(BOOL)autoPromoteErrors;
 
 @end

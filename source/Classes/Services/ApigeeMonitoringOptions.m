@@ -12,6 +12,7 @@
 @synthesize monitoringEnabled;
 @synthesize crashReportingEnabled;
 @synthesize interceptNetworkCalls;
+@synthesize autoPromoteLoggedErrors;
 @synthesize uploadListener;
 
 - (id)init
@@ -22,6 +23,7 @@
         self.monitoringEnabled = NO;
         self.crashReportingEnabled = YES;
         self.interceptNetworkCalls = YES;
+        self.autoPromoteLoggedErrors = YES;
         self.uploadListener = nil;
     }
     
