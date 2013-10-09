@@ -94,12 +94,12 @@ NSString *g_deviceUUID = nil;
 
 - (void)notifyApplicationDidFinishLaunching:(id)sender
 {
-    [self.locationManager startUpdatingLocation];
+    //[self.locationManager startUpdatingLocation];
 }
 
 - (void)notifyApplicationWillEnterForeground:(id)sender
 {
-    [self.locationManager startUpdatingLocation];
+    //[self.locationManager startUpdatingLocation];
 }
 
 - (void)registerWithNotificationCenter
@@ -172,11 +172,13 @@ NSString *g_deviceUUID = nil;
             m_baseURL = [m_baseURL substringToIndex:[m_baseURL length]-1];
         }
         
+        /*
         self.locationManager = [[CLLocationManager alloc] init];
         
         if ([CLLocationManager locationServicesEnabled]) {
             self.locationManager.delegate = self;
         }
+         */
         
         [self registerWithNotificationCenter];
     }
@@ -1864,7 +1866,7 @@ NSString *g_deviceUUID = nil;
 }
 
 //**********************  LOCATION  ***************************
-
+/*
 - (void)updateLocation:(CLLocation*)location
 {
     if (location != nil) {
@@ -1944,6 +1946,7 @@ NSString *g_deviceUUID = nil;
 {
     // iOS 7.0 and later
 }
+*/
 
 @end
 
