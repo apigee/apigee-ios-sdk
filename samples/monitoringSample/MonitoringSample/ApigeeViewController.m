@@ -18,7 +18,6 @@ static NSString* kLoggingTag = @"Sample App";
 @property (strong, nonatomic) ApigeeMonitoringClient* monitoringClient;
 @property (strong, nonatomic) IBOutlet UISegmentedControl* logLevelControl;
 @property (strong, nonatomic) IBOutlet UISegmentedControl* errorLevelControl;
-@property (weak, nonatomic) NSString* urlString;
 @property (strong, nonatomic) NSArray* listLoggingMessages;
 @property (strong, nonatomic) NSArray* listErrorMessages;
 @property (strong, nonatomic) NSArray* listUrls;
@@ -29,6 +28,7 @@ static NSString* kLoggingTag = @"Sample App";
 @property (strong, nonatomic) NSURLSessionTask* urlSessionTask;
 @property (strong, nonatomic) NSMutableDictionary* dictDataForUrl;
 @property (assign) BOOL isIOS7OrHigher;
+@property (assign) BOOL useNSURLSessionWithBlocks;
 
 @end
 
@@ -39,16 +39,22 @@ static NSString* kLoggingTag = @"Sample App";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
     
     self.errorLevelIndex = 0;
     self.loggingLevelIndex = 0;
     
-    self.isIOS7OrHigher = NO;
+    self.isIOS7OrHigher = NO;  // we'll set to YES programmatically if true
+    self.useNSURLSessionWithBlocks = YES;
     
     if( NSClassFromString(@"NSURLSession") )
     {
-        NSLog(@"Using NSURLSession for networking");
+        if( self.useNSURLSessionWithBlocks )
+        {
+            NSLog(@"Using NSURLSession (blocks) for networking");
+        } else {
+            NSLog(@"Using NSURLSession (delegate) for networking");
+        }
+        
         self.isIOS7OrHigher = YES;
     } else {
         NSLog(@"Using NSURLConnection for networking");
@@ -63,10 +69,13 @@ static NSString* kLoggingTag = @"Sample App";
         [NSArray arrayWithObjects:@"user denied access to location",
             @"battery level low",
             @"device paired with bluetooth keyboard",
+            @"error: server does not recognize payload",
             @"shake to refresh enabled",
             @"device registered for push notifications",
+            @"error: font name not found",
             @"device running older level of iOS, disabling feature X",
             @"data cache refreshed from server",
+            @"error: something weird happened",
             @"security policy updated from server",
             @"local notifications enabled",
             nil];
@@ -84,19 +93,21 @@ static NSString* kLoggingTag = @"Sample App";
         [NSArray arrayWithObjects:@"http://www.cnn.com",
             @"http://www.abcnews.com",
             @"http://www.cbsnews.com",
-            @"http://www.bbc.co.uk",       // one in Europe
+            @"http://www.bbc.co.uk",    // one in Europe
             nil];
 
     ApigeeAppDelegate* appDelegate =
         (ApigeeAppDelegate*) [[UIApplication sharedApplication] delegate];
 
-//#error configure your org name and app name here
-    NSString* orgName = @"pdardeau";
-    NSString* appName = @"sandbox";
-    NSString* baseURL = @"http://apigee-internal-prod.jupiter.apigee.net";
+#error configure your org name and app name here
+    NSString* orgName = @"<YOUR_ORG_NAME>";
+    NSString* appName = @"<YOUR_APP_NAME>";
+    NSString* baseURL = nil;
     
     ApigeeMonitoringOptions* monitoringOptions = [[ApigeeMonitoringOptions alloc] init];
     monitoringOptions.monitoringEnabled = YES;
+    monitoringOptions.autoPromoteLoggedErrors = YES;
+    monitoringOptions.interceptNSURLSessionCalls = YES;
     
     appDelegate.apigeeClient = [[ApigeeClient alloc]
                                 initWithOrganizationId:orgName
@@ -136,7 +147,7 @@ static NSString* kLoggingTag = @"Sample App";
     }
     else if( self.loggingLevelIndex == 1 )
     {
-        ApigeeLogDebug(kLoggingTag, logMessage);
+        NSLog(logMessage);
     }
     else if( self.loggingLevelIndex == 2 )
     {
@@ -162,67 +173,75 @@ static NSString* kLoggingTag = @"Sample App";
     }
 }
 
+- (void)logError:(NSError*)error
+{
+    NSString* logMessage = [NSString stringWithFormat:@"error: %@",
+                            [error localizedDescription]];
+    NSLog(@"%@", logMessage);
+}
+
+- (void)logError:(NSError*)error forUrl:(NSString*)urlAsString
+{
+    NSString* logMessage = [NSString stringWithFormat:@"error: %@ %@",
+                            urlAsString,
+                            [error localizedDescription]];
+    NSLog(@"%@", logMessage);
+}
+
 - (IBAction)captureNetworkPerformanceMetricsPressed:(id)sender
 {
     if( self.connection == nil )
     {
         NSString* urlAsString = [self randomStringFromList:self.listUrls];
-        
-        // if we have more than 1 url in the list, make sure that the new one
-        // is different from the last one that we used
-        if( ([self.urlString length] > 0) &&
-           ([self.listUrls count] > 1) &&
-           [urlAsString isEqualToString:self.urlString] )
-        {
-            do {
-                urlAsString = [self randomStringFromList:self.listUrls];
-            } while( [urlAsString isEqualToString:self.urlString] );
-        }
-        
-        self.urlString = urlAsString;
-        NSURL* url = [NSURL URLWithString:self.urlString];
+        NSURL* url = [NSURL URLWithString:urlAsString];
         
         if( self.isIOS7OrHigher )
         {
             //**********************  NSURLSession  ************************
-            //if( ! self.urlSession )
-            //{
-            NSURLSessionConfiguration* config =
-                [NSURLSessionConfiguration defaultSessionConfiguration];
-            self.urlSession = [NSURLSession sessionWithConfiguration:config
-                                                            delegate:self
-                                                       delegateQueue:nil];
-            //}
+            if( ! self.urlSession )
+            {
+                NSURLSessionConfiguration* config =
+                    [NSURLSessionConfiguration defaultSessionConfiguration];
+                
+                if( self.useNSURLSessionWithBlocks )
+                {
+                    // using blocks -- don't set a delegate
+                    self.urlSession = [NSURLSession sessionWithConfiguration:config
+                                                                    delegate:nil
+                                                               delegateQueue:nil];
+                } else {
+                    // not using blocks -- set ourselves as the delegate
+                    self.urlSession = [NSURLSession sessionWithConfiguration:config
+                                                                    delegate:self
+                                                               delegateQueue:nil];
+                }
+            }
             
-            self.urlSessionTask = [self.urlSession dataTaskWithURL:url];
-            /*
-             completionHandler:^(NSData* data,NSURLResponse* response,NSError* error) {
-             //NSLog(@"completion handler called for dataTaskWithRequest");
-             
-             if( response != nil )
-             {
-             if( [response isKindOfClass:[NSHTTPURLResponse class]] )
-             {
-             NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*) response;
-             NSInteger statusCode = httpResponse.statusCode;
-             NSLog( @"HTTP status code = %d", statusCode);
-             }
-             
-             NSURL* url = [response URL];
-             NSString* urlAsString = [url absoluteString];
-             NSLog( @"url = %@", urlAsString);
-             } else {
-             NSLog( @"response is nil");
-             }
-             
-             if( error != nil )
-             {
-             NSString* description = [error localizedDescription];
-             NSLog( @"error: %@", description);
-             }
-             }];
-             */
-            
+            if( self.useNSURLSessionWithBlocks )
+            {
+                __weak ApigeeViewController* weakSelf = self;
+                
+                self.urlSessionTask =
+                    [self.urlSession dataTaskWithURL:url
+                                   completionHandler:^(NSData* data,NSURLResponse* response,NSError* error)
+                {
+                    NSString* urlAsString = [[response URL] absoluteString];
+
+                    if( error != nil )
+                    {
+                        [weakSelf logError:error forUrl:urlAsString];
+                    } else {
+                        NSLog(@"NSURLSession (blocks): size data received = %d bytes (%@)",
+                              [data length],
+                              urlAsString);
+                    }
+                }];
+            } else {
+                // not using blocks -- use delegate approach
+                self.urlSessionTask = [self.urlSession dataTaskWithURL:url];
+            }
+
+            // start the request
             [self.urlSessionTask resume];
         }
         else
@@ -246,120 +265,96 @@ static NSString* kLoggingTag = @"Sample App";
     self.errorLevelIndex = [self.errorLevelControl selectedSegmentIndex];
 }
 
-#pragma mark NSURLConnection methods
-
-- (void)connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response
+- (NSMutableData*)dataForUrl:(NSString*)urlAsString
 {
-    //NSLog( @"response received (%@)", self.urlString );
-}
-
-- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data
-{
-    //NSLog( @"data received (%@)", self.urlString );
-}
-
-- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error
-{
-    NSLog( @"connection failed with error: %@ (%@)", [error localizedDescription], self.urlString );
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection*)connection
-{
-    //NSLog( @"connection finished loading (%@)", self.urlString );
-    self.connection = nil;
-    self.urlString = nil;
-}
-
-#pragma mark NSURLSessionDelegate methods
-
-- (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
-{
-    //NSLog(@"app URLSession:didBecomeInvalidWithError:");
-}
-
-- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler
-{
-    //NSLog(@"app URLSession:didReceiveChallenge:completionHandler:");
-}
-
-- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
-{
-    //NSLog(@"app URLSessionDidFinishEventsForBackgroundURLSession:");
-}
-
-#pragma mark NSURLSessionDataDelegate methods
-
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
-{
-    //NSLog(@"app URLSession:dataTask:didBecomeDownloadTask:");
-}
-
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
-{
-    //NSLog(@"app URLSession:dataTask:didReceiveData:");
-    NSURLRequest* request = dataTask.currentRequest;
-    NSURL* url = request.URL;
-    NSString* urlAsString = url.absoluteString;
-    
     NSMutableData* dataForUrl = [self.dictDataForUrl valueForKey:urlAsString];
     
     if (!dataForUrl) {
         dataForUrl = [[NSMutableData alloc] init];
         [self.dictDataForUrl setValue:dataForUrl forKey:urlAsString];
     }
-    
+
+    return dataForUrl;
+}
+
+- (void)removeDataObjectForUrl:(NSString*)urlAsString
+{
+    [self.dictDataForUrl removeObjectForKey:urlAsString];
+}
+
+- (NSString*)urlAsStringForRequest:(NSURLRequest*)request
+{
+    return [[request URL] absoluteString];
+}
+
+- (NSString*)urlAsStringForConnection:(NSURLConnection*)connection
+{
+    return [self urlAsStringForRequest:[connection currentRequest]];
+}
+
+- (NSString*)urlAsStringForTask:(NSURLSessionTask*)task
+{
+    return [self urlAsStringForRequest:task.currentRequest];
+}
+
+#pragma mark NSURLConnection methods
+
+- (void)connection:(NSURLConnection*)connection didReceiveData:(NSData*)data
+{
+    NSString* urlAsString = [self urlAsStringForConnection:connection];
+    NSMutableData* dataForUrl = [self dataForUrl:urlAsString];
     [dataForUrl appendData:data];
 }
 
-- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
+- (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error
 {
-    //NSLog(@"app URLSession:dataTask:didReceiveResponse:completionHandler:");
-    completionHandler(NSURLSessionResponseAllow);
+    NSString* urlAsString = [self urlAsStringForConnection:connection];
+    [self logError:error forUrl:urlAsString];
+    [self removeDataObjectForUrl:urlAsString];
+    self.connection = nil;
 }
+
+- (void)connectionDidFinishLoading:(NSURLConnection*)connection
+{
+    NSString* urlAsString = [self urlAsStringForConnection:connection];
+    NSMutableData* dataForUrl = [self dataForUrl:urlAsString];
+    NSLog(@"NSURLConnection: data received = %d bytes (%@)",
+          [dataForUrl length],
+          urlAsString);
+    self.connection = nil;
+}
+
+#pragma mark NSURLSessionDelegate methods
+
+- (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
+{
+    [self logError:error];
+}
+
+#pragma mark NSURLSessionDataDelegate methods
 
 - (void)URLSession:(NSURLSession *)session
           dataTask:(NSURLSessionDataTask *)dataTask
- willCacheResponse:(NSCachedURLResponse *)proposedResponse
- completionHandler:(void (^)(NSCachedURLResponse *cachedResponse))completionHandler
+    didReceiveData:(NSData *)data
 {
-    //NSLog(@"app URLSession:dataTask:willCacheResponse:completionHandler:");
-    completionHandler(NULL);  // don't cache
+    NSString* urlAsString = [self urlAsStringForTask:dataTask];
+    NSMutableData* dataForUrl = [self dataForUrl:urlAsString];
+    [dataForUrl appendData:data];
 }
 
 #pragma mark NSURLSessionTaskDelegate methods
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+didCompleteWithError:(NSError *)error
 {
-    //NSLog(@"app URLSession:task:didCompleteWithError:");
-    
-    NSURLRequest* request = task.currentRequest;
-    NSURL* url = request.URL;
-    NSString* urlAsString = url.absoluteString;
-    
-    NSMutableData* dataForUrl = [self.dictDataForUrl valueForKey:urlAsString];
-    NSLog(@"size data received = %d (%@)", [dataForUrl length], urlAsString);
-    [self.dictDataForUrl removeObjectForKey:urlAsString];
+    NSString* urlAsString = [self urlAsStringForTask:task];
+    NSMutableData* dataForUrl = [self dataForUrl:urlAsString];
+    NSLog(@"NSURLSession (delegate): size data received = %d bytes (%@)",
+          [dataForUrl length],
+          urlAsString);
+    [self removeDataObjectForUrl:urlAsString];
 }
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler
-{
-    //NSLog(@"app URLSession:task:didReceiveChallenge:completionHandler:");
-}
-
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
-{
-    //NSLog(@"app URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:");
-}
-
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task needNewBodyStream:(void (^)(NSInputStream *bodyStream))completionHandler
-{
-    //NSLog(@"app URLSession:task:needNewBodyStream:");
-}
-
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest *))completionHandler
-{
-    //NSLog(@"app URLSession:task:willPerformHTTPRedirection:newRequest:completionHandler:");
-    completionHandler(request);
-}
 
 @end
