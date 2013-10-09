@@ -115,9 +115,12 @@ didReceiveResponse:(NSURLResponse *)response
           dataTask:(NSURLSessionDataTask *)dataTask
 didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
 {
-    NSLog(@"interceptor URLSession:dataTask:didBecomeDownloadTask:");
-    
-    //TODO: remove the request from being monitored??
+    //NSLog(@"interceptor URLSession:dataTask:didBecomeDownloadTask:");
+
+    // remove the dataTask from monitoring as it's transitioning to a download task
+    ApigeeMonitoringClient* monitoringClient =
+        [ApigeeMonitoringClient sharedInstance];
+    [monitoringClient removeDataTaskInfoForTask:dataTask];
     
     if (self.target &&
         [self.target respondsToSelector:@selector(URLSession:dataTask:didBecomeDownloadTask:)])
@@ -176,13 +179,16 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
 
 #pragma mark NSURLSessionTaskDelegate methods
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+didCompleteWithError:(NSError *)error
 {
     //NSLog(@"interceptor URLSession:task:didCompleteWithError:");
     
     NSDate* endTime = [NSDate date];
     
-    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    ApigeeMonitoringClient* monitoringClient =
+        [ApigeeMonitoringClient sharedInstance];
     
     ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo =
         [monitoringClient dataTaskInfoForTask:task];
@@ -208,7 +214,10 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
     }
 }
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
+ completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler
 {
     //NSLog(@"interceptor URLSession:task:didReceiveChallenge:completionHandler:");
     
@@ -224,7 +233,11 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
     }
 }
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+   didSendBodyData:(int64_t)bytesSent
+    totalBytesSent:(int64_t)totalBytesSent
+totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
 {
     //NSLog(@"interceptor URLSession:task:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:");
     
@@ -239,9 +252,11 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
     }
 }
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task needNewBodyStream:(void (^)(NSInputStream *bodyStream))completionHandler
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+ needNewBodyStream:(void (^)(NSInputStream *bodyStream))completionHandler
 {
-    NSLog(@"interceptor URLSession:task:needNewBodyStream:");
+    //NSLog(@"interceptor URLSession:task:needNewBodyStream:");
     
     if (self.target &&
         [self.target respondsToSelector:@selector(URLSession:task:needNewBodyStream:)])
@@ -250,11 +265,23 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
                            task:task
               needNewBodyStream:completionHandler];
     } else {
-        //TODO: ???
+        NSInputStream* inputStream = nil;
+        
+        if (task.originalRequest.HTTPBodyStream &&
+            [task.originalRequest.HTTPBodyStream conformsToProtocol:@protocol(NSCopying)])
+        {
+            inputStream = [task.originalRequest.HTTPBodyStream copy];
+        }
+        
+        completionHandler(inputStream);
     }
 }
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest *))completionHandler
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+willPerformHTTPRedirection:(NSHTTPURLResponse *)response
+        newRequest:(NSURLRequest *)request
+ completionHandler:(void (^)(NSURLRequest *))completionHandler
 {
     //NSLog(@"interceptor URLSession:task:willPerformHTTPRedirection:newRequest:completionHandler:");
     
@@ -269,6 +296,54 @@ didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
         
     } else {
         completionHandler(request);  // allow the redirect
+    }
+}
+
+#pragma mark NSURLSessionDownloadDelegate methods
+
+- (void)URLSession:(NSURLSession *)session
+      downloadTask:(NSURLSessionDownloadTask *)downloadTask
+didFinishDownloadingToURL:(NSURL *)location
+{
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:downloadTask:didFinishDownloadingToURL:)])
+    {
+        [self.target URLSession:session
+                   downloadTask:downloadTask
+      didFinishDownloadingToURL:location];
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session
+      downloadTask:(NSURLSessionDownloadTask *)downloadTask
+ didResumeAtOffset:(int64_t)fileOffset
+expectedTotalBytes:(int64_t)expectedTotalBytes
+{
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:downloadTask:didResumeAtOffset:expectedTotalBytes:)])
+    {
+        [self.target URLSession:session
+                   downloadTask:downloadTask
+              didResumeAtOffset:fileOffset
+             expectedTotalBytes:expectedTotalBytes];
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session
+      downloadTask:(NSURLSessionDownloadTask *)downloadTask
+      didWriteData:(int64_t)bytesWritten
+ totalBytesWritten:(int64_t)totalBytesWritten
+totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+{
+    if (self.target &&
+        [self.target respondsToSelector:@selector(URLSession:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:)])
+    {
+        [self.target URLSession:session
+                   downloadTask:downloadTask
+                   didWriteData:bytesWritten
+              totalBytesWritten:totalBytesWritten
+      totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+        
     }
 }
 
