@@ -62,4 +62,10 @@ typedef void (^ApigeeHTTPCompletionHandler)(ApigeeHTTPResult *result,ApigeeHTTPM
 // each new transaction.
 -(NSString *)getLastError;
 
+//**********************  HTTP HEADERS  **************************
+-(void)addHTTPHeaderField:(NSString*)field withValue:(NSString*)value;
+-(NSString*)getValueForHTTPHeaderField:(NSString*)field;
+-(void)removeHTTPHeaderField:(NSString*)field;
+-(NSArray*)HTTPHeaderFields;
+
 @end

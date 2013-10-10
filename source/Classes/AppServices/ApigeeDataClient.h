@@ -406,6 +406,14 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
 -(ApigeeCollection*)getCollection:(NSString*)type;
 -(ApigeeCollection*)getCollection:(NSString*)type query:(NSDictionary*)qs;
 
+
+//**********************  HTTP HEADERS  **************************
+-(void)addHTTPHeaderField:(NSString*)field withValue:(NSString*)value;
+-(NSString*)getValueForHTTPHeaderField:(NSString*)field;
+-(void)removeHTTPHeaderField:(NSString*)field;
+-(NSArray*)HTTPHeaderFields;
+
+
 /*********************** VERSION CHECKING ************************/
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)

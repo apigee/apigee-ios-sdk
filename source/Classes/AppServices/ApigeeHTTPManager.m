@@ -46,6 +46,9 @@ NSRecursiveLock *g_transactionIDLock = nil;
     
     // the auth key to send along to requests
     NSString *m_auth;
+    
+    // custom HTTP headers
+    NSMutableDictionary *m_dictCustomHTTPHeaders;
 }
 
 @synthesize completionHandler;
@@ -64,6 +67,7 @@ NSRecursiveLock *g_transactionIDLock = nil;
         m_transactionID = kInvalidTransactionID;
         m_auth = nil;
         self.operationQueue = [[NSOperationQueue alloc] init];
+        m_dictCustomHTTPHeaders = nil;
         
         // lazy-init the transaction lock
         if ( !g_transactionIDLock )
@@ -305,6 +309,17 @@ NSRecursiveLock *g_transactionIDLock = nil;
         [authStr appendFormat:@"Bearer %@", m_auth];
         [req setValue:authStr forHTTPHeaderField:@"Authorization"];
     }
+    
+    // set the custom headers, if any
+    if ( m_dictCustomHTTPHeaders )
+    {
+        NSArray *allHeaderFields = [m_dictCustomHTTPHeaders allKeys];
+        for ( NSString *field in allHeaderFields )
+        {
+            NSString *value = [m_dictCustomHTTPHeaders valueForKey:field];
+            [req setValue:value forHTTPHeaderField:field];
+        }
+    }
 
     // if they sent an opStr, we make that the content
     if ( opStr )
@@ -392,6 +407,41 @@ NSRecursiveLock *g_transactionIDLock = nil;
         self.completionHandler(result,self);
         self.completionHandler = nil;
     }
+}
+
+//**********************  HTTP HEADERS  **************************
+-(void)addHTTPHeaderField:(NSString*)field withValue:(NSString*)value
+{
+    if ( ! m_dictCustomHTTPHeaders ) {
+        m_dictCustomHTTPHeaders = [[NSMutableDictionary alloc] init];
+    }
+    
+    [m_dictCustomHTTPHeaders setValue:value forKey:field];
+}
+
+-(NSString*)getValueForHTTPHeaderField:(NSString*)field
+{
+    if ( m_dictCustomHTTPHeaders ) {
+        return [m_dictCustomHTTPHeaders valueForKey:field];
+    }
+    
+    return nil;
+}
+
+-(void)removeHTTPHeaderField:(NSString*)field
+{
+    if ( m_dictCustomHTTPHeaders ) {
+        [m_dictCustomHTTPHeaders removeObjectForKey:field];
+    }
+}
+
+-(NSArray*)HTTPHeaderFields
+{
+    if ( m_dictCustomHTTPHeaders ) {
+        return [m_dictCustomHTTPHeaders allKeys];
+    }
+    
+    return nil;
 }
 
 @end

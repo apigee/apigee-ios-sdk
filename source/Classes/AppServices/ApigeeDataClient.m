@@ -60,6 +60,9 @@ NSString *g_deviceUUID = nil;
     
     // logging state
     BOOL m_bLogging;
+    
+    // custom HTTP headers
+    NSMutableDictionary *m_dictCustomHTTPHeaders;
 }
 
 @synthesize locationManager;
@@ -166,6 +169,7 @@ NSString *g_deviceUUID = nil;
         
         m_loggedInUser = nil;
         m_bLogging = NO;
+        m_dictCustomHTTPHeaders = nil;
         
         // if the base URL has a trailing '/', leave it off
         if ([m_baseURL hasSuffix:@"/"]) {
@@ -252,6 +256,15 @@ NSString *g_deviceUUID = nil;
     
     // tell it the auth to use
     [newMgr setAuth:m_auth];
+    
+    // give it custom HTTP headers, if we have any
+    if ( m_dictCustomHTTPHeaders ) {
+        NSArray *allHeaderFields = [m_dictCustomHTTPHeaders allKeys];
+        for ( NSString *field in allHeaderFields ) {
+            NSString *value = [m_dictCustomHTTPHeaders valueForKey:field];
+            [newMgr addHTTPHeaderField:field withValue:value];
+        }
+    }
     
     // add it to the array
     [m_httpManagerPool addObject:newMgr];
@@ -1947,6 +1960,50 @@ NSString *g_deviceUUID = nil;
     // iOS 7.0 and later
 }
 */
+
+//**********************  HTTP HEADER FIELDS  ***************************
+
+-(void)addHTTPHeaderField:(NSString*)field withValue:(NSString*)value
+{
+    if ( ! m_dictCustomHTTPHeaders ) {
+        m_dictCustomHTTPHeaders = [[NSMutableDictionary alloc] init];
+    }
+    
+    [m_dictCustomHTTPHeaders setValue:value forKey:field];
+    
+    for ( ApigeeHTTPManager *mgr in m_httpManagerPool ) {
+        [mgr addHTTPHeaderField:field withValue:value];
+    }
+}
+
+-(NSString*)getValueForHTTPHeaderField:(NSString*)field
+{
+    if ( m_dictCustomHTTPHeaders ) {
+        return [m_dictCustomHTTPHeaders valueForKey:field];
+    }
+    
+    return nil;
+}
+
+-(void)removeHTTPHeaderField:(NSString*)field
+{
+    if ( m_dictCustomHTTPHeaders ) {
+        [m_dictCustomHTTPHeaders removeObjectForKey:field];
+        
+        for ( ApigeeHTTPManager *mgr in m_httpManagerPool ) {
+            [mgr removeHTTPHeaderField:field];
+        }
+    }
+}
+
+-(NSArray*)HTTPHeaderFields
+{
+    if ( m_dictCustomHTTPHeaders ) {
+        return [m_dictCustomHTTPHeaders allKeys];
+    }
+    
+    return nil;
+}
 
 @end
 
