@@ -26,7 +26,7 @@ static NSString* kLoggingTag = @"Sample App";
 @property (assign, nonatomic) NSInteger errorLevelIndex;
 @property (strong, nonatomic) NSURLConnection* connection;
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+#ifdef __IPHONE_7_0
 @property (strong, nonatomic) NSURLSession* urlSession;
 @property (strong, nonatomic) NSURLSessionTask* urlSessionTask;
 #endif
@@ -205,7 +205,7 @@ static NSString* kLoggingTag = @"Sample App";
         
         if( self.isIOS7OrHigher )
         {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+#ifdef __IPHONE_7_0
             //**********************  NSURLSession  ************************
             if( ! self.urlSession )
             {
@@ -302,10 +302,12 @@ static NSString* kLoggingTag = @"Sample App";
     return [self urlAsStringForRequest:[connection currentRequest]];
 }
 
+#ifdef __IPHONE_7_0
 - (NSString*)urlAsStringForTask:(NSURLSessionTask*)task
 {
     return [self urlAsStringForRequest:task.currentRequest];
 }
+#endif
 
 #pragma mark NSURLConnection methods
 
@@ -334,7 +336,7 @@ static NSString* kLoggingTag = @"Sample App";
     self.connection = nil;
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+#ifdef __IPHONE_7_0
 #pragma mark NSURLSessionDelegate methods
 
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
