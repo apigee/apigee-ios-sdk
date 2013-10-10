@@ -12,6 +12,11 @@
 #import "ApigeeNSURLConnectionDataDelegateInterceptor.h"
 #import "NSURLConnection+Apigee.h"
 
+// swap these definitions to see logging of activity
+#define INTERCEPTOR_LOG(logMessage)
+//#define INTERCEPTOR_LOG(logMessage) ApigeeLogVerbose(@"Interceptor",logMessage);
+
+
 @interface ApigeeNSURLConnectionDataDelegateInterceptor() <NSURLConnectionDelegate,
     NSURLConnectionDataDelegate,
     NSURLConnectionDownloadDelegate>
@@ -19,20 +24,25 @@
 @property (strong) id target;
 @property (strong) NSDate *start;
 @property (strong) ApigeeNetworkEntry *networkEntry;
+@property (assign, nonatomic) NSUInteger dataSize;
 
 @end
 
 @implementation ApigeeNSURLConnectionDataDelegateInterceptor
 
 @synthesize createTime;
+@synthesize dataSize;
 
 - (id) initAndInterceptFor:(id) target withRequest:(NSURLRequest*)request
 {
+    INTERCEPTOR_LOG(@"initAndInterceptFor:withRequest:");
+    
     self = [super init];
     
     if (self) {
         self.target = target;
         self.createTime = [NSDate date];
+        self.dataSize = 0;
         _connectionAlive = YES;
         
         ApigeeNetworkEntry *theNetworkEntry = [[ApigeeNetworkEntry alloc] init];
@@ -56,7 +66,8 @@
     BOOL answerResponds = NO;
  
     if( [selectorAsString isEqualToString:@"connection:didFailWithError:"] ||
-        [selectorAsString isEqualToString:@"connectionDidFinishLoading:"] )
+        [selectorAsString isEqualToString:@"connectionDidFinishLoading:"] ||
+        [selectorAsString isEqualToString:@"connection:didReceiveResponse:"])
     {
         answerResponds = YES;
     }
@@ -82,7 +93,7 @@
     {
         answerResponds = [[self class] instancesRespondToSelector:aSelector];
     }
-    
+
     return answerResponds;
 }
 
@@ -90,7 +101,7 @@
 
 - (void) connection:(NSURLConnection *) connection didFailWithError:(NSError *) error
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:didFailWithError:");
+    INTERCEPTOR_LOG(@"connection:didFailWithError:");
 
     _connectionAlive = NO;
     
@@ -115,7 +126,7 @@
 
 - (BOOL) connectionShouldUseCredentialStorage:(NSURLConnection *) connection
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connectionShouldUseCredentialStorage");
+    INTERCEPTOR_LOG(@"connectionShouldUseCredentialStorage");
 
     if (self.target && [self.target respondsToSelector:@selector(connectionShouldUseCredentialStorage:)]) {
         return [self.target connectionShouldUseCredentialStorage:connection];
@@ -126,7 +137,7 @@
 
 - (void)connection:(NSURLConnection *) connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *) challenge
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:willSendRequestForAuthenticationChallenge:");
+    INTERCEPTOR_LOG(@"connection:willSendRequestForAuthenticationChallenge:");
 
     if (self.target && [self.target respondsToSelector:@selector(connection:willSendRequestForAuthenticationChallenge:)]) {
         [self.target connection:connection willSendRequestForAuthenticationChallenge:challenge];
@@ -136,7 +147,7 @@
 // Deprecated authentication delegates - should these be supported?
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:canAuthenticateAgainstProtectionSpace:");
+    INTERCEPTOR_LOG(@"connection:canAuthenticateAgainstProtectionSpace:");
 
     if (self.target && [self.target respondsToSelector:@selector(connection:canAuthenticateAgainstProtectionSpace:)]) {
         return [self.target connection:connection canAuthenticateAgainstProtectionSpace:protectionSpace];
@@ -147,7 +158,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:didReceiveAuthenticationChallenge:");
+    INTERCEPTOR_LOG(@"connection:didReceiveAuthenticationChallenge:");
 
     if (self.target && [self.target respondsToSelector:@selector(connection:didReceiveAuthenticationChallenge:)]) {
         [self.target connection:connection didReceiveAuthenticationChallenge:challenge];
@@ -156,7 +167,7 @@
 
 - (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:didCancelAuthenticationChallenge:");
+    INTERCEPTOR_LOG(@"connection:didCancelAuthenticationChallenge:");
 
     if (self.target && [self.target respondsToSelector:@selector(connection:didCancelAuthenticationChallenge:)]) {
         [self.target connection:connection didCancelAuthenticationChallenge:challenge];
@@ -168,7 +179,7 @@
 
 - (NSURLRequest *) connection:(NSURLConnection *) connection willSendRequest:(NSURLRequest *) request redirectResponse:(NSURLResponse *) response
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:willSendRequest:redirectResponse:");
+    INTERCEPTOR_LOG(@"connection:willSendRequest:redirectResponse:");
 
     if (self.target && [self.target respondsToSelector:@selector(connection:willSendRequest:redirectResponse:)]) {
         return [self.target connection:connection willSendRequest:request redirectResponse:response];
@@ -179,7 +190,7 @@
 
 - (void) connection:(NSURLConnection *) connection didReceiveResponse:(NSURLResponse *) response
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:didReceiveResponse:");
+    INTERCEPTOR_LOG(@"connection:didReceiveResponse:");
 
     [self.networkEntry populateWithResponse:response];
 
@@ -190,7 +201,11 @@
 
 - (void) connection:(NSURLConnection *) connection didReceiveData:(NSData *) data
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:didReceiveData:");
+    INTERCEPTOR_LOG(@"connection:didReceiveData:");
+    
+    if ([data length] > 0) {
+        self.dataSize += [data length];
+    }
 
     if (self.target && [self.target respondsToSelector:@selector(connection:didReceiveData:)]) {
         [self.target connection:connection didReceiveData:data];
@@ -199,8 +214,8 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data lengthReceived:(long long)lengthReceived
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:didReceiveData:lengthReceived:");
-
+    INTERCEPTOR_LOG(@"connection:didReceiveData:lengthReceived:");
+    
     if (self.target && [self.target respondsToSelector:@selector(connection:didReceiveData:lengthReceived:)]) {
         [self.target connection:connection didReceiveData:data lengthReceived:lengthReceived];
     }
@@ -208,7 +223,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveDataArray:(NSArray *)dataArray
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:didReceiveDataArray:");
+    INTERCEPTOR_LOG(@"connection:didReceiveDataArray:");
 
     if (self.target && [self.target respondsToSelector:@selector(connection:didReceiveDataArray:)]) {
         [self.target connection:connection didReceiveDataArray:dataArray];
@@ -217,14 +232,11 @@
 
 - (NSInputStream *) connection:(NSURLConnection *) connection needNewBodyStream:(NSURLRequest *) request
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:needNewBodyStream:");
+    INTERCEPTOR_LOG(@"connection:needNewBodyStream:");
 
     if (self.target && [self.target respondsToSelector:@selector(connection:needNewBodyStream:)]) {
         return [self.target connection:connection needNewBodyStream:request];
     }
-    
-    //#warning does this need to be initialized with the URL on the request?
-    //return [[NSInputStream alloc] initWithURL:request.URL];
     
     return nil;
 }
@@ -233,7 +245,7 @@
                                                 totalBytesWritten:(NSInteger)totalBytesWritten
                                         totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:");
+    INTERCEPTOR_LOG(@"connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:");
 
     if (self.target && [self.target respondsToSelector:@selector(connection:didSendBodyData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
         [self.target connection:connection
@@ -245,7 +257,7 @@
 
 - (NSCachedURLResponse *) connection:(NSURLConnection *) connection willCacheResponse:(NSCachedURLResponse *) cachedResponse
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:willCacheResponse:");
+    INTERCEPTOR_LOG(@"connection:willCacheResponse:");
 
     if (self.target && [self.target respondsToSelector:@selector(connection:willCacheResponse:)]) {
         return [self.target connection:connection willCacheResponse:cachedResponse];
@@ -256,33 +268,15 @@
 
 - (void) connectionDidFinishLoading:(NSURLConnection *) connection
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connectionDidFinishLoading:");
+    INTERCEPTOR_LOG(@"connectionDidFinishLoading:");
 
     _connectionAlive = NO;
 
     NSDate *ended = [NSDate date];
     
     if (self.target && [self.target respondsToSelector:@selector(connectionDidFinishLoading:)]) {
-        //ApigeeLogVerbose(@"Interceptor", @"calling connectionDidFinishLoading on real delegate");
         [self.target connectionDidFinishLoading:connection];
     }
-    // the following code might be helpful for debugging
-    /*
-    else
-    {
-        ApigeeLogVerbose(@"Interceptor", @"NOT calling connectionDidFinishLoading on real delegate");
-
-        if( self.target )
-        {
-            ApigeeLogVerbose(@"Interceptor", @"have real delegate -- must not respond to method");
-        }
-        else
-        {
-            ApigeeLogVerbose(@"Interceptor", @"real delegate is nil");
-        }
-        
-    }
-     */
     
     NSDate *started = [connection startTime];
 
@@ -292,6 +286,7 @@
     }
 
     [self.networkEntry populateStartTime:started ended:ended];
+    [self.networkEntry populateWithResponseDataSize:self.dataSize];
     [ApigeeQueue recordNetworkEntry:self.networkEntry];
     self.networkEntry = nil;
 }
@@ -301,7 +296,7 @@
   totalBytesWritten:(long long)totalBytesWritten
  expectedTotalBytes:(long long)expectedTotalBytes
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connection:didWriteData:totalBytesWritten:expectedTotalBytes:");
+    INTERCEPTOR_LOG(@"connection:didWriteData:totalBytesWritten:expectedTotalBytes:");
 
     if (self.target && [self.target respondsToSelector:@selector(connection:didWriteData:totalBytesWritten:expectedTotalBytes:)]) {
         [self.target connection:connection
@@ -315,7 +310,7 @@
                       totalBytesWritten:(long long)totalBytesWritten
                      expectedTotalBytes:(long long)expectedTotalBytes
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connectionDidResumeDownloading:totalBytesWritten:expectedTotalBytes:");
+    INTERCEPTOR_LOG(@"connectionDidResumeDownloading:totalBytesWritten:expectedTotalBytes:");
 
     if (self.target && [self.target respondsToSelector:@selector(connectionDidResumeDownloading:totalBytesWritten:expectedTotalBytes:)]) {
         [self.target connectionDidResumeDownloading:connection
@@ -327,7 +322,7 @@
 - (void) connectionDidFinishDownloading:(NSURLConnection *)connection
                          destinationURL:(NSURL *)destinationURL
 {
-    //ApigeeLogVerbose(@"Interceptor", @"connectionDidFinishDownloading:destinationURL:");
+    INTERCEPTOR_LOG(@"connectionDidFinishDownloading:destinationURL:");
 
     if (self.target && [self.target respondsToSelector:@selector(connectionDidFinishDownloading:destinationURL:)]) {
         [self.target connectionDidFinishDownloading:connection
