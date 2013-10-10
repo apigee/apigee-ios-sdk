@@ -248,6 +248,8 @@
 - (void) updateLastNetworkTransmissionTime:(NSString*) networkTransmissionTime;
 */
 
+// the following methods are used for auto-capture of network performance
+// with NSURLSession. they are for internal use within the framework only.
 - (id)generateIdentifierForDataTask;
 - (void)registerDataTaskInfo:(ApigeeNSURLSessionDataTaskInfo*)dataTaskInfo withIdentifier:(id)identifier;
 - (ApigeeNSURLSessionDataTaskInfo*)dataTaskInfoForIdentifier:(id)identifier;
