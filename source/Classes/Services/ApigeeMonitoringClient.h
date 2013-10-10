@@ -253,6 +253,7 @@
 
 // the following methods are used for auto-capture of network performance
 // with NSURLSession. they are for internal use within the framework only.
+#ifdef __IPHONE_7_0
 - (id)generateIdentifierForDataTask;
 - (void)registerDataTaskInfo:(ApigeeNSURLSessionDataTaskInfo*)dataTaskInfo withIdentifier:(id)identifier;
 - (ApigeeNSURLSessionDataTaskInfo*)dataTaskInfoForIdentifier:(id)identifier;
@@ -260,5 +261,6 @@
 - (void)removeDataTaskInfoForIdentifier:(id)identifier;
 - (void)removeDataTaskInfoForTask:(NSURLSessionTask*)task;
 - (void)setStartTime:(NSDate*)startTime forSessionDataTask:(NSURLSessionDataTask*)dataTask;
+#endif
 
 @end

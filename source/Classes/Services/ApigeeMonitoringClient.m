@@ -53,7 +53,7 @@
 #import "ApigeeClient.h"
 #import "ApigeeJsonUtils.h"
 
-#import "NSURLSession+Apigee.h"
+#import "ApigeeNSURLSessionSupport.h"
 #import "ApigeeNSURLSessionDataTaskInfo.h"
 
 static const int64_t kOneMillion = 1000 * 1000;
@@ -1296,8 +1296,8 @@ replacementInstanceMethod:(SEL) replacementSelector
                     [self printDebugMessage:@"swizzling NSURLSession methods"];
                 }
                 
-                [NSURLSession apigeeOneTimeSetup];
-                self.swizzledNSURLSession = YES;
+                self.swizzledNSURLSession =
+                    [ApigeeNSURLSessionSupport setupAtStartup];
             }
         }
     }
