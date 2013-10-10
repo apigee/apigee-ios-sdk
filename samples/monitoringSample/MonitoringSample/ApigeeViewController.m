@@ -13,6 +13,7 @@
 static NSString* kLoggingTag = @"Sample App";
 
 
+
 @interface ApigeeViewController ()
 
 @property (strong, nonatomic) ApigeeMonitoringClient* monitoringClient;
@@ -24,8 +25,12 @@ static NSString* kLoggingTag = @"Sample App";
 @property (assign, nonatomic) NSInteger loggingLevelIndex;
 @property (assign, nonatomic) NSInteger errorLevelIndex;
 @property (strong, nonatomic) NSURLConnection* connection;
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
 @property (strong, nonatomic) NSURLSession* urlSession;
 @property (strong, nonatomic) NSURLSessionTask* urlSessionTask;
+#endif
+
 @property (strong, nonatomic) NSMutableDictionary* dictDataForUrl;
 @property (assign) BOOL isIOS7OrHigher;
 @property (assign) BOOL useNSURLSessionWithBlocks;
@@ -43,10 +48,12 @@ static NSString* kLoggingTag = @"Sample App";
     self.errorLevelIndex = 0;
     self.loggingLevelIndex = 0;
     
+    BOOL useNSURLSessionIfAvailable = YES;
+    
     self.isIOS7OrHigher = NO;  // we'll set to YES programmatically if true
     self.useNSURLSessionWithBlocks = YES;
     
-    if( NSClassFromString(@"NSURLSession") )
+    if( useNSURLSessionIfAvailable && NSClassFromString(@"NSURLSession") )
     {
         if( self.useNSURLSessionWithBlocks )
         {
@@ -102,12 +109,13 @@ static NSString* kLoggingTag = @"Sample App";
 #error configure your org name and app name here
     NSString* orgName = @"<YOUR_ORG_NAME>";
     NSString* appName = @"<YOUR_APP_NAME>";
-    NSString* baseURL = nil;
+    NSString* baseURL = nil; //@"http://apigee-internal-prod.jupiter.apigee.net";
     
     ApigeeMonitoringOptions* monitoringOptions = [[ApigeeMonitoringOptions alloc] init];
     monitoringOptions.monitoringEnabled = YES;
     monitoringOptions.autoPromoteLoggedErrors = YES;
     monitoringOptions.interceptNSURLSessionCalls = YES;
+    //monitoringOptions.showDebuggingInfo = YES;
     
     appDelegate.apigeeClient = [[ApigeeClient alloc]
                                 initWithOrganizationId:orgName
@@ -197,6 +205,7 @@ static NSString* kLoggingTag = @"Sample App";
         
         if( self.isIOS7OrHigher )
         {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
             //**********************  NSURLSession  ************************
             if( ! self.urlSession )
             {
@@ -243,6 +252,7 @@ static NSString* kLoggingTag = @"Sample App";
 
             // start the request
             [self.urlSessionTask resume];
+#endif
         }
         else
         {
@@ -324,6 +334,7 @@ static NSString* kLoggingTag = @"Sample App";
     self.connection = nil;
 }
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
 #pragma mark NSURLSessionDelegate methods
 
 - (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error
@@ -355,6 +366,6 @@ didCompleteWithError:(NSError *)error
           urlAsString);
     [self removeDataObjectForUrl:urlAsString];
 }
-
+#endif
 
 @end
