@@ -132,6 +132,7 @@ static bool AmIBeingDebugged(void)
 @property (assign) BOOL crashReportingEnabled;
 @property (assign) BOOL autoInterceptNetworkCalls;
 @property (assign) BOOL interceptNSURLSessionCalls;
+@property (assign) BOOL showDebuggingInfo;
 
 - (void) retrieveAndApplyServerConfig;
 - (BOOL) uploadEvents;
@@ -168,6 +169,7 @@ static bool AmIBeingDebugged(void)
 @synthesize crashReportingEnabled;
 @synthesize autoInterceptNetworkCalls;
 @synthesize interceptNSURLSessionCalls;
+@synthesize showDebuggingInfo;
 
 
 // this method is sometimes handy for debugging
@@ -311,6 +313,7 @@ static bool AmIBeingDebugged(void)
     
     self.crashReportingEnabled = YES;
     self.autoInterceptNetworkCalls = YES;
+    self.showDebuggingInfo = NO;
     id<ApigeeUploadListener> uploadListener = nil;
     
     if( monitoringOptions ) {
@@ -319,6 +322,7 @@ static bool AmIBeingDebugged(void)
         uploadListener = monitoringOptions.uploadListener;
         self.autoPromoteLoggedErrors = monitoringOptions.autoPromoteLoggedErrors;
         self.interceptNSURLSessionCalls = monitoringOptions.interceptNSURLSessionCalls;
+        self.showDebuggingInfo = monitoringOptions.showDebuggingInfo;
     } else {
         self.autoPromoteLoggedErrors = YES;
         self.interceptNSURLSessionCalls = NO;
@@ -375,6 +379,23 @@ static bool AmIBeingDebugged(void)
     });
     
     return self;
+}
+
+- (void)printDebugMessage:(NSString*)debugMessage
+{
+    if (self.showDebuggingInfo) {
+        NSLog(@"%@", debugMessage);
+    }
+}
+
+- (void)recordNetworkEntry:(ApigeeNetworkEntry*)entry
+{
+    if (self.showDebuggingInfo) {
+        [self printDebugMessage:@"recording network entry:"];
+        [entry debugPrint];
+    }
+    
+    [ApigeeQueue recordNetworkEntry:entry];
 }
 
 - (void) retrieveAndApplyServerConfig
@@ -541,14 +562,27 @@ static bool AmIBeingDebugged(void)
     
         NSURLResponse* response = [[NSURLResponse alloc] init];
         NSError* error = nil;
+        
+        if (self.showDebuggingInfo) {
+            NSString* debugMsg = [NSString stringWithFormat:@"attempting to retrieve configuration from %@",
+                                  [self configDownloadURL]];
+            [self printDebugMessage:debugMsg];
+        }
     
         NSData* responseData = [NSURLConnection sendSynchronousRequest:request
                                                      returningResponse:&response
                                                                  error:&error];
     
         if( nil != responseData ) {
-            return [[NSString alloc] initWithData:responseData
+            NSString* responseDataAsString = [[NSString alloc] initWithData:responseData
                                          encoding:NSUTF8StringEncoding];
+            
+            if (self.showDebuggingInfo) {
+                [self printDebugMessage:@"configuration retrieved from server:"];
+                [self printDebugMessage:responseDataAsString];
+            }
+            
+            return responseDataAsString;
         } else {
             if( error != nil ) {
                 NSString* errorMsg = [NSString stringWithFormat:@"Error retrieving config from server: %@",
@@ -716,6 +750,10 @@ static bool AmIBeingDebugged(void)
 
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
+        if (self.showDebuggingInfo) {
+            [self printDebugMessage:@"attempting to upload data to server"];
+        }
+        
         [self uploadEvents];
     });
 }
@@ -729,6 +767,13 @@ static bool AmIBeingDebugged(void)
     
     if( [contentType length] > 0 ) {
         [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
+    }
+    
+    if (self.showDebuggingInfo) {
+        NSString* debugMsg = [NSString stringWithFormat:@"attempting to POST to %@",
+                              urlAsString];
+        [self printDebugMessage:debugMsg];
+        [self printDebugMessage:postBody];
     }
     
     NSData* postData = [postBody dataUsingEncoding:NSUTF8StringEncoding];
@@ -747,6 +792,14 @@ static bool AmIBeingDebugged(void)
     
     if( err != nil ) {
         ApigeeLogError(kApigeeMonitoringClientTag, [NSString stringWithFormat:@"%@",[err localizedDescription]]);
+    } else {
+        if (self.showDebuggingInfo) {
+            NSString* responseDataAsString =
+                [[NSString alloc] initWithData:responseData
+                                      encoding:NSUTF8StringEncoding];
+            [self printDebugMessage:@"server response:"];
+            [self printDebugMessage:responseDataAsString];
+        }
     }
     
     return responseData;
@@ -768,6 +821,13 @@ static bool AmIBeingDebugged(void)
         [request setValue:contentType forHTTPHeaderField:@"Content-Type"];
     }
     
+    if (self.showDebuggingInfo) {
+        NSString* debugMsg = [NSString stringWithFormat:@"attempting to PUT to %@",
+                              urlAsString];
+        [self printDebugMessage:debugMsg];
+        [self printDebugMessage:postBody];
+    }
+    
     NSData* postData = [postBody dataUsingEncoding:NSUTF8StringEncoding];
     NSString* postLength = [NSString stringWithFormat:@"%d", [postData length]];
     
@@ -784,6 +844,14 @@ static bool AmIBeingDebugged(void)
     
     if( err != nil ) {
         ApigeeLogError(kApigeeMonitoringClientTag, [NSString stringWithFormat:@"%@",[err localizedDescription]]);
+    } else {
+        if (self.showDebuggingInfo) {
+            NSString* responseDataAsString =
+                [[NSString alloc] initWithData:responseData
+                                      encoding:NSUTF8StringEncoding];
+            [self printDebugMessage:@"server response:"];
+            [self printDebugMessage:responseDataAsString];
+        }
     }
     
     return responseData;
@@ -799,7 +867,13 @@ static bool AmIBeingDebugged(void)
 
 - (BOOL) hasPendingCrashReports
 {
-    return [[Apigee_PLCrashReporter sharedReporter] hasPendingCrashReport];
+    BOOL haveCrashReport = [[Apigee_PLCrashReporter sharedReporter] hasPendingCrashReport];
+    
+    if (self.showDebuggingInfo) {
+        [self printDebugMessage:@"crash report found from prior session"];
+    }
+    
+    return haveCrashReport;
 }
 
 - (NSString*)crashReportUploadURL:(NSString*)crashFileName
@@ -843,8 +917,13 @@ static bool AmIBeingDebugged(void)
                                                        toUrl:[self crashReportUploadURL:fileName]
                                                  contentType:@"text/plain"];
     if( nil != crashReportUploadResponseData ) {
-        [self sendCrashNotification:fileName];
-        [crashReporter purgePendingCrashReport];
+        if ([self sendCrashNotification:fileName]) {
+            [self printDebugMessage:@"crash report uploaded to server"];
+            [crashReporter purgePendingCrashReport];
+            [self printDebugMessage:@"crash report deleted from device"];
+        } else {
+            [self printDebugMessage:@"error: unable to upload crash report"];
+        }
     } else {
         ApigeeLogAssert(@"Apigee Data Client",
                         @"There was an error with the request to upload the crash report");
@@ -862,6 +941,10 @@ static bool AmIBeingDebugged(void)
 
 - (void) networkChanged:(NSNotification *) notice
 {
+    if (self.showDebuggingInfo) {
+        [self printDebugMessage:@"network status changed"];
+    }
+    
     self.activeSettings.activeNetworkStatus = [self.reachability currentReachabilityStatus];
 }
 
@@ -929,24 +1012,51 @@ static bool AmIBeingDebugged(void)
         NSString *json = [ApigeeJsonUtils encode:clientMetricsEnvelope error:&error];
         
         if( json != nil ) {
-            if( self.listListeners && ([self.listListeners count] > 0) ) {
-                for( id<ApigeeUploadListener> listener in self.listListeners ) {
-                    [listener onUploadMetrics:json];
-                }
-            }
+            BOOL reachedServerSuccessfully = NO;
+            
+            NSData* responseData = [self postString:json
+                                              toUrl:[self metricsUploadURL]];
         
-            if( nil != [self postString:json
-                                  toUrl:[self metricsUploadURL]] ) {
-                if (!self.sentStartingSessionData) {
-                    self.sentStartingSessionData = YES;
+            if( (nil != responseData) && ([responseData length] > 0) ) {
+                
+                NSString *responseDataAsString =
+                    [[NSString alloc] initWithData:responseData
+                                          encoding:NSUTF8StringEncoding];
+                NSDictionary *jsonResponse =
+                    [ApigeeJsonUtils decode:responseDataAsString];
+                
+                NSString* serverResponseMessage =
+                    [jsonResponse valueForKey:@"message"];
+                NSString* lowerResponseMessage = [serverResponseMessage lowercaseString];
+                if ([lowerResponseMessage hasPrefix:@"successfully sent"]) {
+                    reachedServerSuccessfully = YES;
+                    
+                    ApigeeLogVerbose(kApigeeMonitoringClientTag,responseDataAsString);
+                    
+                    if (!self.sentStartingSessionData) {
+                        self.sentStartingSessionData = YES;
+                    }
+
+                    // let our listeners know
+                    if( self.listListeners && ([self.listListeners count] > 0) ) {
+                        for( id<ApigeeUploadListener> listener in self.listListeners ) {
+                            [listener onUploadMetrics:json];
+                        }
+                    }
+
+                } else {
+                    NSString* errorMessage = [NSString stringWithFormat:@"error: %@",
+                                              responseDataAsString];
+                    ApigeeLogVerbose(kApigeeMonitoringClientTag,errorMessage);
                 }
             
                 self.lastUploadTime = mach_absolute_time();
             
                 //[ApigeeLogCompiler refreshUploadTimestamp];
             
-                return YES;
+                return reachedServerSuccessfully;
             } else {
+                NSLog(@"error: unable to send data to server");
                 return NO;
             }
         } else {
@@ -961,7 +1071,7 @@ static bool AmIBeingDebugged(void)
     }
 }
 
-- (void) sendCrashNotification:(NSString *) fileName
+- (BOOL) sendCrashNotification:(NSString *) fileName
 {
     NSString* nowTimestamp = [NSDate unixTimestampAsString];
     
@@ -987,6 +1097,7 @@ static bool AmIBeingDebugged(void)
                               toUrl:[self metricsUploadURL]] ) {
             self.lastUploadTime = mach_absolute_time();
             SystemAssert(@"Crash Log", @"Crash notification sent for %@", fileName);
+            return YES;
         }
     } else {
         NSLog( @"error: unable to encode crash notification to JSON. %@", clientMetricsEnvelope );
@@ -996,6 +1107,8 @@ static bool AmIBeingDebugged(void)
             NSLog( @"no error given");
         }
     }
+    
+    return NO;
 }
 
 - (void) saveConfig:(NSString *) json
@@ -1145,6 +1258,10 @@ replacementInstanceMethod:(SEL) replacementSelector
     if (!self.activeSettings.monitoringDisabled && !self.swizzledNSURLConnection) {
 
         Class clsNSURLConnection = [NSURLConnection class];
+        
+        if (self.showDebuggingInfo) {
+            [self printDebugMessage:@"swizzling NSURLConnection methods"];
+        }
     
         [self swizzleClass:clsNSURLConnection
                classMethod:@selector(sendSynchronousRequest:returningResponse:error:)
@@ -1175,6 +1292,10 @@ replacementInstanceMethod:(SEL) replacementSelector
         
             if( clsNSURLSession != nil )  // iOS 7.0 or later?
             {
+                if (self.showDebuggingInfo) {
+                    [self printDebugMessage:@"swizzling NSURLSession methods"];
+                }
+                
                 [NSURLSession apigeeOneTimeSetup];
                 self.swizzledNSURLSession = YES;
             }
@@ -1457,7 +1578,7 @@ replacementInstanceMethod:(SEL) replacementSelector
         [entry populateWithURLString:url];
         [entry populateStartTime:startTime ended:endTime];
     
-        [ApigeeQueue recordNetworkEntry:entry];
+        [self recordNetworkEntry:entry];
         
         metricsRecorded = YES;
     } else {
@@ -1484,7 +1605,7 @@ replacementInstanceMethod:(SEL) replacementSelector
         entry.numErrors = @"1";
         entry.transactionDetails = errorDescription;
     
-        [ApigeeQueue recordNetworkEntry:entry];
+        [self recordNetworkEntry:entry];
         
         metricsRecorded = YES;
     } else {
@@ -1505,10 +1626,22 @@ replacementInstanceMethod:(SEL) replacementSelector
     BOOL listenerAdded = NO;
     
     if (self.isInitialized) {
-        if( self.listListeners ) {
+        if (uploadListener != nil) {
+            if (!self.listListeners) {
+                self.listListeners = [[NSMutableArray alloc] init];
+            }
+        
             [self.listListeners addObject:uploadListener];
             listenerAdded = YES;
+            
+            if (self.showDebuggingInfo) {
+                [self printDebugMessage:@"added upload listener"];
+            }
+        } else {
+            [self printDebugMessage:@"not adding upload listener (listener is nil)"];
         }
+    } else {
+        [self printDebugMessage:@"not adding upload listener (monitoring client not initialized successfully)"];
     }
     
     return listenerAdded;
@@ -1523,8 +1656,14 @@ replacementInstanceMethod:(SEL) replacementSelector
             if( [self.listListeners containsObject:uploadListener] ) {
                 [self.listListeners removeObject:uploadListener];
                 listenerRemoved = YES;
+            } else {
+                [self printDebugMessage:@"not removing upload listener (not found)"];
             }
+        } else {
+            [self printDebugMessage:@"not removing upload listener (none registered)"];
         }
+    } else {
+        [self printDebugMessage:@"not removing upload listener (monitoring client not initialized successfully)"];
     }
     
     return listenerRemoved;

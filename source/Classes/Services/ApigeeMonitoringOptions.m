@@ -14,6 +14,7 @@
 @synthesize interceptNetworkCalls;
 @synthesize interceptNSURLSessionCalls;
 @synthesize autoPromoteLoggedErrors;
+@synthesize showDebuggingInfo;
 @synthesize uploadListener;
 
 - (id)init
@@ -26,6 +27,7 @@
         self.interceptNetworkCalls = YES;
         self.interceptNSURLSessionCalls = NO;
         self.autoPromoteLoggedErrors = YES;
+        self.showDebuggingInfo = NO;
         self.uploadListener = nil;
     }
     

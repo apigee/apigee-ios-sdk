@@ -13,6 +13,7 @@
 #import "ApigeeMonitoringClient.h"
 #import "ApigeeNetworkEntry.h"
 #import "ApigeeQueue+NetworkMetrics.h"
+#import "ApigeeMonitoringClient.h"
 
 static void *KEY_START_TIME;
 
@@ -108,7 +109,7 @@ static void *KEY_START_TIME;
         [entry populateWithError:theError];
     }
     
-    [ApigeeQueue recordNetworkEntry:entry];
+    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return responseData;
 }

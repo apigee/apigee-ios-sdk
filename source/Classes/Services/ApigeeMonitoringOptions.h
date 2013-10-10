@@ -17,6 +17,7 @@
 @property(assign, nonatomic) BOOL interceptNetworkCalls;
 @property(assign, nonatomic) BOOL interceptNSURLSessionCalls;
 @property(assign, nonatomic) BOOL autoPromoteLoggedErrors;
+@property(assign, nonatomic) BOOL showDebuggingInfo;
 @property(weak, nonatomic) id<ApigeeUploadListener> uploadListener;
 
 @end

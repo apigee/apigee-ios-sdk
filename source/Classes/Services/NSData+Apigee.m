@@ -8,6 +8,7 @@
 #import "ApigeeQueue+NetworkMetrics.h"
 #import "ApigeeNetworkEntry.h"
 #import "NSData+Apigee.h"
+#import "ApigeeMonitoringClient.h"
 
 @implementation NSData (Apigee)
 
@@ -27,7 +28,7 @@
         [entry populateWithError:theError];
     }
     
-    [ApigeeQueue recordNetworkEntry:entry];
+    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return data;
 }
@@ -43,7 +44,7 @@
     [entry populateStartTime:start ended:end];
     [entry populateWithResponseData:data];
     
-    [ApigeeQueue recordNetworkEntry:entry];
+    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return data;
 }
@@ -64,7 +65,7 @@
         [entry populateWithError:theError];
     }
     
-    [ApigeeQueue recordNetworkEntry:entry];
+    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return data;
 }
@@ -80,7 +81,7 @@
     [entry populateStartTime:start ended:end];
     [entry populateWithResponseData:data];
     
-    [ApigeeQueue recordNetworkEntry:entry];
+    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
    
     return data;
 }
@@ -95,7 +96,7 @@
     [entry populateWithURL:url];
     [entry populateStartTime:start ended:end];
     
-    [ApigeeQueue recordNetworkEntry:entry];
+    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return result;
 }
@@ -118,7 +119,7 @@
         }
     }
 
-    [ApigeeQueue recordNetworkEntry:entry];
+    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return result;
 }

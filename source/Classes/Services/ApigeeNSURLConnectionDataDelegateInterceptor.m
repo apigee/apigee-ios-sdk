@@ -11,6 +11,7 @@
 #import "ApigeeNetworkEntry.h"
 #import "ApigeeNSURLConnectionDataDelegateInterceptor.h"
 #import "NSURLConnection+Apigee.h"
+#import "ApigeeMonitoringClient.h"
 
 // swap these definitions to see logging of activity
 #define INTERCEPTOR_LOG(logMessage)
@@ -120,7 +121,7 @@
     
     [self.networkEntry populateStartTime:started ended:ended];
     [self.networkEntry populateWithError:error];
-    [ApigeeQueue recordNetworkEntry:self.networkEntry];
+    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:self.networkEntry];
     self.networkEntry = nil;
 }
 
@@ -287,7 +288,7 @@
 
     [self.networkEntry populateStartTime:started ended:ended];
     [self.networkEntry populateWithResponseDataSize:self.dataSize];
-    [ApigeeQueue recordNetworkEntry:self.networkEntry];
+    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:self.networkEntry];
     self.networkEntry = nil;
 }
 

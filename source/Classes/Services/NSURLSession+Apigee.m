@@ -100,7 +100,7 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithURLAndCompletionHa
                 [sessionDataTaskInfo.networkEntry populateStartTime:sessionDataTaskInfo.startTime
                                                       ended:endTime];
                 
-                [ApigeeQueue recordNetworkEntry:sessionDataTaskInfo.networkEntry];
+                [monitoringClient recordNetworkEntry:sessionDataTaskInfo.networkEntry];
 
                 // do we have a completion handler?
                 if( sessionDataTaskInfo.completionHandler ) {
@@ -159,7 +159,7 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithRequestAndCompleti
             [sessionDataTaskInfo.networkEntry populateStartTime:sessionDataTaskInfo.startTime
                                                       ended:endTime];
 
-            [ApigeeQueue recordNetworkEntry:sessionDataTaskInfo.networkEntry];
+            [monitoringClient recordNetworkEntry:sessionDataTaskInfo.networkEntry];
         
             // do we have a completion handler?
             if( sessionDataTaskInfo.completionHandler ) {

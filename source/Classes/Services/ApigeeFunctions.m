@@ -224,7 +224,7 @@ void Apigee_record_server_response_metrics(const server_response_metrics *metric
             [NSString stringWithUTF8String:metrics->transactionDetails];
     }
     
-    [ApigeeQueue recordNetworkEntry:entry];
+    [monitoringClient recordNetworkEntry:entry];
 }
 
 

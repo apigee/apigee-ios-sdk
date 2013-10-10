@@ -11,7 +11,7 @@
 @class ApigeeDataClient;
 @class ApigeeMonitoringOptions;
 @class ApigeeNSURLSessionDataTaskInfo;
-
+@class ApigeeNetworkEntry;
 
 @interface ApigeeMonitoringClient : NSObject
 
@@ -247,6 +247,9 @@
 /*
 - (void) updateLastNetworkTransmissionTime:(NSString*) networkTransmissionTime;
 */
+
+// an internal-use method
+- (void)recordNetworkEntry:(ApigeeNetworkEntry*)entry;
 
 // the following methods are used for auto-capture of network performance
 // with NSURLSession. they are for internal use within the framework only.

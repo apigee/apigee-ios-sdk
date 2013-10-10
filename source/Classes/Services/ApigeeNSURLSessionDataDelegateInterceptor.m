@@ -200,7 +200,7 @@ didCompleteWithError:(NSError *)error
         [sessionDataTaskInfo.networkEntry populateStartTime:sessionDataTaskInfo.startTime
                                                       ended:endTime];
         
-        [ApigeeQueue recordNetworkEntry:sessionDataTaskInfo.networkEntry];
+        [monitoringClient recordNetworkEntry:sessionDataTaskInfo.networkEntry];
         
         [monitoringClient removeDataTaskInfoForTask:task];
     }

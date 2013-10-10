@@ -9,6 +9,7 @@
 #import "ApigeeURLConnection.h"
 #import "ApigeeNetworkEntry.h"
 #import "ApigeeQueue+NetworkMetrics.h"
+#import "ApigeeMonitoringClient.h"
 
 @interface ApigeeURLConnection()
 
@@ -54,7 +55,7 @@
         [entry populateWithError:theError];
     }
     
-    [ApigeeQueue recordNetworkEntry:entry];
+    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return responseData;
 }
@@ -86,7 +87,7 @@
                                     [entry populateWithError:error];
                                 }
                                
-                               [ApigeeQueue recordNetworkEntry:entry];
+                               [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
                                
                             }];
 }

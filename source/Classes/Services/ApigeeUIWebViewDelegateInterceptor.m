@@ -9,6 +9,7 @@
 #import "ApigeeQueue+NetworkMetrics.h"
 #import "ApigeeNetworkEntry.h"
 #import "ApigeeUIWebViewDelegateInterceptor.h"
+#import "ApigeeMonitoringClient.h"
 
 @interface ApigeeUIWebViewDelegateInterceptor()
 
@@ -64,7 +65,7 @@
     }
     
     [self.networkEntry populateStartTime:self.started ended:ended];
-    [ApigeeQueue recordNetworkEntry:self.networkEntry];
+    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:self.networkEntry];
     self.networkEntry = nil;
 }
 
@@ -78,7 +79,7 @@
     
     [self.networkEntry populateWithError:error];
     [self.networkEntry populateStartTime:self.started ended:ended];
-    [ApigeeQueue recordNetworkEntry:self.networkEntry];
+    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:self.networkEntry];
     self.networkEntry = nil;
 }
 
