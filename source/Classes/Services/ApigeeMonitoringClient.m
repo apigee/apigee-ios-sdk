@@ -129,10 +129,11 @@ static bool AmIBeingDebugged(void)
 @property (strong) NSRecursiveLock *lockDataTasks;
 
 @property (assign) BOOL autoPromoteLoggedErrors;
-
+@property (assign) BOOL crashReportingEnabled;
+@property (assign) BOOL autoInterceptNetworkCalls;
 @property (assign) BOOL interceptNSURLSessionCalls;
 
-
+- (void) retrieveAndApplyServerConfig;
 - (BOOL) uploadEvents;
 - (void) applyConfig;
 - (BOOL) hasPendingCrashReports;
@@ -162,6 +163,12 @@ static bool AmIBeingDebugged(void)
 
 @synthesize appIdentification;
 @synthesize dataClient;
+
+@synthesize autoPromoteLoggedErrors;
+@synthesize crashReportingEnabled;
+@synthesize autoInterceptNetworkCalls;
+@synthesize interceptNSURLSessionCalls;
+
 
 // this method is sometimes handy for debugging
 - (void)log:(NSString*)data toFile:(NSString*)fileName
@@ -302,13 +309,13 @@ static bool AmIBeingDebugged(void)
         return nil;
     }
     
-    BOOL crashReportingEnabled = YES;
-    BOOL autoInterceptNetworkCalls = YES;
+    self.crashReportingEnabled = YES;
+    self.autoInterceptNetworkCalls = YES;
     id<ApigeeUploadListener> uploadListener = nil;
     
     if( monitoringOptions ) {
-        crashReportingEnabled = monitoringOptions.crashReportingEnabled;
-        autoInterceptNetworkCalls = monitoringOptions.interceptNetworkCalls;
+        self.crashReportingEnabled = monitoringOptions.crashReportingEnabled;
+        self.autoInterceptNetworkCalls = monitoringOptions.interceptNetworkCalls;
         uploadListener = monitoringOptions.uploadListener;
         self.autoPromoteLoggedErrors = monitoringOptions.autoPromoteLoggedErrors;
         self.interceptNSURLSessionCalls = monitoringOptions.interceptNSURLSessionCalls;
@@ -363,25 +370,34 @@ static bool AmIBeingDebugged(void)
     self.reachability = [ApigeeReachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self retrieveAndApplyServerConfig];
+    });
+    
+    return self;
+}
+
+- (void) retrieveAndApplyServerConfig
+{
     [self updateConfig];
     
 #ifdef __arm64__
-    if (crashReportingEnabled) {
-        crashReportingEnabled = NO;
+    if (self.crashReportingEnabled) {
+        self.crashReportingEnabled = NO;
         ApigeeLogWarn(kApigeeMonitoringClientTag, @"Disabling crash reporting on arm64 (not supported yet)");
     }
 #endif
-
+    
     if (AmIBeingDebugged()) {
-        crashReportingEnabled = NO;
+        self.crashReportingEnabled = NO;
         ApigeeLogWarn(kApigeeMonitoringClientTag, @"Disabling crash reporting under debugger");
     }
     
-    if (crashReportingEnabled) {
+    if (self.crashReportingEnabled) {
         
         // look for other crash reporters that may be present
         NSString* otherCrashReporterClasses =
-            @"PLCrashReporter|BITCrashManager|BugSenseCrashController|Crittercism|KSCrash|CrashController";
+        @"PLCrashReporter|BITCrashManager|BugSenseCrashController|Crittercism|KSCrash|CrashController";
         NSArray* listOtherCrashReporterClasses = [otherCrashReporterClasses componentsSeparatedByString:@"|"];
         
         for( NSString* crashReporterClass in listOtherCrashReporterClasses )
@@ -403,16 +419,16 @@ static bool AmIBeingDebugged(void)
     } else {
         ApigeeLogInfo(kApigeeMonitoringClientTag, @"Crash reporting disabled");
     }
-
+    
     ApigeeLogInfo(kApigeeMonitoringClientTag, @"INIT_AGENT");
-
+    
     [self applyConfig];
     
     if (autoInterceptNetworkCalls) {
         [self enableInterceptedNetworkingCalls];
     }
     
-    return self;
+    self.isInitialized = YES;
 }
 
 #pragma mark - Property implementations
@@ -428,8 +444,6 @@ static bool AmIBeingDebugged(void)
 {
     // are we disabled?
     if (!self.activeSettings.monitoringDisabled) {
-        
-        self.isInitialized = YES;
         
         //coin flip for sample rate
         const uint32_t r = arc4random_uniform(100);
@@ -977,7 +991,7 @@ static bool AmIBeingDebugged(void)
     } else {
         NSLog( @"error: unable to encode crash notification to JSON. %@", clientMetricsEnvelope );
         if (error != nil) {
-            NSLog( @"encoding error: %@", [error localizedDescription]);
+            NSLog( @"error: encoding crash report payload: %@", [error localizedDescription]);
         } else {
             NSLog( @"no error given");
         }
@@ -1175,57 +1189,85 @@ replacementInstanceMethod:(SEL) replacementSelector
 
 - (NSDate*)timeStartup
 {
-    return self.startupTime;
+    if (self.isInitialized) {
+        return self.startupTime;
+    } else {
+        return nil;
+    }
 }
 
 - (uint64_t)timeStartupMach
 {
-    return self.startupTimeMach;
+    if (self.isInitialized) {
+        return self.startupTimeMach;
+    } else {
+        return 0;
+    }
 }
 
 - (uint64_t)timeLastUpload
 {
-    return self.lastUploadTime;
+    if (self.isInitialized) {
+        return self.lastUploadTime;
+    } else {
+        return 0;
+    }
 }
 
 - (uint64_t)timeLastNetworkTransmission
 {
-    return self.lastNetworkTransmissionTime;
+    if (self.isInitialized) {
+        return self.lastNetworkTransmissionTime;
+    } else {
+        return 0;
+    }
 }
 
 - (NSDate*)machTimeToDate:(uint64_t)mach_time
 {
-    const uint64_t startupMachTime = self.timeStartupMach;
-    const uint64_t elapsedMachTime = mach_time - startupMachTime;
+    if (self.isInitialized) {
+        const uint64_t startupMachTime = self.timeStartupMach;
+        const uint64_t elapsedMachTime = mach_time - startupMachTime;
         
-    if (s_timebase_info.denom == 0) {
-        (void) mach_timebase_info(&s_timebase_info);
+        if (s_timebase_info.denom == 0) {
+            (void) mach_timebase_info(&s_timebase_info);
+        }
+        
+        // mach_absolute_time() returns billionth of seconds,
+        // so divide by one million to get milliseconds
+        const double elapsedMillis = (elapsedMachTime * s_timebase_info.numer) /
+                                        (kOneMillion * s_timebase_info.denom);
+        
+        const NSTimeInterval timeInterval = elapsedMillis / 1000;
+        
+        return [self.timeStartup dateByAddingTimeInterval:timeInterval];
+    } else {
+        return nil;
     }
-        
-    // mach_absolute_time() returns billionth of seconds,
-    // so divide by one million to get milliseconds
-    const double elapsedMillis = (elapsedMachTime * s_timebase_info.numer) /
-                                    (kOneMillion * s_timebase_info.denom);
-        
-    const NSTimeInterval timeInterval = elapsedMillis / 1000;
-        
-    return [self.timeStartup dateByAddingTimeInterval:timeInterval];
 }
 
 - (uint64_t)dateToMachTime:(NSDate*)date
 {
-    // calculate elapsed time (in seconds) from date argument from our startup time
-    NSTimeInterval intervalElapsedSeconds = [date timeIntervalSinceDate:self.timeStartup];
-    const double elapsedMillis = intervalElapsedSeconds * 1000;
-    const uint64_t elapsedMachTime = (elapsedMillis *
-                                      (kOneMillion * s_timebase_info.denom)) /
-                                        s_timebase_info.numer;
-    return self.timeStartupMach + elapsedMachTime;
+    if (self.isInitialized) {
+        // calculate elapsed time (in seconds) from date argument from our startup time
+        NSTimeInterval intervalElapsedSeconds = [date timeIntervalSinceDate:self.timeStartup];
+        const double elapsedMillis = intervalElapsedSeconds * 1000;
+        const uint64_t elapsedMachTime = (elapsedMillis *
+                                          (kOneMillion * s_timebase_info.denom)) /
+                                            s_timebase_info.numer;
+        return self.timeStartupMach + elapsedMachTime;
+    } else {
+        return 0;
+    }
 }
 
 - (BOOL)isParticipatingInSample
 {
-    return self.isPartOfSample;
+    if (self.isInitialized) {
+        return self.isPartOfSample;
+    } else {
+        return NO;  // at least not yet
+    }
 }
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification
@@ -1239,11 +1281,13 @@ replacementInstanceMethod:(SEL) replacementSelector
 
 - (void)applicationDidReceiveMemoryWarning:(NSNotification *)notification
 {
-    ApigeeLogDebug(kApigeeMonitoringClientTag, @"app received memory warning");
+    if (self.isInitialized) {
+        ApigeeLogDebug(kApigeeMonitoringClientTag, @"app received memory warning");
     
-    // throw away any performance metrics that we have to reduce the
-    // memory footprint
-    [[ApigeeQueue networkMetricsQueue] removeAllObjects];
+        // throw away any performance metrics that we have to reduce the
+        // memory footprint
+        [[ApigeeQueue networkMetricsQueue] removeAllObjects];
+    }
 }
 
 - (void)applicationSignificantTimeChange:(NSNotification *)notification
@@ -1253,14 +1297,16 @@ replacementInstanceMethod:(SEL) replacementSelector
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification
 {
-    // is monitoring not disabled?
-    if (!self.activeSettings.monitoringDisabled) {
-        // re-establish our timer
-        self.timer = [[ApigeeIntervalTimer alloc] init];
-        [self.timer fireOnInterval:self.activeSettings.agentUploadIntervalInSeconds
-                            target:self
-                          selector:@selector(timerFired)
-                           repeats:NO];
+    if (self.isInitialized) {
+        // is monitoring not disabled?
+        if (!self.activeSettings.monitoringDisabled) {
+            // re-establish our timer
+            self.timer = [[ApigeeIntervalTimer alloc] init];
+            [self.timer fireOnInterval:self.activeSettings.agentUploadIntervalInSeconds
+                                target:self
+                              selector:@selector(timerFired)
+                               repeats:NO];
+        }
     }
 }
 
@@ -1300,19 +1346,31 @@ replacementInstanceMethod:(SEL) replacementSelector
 
 - (NSArray*)customConfigPropertyKeysForCategory:(NSString*)category
 {
-    return [self.dictCustomConfigKeysByCategory valueForKey:category];
+    if (self.isInitialized) {
+        return [self.dictCustomConfigKeysByCategory valueForKey:category];
+    } else {
+        return nil;
+    }
 }
 
 - (NSString*)customConfigPropertyValueForKey:(NSString*)key
 {
-    return [self.dictCustomConfigValuesByKey valueForKey:key];
+    if (self.isInitialized) {
+        return [self.dictCustomConfigValuesByKey valueForKey:key];
+    } else {
+        return nil;
+    }
 }
 
 - (NSString*)customConfigPropertyValueForKey:(NSString *)key
                                  forCategory:(NSString*)categoryName
 {
-    NSString *dictKey = [self dictionaryKeyForCategory:categoryName key:key];
-    return [self.dictCustomConfigValuesByCategoryAndKey valueForKey:dictKey];
+    if (self.isInitialized) {
+        NSString *dictKey = [self dictionaryKeyForCategory:categoryName key:key];
+        return [self.dictCustomConfigValuesByCategoryAndKey valueForKey:dictKey];
+    } else {
+        return nil;
+    }
 }
 
 - (BOOL)uploadMetrics
@@ -1446,9 +1504,11 @@ replacementInstanceMethod:(SEL) replacementSelector
 {
     BOOL listenerAdded = NO;
     
-    if( self.listListeners ) {
-        [self.listListeners addObject:uploadListener];
-        listenerAdded = YES;
+    if (self.isInitialized) {
+        if( self.listListeners ) {
+            [self.listListeners addObject:uploadListener];
+            listenerAdded = YES;
+        }
     }
     
     return listenerAdded;
@@ -1458,114 +1518,126 @@ replacementInstanceMethod:(SEL) replacementSelector
 {
     BOOL listenerRemoved = NO;
     
-    if( self.listListeners ) {
-        if( [self.listListeners containsObject:uploadListener] ) {
-            [self.listListeners removeObject:uploadListener];
-            listenerRemoved = YES;
+    if (self.isInitialized) {
+        if( self.listListeners ) {
+            if( [self.listListeners containsObject:uploadListener] ) {
+                [self.listListeners removeObject:uploadListener];
+                listenerRemoved = YES;
+            }
         }
     }
     
     return listenerRemoved;
 }
 
+#pragma mark Support for NSURLSession
+
 - (id)generateIdentifierForDataTask
 {
     NSDate* identifier = nil;
-    [self.lockDataTasks lock];
-    identifier = [NSDate date];
-    [self.lockDataTasks unlock];
+    
+    if (self.isInitialized) {
+        [self.lockDataTasks lock];
+        identifier = [NSDate date];
+        [self.lockDataTasks unlock];
+    }
+    
     return identifier;
 }
 
 - (void)registerDataTaskInfo:(ApigeeNSURLSessionDataTaskInfo*)dataTaskInfo
               withIdentifier:(id)identifier
 {
-    [self.lockDataTasks lock];
-    [self.dictRegisteredDataTasks setObject:dataTaskInfo
-                                     forKey:identifier];
-    [self.lockDataTasks unlock];
+    if (self.isInitialized) {
+        [self.lockDataTasks lock];
+        [self.dictRegisteredDataTasks setObject:dataTaskInfo
+                                         forKey:identifier];
+        [self.lockDataTasks unlock];
+    }
 }
 
 - (ApigeeNSURLSessionDataTaskInfo*)dataTaskInfoForIdentifier:(id)identifier
 {
     ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo = nil;
     
-    [self.lockDataTasks lock];
-    sessionDataTaskInfo = [self.dictRegisteredDataTasks objectForKey:identifier];
-    [self.lockDataTasks unlock];
-    
+    if (self.isInitialized) {
+        [self.lockDataTasks lock];
+        sessionDataTaskInfo = [self.dictRegisteredDataTasks objectForKey:identifier];
+        [self.lockDataTasks unlock];
+    }
+        
     return sessionDataTaskInfo;
 }
 
 - (ApigeeNSURLSessionDataTaskInfo*)dataTaskInfoForTask:(NSURLSessionTask*)task
 {
     ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo = nil;
-    
-    [self.lockDataTasks lock];
-    NSArray* listAllValues = [self.dictRegisteredDataTasks allValues];
-    for( ApigeeNSURLSessionDataTaskInfo* taskInfo in listAllValues )
-    {
-        if( taskInfo.sessionDataTask == task )
+ 
+    if (self.isInitialized) {
+        [self.lockDataTasks lock];
+        NSArray* listAllValues = [self.dictRegisteredDataTasks allValues];
+        for( ApigeeNSURLSessionDataTaskInfo* taskInfo in listAllValues )
         {
-            sessionDataTaskInfo = taskInfo;
-            break;
+            if( taskInfo.sessionDataTask == task )
+            {
+                sessionDataTaskInfo = taskInfo;
+                break;
+            }
         }
+        [self.lockDataTasks unlock];
     }
-    [self.lockDataTasks unlock];
     
     return sessionDataTaskInfo;
 }
 
 - (void)removeDataTaskInfoForIdentifier:(id)identifier
 {
-    [self.lockDataTasks lock];
-    [self.dictRegisteredDataTasks removeObjectForKey:identifier];
-    [self.lockDataTasks unlock];
+    if (self.isInitialized) {
+        [self.lockDataTasks lock];
+        [self.dictRegisteredDataTasks removeObjectForKey:identifier];
+        [self.lockDataTasks unlock];
+    }
 }
 
 - (void)removeDataTaskInfoForTask:(NSURLSessionTask*)task
 {
-    [self.lockDataTasks lock];
-    NSArray* listAllValues = [self.dictRegisteredDataTasks allValues];
-    for( ApigeeNSURLSessionDataTaskInfo* taskInfo in listAllValues )
-    {
-        if( taskInfo.sessionDataTask == task )
+    if (self.isInitialized) {
+        [self.lockDataTasks lock];
+        NSArray* listAllValues = [self.dictRegisteredDataTasks allValues];
+        for( ApigeeNSURLSessionDataTaskInfo* taskInfo in listAllValues )
         {
-            [self.dictRegisteredDataTasks removeObjectForKey:taskInfo.key];
-            break;
+            if( taskInfo.sessionDataTask == task )
+            {
+                [self.dictRegisteredDataTasks removeObjectForKey:taskInfo.key];
+                break;
+            }
         }
+        [self.lockDataTasks unlock];
     }
-    [self.lockDataTasks unlock];
 }
 
 - (void)setStartTime:(NSDate*)startTime forSessionDataTask:(NSURLSessionDataTask*)dataTask
 {
-    //NSLog(@"+++++ ApigeeMonitoringClient setStartTime:forSessionDataTask:");
-    
-    if( startTime && dataTask )
-    {
-        [self.lockDataTasks lock];
-        NSArray* listDataTaskInfoKeys = [self.dictRegisteredDataTasks allKeys];
-    
-        for( NSDate* date in listDataTaskInfoKeys )
+    if (self.isInitialized) {
+        if( startTime && dataTask )
         {
-            ApigeeNSURLSessionDataTaskInfo* dataTaskInfo =
-                [self.dictRegisteredDataTasks objectForKey:date];
-            if( dataTaskInfo && (dataTaskInfo.sessionDataTask == dataTask) )
-            {
-                //NSLog(@"ApigeeMonitoringClient setStartTime assigning startTime for dataTask=%@",dataTaskInfo.sessionDataTask);
-                dataTaskInfo.startTime = startTime;
-                //[dataTaskInfo debugPrint];
-                [self.lockDataTasks unlock];
-                return;
-            }
-        }
-        [self.lockDataTasks unlock];
-        
-        //NSLog(@"ApigeeMonitoringClient setStartTime error (no match for dataTask)");
-    }
+            [self.lockDataTasks lock];
+            NSArray* listDataTaskInfoKeys = [self.dictRegisteredDataTasks allKeys];
     
-    //NSLog(@"----- ApigeeMonitoringClient setStartTime:forSessionDataTask:");
+            for( NSDate* date in listDataTaskInfoKeys )
+            {
+                ApigeeNSURLSessionDataTaskInfo* dataTaskInfo =
+                    [self.dictRegisteredDataTasks objectForKey:date];
+                if( dataTaskInfo && (dataTaskInfo.sessionDataTask == dataTask) )
+                {
+                    dataTaskInfo.startTime = startTime;
+                    [self.lockDataTasks unlock];
+                    return;
+                }
+            }
+            [self.lockDataTasks unlock];
+        }
+    }
 }
 
 @end
@@ -1575,21 +1647,21 @@ replacementInstanceMethod:(SEL) replacementSelector
 
 - (void) updateLastNetworkTransmissionTime:(NSString*) networkTransmissionTime
 {
-    if ([networkTransmissionTime length] > 0) {
-        // the time is represented in milliseconds as a string
+    if (self.isInitialized) {
+        if ([networkTransmissionTime length] > 0) {
+            // the time is represented in milliseconds as a string
         
-        // get the value as a 64-bit integer
-        int64_t msNetworkTransTime = [networkTransmissionTime longLongValue];
+            // get the value as a 64-bit integer
+            int64_t msNetworkTransTime = [networkTransmissionTime longLongValue];
         
-        // convert that to an NSDate
-        NSDate *dateNetworkTransTime = [NSDate dateFromMilliseconds:msNetworkTransTime];
+            // convert that to an NSDate
+            NSDate *dateNetworkTransTime = [NSDate dateFromMilliseconds:msNetworkTransTime];
         
-        //NSLog(@"updating last network transmission time to %@", dateNetworkTransTime);
+            // convert date to mach time
+            uint64_t machTime = [self dateToMachTime:dateNetworkTransTime];
         
-        // convert date to mach time
-        uint64_t machTime = [self dateToMachTime:dateNetworkTransTime];
-        
-        self.lastNetworkTransmissionTime = machTime;
+            self.lastNetworkTransmissionTime = machTime;
+        }
     }
 }
 
