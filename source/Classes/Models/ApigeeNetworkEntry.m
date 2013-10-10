@@ -123,8 +123,6 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
 
 - (void)populateStartTime:(NSDate*)started ended:(NSDate*)ended
 {
-    //NSLog(@"ApigeeNetworkEntry populateStartTime:ended: called");
-    //NSLog(@"started=%@, ended=%@", started, ended);
     NSDate *copyOfStartedDate = [started copy];
     NSString* startedTimestampMillis = [NSDate stringFromMilliseconds:[started dateAsMilliseconds]];
     self.timeStamp = startedTimestampMillis;
