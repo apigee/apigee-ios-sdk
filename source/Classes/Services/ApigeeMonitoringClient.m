@@ -133,6 +133,7 @@ static bool AmIBeingDebugged(void)
 @property (assign) BOOL autoInterceptNetworkCalls;
 @property (assign) BOOL interceptNSURLSessionCalls;
 @property (assign) BOOL showDebuggingInfo;
+@property (assign) BOOL crashReporterInitialized;
 
 - (void) retrieveAndApplyServerConfig;
 - (BOOL) uploadEvents;
@@ -170,6 +171,7 @@ static bool AmIBeingDebugged(void)
 @synthesize autoInterceptNetworkCalls;
 @synthesize interceptNSURLSessionCalls;
 @synthesize showDebuggingInfo;
+@synthesize crashReporterInitialized;
 
 
 // this method is sometimes handy for debugging
@@ -333,6 +335,7 @@ static bool AmIBeingDebugged(void)
     
     self.isActive = NO;
     self.isInitialized = NO;
+    self.crashReporterInitialized = NO;
     self.startupTimeMach = mach_absolute_time();
     self.startupTime = [NSDate date];
     
@@ -374,6 +377,43 @@ static bool AmIBeingDebugged(void)
     self.reachability = [ApigeeReachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
     
+    NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
+    [notifyCenter addObserver:self
+                     selector:@selector(networkChanged:)
+                         name:kReachabilityChangedNotification
+                       object:nil];
+    
+    [notifyCenter addObserver:self
+                     selector:@selector(applicationDidEnterBackground:)
+                         name:UIApplicationDidEnterBackgroundNotification
+                       object:nil];
+    
+    [notifyCenter addObserver:self
+                     selector:@selector(applicationDidReceiveMemoryWarning:)
+                         name:UIApplicationDidReceiveMemoryWarningNotification
+                       object:nil];
+    
+    [notifyCenter addObserver:self
+                     selector:@selector(applicationSignificantTimeChange:)
+                         name:UIApplicationSignificantTimeChangeNotification
+                       object:nil];
+    
+    [notifyCenter addObserver:self
+                     selector:@selector(applicationWillEnterForeground:)
+                         name:UIApplicationWillEnterForegroundNotification
+                       object:nil];
+    
+    [notifyCenter addObserver:self
+                     selector:@selector(applicationWillResignActive:)
+                         name:UIApplicationWillResignActiveNotification
+                       object:nil];
+    
+    [notifyCenter addObserver:self
+                     selector:@selector(applicationWillTerminate:)
+                         name:UIApplicationWillTerminateNotification
+                       object:nil];
+
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self retrieveAndApplyServerConfig];
     });
@@ -400,56 +440,60 @@ static bool AmIBeingDebugged(void)
 
 - (void) retrieveAndApplyServerConfig
 {
-    [self updateConfig];
+    if ([self updateConfig]) {
     
 #ifdef __arm64__
-    if (self.crashReportingEnabled) {
-        self.crashReportingEnabled = NO;
-        ApigeeLogWarn(kApigeeMonitoringClientTag, @"Disabling crash reporting on arm64 (not supported yet)");
-    }
+        if (self.crashReportingEnabled) {
+            self.crashReportingEnabled = NO;
+            ApigeeLogWarn(kApigeeMonitoringClientTag, @"Disabling crash reporting on arm64 (not supported yet)");
+        }
 #endif
     
-    if (AmIBeingDebugged()) {
-        self.crashReportingEnabled = NO;
-        ApigeeLogWarn(kApigeeMonitoringClientTag, @"Disabling crash reporting under debugger");
-    }
+        if (AmIBeingDebugged()) {
+            self.crashReportingEnabled = NO;
+            ApigeeLogWarn(kApigeeMonitoringClientTag, @"Disabling crash reporting under debugger");
+        }
     
-    if (self.crashReportingEnabled) {
+        if (self.crashReportingEnabled) {
         
-        // look for other crash reporters that may be present
-        NSString* otherCrashReporterClasses =
-        @"PLCrashReporter|BITCrashManager|BugSenseCrashController|Crittercism|KSCrash|CrashController";
-        NSArray* listOtherCrashReporterClasses = [otherCrashReporterClasses componentsSeparatedByString:@"|"];
+            // look for other crash reporters that may be present
+            NSString* otherCrashReporterClasses =
+            @"PLCrashReporter|BITCrashManager|BugSenseCrashController|Crittercism|KSCrash|CrashController";
+            NSArray* listOtherCrashReporterClasses = [otherCrashReporterClasses componentsSeparatedByString:@"|"];
         
-        for( NSString* crashReporterClass in listOtherCrashReporterClasses )
-        {
-            Class clsCrashReporter = NSClassFromString(crashReporterClass);
-            if (nil != clsCrashReporter) {
-                ApigeeLogWarn(kApigeeMonitoringClientTag, @"Multiple crash reporters detected");
-                break;
+            for( NSString* crashReporterClass in listOtherCrashReporterClasses )
+            {
+                Class clsCrashReporter = NSClassFromString(crashReporterClass);
+                if (nil != clsCrashReporter) {
+                    ApigeeLogWarn(kApigeeMonitoringClientTag, @"Multiple crash reporters detected");
+                    break;
+                }
             }
-        }
         
-        NSError *error = nil;
+            NSError *error = nil;
         
-        if (![self enableCrashReporter:&error] || (nil !=error)) {
-            ApigeeLogAssert(kApigeeMonitoringClientTag, @"Failed to start the crash reporter: %@", error);
-        } else if ([self hasPendingCrashReports]){
-            [self uploadCrashReports];
+            if( ! self.crashReporterInitialized ) {
+                if (![self enableCrashReporter:&error] || (nil !=error)) {
+                    ApigeeLogAssert(kApigeeMonitoringClientTag, @"Failed to start the crash reporter: %@", error);
+                } else if ([self hasPendingCrashReports]){
+                    [self uploadCrashReports];
+                    self.crashReporterInitialized = YES;
+                }
+            }
+        } else {
+            ApigeeLogInfo(kApigeeMonitoringClientTag, @"Crash reporting disabled");
         }
-    } else {
-        ApigeeLogInfo(kApigeeMonitoringClientTag, @"Crash reporting disabled");
+    
+        ApigeeLogInfo(kApigeeMonitoringClientTag, @"INIT_AGENT");
+    
+        [self applyConfig];
+    
+        if (autoInterceptNetworkCalls) {
+            [self enableInterceptedNetworkingCalls];
+        }
+    
+        self.isInitialized = YES;
     }
-    
-    ApigeeLogInfo(kApigeeMonitoringClientTag, @"INIT_AGENT");
-    
-    [self applyConfig];
-    
-    if (autoInterceptNetworkCalls) {
-        [self enableInterceptedNetworkingCalls];
-    }
-    
-    self.isInitialized = YES;
 }
 
 #pragma mark - Property implementations
@@ -469,48 +513,20 @@ static bool AmIBeingDebugged(void)
         //coin flip for sample rate
         const uint32_t r = arc4random_uniform(100);
         
+        if (self.showDebuggingInfo) {
+            NSString* debugMsg =
+                [NSString stringWithFormat:@"configuration sampling rate=%d",
+                 self.activeSettings.samplingRate];
+            [self printDebugMessage:debugMsg];
+            debugMsg = [NSString stringWithFormat:@"coin flip result = %d",
+                        r];
+            [self printDebugMessage:debugMsg];
+        }
+        
         if (r < self.activeSettings.samplingRate) {
             self.isPartOfSample = YES;
             self.isActive = YES;
-            
-            NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
-            [notifyCenter addObserver:self
-                             selector:@selector(networkChanged:)
-                                 name:kReachabilityChangedNotification
-                               object:nil];
-            
-            [notifyCenter addObserver:self
-                             selector:@selector(applicationDidEnterBackground:)
-                                 name:UIApplicationDidEnterBackgroundNotification
-                               object:nil];
-            
-            [notifyCenter addObserver:self
-                             selector:@selector(applicationDidReceiveMemoryWarning:)
-                                 name:UIApplicationDidReceiveMemoryWarningNotification
-                               object:nil];
-            
-            [notifyCenter addObserver:self
-                             selector:@selector(applicationSignificantTimeChange:)
-                                 name:UIApplicationSignificantTimeChangeNotification
-                               object:nil];
-            
-            [notifyCenter addObserver:self
-                             selector:@selector(applicationWillEnterForeground:)
-                                 name:UIApplicationWillEnterForegroundNotification
-                               object:nil];
-            
-            [notifyCenter addObserver:self
-                             selector:@selector(applicationWillResignActive:)
-                                 name:UIApplicationWillResignActiveNotification
-                               object:nil];
-            
-            [notifyCenter addObserver:self
-                             selector:@selector(applicationWillTerminate:)
-                                 name:UIApplicationWillTerminateNotification
-                               object:nil];
-            
             [self reset];
-            
             ApigeeLogInfo(kApigeeMonitoringClientTag, @"Configuration values applied");
             
         } else {
@@ -600,8 +616,10 @@ static bool AmIBeingDebugged(void)
     }
 }
 
-- (void) updateConfig
+- (BOOL) updateConfig
 {
+    BOOL isSuccess = NO;
+    
     NSString* jsonConfig = [self retrieveConfigFromServer];
     if( jsonConfig != nil ) {
         
@@ -622,6 +640,9 @@ static bool AmIBeingDebugged(void)
                 }
             
                 if( lastModifiedDateValue > 0 ) {
+                    
+                    isSuccess = YES;
+                    
                     NSDate* serverLastModifiedDate = [NSDate dateFromMilliseconds:lastModifiedDateValue];
                     
                     if( self.activeSettings && self.activeSettings.appLastModifiedDate ) {
@@ -650,6 +671,8 @@ static bool AmIBeingDebugged(void)
         // request to read config from server failed
         SystemError(kApigeeMonitoringClientTag, @"Unable to read configuration from server");
     }
+    
+    return isSuccess;
 }
 
 //note: this can be called by async background thread
@@ -941,11 +964,27 @@ static bool AmIBeingDebugged(void)
 
 - (void) networkChanged:(NSNotification *) notice
 {
+    NSLog(@"networkChanged:");
+    
     if (self.showDebuggingInfo) {
         [self printDebugMessage:@"network status changed"];
     }
+
+    self.activeSettings.activeNetworkStatus =
+        [self.reachability currentReachabilityStatus];
     
-    self.activeSettings.activeNetworkStatus = [self.reachability currentReachabilityStatus];
+    // do we have network connectivity?
+    if ([self isDeviceNetworkConnected] && !self.isInitialized) {
+        NSLog(@"uninitialized monitoring client. now have internet connectivity");
+        NSLog(@"attempting initialization");
+        if ([NSThread isMainThread]) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [self retrieveAndApplyServerConfig];
+            });
+        } else {
+            [self retrieveAndApplyServerConfig];
+        }
+    }
 }
 
 - (void)populateClientMetricsEnvelope:(NSMutableDictionary*)clientMetricsEnvelope
@@ -1538,9 +1577,10 @@ replacementInstanceMethod:(SEL) replacementSelector
         // are we currently connected to network?
         if( [self isDeviceNetworkConnected] ) {
             ApigeeLogInfo(kApigeeMonitoringClientTag, @"Manually refreshing configuration now");
-            [self updateConfig];
-            [self applyConfig];
-            configurationUpdated = YES;
+            if ([self updateConfig]) {
+                [self applyConfig];
+                configurationUpdated = YES;
+            }
         } else {
             ApigeeLogInfo(kApigeeMonitoringClientTag, @"refreshConfiguration called, device not connected to network");
         }
