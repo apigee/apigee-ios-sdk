@@ -26,7 +26,9 @@ Add the following frameworks:
 
 Technical Details
 -----------------
-- The majority of the Objective-C classes make use of ARC. This framework is targeted for iOS 5.0 and newer.
+- The majority of the Objective-C classes make use of ARC.
+- Targeted for iOS 5.0 and newer.
+- Requires Xcode 5.0 (or newer) to build from source.
 
 
 Building From Source
@@ -40,7 +42,8 @@ To build from source, issue this command from the /source directory of your repo
 
 Compatibility with iOS 7
 ------------------------
-We have done some testing with iOS 7 and have not encountered any problems. There is some new functionality related to networking that will be added.
+- We have tested with iOS 7 and there are no known incompatibilities.
+- We do have support for NSURLSession in our capture of network performance metrics.
 
 
 Explicitly Setting Xcode Version
