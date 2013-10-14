@@ -23,40 +23,21 @@ static const char *kHardwareMachineType = "hw.machine";
     }
     
     return NO;
-    
-    /*
-    int error = 0;
-    int value = 0;
-    size_t length = sizeof(value);
-    
-    error = sysctlbyname("hw.cpu64bit_capable", &value, &length, NULL, 0);
-    
-    if(error != 0) {
-        error = sysctlbyname("hw.optional.x86_64", &value, &length, NULL, 0); //x86 specific
-    }
-    
-    if(error != 0) {
-        error = sysctlbyname("hw.optional.64bitops", &value, &length, NULL, 0); //PPC specific
-    }
-    
-    BOOL is64bit = NO;
-    
-    if (error == 0) {
-        is64bit = value == 1;
-    }
-    
-    return is64bit;
-     */
 }
 
 + (NSString *) platformStringRaw
 {
+    NSString* platform = nil;
     size_t size;
     sysctlbyname(kHardwareMachineType, NULL, &size, NULL, 0);
-    char *machine = malloc(size);
-    sysctlbyname(kHardwareMachineType, machine, &size, NULL, 0);
-    NSString *platform = [NSString stringWithUTF8String:machine];
-    free(machine);
+    
+    if (size > 0) {
+        char *machine = malloc(size);
+        sysctlbyname(kHardwareMachineType, machine, &size, NULL, 0);
+        platform = [NSString stringWithUTF8String:machine];
+        free(machine);
+    }
+    
     return platform;
 }
 
@@ -64,7 +45,8 @@ static const char *kHardwareMachineType = "hw.machine";
 {
     NSString *platform = [self platformStringRaw];
 
-    //TODO: add identifiers for iPhone5s (and iPhone5c, if it has one)
+    // see the following web page for detailed information on the various
+    // hardware models: http://theiphonewiki.com/wiki/Models
 
     // iPhone
     if ([platform hasPrefix:@"iPhone"]) {
@@ -88,6 +70,14 @@ static const char *kHardwareMachineType = "hw.machine";
             platform = @"iPhone 5 (GSM/LTE)";
         } else if ([platform isEqualToString:@"iPhone5,2"]) {
             platform = @"iPhone 5 (CDMA/LTE)";
+        } else if ([platform isEqualToString:@"iPhone5,3"]) {
+            platform = @"iPhone 5c (GSM)";
+        } else if ([platform isEqualToString:@"iPhone5,4"]) {
+            platform = @"iPhone 5c (Global)";
+        } else if ([platform isEqualToString:@"iPhone6,1"]) {
+            platform = @"iPhone 5s (GSM)";
+        } else if ([platform isEqualToString:@"iPhone6,2"]) {
+            platform = @"iPhone 5s (Global)";
         }
     } else if ([platform hasPrefix:@"iPod"]) {
         if ([platform isEqualToString:@"iPod1,1"]) {
