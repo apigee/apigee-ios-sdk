@@ -23,7 +23,7 @@
     self = [super init];
     if( self )
     {
-        self.monitoringEnabled = NO;
+        self.monitoringEnabled = YES;
         self.crashReportingEnabled = YES;
         self.interceptNetworkCalls = YES;
         self.interceptNSURLSessionCalls = NO;

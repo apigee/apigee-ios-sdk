@@ -12,7 +12,7 @@
 #import "ApigeeMonitoringOptions.h"
 #import "ApigeeDefaultiOSLog.h"
 
-static NSString* kSDKVersion = @"2.0.4-SNAPSHOT";
+static NSString* kSDKVersion = @"2.0.4";
 
 
 @interface ApigeeClient ()
@@ -95,11 +95,9 @@ static NSString* kSDKVersion = @"2.0.4-SNAPSHOT";
                     self.monitoringClient = nil;
                 }
             } else {
-                // The following code will be uncommented once app monitoring goes live
-                /*
-                self.monitoringClient = [[ApigeeMonitoringClient alloc] initWithAppIdentification:self.appIdentification
-                                                                                   dataClient:self.dataClient];
-                 */
+                self.monitoringClient =
+                    [[ApigeeMonitoringClient alloc] initWithAppIdentification:self.appIdentification
+                                                                   dataClient:self.dataClient];
             }
             
             if( self.monitoringClient ) {
