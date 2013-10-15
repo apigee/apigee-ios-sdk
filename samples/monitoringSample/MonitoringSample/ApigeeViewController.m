@@ -112,7 +112,6 @@ static NSString* kLoggingTag = @"Sample App";
     NSString* baseURL = nil;
     
     ApigeeMonitoringOptions* monitoringOptions = [[ApigeeMonitoringOptions alloc] init];
-    monitoringOptions.monitoringEnabled = YES;
     monitoringOptions.autoPromoteLoggedErrors = YES;
     monitoringOptions.interceptNSURLSessionCalls = YES;
     
