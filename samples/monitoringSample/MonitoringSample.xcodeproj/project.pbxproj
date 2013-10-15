@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		635C6E8017ECAADB004F9C9E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635C6E7F17ECAADB004F9C9E /* CoreTelephony.framework */; };
+		63B68FA3180C85CB003424E1 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63B68FA2180C85CB003424E1 /* Settings.bundle */; };
 		63C7BC0E17D791EB00EBF365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC0D17D791EB00EBF365 /* Foundation.framework */; };
 		63C7BC1217D791EB00EBF365 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC1117D791EB00EBF365 /* UIKit.framework */; };
 		63C7BC1817D791EB00EBF365 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63C7BC1617D791EB00EBF365 /* InfoPlist.strings */; };
@@ -16,27 +17,14 @@
 		63C7BC2117D791EB00EBF365 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63C7BC1F17D791EB00EBF365 /* Main.storyboard */; };
 		63C7BC2417D791EB00EBF365 /* ApigeeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7BC2317D791EB00EBF365 /* ApigeeViewController.m */; };
 		63C7BC2617D791EB00EBF365 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63C7BC2517D791EB00EBF365 /* Images.xcassets */; };
-		63C7BC2E17D791EB00EBF365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC0D17D791EB00EBF365 /* Foundation.framework */; };
-		63C7BC2F17D791EB00EBF365 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC1117D791EB00EBF365 /* UIKit.framework */; };
-		63C7BC3717D791EB00EBF365 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63C7BC3517D791EB00EBF365 /* InfoPlist.strings */; };
-		63C7BC3917D791EB00EBF365 /* MonitoringSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C7BC3817D791EB00EBF365 /* MonitoringSampleTests.m */; };
 		63C7BC4517D7B7D900EBF365 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4417D7B7D900EBF365 /* CoreLocation.framework */; };
 		63C7BC4917D7B7E900EBF365 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4817D7B7E800EBF365 /* Security.framework */; };
 		63C7BC4B17D7B7F500EBF365 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		63C7BC3017D791EB00EBF365 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63C7BC0217D791EB00EBF365 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 63C7BC0917D791EB00EBF365;
-			remoteInfo = MonitoringSample;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		635C6E7F17ECAADB004F9C9E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		63B68FA2180C85CB003424E1 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../Settings.bundle; sourceTree = "<group>"; };
 		63C7BC0A17D791EB00EBF365 /* MonitoringSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MonitoringSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63C7BC0D17D791EB00EBF365 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		63C7BC1117D791EB00EBF365 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -50,7 +38,6 @@
 		63C7BC2217D791EB00EBF365 /* ApigeeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ApigeeViewController.h; sourceTree = "<group>"; };
 		63C7BC2317D791EB00EBF365 /* ApigeeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ApigeeViewController.m; sourceTree = "<group>"; };
 		63C7BC2517D791EB00EBF365 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		63C7BC2B17D791EB00EBF365 /* MonitoringSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonitoringSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63C7BC3417D791EB00EBF365 /* MonitoringSampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MonitoringSampleTests-Info.plist"; sourceTree = "<group>"; };
 		63C7BC3617D791EB00EBF365 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		63C7BC3817D791EB00EBF365 /* MonitoringSampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MonitoringSampleTests.m; sourceTree = "<group>"; };
@@ -73,22 +60,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		63C7BC2817D791EB00EBF365 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				63C7BC2F17D791EB00EBF365 /* UIKit.framework in Frameworks */,
-				63C7BC2E17D791EB00EBF365 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		63C7BC0117D791EB00EBF365 = {
 			isa = PBXGroup;
 			children = (
-				635C6E7F17ECAADB004F9C9E /* CoreTelephony.framework */,
 				63C7BC1317D791EB00EBF365 /* MonitoringSample */,
 				63C7BC3217D791EB00EBF365 /* MonitoringSampleTests */,
 				63C7BC0C17D791EB00EBF365 /* Frameworks */,
@@ -100,7 +77,6 @@
 			isa = PBXGroup;
 			children = (
 				63C7BC0A17D791EB00EBF365 /* MonitoringSample.app */,
-				63C7BC2B17D791EB00EBF365 /* MonitoringSampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,6 +84,7 @@
 		63C7BC0C17D791EB00EBF365 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				635C6E7F17ECAADB004F9C9E /* CoreTelephony.framework */,
 				63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */,
 				63C7BC4817D7B7E800EBF365 /* Security.framework */,
 				63C7BC4417D7B7D900EBF365 /* CoreLocation.framework */,
@@ -134,6 +111,7 @@
 		63C7BC1417D791EB00EBF365 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				63B68FA2180C85CB003424E1 /* Settings.bundle */,
 				63C7BC1517D791EB00EBF365 /* MonitoringSample-Info.plist */,
 				63C7BC1617D791EB00EBF365 /* InfoPlist.strings */,
 				63C7BC1917D791EB00EBF365 /* main.m */,
@@ -180,24 +158,6 @@
 			productReference = 63C7BC0A17D791EB00EBF365 /* MonitoringSample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		63C7BC2A17D791EB00EBF365 /* MonitoringSampleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 63C7BC3F17D791EB00EBF365 /* Build configuration list for PBXNativeTarget "MonitoringSampleTests" */;
-			buildPhases = (
-				63C7BC2717D791EB00EBF365 /* Sources */,
-				63C7BC2817D791EB00EBF365 /* Frameworks */,
-				63C7BC2917D791EB00EBF365 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				63C7BC3117D791EB00EBF365 /* PBXTargetDependency */,
-			);
-			name = MonitoringSampleTests;
-			productName = MonitoringSampleTests;
-			productReference = 63C7BC2B17D791EB00EBF365 /* MonitoringSampleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -207,11 +167,6 @@
 				CLASSPREFIX = Apigee;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = Apigee;
-				TargetAttributes = {
-					63C7BC2A17D791EB00EBF365 = {
-						TestTargetID = 63C7BC0917D791EB00EBF365;
-					};
-				};
 			};
 			buildConfigurationList = 63C7BC0517D791EB00EBF365 /* Build configuration list for PBXProject "MonitoringSample" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -227,7 +182,6 @@
 			projectRoot = "";
 			targets = (
 				63C7BC0917D791EB00EBF365 /* MonitoringSample */,
-				63C7BC2A17D791EB00EBF365 /* MonitoringSampleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -237,17 +191,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63B68FA3180C85CB003424E1 /* Settings.bundle in Resources */,
 				63C7BC2617D791EB00EBF365 /* Images.xcassets in Resources */,
 				63C7BC1817D791EB00EBF365 /* InfoPlist.strings in Resources */,
 				63C7BC2117D791EB00EBF365 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		63C7BC2917D791EB00EBF365 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				63C7BC3717D791EB00EBF365 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,23 +211,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		63C7BC2717D791EB00EBF365 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				63C7BC3917D791EB00EBF365 /* MonitoringSampleTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		63C7BC3117D791EB00EBF365 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 63C7BC0917D791EB00EBF365 /* MonitoringSample */;
-			targetProxy = 63C7BC3017D791EB00EBF365 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		63C7BC1617D791EB00EBF365 /* InfoPlist.strings */ = {
@@ -426,52 +357,6 @@
 			};
 			name = Release;
 		};
-		63C7BC4017D791EB00EBF365 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MonitoringSample.app/MonitoringSample";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MonitoringSample/MonitoringSample-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "MonitoringSampleTests/MonitoringSampleTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				VALID_ARCHS = "i386 armv7 armv7s";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		63C7BC4117D791EB00EBF365 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MonitoringSample.app/MonitoringSample";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MonitoringSample/MonitoringSample-Prefix.pch";
-				INFOPLIST_FILE = "MonitoringSampleTests/MonitoringSampleTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				VALID_ARCHS = "i386 armv7 armv7s";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -489,15 +374,6 @@
 			buildConfigurations = (
 				63C7BC3D17D791EB00EBF365 /* Debug */,
 				63C7BC3E17D791EB00EBF365 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		63C7BC3F17D791EB00EBF365 /* Build configuration list for PBXNativeTarget "MonitoringSampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				63C7BC4017D791EB00EBF365 /* Debug */,
-				63C7BC4117D791EB00EBF365 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

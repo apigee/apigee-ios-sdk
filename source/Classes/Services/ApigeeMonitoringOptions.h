@@ -19,5 +19,6 @@
 @property(assign, nonatomic) BOOL autoPromoteLoggedErrors;
 @property(assign, nonatomic) BOOL showDebuggingInfo;
 @property(weak, nonatomic) id<ApigeeUploadListener> uploadListener;
+@property(copy, nonatomic) NSString* customUploadUrl;
 
 @end

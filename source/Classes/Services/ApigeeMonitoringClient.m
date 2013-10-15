@@ -134,6 +134,7 @@ static bool AmIBeingDebugged(void)
 @property (assign) BOOL interceptNSURLSessionCalls;
 @property (assign) BOOL showDebuggingInfo;
 @property (assign) BOOL crashReporterInitialized;
+@property (copy, nonatomic) NSString* customUploadUrl;
 
 - (void) retrieveAndApplyServerConfig;
 - (BOOL) uploadEvents;
@@ -325,6 +326,7 @@ static bool AmIBeingDebugged(void)
         self.autoPromoteLoggedErrors = monitoringOptions.autoPromoteLoggedErrors;
         self.interceptNSURLSessionCalls = monitoringOptions.interceptNSURLSessionCalls;
         self.showDebuggingInfo = monitoringOptions.showDebuggingInfo;
+        self.customUploadUrl = monitoringOptions.customUploadUrl;
     } else {
         self.autoPromoteLoggedErrors = YES;
         self.interceptNSURLSessionCalls = NO;
@@ -1053,9 +1055,16 @@ static bool AmIBeingDebugged(void)
         if( json != nil ) {
             BOOL reachedServerSuccessfully = NO;
             
-            NSData* responseData = [self postString:json
-                                              toUrl:[self metricsUploadURL]];
-        
+            NSData* responseData = nil;
+            
+            if ([self.customUploadUrl length] > 0) {
+                responseData = [self postString:json
+                                          toUrl:self.customUploadUrl];
+            } else {
+                responseData = [self postString:json
+                                          toUrl:[self metricsUploadURL]];
+            }
+            
             if( (nil != responseData) && ([responseData length] > 0) ) {
                 
                 NSString *responseDataAsString =

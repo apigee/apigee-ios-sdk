@@ -16,6 +16,7 @@
 @synthesize autoPromoteLoggedErrors;
 @synthesize showDebuggingInfo;
 @synthesize uploadListener;
+@synthesize customUploadUrl;
 
 - (id)init
 {
@@ -29,6 +30,7 @@
         self.autoPromoteLoggedErrors = YES;
         self.showDebuggingInfo = NO;
         self.uploadListener = nil;
+        self.customUploadUrl = nil;
     }
     
     return self;

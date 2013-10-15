@@ -106,16 +106,80 @@ static NSString* kLoggingTag = @"Sample App";
     ApigeeAppDelegate* appDelegate =
         (ApigeeAppDelegate*) [[UIApplication sharedApplication] delegate];
 
-#error configure your org name and app name here
+#warning configure your org name and app name here
     NSString* orgName = @"<YOUR_ORG_NAME>";
     NSString* appName = @"<YOUR_APP_NAME>";
-    NSString* baseURL = nil; //@"http://apigee-internal-prod.jupiter.apigee.net";
+    NSString* baseURL = nil;
     
     ApigeeMonitoringOptions* monitoringOptions = [[ApigeeMonitoringOptions alloc] init];
     monitoringOptions.monitoringEnabled = YES;
     monitoringOptions.autoPromoteLoggedErrors = YES;
     monitoringOptions.interceptNSURLSessionCalls = YES;
-    //monitoringOptions.showDebuggingInfo = YES;
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSString* key = @"orgName";
+    if ([[defaults valueForKey:key] length] > 0) {
+        orgName = [defaults valueForKey:key];
+    }
+    
+    key = @"appName";
+    if ([[defaults valueForKey:key] length] > 0) {
+        appName = [defaults valueForKey:key];
+    }
+    
+    key = @"baseURL";
+    if ([[defaults valueForKey:key] length] > 0) {
+        baseURL = [defaults valueForKey:key];
+    }
+
+    // monitoring options
+    if ([defaults valueForKey:@"monitoringEnabled"]) {
+        monitoringOptions.monitoringEnabled = [defaults boolForKey:@"monitoringEnabled"];
+    }
+
+    if ([defaults valueForKey:@"crashReportingEnabled"]) {
+        monitoringOptions.crashReportingEnabled = [defaults boolForKey:@"crashReportingEnabled"];
+    }
+
+    if ([defaults valueForKey:@"interceptNetworkCalls"]) {
+        monitoringOptions.interceptNetworkCalls = [defaults boolForKey:@"interceptNetworkCalls"];
+    }
+
+    if ([defaults valueForKey:@"interceptNSURLSessionCalls"]) {
+        monitoringOptions.interceptNSURLSessionCalls = [defaults boolForKey:@"interceptNSURLSessionCalls"];
+    }
+
+    if ([defaults valueForKey:@"autoPromoteLoggedErrors"]) {
+        monitoringOptions.autoPromoteLoggedErrors = [defaults boolForKey:@"autoPromoteLoggedErrors"];
+    }
+    
+    if ([defaults valueForKey:@"showDebuggingInfo"]) {
+        monitoringOptions.showDebuggingInfo = [defaults boolForKey:@"showDebuggingInfo"];
+    }
+    
+    if (([orgName length] == 0) || ([appName length] == 0)) {
+        NSLog(@"error: org name and app name must both have non-empty values");
+    } else {
+        if ([orgName isEqualToString:@"<YOUR_ORG_NAME>"]) {
+            NSLog(@"error: org name is not assigned");
+        }
+        
+        if ([appName isEqualToString:@"<YOUR_APP_NAME>"]) {
+            NSLog(@"error: app name is not assigned");
+        }
+    }
+    
+    NSLog(@"orgName: '%@'", orgName);
+    NSLog(@"appName: '%@'", appName);
+    NSLog(@"baseURL: '%@'", baseURL);
+    NSLog(@"-------------");
+    NSLog(@"monitoringEnabled=%@", monitoringOptions.monitoringEnabled ? @"YES" : @"NO");
+    NSLog(@"crashReportingEnabled=%@", monitoringOptions.crashReportingEnabled ? @"YES" : @"NO");
+    NSLog(@"interceptNetworkCalls=%@", monitoringOptions.interceptNetworkCalls ? @"YES" : @"NO");
+    NSLog(@"interceptNSURLSessionCalls=%@", monitoringOptions.interceptNSURLSessionCalls ? @"YES" : @"NO");
+    NSLog(@"autoPromoteLoggedErrors=%@", monitoringOptions.autoPromoteLoggedErrors ? @"YES" : @"NO");
+    NSLog(@"showDebuggingInfo=%@", monitoringOptions.showDebuggingInfo ? @"YES" : @"NO");
+
     
     appDelegate.apigeeClient = [[ApigeeClient alloc]
                                 initWithOrganizationId:orgName
