@@ -91,6 +91,12 @@ mkdir -p "${ZIP_LIB_DIR}"
 cp -R "${BUILT_FRAMEWORK}" "${ZIP_LIB_DIR}"
 
 
+# have build_release_zip.sh?
+if [ -f "${DEST_ZIP_DIR}/build_release_zip.sh" ]; then
+	# delete it
+	rm "${DEST_ZIP_DIR}/build_release_zip.sh"
+fi
+
 # create the zip file
 cd ${TOPLEVEL_ZIP_DIR} && zip -r -y ${ZIP_FILE_NAME} .
 
