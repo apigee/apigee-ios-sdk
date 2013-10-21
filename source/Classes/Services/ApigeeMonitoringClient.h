@@ -102,7 +102,7 @@
 /**
  Answers the question of whether the device session is participating in the sampling
  of metrics. An app configuration of 100% would cause this method to always return YES,
- while an app configuration of 100% would cause this method to always return NO.
+ while an app configuration of 0% would cause this method to always return NO.
  Intermediate values of sampling percentage will cause a random YES/NO to be returned
  with a probability equal to the sampling percentage configured for the app.
  @return boolean indicating whether device session is participating in metrics sampling
