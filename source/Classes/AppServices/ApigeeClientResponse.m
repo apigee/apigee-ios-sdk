@@ -92,7 +92,7 @@
     }
 }
 
-- (int)entityCount
+- (NSUInteger)entityCount
 {
     return [self.entities count];
 }
@@ -109,7 +109,7 @@
 - (ApigeeEntity*)lastEntity
 {
     if (self.entities != nil) {
-        int numEntities = [self.entities count];
+        NSUInteger numEntities = [self.entities count];
         if (numEntities > 0) {
             return [self.entities objectAtIndex:numEntities-1];
         }

@@ -63,7 +63,7 @@ enum
 
 - (id)initWithDataClient:(ApigeeDataClient*)theDataClient;
 
-- (int)entityCount;
+- (NSUInteger)entityCount;
 - (NSArray*)entities;
 - (ApigeeEntity*)firstEntity;
 - (ApigeeEntity*)lastEntity;

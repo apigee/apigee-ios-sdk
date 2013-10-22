@@ -73,7 +73,7 @@
         [self.dataClient writeLog:@"Error getting collection."];
     } else {
         NSString* theCursor = [response cursor];
-        int count = [response entityCount];
+        NSUInteger count = [response entityCount];
         self.next = [response next];
         self.cursor = theCursor;
         
