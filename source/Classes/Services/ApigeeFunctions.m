@@ -242,7 +242,7 @@ void Apigee_log_assert(const char *tag, const char *message)
         theMessage = [NSString stringWithUTF8String:message];
     }
     
-    ApigeeLogAssert(theTag, theMessage);
+    ApigeeLogAssertMessage(theTag, theMessage);
 }
 
 void Apigee_log_error(const char *tag, const char *message)
@@ -258,7 +258,7 @@ void Apigee_log_error(const char *tag, const char *message)
         theMessage = [NSString stringWithUTF8String:message];
     }
     
-    ApigeeLogError(theTag, theMessage);
+    ApigeeLogErrorMessage(theTag, theMessage);
 }
 
 void Apigee_log_warning(const char *tag, const char *message)
@@ -274,7 +274,7 @@ void Apigee_log_warning(const char *tag, const char *message)
         theMessage = [NSString stringWithUTF8String:message];
     }
     
-    ApigeeLogWarn(theTag, theMessage);
+    ApigeeLogWarnMessage(theTag, theMessage);
 }
 
 void Apigee_log_info(const char *tag, const char *message)
@@ -290,7 +290,7 @@ void Apigee_log_info(const char *tag, const char *message)
         theMessage = [NSString stringWithUTF8String:message];
     }
     
-    ApigeeLogInfo(theTag, theMessage);
+    ApigeeLogInfoMessage(theTag, theMessage);
 }
 
 void Apigee_log_debug(const char *tag, const char *message)
@@ -306,7 +306,7 @@ void Apigee_log_debug(const char *tag, const char *message)
         theMessage = [NSString stringWithUTF8String:message];
     }
     
-    ApigeeLogDebug(theTag, theMessage);
+    ApigeeLogDebugMessage(theTag, theMessage);
 }
 
 void Apigee_log_verbose(const char *tag, const char *message)
@@ -322,7 +322,7 @@ void Apigee_log_verbose(const char *tag, const char *message)
         theMessage = [NSString stringWithUTF8String:message];
     }
     
-    ApigeeLogVerbose(theTag, theMessage);
+    ApigeeLogVerboseMessage(theTag, theMessage);
 }
 
 int Apigee_logging_level()

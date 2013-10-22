@@ -40,6 +40,13 @@ typedef enum {
 + (void) debugFrom:(const char *) function tag:(NSString *) tag format:(NSString *) format, ... NS_FORMAT_FUNCTION(3, 4);
 + (void) verboseFrom:(const char *) function tag:(NSString *) tag format:(NSString *) format, ... NS_FORMAT_FUNCTION(3, 4);
 
++ (void) assertFrom:(const char *) function tag:(NSString *) tag message:(NSString *) message;
++ (void) errorFrom:(const char *) function tag:(NSString *) tag message:(NSString *) message;
++ (void) warnFrom:(const char *) function tag:(NSString *) tag message:(NSString *) message;
++ (void) infoFrom:(const char *) function tag:(NSString *) tag message:(NSString *) message;
++ (void) debugFrom:(const char *) function tag:(NSString *) tag message:(NSString *) message;
++ (void) verboseFrom:(const char *) function tag:(NSString *) tag message:(NSString *) message;
+
 @end
 
 #define ApigeeLogAssert(TAG, ...)  \
@@ -59,3 +66,24 @@ typedef enum {
 
 #define ApigeeLogVerbose(TAG, ...)  \
 [ApigeeLogger verboseFrom:__func__ tag:TAG format:__VA_ARGS__]
+
+
+// Use these variants when the logging content is a single NSString
+#define ApigeeLogAssertMessage(TAG, MESSAGE)  \
+[ApigeeLogger assertFrom:__func__ tag:TAG message:MESSAGE]
+
+#define ApigeeLogErrorMessage(TAG, MESSAGE)  \
+[ApigeeLogger errorFrom:__func__ tag:TAG message:MESSAGE]
+
+#define ApigeeLogWarnMessage(TAG, MESSAGE)  \
+[ApigeeLogger warnFrom:__func__ tag:TAG message:MESSAGE]
+
+#define ApigeeLogInfoMessage(TAG, MESSAGE)  \
+[ApigeeLogger infoFrom:__func__ tag:TAG message:MESSAGE]
+
+#define ApigeeLogDebugMessage(TAG, MESSAGE)  \
+[ApigeeLogger debugFrom:__func__ tag:TAG message:MESSAGE]
+
+#define ApigeeLogVerboseMessage(TAG, MESSAGE)  \
+[ApigeeLogger verboseFrom:__func__ tag:TAG message:MESSAGE]
+

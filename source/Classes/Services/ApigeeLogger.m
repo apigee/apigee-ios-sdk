@@ -139,28 +139,27 @@ static BOOL haveGidAndUid = NO;
 #pragma mark - Internal
 
 + (void) logToASL:(NSString *) sender
-            function:(NSString *) function
-                 tag:(NSString *) tag
-              format:(NSString *) format
-                list:(va_list) args
-               level:(ApigeeLogLevel) level
+         function:(NSString *) function
+              tag:(NSString *) tag
+          message:(NSString *) message
+            level:(ApigeeLogLevel) level
 {
     //note: swap the commented line below to stop output to standard err stream (xcode console)
     //aslclient client = asl_open([sender UTF8String], [tag UTF8String], ASL_OPT_NO_REMOTE);
     aslclient client = asl_open([sender UTF8String], [tag UTF8String], ASL_OPT_STDERR | ASL_OPT_NO_REMOTE);
-
+    
     if (client == NULL) {
         SystemDebug(@"IO_Diagnostics",@"Unable to access ASL");
         return;
     }
-
+    
     //note: ASL doesn't seem to honor this call, it will still drop anything below ASL_LEVEL_NOTICE
     asl_set_filter(client, ASL_FILTER_MASK_UPTO(ASL_LEVEL_DEBUG));
     
     aslmsg msg = asl_new(ASL_TYPE_MSG);
     
     if (msg != NULL) {
-
+        
         if( ! haveGidAndUid ) {
             NSString * gid = [NSString stringWithFormat:@"%d", getgid()];
             NSString * uid = [NSString stringWithFormat:@"%d", getuid()];
@@ -176,16 +175,18 @@ static BOOL haveGidAndUid = NO;
             asl_set(msg, ASL_KEY_READ_GID, gidValue);
             asl_set(msg, ASL_KEY_READ_UID, uidValue);
         }
-            
+        
         char logLevelAsString[8];
         snprintf(logLevelAsString, 8, "%d", (int) level);
         
         asl_set(msg, kApigeeLogLevelASLMessageKey, logLevelAsString);
         
-        NSString *output = [[NSString alloc] initWithFormat:format arguments:args];
+        NSString *output;
         
         if ([function length] != 0) {
-            output = [NSString stringWithFormat:@"%@ %@", function, output];
+            output = [NSString stringWithFormat:@"%@ %@", function, message];
+        } else {
+            output = message;
         }
         
         asl_log(client, msg, [ApigeeLogger aslLevel:level], "%s", [output UTF8String]);
@@ -195,6 +196,28 @@ static BOOL haveGidAndUid = NO;
     }
     
     asl_close(client);
+}
+
++ (void) logToASL:(NSString *) sender
+            function:(NSString *) function
+                 tag:(NSString *) tag
+              format:(NSString *) format
+                list:(va_list) args
+               level:(ApigeeLogLevel) level
+{
+    NSString *output = nil;
+    NSRange rangePercent = [format rangeOfString:@"%"];
+    if (rangePercent.location != NSNotFound) {
+        output = [[NSString alloc] initWithFormat:format arguments:args];
+    } else {
+        output = format;
+    }
+    
+    [ApigeeLogger logToASL:sender
+                  function:function
+                       tag:tag
+                   message:output
+                     level:level];
 }
 
 + (NSString *) formatFunctionName:(const char *) fname
@@ -302,6 +325,60 @@ static BOOL haveGidAndUid = NO;
     [self logToASL:[ApigeeLogger aslAppSenderKey] function:[self formatFunctionName:function] tag:tag format:format list:args level:kApigeeLogLevelVerbose];
     
     va_end(args);
+}
+
++ (void) assertFrom:(const char *) function tag:(NSString *) tag message:(NSString *) message
+{
+    [self logToASL:[ApigeeLogger aslAppSenderKey]
+          function:[self formatFunctionName:function]
+               tag:tag
+           message:message
+             level:kApigeeLogLevelAssert];
+}
+
++ (void) errorFrom:(const char *) function tag:(NSString *) tag message:(NSString *) message
+{
+    [self logToASL:[ApigeeLogger aslAppSenderKey]
+          function:[self formatFunctionName:function]
+               tag:tag
+           message:message
+             level:kApigeeLogLevelError];
+}
+
++ (void) warnFrom:(const char *) function tag:(NSString *) tag message:(NSString *) message
+{
+    [self logToASL:[ApigeeLogger aslAppSenderKey]
+          function:[self formatFunctionName:function]
+               tag:tag
+           message:message
+             level:kApigeeLogLevelWarn];
+}
+
++ (void) infoFrom:(const char *) function tag:(NSString *) tag message:(NSString *) message
+{
+    [self logToASL:[ApigeeLogger aslAppSenderKey]
+          function:[self formatFunctionName:function]
+               tag:tag
+           message:message
+             level:kApigeeLogLevelInfo];
+}
+
++ (void) debugFrom:(const char *) function tag:(NSString *) tag message:(NSString *) message
+{
+    [self logToASL:[ApigeeLogger aslAppSenderKey]
+          function:[self formatFunctionName:function]
+               tag:tag
+           message:message
+             level:kApigeeLogLevelDebug];
+}
+
++ (void) verboseFrom:(const char *) function tag:(NSString *) tag message:(NSString *) message
+{
+    [self logToASL:[ApigeeLogger aslAppSenderKey]
+          function:[self formatFunctionName:function]
+               tag:tag
+           message:message
+             level:kApigeeLogLevelVerbose];
 }
 
 @end

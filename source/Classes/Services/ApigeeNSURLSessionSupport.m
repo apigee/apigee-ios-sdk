@@ -15,7 +15,6 @@
 #import "ApigeeNSURLSessionDataTaskInfo.h"
 #import "ApigeeNSURLSessionDataDelegateInterceptor.h"
 
-typedef void (^DataTaskCompletionBlock)(NSData*,NSURLResponse*,NSError*);
 
 NSURLSession* (*gOrigNSURLSession_sessionWithConfigurationDelegateAndQueue)(id,SEL,NSURLSessionConfiguration*,id,NSOperationQueue*) = NULL;
 void (*gOrigNSCFLocalDataTask_resume)(id,SEL) = NULL;

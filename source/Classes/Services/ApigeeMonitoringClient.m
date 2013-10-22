@@ -259,12 +259,12 @@ static bool AmIBeingDebugged(void)
 
 - (id) initWithAppIdentification:(ApigeeAppIdentification*)theAppIdentification
                       dataClient:(ApigeeDataClient*)theDataClient
-                  crashReporting: (BOOL) crashReportingEnabled
+                  crashReporting: (BOOL) isCrashReportingEnabled
            interceptNetworkCalls: (BOOL) autoInterceptCalls
                   uploadListener: (id<ApigeeUploadListener>)uploadListener
 {
     ApigeeMonitoringOptions* options = [[ApigeeMonitoringOptions alloc] init];
-    options.crashReportingEnabled = crashReportingEnabled;
+    options.crashReportingEnabled = isCrashReportingEnabled;
     options.interceptNetworkCalls = autoInterceptCalls;
     options.uploadListener = uploadListener;
     
@@ -290,11 +290,11 @@ static bool AmIBeingDebugged(void)
 
 - (id) initWithAppIdentification: (ApigeeAppIdentification*) theAppIdentification
                       dataClient: (ApigeeDataClient*) theDataClient
-                  crashReporting: (BOOL) crashReportingEnabled
+                  crashReporting: (BOOL) isCrashReportingEnabled
            interceptNetworkCalls: (BOOL) interceptCalls
 {
     ApigeeMonitoringOptions* options = [[ApigeeMonitoringOptions alloc] init];
-    options.crashReportingEnabled = crashReportingEnabled;
+    options.crashReportingEnabled = isCrashReportingEnabled;
     options.interceptNetworkCalls = interceptCalls;
     options.uploadListener = nil;
 
@@ -447,13 +447,13 @@ static bool AmIBeingDebugged(void)
 #ifdef __arm64__
         if (self.crashReportingEnabled) {
             self.crashReportingEnabled = NO;
-            ApigeeLogWarn(kApigeeMonitoringClientTag, @"Disabling crash reporting on arm64 (not supported yet)");
+            ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Disabling crash reporting on arm64 (not supported yet)");
         }
 #endif
     
         if (AmIBeingDebugged()) {
             self.crashReportingEnabled = NO;
-            ApigeeLogWarn(kApigeeMonitoringClientTag, @"Disabling crash reporting under debugger");
+            ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Disabling crash reporting under debugger");
         }
     
         if (self.crashReportingEnabled) {
@@ -467,7 +467,7 @@ static bool AmIBeingDebugged(void)
             {
                 Class clsCrashReporter = NSClassFromString(crashReporterClass);
                 if (nil != clsCrashReporter) {
-                    ApigeeLogWarn(kApigeeMonitoringClientTag, @"Multiple crash reporters detected");
+                    ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Multiple crash reporters detected");
                     break;
                 }
             }
@@ -483,10 +483,10 @@ static bool AmIBeingDebugged(void)
                 }
             }
         } else {
-            ApigeeLogInfo(kApigeeMonitoringClientTag, @"Crash reporting disabled");
+            ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Crash reporting disabled");
         }
     
-        ApigeeLogInfo(kApigeeMonitoringClientTag, @"INIT_AGENT");
+        ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"INIT_AGENT");
     
         [self applyConfig];
     
@@ -529,7 +529,7 @@ static bool AmIBeingDebugged(void)
             self.isPartOfSample = YES;
             self.isActive = YES;
             [self reset];
-            ApigeeLogInfo(kApigeeMonitoringClientTag, @"Configuration values applied");
+            ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Configuration values applied");
             
         } else {
             self.isPartOfSample = NO;
@@ -605,15 +605,15 @@ static bool AmIBeingDebugged(void)
             if( error != nil ) {
                 NSString* errorMsg = [NSString stringWithFormat:@"Error retrieving config from server: %@",
                                       [error localizedDescription]];
-                ApigeeLogError(kApigeeMonitoringClientTag,errorMsg);
+                ApigeeLogErrorMessage(kApigeeMonitoringClientTag,errorMsg);
             } else {
-                ApigeeLogError(kApigeeMonitoringClientTag,
+                ApigeeLogErrorMessage(kApigeeMonitoringClientTag,
                                @"Unable to retrieve config from server");
             }
             return nil;
         }
     } else {
-        ApigeeLogDebug(kApigeeMonitoringClientTag, @"Unable to retrieve config from server, device not connected to network");
+        ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"Unable to retrieve config from server, device not connected to network");
         return nil;
     }
 }
@@ -816,7 +816,7 @@ static bool AmIBeingDebugged(void)
                                                              error:&err];
     
     if( err != nil ) {
-        ApigeeLogError(kApigeeMonitoringClientTag, [NSString stringWithFormat:@"%@",[err localizedDescription]]);
+        ApigeeLogError(kApigeeMonitoringClientTag, @"%@",[err localizedDescription]);
     } else {
         if (self.showDebuggingInfo) {
             NSString* responseDataAsString =
@@ -868,7 +868,7 @@ static bool AmIBeingDebugged(void)
                                                              error:&err];
     
     if( err != nil ) {
-        ApigeeLogError(kApigeeMonitoringClientTag, [NSString stringWithFormat:@"%@",[err localizedDescription]]);
+        ApigeeLogError(kApigeeMonitoringClientTag, @"%@",[err localizedDescription]);
     } else {
         if (self.showDebuggingInfo) {
             NSString* responseDataAsString =
@@ -950,7 +950,7 @@ static bool AmIBeingDebugged(void)
             [self printDebugMessage:@"error: unable to upload crash report"];
         }
     } else {
-        ApigeeLogAssert(@"Apigee Data Client",
+        ApigeeLogAssertMessage(kApigeeMonitoringClientTag,
                         @"There was an error with the request to upload the crash report");
     }
     
@@ -1012,7 +1012,7 @@ static bool AmIBeingDebugged(void)
         
         // do we have network connectivity?
         if (Apigee_NotReachable == netStatus) {
-            ApigeeLogVerbose(kApigeeMonitoringClientTag, @"Cannot upload events -- no network connectivity");
+            ApigeeLogVerboseMessage(kApigeeMonitoringClientTag, @"Cannot upload events -- no network connectivity");
             return NO;  // no connectivity, can't upload
         }
 
@@ -1020,7 +1020,7 @@ static bool AmIBeingDebugged(void)
         if (netStatus != Apigee_ReachableViaWiFi) {
             // should we not upload when mobile (not on wifi)?
             if (!self.activeSettings.enableUploadWhenMobile) {
-                ApigeeLogVerbose(kApigeeMonitoringClientTag, @"Cannot upload events -- upload when on mobile network disallowed");
+                ApigeeLogVerboseMessage(kApigeeMonitoringClientTag, @"Cannot upload events -- upload when on mobile network disallowed");
                 return NO;
             }
         }
@@ -1036,7 +1036,7 @@ static bool AmIBeingDebugged(void)
         {
             // no log entries, no network metrics, and we've already sent the
             // initial session data
-            ApigeeLogVerbose(kApigeeMonitoringClientTag, @"Not uploading events -- nothing to send");
+            ApigeeLogVerboseMessage(kApigeeMonitoringClientTag, @"Not uploading events -- nothing to send");
             return NO;
         }
         
@@ -1079,7 +1079,7 @@ static bool AmIBeingDebugged(void)
                 if ([lowerResponseMessage hasPrefix:@"successfully sent"]) {
                     reachedServerSuccessfully = YES;
                     
-                    ApigeeLogVerbose(kApigeeMonitoringClientTag,responseDataAsString);
+                    ApigeeLogVerboseMessage(kApigeeMonitoringClientTag,responseDataAsString);
                     
                     if (!self.sentStartingSessionData) {
                         self.sentStartingSessionData = YES;
@@ -1095,7 +1095,7 @@ static bool AmIBeingDebugged(void)
                 } else {
                     NSString* errorMessage = [NSString stringWithFormat:@"error: %@",
                                               responseDataAsString];
-                    ApigeeLogVerbose(kApigeeMonitoringClientTag,errorMessage);
+                    ApigeeLogVerboseMessage(kApigeeMonitoringClientTag,errorMessage);
                 }
             
                 self.lastUploadTime = mach_absolute_time();
@@ -1451,7 +1451,7 @@ replacementInstanceMethod:(SEL) replacementSelector
 - (void)applicationDidReceiveMemoryWarning:(NSNotification *)notification
 {
     if (self.isInitialized) {
-        ApigeeLogDebug(kApigeeMonitoringClientTag, @"app received memory warning");
+        ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"app received memory warning");
     
         // throw away any performance metrics that we have to reduce the
         // memory footprint
@@ -1550,13 +1550,13 @@ replacementInstanceMethod:(SEL) replacementSelector
     {
         // are we currently connected to network?
         if( [self isDeviceNetworkConnected] ) {
-            ApigeeLogInfo(kApigeeMonitoringClientTag, @"Manually uploading metrics now");
+            ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Manually uploading metrics now");
             metricsUploaded = [self uploadEvents];
         } else {
-            ApigeeLogInfo(kApigeeMonitoringClientTag, @"uploadMetrics called, device not connected to network");
+            ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"uploadMetrics called, device not connected to network");
         }
     } else {
-        ApigeeLogInfo(kApigeeMonitoringClientTag, @"Configuration was not able to initialize. Not uploading metrics.");
+        ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Configuration was not able to initialize. Not uploading metrics.");
     }
     
     return metricsUploaded;
@@ -1585,16 +1585,16 @@ replacementInstanceMethod:(SEL) replacementSelector
     {
         // are we currently connected to network?
         if( [self isDeviceNetworkConnected] ) {
-            ApigeeLogInfo(kApigeeMonitoringClientTag, @"Manually refreshing configuration now");
+            ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Manually refreshing configuration now");
             if ([self updateConfig]) {
                 [self applyConfig];
                 configurationUpdated = YES;
             }
         } else {
-            ApigeeLogInfo(kApigeeMonitoringClientTag, @"refreshConfiguration called, device not connected to network");
+            ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"refreshConfiguration called, device not connected to network");
         }
     } else {
-        ApigeeLogInfo(kApigeeMonitoringClientTag, @"Configuration was not able to initialize. Unable to refresh.");
+        ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Configuration was not able to initialize. Unable to refresh.");
     }
     
     return configurationUpdated;
@@ -1631,7 +1631,7 @@ replacementInstanceMethod:(SEL) replacementSelector
         
         metricsRecorded = YES;
     } else {
-        ApigeeLogWarn(kApigeeMonitoringClientTag, @"Unable to record network metrics. Agent not initialized or active");
+        ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Unable to record network metrics. Agent not initialized or active");
     }
     
     return metricsRecorded;
@@ -1658,7 +1658,7 @@ replacementInstanceMethod:(SEL) replacementSelector
         
         metricsRecorded = YES;
     } else {
-        ApigeeLogWarn(kApigeeMonitoringClientTag, @"Unable to record network metrics. Agent not initialized or active");
+        ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Unable to record network metrics. Agent not initialized or active");
     }
     
     return metricsRecorded;

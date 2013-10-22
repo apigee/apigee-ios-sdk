@@ -213,7 +213,7 @@
             break;
     }
     
-    ApigeeLogInfo(@"MOBILE_AGENT",logMessage);
+    ApigeeLogInfoMessage(@"MOBILE_AGENT",logMessage);
 
     if ([self.policy canAccept:self.location]) {
         [self.delegate complete:YES];
