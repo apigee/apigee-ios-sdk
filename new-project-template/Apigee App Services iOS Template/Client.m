@@ -26,7 +26,7 @@
     self = [super init];
     if (self) {
         
-#error configure your org name and app name here
+//error configure your org name and app name here
         NSString * orgName = @"YOUR APIGEE.COM USERNAME";
         NSString * appName = @"sandbox";
         
