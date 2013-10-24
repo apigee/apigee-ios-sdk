@@ -7,6 +7,9 @@
 
 #import "ApigeeCustomConfigParam.h"
 
+/*!
+ @internal
+ */
 @interface ApigeeCustomConfigParam (JSON)
 
 + (NSArray *) transformArray:(NSArray *) jsonObjects;

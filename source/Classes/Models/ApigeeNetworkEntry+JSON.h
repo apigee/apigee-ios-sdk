@@ -7,6 +7,9 @@
 
 #import "ApigeeNetworkEntry.h"
 
+/*!
+ @internal
+ */
 @interface ApigeeNetworkEntry (JSON)
 
 + (NSArray *) toDictionaries:(NSArray *) networkEntries;

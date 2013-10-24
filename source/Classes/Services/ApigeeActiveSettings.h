@@ -8,13 +8,23 @@
 #import "ApigeeReachability.h"
 #import "ApigeeCompositeConfiguration.h"
 
+/*!
+ @abstract Categorizes the active configuration
+ @constant kApigeeDefault Default configuration (not one of the other types)
+ @constant kApigeeABTesting Configuration for A/B testing
+ @constant kApigeeDeviceType Configuration specific to a type of device
+ @constant kApigeeDeviceLevel Configuration specific to a particular device
+ */
 typedef enum {
     kApigeeDefault,
     kApigeeABTesting,
     kApigeeDeviceType,
     kApigeeDeviceLevel
-} ApigeeActiveConfiguraiton;
+} ApigeeActiveConfiguration;
 
+/*!
+ @internal
+ */
 @interface ApigeeActiveSettings : NSObject
 
 @property (readonly, nonatomic) NSNumber *instaOpsApplicationId;
@@ -46,7 +56,7 @@ typedef enum {
 @property (readonly, nonatomic) NSArray *networkOperatorRegexFilters;
 
 
-@property (readonly, nonatomic) ApigeeActiveConfiguraiton activeConfiguration;
+@property (readonly, nonatomic) ApigeeActiveConfiguration activeConfiguration;
 @property (readonly, nonatomic) NSString * activeConfigurationName;
 @property (assign, nonatomic) ApigeeNetworkStatus activeNetworkStatus;
 

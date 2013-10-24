@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Nodes.xml are used to create directory structure in XCode - Organizer - Documentation -->
+<!--
+    Types:
+    type="folder", "file", "bundle", "section"
+    documentType={"generic"|"sample code"|"reference"}
+-->
+<DocSetNodes version="1.0">
+  
+  <TOC>
+    <Node type="folder">
+      <Name>Apigee iOS SDK</Name>
+      <Subnodes>
+        
+        <!-- Apigee -->
+        <Node type="folder">
+          <Name>Apigee</Name>
+          <Subnodes>
+            <NodeRef refid="1"/>
+            <NodeRef refid="2"/>
+          </Subnodes>
+        </Node>
+        
+        <!-- App Monitoring -->
+        <Node type="folder">
+          <Name>App Monitoring</Name>
+          <Subnodes>
+            <NodeRef refid="3"/>
+            <NodeRef refid="4"/>
+            <NodeRef refid="5"/>
+            <NodeRef refid="6"/>
+            <NodeRef refid="7"/>
+            <NodeRef refid="8"/>
+          </Subnodes>
+        </Node>
+        
+        <!-- App Services -->
+        <Node type="folder">
+          <Name>App Services</Name>
+          <Subnodes>
+            <NodeRef refid="9"/>
+            <NodeRef refid="10"/>
+            <NodeRef refid="11"/>
+            <NodeRef refid="12"/>
+            <NodeRef refid="13"/>
+            <NodeRef refid="14"/>
+            <NodeRef refid="15"/>
+            <NodeRef refid="16"/>
+            <NodeRef refid="17"/>
+            <NodeRef refid="18"/>
+            <NodeRef refid="19"/>
+            <NodeRef refid="20"/>
+          </Subnodes>
+        </Node>
+        
+        <!-- Push Notifications -->
+        <Node type="folder">
+          <Name>Push Notifications</Name>
+          <Subnodes>
+          </Subnodes>
+        </Node>
+        
+      </Subnodes>
+    </Node>
+  </TOC>
+  
+  <Library>
+    <!-- Apigee -->
+    <Node id="1" documentType="reference">
+      <Name>ApigeeAppIdentification Class Reference</Name>
+      <Path>ApigeeAppIdentification_h/Classes/ApigeeAppIdentification</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="2" documentType="reference">
+      <Name>ApigeeClient Class Reference</Name>
+      <Path>ApigeeClient_h/Classes/ApigeeClient</Path>
+      <File>index.html</File>
+    </Node>
+
+    <!-- App Monitoring -->
+    <Node id="3" documentType="reference">
+      <Name>ApigeeLogger Class Reference</Name>
+      <Path>ApigeeLogger_h/Classes/ApigeeLogger</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="4" documentType="reference">
+      <Name>ApigeeMonitoringClient Class Reference</Name>
+      <Path>ApigeeMonitoringClient_h/Classes/ApigeeMonitoringClient</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="5" documentType="reference">
+      <Name>ApigeeMonitoringOptions Class Reference</Name>
+      <Path>ApigeeMonitoringOptions_h/Classes/ApigeeMonitoringOptions</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="6" documentType="reference">
+      <Name>ApigeeUIWebView Class Reference</Name>
+      <Path>ApigeeUIWebView_h/Classes/ApigeeUIWebView</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="7" documentType="reference">
+      <Name>ApigeeUploadListener Protocol Reference</Name>
+      <Path>ApigeeUploadListener_h/Protocols/ApigeeUploadListener</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="8" documentType="reference">
+      <Name>App Monitoring Functions Reference</Name>
+      <Path>ApigeeFunctions_h</Path>
+      <File>index.html</File>
+    </Node>
+
+    
+    <!-- App Services -->
+    <Node id="9" documentType="reference">
+      <Name>ApigeeActivity Class Reference</Name>
+      <Path>ApigeeActivity_h/Classes/ApigeeActivity</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="10" documentType="reference">
+      <Name>ApigeeClientDelegate Protocol Reference</Name>
+      <Path>ApigeeClientDelegate_h/Protocols/ApigeeClientDelegate</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="11" documentType="reference">
+      <Name>ApigeeClientResponse Class Reference</Name>
+      <Path>ApigeeClientResponse_h/Classes/ApigeeClientResponse</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="12" documentType="reference">
+      <Name>ApigeeCollection Class Reference</Name>
+      <Path>ApigeeCollection_h/Classes/ApigeeCollection</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="13" documentType="reference">
+      <Name>ApigeeDataClient Class Reference</Name>
+      <Path>ApigeeDataClient_h/Classes/ApigeeDataClient</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="14" documentType="reference">
+      <Name>ApigeeDevice Class Reference</Name>
+      <Path>ApigeeDevice_h/Classes/ApigeeDevice</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="15" documentType="reference">
+      <Name>ApigeeEntity Class Reference</Name>
+      <Path>ApigeeEntity_h/Classes/ApigeeEntity</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="16" documentType="reference">
+      <Name>ApigeeGroup Class Reference</Name>
+      <Path>ApigeeGroup_h/Classes/ApigeeGroup</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="17" documentType="reference">
+      <Name>ApigeeLogging Protocol Reference</Name>
+      <Path>ApigeeLogging_h/Protocols/ApigeeLogging</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="18" documentType="reference">
+      <Name>ApigeeMessage Class Reference</Name>
+      <Path>ApigeeMessage_h/Classes/ApigeeMessage</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="19" documentType="reference">
+      <Name>ApigeeQuery Class Reference</Name>
+      <Path>ApigeeQuery_h/Classes/ApigeeQuery</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="20" documentType="reference">
+      <Name>ApigeeUser Class Reference</Name>
+      <Path>ApigeeUser_h/Classes/ApigeeUser</Path>
+      <File>index.html</File>
+    </Node>
+  </Library>
+  
+</DocSetNodes>

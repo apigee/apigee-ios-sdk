@@ -12,7 +12,9 @@
 
 typedef void (^DataTaskCompletionBlock)(NSData*,NSURLResponse*,NSError*);
 
-
+/*!
+ @internal
+ */
 @interface ApigeeNSURLSessionDataTaskInfo : NSObject
 
 @property (copy, nonatomic) NSDate* startTime;

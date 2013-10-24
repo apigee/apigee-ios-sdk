@@ -7,6 +7,9 @@
 
 #import "ApigeeCompositeConfiguration.h"
 
+/*!
+ @internal
+ */
 @interface ApigeeCompositeConfiguration (Initializers)
 
 + (ApigeeCompositeConfiguration *) defaultConfiguration;

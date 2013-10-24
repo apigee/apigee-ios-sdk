@@ -7,6 +7,9 @@
 
 #import "ApigeeActiveSettings.h"
 
+/*!
+ @internal
+ */
 @interface ApigeeLogCompiler : NSObject
 
 + (ApigeeLogCompiler *) systemCompiler;

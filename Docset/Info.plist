@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>CFBundleName</key>
+    <string>Apigee iOS SDK Library</string>
+    
+    <key>CFBundleIdentifier</key>
+    <string>com.apigee.documentation.ios_sdk.docset</string>
+    
+    <key>DocSetPublisherIdentifier</key>
+    <string>com.apigee.documentation</string>
+    
+    <key>DocSetPublisherName</key>
+    <string>Apigee</string>
+  </dict>
+</plist>

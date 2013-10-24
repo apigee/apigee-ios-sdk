@@ -8,9 +8,13 @@
 
 @class ApigeeHTTPResult;
 
+/*!
+ @class ApigeeConnection
+ @abstract
+ */
 @interface ApigeeConnection : NSObject
 
-// These three properties tie a  ApigeeConnection to a specific application instance
+// These three properties tie a ApigeeConnection to a specific application instance
 @property (nonatomic, strong) NSString *server;
 @property (nonatomic, strong) NSString *organization;
 @property (nonatomic, strong) NSString *application;

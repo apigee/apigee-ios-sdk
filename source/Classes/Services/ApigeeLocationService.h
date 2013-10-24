@@ -5,7 +5,9 @@
 //  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
-
+/*!
+ @internal
+ */
 @interface ApigeeLocationPolicy : NSObject
 
 @property (assign, nonatomic) float minAccuracyThreshold;
@@ -14,12 +16,18 @@
 
 @end
 
+/*!
+ @internal
+ */
 @protocol ApigeeLocationServiceDelegate <NSObject>
 
 - (void) complete:(BOOL) success;
 
 @end
 
+/*!
+ @internal
+ */
 @interface ApigeeLocationService : NSObject<CLLocationManagerDelegate>
 
 @property (weak, nonatomic) id<ApigeeLocationServiceDelegate> delegate;

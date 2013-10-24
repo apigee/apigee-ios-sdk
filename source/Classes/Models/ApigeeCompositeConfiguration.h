@@ -7,6 +7,9 @@
 
 #import "ApigeeMonitorSettings.h"
 
+/*!
+ @internal
+ */
 @interface ApigeeCompositeConfiguration : NSObject
 
 @property (strong, nonatomic) NSNumber *instaOpsApplicationId;

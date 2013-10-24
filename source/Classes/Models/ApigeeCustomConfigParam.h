@@ -7,6 +7,9 @@
 
 #import <Foundation/Foundation.h>
 
+/*!
+ @internal
+ */
 @interface ApigeeCustomConfigParam : NSObject
 
 @property (assign, nonatomic) NSInteger paramId;

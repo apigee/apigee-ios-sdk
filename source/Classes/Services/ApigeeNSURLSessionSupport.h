@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/*!
+ @internal
+ */
 @interface ApigeeNSURLSessionSupport : NSObject
 
 + (BOOL)setupAtStartup;

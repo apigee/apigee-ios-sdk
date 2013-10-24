@@ -7,6 +7,9 @@
 
 #import "ApigeeNetworkConfig.h"
 
+/*!
+ @internal
+ */
 @interface ApigeeNetworkConfig (JSON)
 
 + (ApigeeNetworkConfig *) fromDictionary:(NSDictionary *) jsonObjects;

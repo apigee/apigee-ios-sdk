@@ -2,54 +2,122 @@
 
 #import "ApigeeEntity.h"
 
+/*!
+ @class ApigeeActivity
+ @abstract Class representing data associated with an activity
+ @see ApigeeEntity ApigeeEntity
+ */
 @interface ApigeeActivity : ApigeeEntity
 
+/*!
+ @abstract Compares the specified type name to the type name for ApigeeActivity
+ @param type the type name to compare with
+ @return boolean indicating whether the specified type name is the same as
+ the type name for ApigeeActivity
+ */
 + (BOOL)isSameType:(NSString*)type;
 
+/*!
+ @abstract
+ @param dataClient
+ @see ApigeeDataClient ApigeeDataClient
+ */
 - (id)initWithDataClient:(ApigeeDataClient*)dataClient;
 
-// In order for an activity to be valid, you must call setBasics and one of the setActor functions. 
-// In all cases, the return value will be YES if the function succeeded and NO if there
-// was a problem with the set. A response of NO will usually mean you sent nil for a required field.
+/*!
+ @abstract Sets the basic information needed for an activity
+ @param verb the action being taken
+ @param category The type of activity it is
+ @param content The content of this activity. The format is defined by the category
+ @param title The title of this category.
+ @return boolean indicating whether the method succeeded or not
+ @discussion In order for an activity to be valid, you must call setBasics and
+    one of the setActor functions. In all cases, the return value will be YES
+    if the function succeeded and NO if there was a problem with the set. A
+    response of NO will usually mean you sent nil for a required field.
+ */
+-(BOOL) setBasics:(NSString *)verb
+         category:(NSString *)category
+          content:(NSString *)content
+            title:(NSString *)title;
 
-// these are the basics of the activity.
-// verb: the action being taken
-// category: The type of activity it is
-// content: The content of this activity. The format is defined by the category
-// title: The title of this category.
--(BOOL) setBasics: (NSString *)verb category:(NSString *)category content:(NSString *)content title:(NSString *)title;
+/*!
+ @abstract
+ @param actorUserName The username of the entity doing this activity
+ @param actorDisplayName The visible name of the entity doing this activity
+ @param actorUUID The UUID of the actor doing this activity
+ @return
+ */
+-(BOOL) setActorInfo:(NSString *)actorUserName
+    actorDisplayName:(NSString *)actorDisplayName
+           actorUUID:(NSString *)actorUUID;
 
-// actorUserName: The username of the entity doing this activity
-// actorDisplayName: The visible name of the entity doing this activity
-// actorUUID: The UUID of the entity doing this activity
--(BOOL) setActorInfo: (NSString *)actorUserName actorDisplayName:(NSString *)actorDisplayName actorUUID:(NSString *)actorUUID;
+/*!
+ @abstract
+ @param actorUserName The username of the entity doing this activity
+ @param actorDisplayName The visible name of the entity doing this activity
+ @param actorEmail The email of the actor doing this activity
+ @return
+ */
+-(BOOL) setActorInfo:(NSString *)actorUserName
+    actorDisplayName:(NSString *)actorDisplayName
+          actorEmail:(NSString *)actorEmail;
 
-// actorUserName: The username of the entity doing this activity
-// actorDisplayName: The visible name of the entity doing this activity
-// actorUUID: The UUID of the entity doing this activity
--(BOOL) setActorInfo: (NSString *)actorUserName actorDisplayName:(NSString *)actorDisplayName actorEmail:(NSString *)actorEmail;
+/*!
+ @abstract
+ @param objectType the type of the object associated with this activity
+ @param displayName The visible name of the object associated with this activity
+ @param entityType the entity type of this object within UserGrid. The actual type that it is stored under
+ @param entityUUID The uuid of the object associated with this activity
+ @return
+ @discussion Associating an object with the Activity is optional. You don't
+    have to supply an object at all.
+ */
+-(BOOL)setObjectInfo:(NSString *)objectType
+         displayName:(NSString *)displayName
+          entityType:(NSString *)entityType
+          entityUUID:(NSString *)entityUUID;
 
-// Associating an object with the Activity is optional. You don't have to supply an object at all.
+/*!
+ @abstract Similar to setObjectInfo:displayName:entityType:entityUUID:, but it
+    takes an arbitrary object content (which can be new and unique) instead of
+    an already-defined object
+ @param objectType
+ @param displayName
+ @param objectContent
+ @return
+ */
+-(BOOL)setObjectInfo:(NSString *)objectType
+         displayName:(NSString *)displayName
+       objectContent:(NSString *)objectContent;
 
-// objectType: the type of the object associated with this activity
-// displayName: The visible name of the object associated with this activity
-// entityType: the entity type of this object within UserGrid. The actual type that it is stored under
-// entityUUID: The uuid of the object associated with this activity
--(BOOL)setObjectInfo: (NSString *)objectType displayName:(NSString *)displayName entityType:(NSString *)entityType entityUUID:(NSString *)entityUUID;
+/*!
+ @abstract Similar to the other two setObjectInfo: methods, but simply has the
+    type and displayName. In this case, the "content" value supplied in
+    setBasics will be used as the object content.
+ @param objectType
+ @param displayName
+ @return
+ */
+-(BOOL)setObjectInfo:(NSString *)objectType
+         displayName:(NSString *)displayName;
 
-// similar to the function above, but it takes an arbitrary object content (which can be new and unique) instead of an already-defined object
--(BOOL)setObjectInfo: (NSString *)objectType displayName:(NSString *)displayName objectContent:(NSString *)objectContent;
-
-// similar to the other two functions, but simply has the type and displayName. In this case, the 
-// "content" value supplied in setBasics will be used as the object content.
--(BOOL)setObjectInfo: (NSString *)objectType displayName:(NSString *)displayName;
-
-// returns YES if this is properly set up. NO if it has not been properly set up
+/*!
+ @abstract Determines if the instance was properly set up
+ @return YES if this is properly set up. NO if it has not been properly set up
+ */
 -(BOOL)isValid;
 
-// turn this object in to an NSDictionary. Used internally by ApigeeClient
+/*!
+ @internal
+ @abstract turn this object in to an NSDictionary
+ @discussion Used internally by ApigeeClient
+ */
 -(NSDictionary *)toNSDictionary;
 
+/*!
+ @internal
+ */
 -(void)setProperties:(NSDictionary*)dictProperties;
 
 @end

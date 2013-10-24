@@ -7,6 +7,9 @@
 
 #import <Foundation/Foundation.h>
 
+/*!
+ @abstract Subclassed NSURLConnection with built-in network performance capture
+ */
 @interface ApigeeURLConnection : NSURLConnection
 
 @property (strong) NSDate *started;

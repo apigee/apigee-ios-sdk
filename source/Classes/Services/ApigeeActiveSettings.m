@@ -55,7 +55,7 @@
 
 - (ApigeeMonitorSettings *) activeSettings
 {
-    ApigeeActiveConfiguraiton active = [self activeConfiguration];
+    ApigeeActiveConfiguration active = [self activeConfiguration];
     
     if (active == kApigeeDeviceLevel) {
         return self.config.deviceLevelSettings;
@@ -190,7 +190,7 @@
 }
 
 
-- (ApigeeActiveConfiguraiton) activeConfiguration
+- (ApigeeActiveConfiguration) activeConfiguration
 {
     if (self.config.deviceLevelOverrideEnabled) {
         if ([self.deviceIdFilters containsDeviceId:[ApigeeOpenUDID value]]) {
@@ -231,7 +231,7 @@
 
 - (NSString *) activeConfigurationName
 {
-    ApigeeActiveConfiguraiton active = [self activeConfiguration];
+    ApigeeActiveConfiguration active = [self activeConfiguration];
     
     if (active == kApigeeDeviceLevel) {
         return kApigeeActiveConfigNameDeviceLevel;

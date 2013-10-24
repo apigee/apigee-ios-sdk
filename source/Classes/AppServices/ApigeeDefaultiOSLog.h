@@ -7,9 +7,13 @@
 
 #import <Foundation/Foundation.h>
 
-#import "ApigeeLogger.h"
+#import "ApigeeLogging.h"
 
-@interface ApigeeDefaultiOSLog : NSObject <ApigeeLogger>
+/*!
+ @class ApigeeDefaultiOSLog
+ @abstract
+ */
+@interface ApigeeDefaultiOSLog : NSObject <ApigeeLogging>
 
 - (void)verbose:(NSString*)tag message:(NSString*)msg;
 - (void)verbose:(NSString*)tag message:(NSString*)msg exception:(NSException*)e;

@@ -7,6 +7,9 @@
 
 #import <Foundation/Foundation.h>
 
+/*!
+ @internal
+ */
 @interface ApigeeUIWebViewDelegateInterceptor : NSObject<UIWebViewDelegate>
 
 - (id) initAndInterceptFor:(id<UIWebViewDelegate>) target;

@@ -8,7 +8,7 @@
 #import "ApigeeGroup.h"
 #import "ApigeeMessage.h"
 #import "ApigeeUser.h"
-#import "ApigeeLogger.h"
+#import "ApigeeLogging.h"
 #import "ApigeeCollection.h"
 #import "ApigeeHTTPResult.h"
 #import "UIDevice+Apigee.h"
@@ -20,7 +20,7 @@ static NSString* kDefaultBaseURL = @"https://api.usergrid.com";
 static NSString* kLoggingTag = @"DATA_CLIENT";
 static const int kInvalidTransactionID = -1;
 
-static id<ApigeeLogger> logger = nil;
+static id<ApigeeLogging> logger = nil;
 
 NSString *g_deviceUUID = nil;
 
@@ -34,7 +34,7 @@ NSString *g_deviceUUID = nil;
 @implementation ApigeeDataClient
 {
     // the delegate for asynch callbacks
-    id m_delegate;
+    id<ApigeeClientDelegate> m_delegate;
     
     // the mutex to protect the delegate variable
     NSRecursiveLock *m_delegateLock;
@@ -90,7 +90,7 @@ NSString *g_deviceUUID = nil;
     return m_loggedInUser;
 }
 
--(id) getDelegate
+-(id<ApigeeClientDelegate>) getDelegate
 {
     return m_delegate;
 }
@@ -194,7 +194,7 @@ NSString *g_deviceUUID = nil;
     [self deregisterWithNotificationCenter];
 }
 
--(BOOL) setDelegate:(id)delegate
+-(BOOL) setDelegate:(id<ApigeeClientDelegate>)delegate
 {
     // first off, clear any pending transactions
     for ( ApigeeHTTPManager *mgr in m_httpManagerPool )
@@ -1833,7 +1833,7 @@ NSString *g_deviceUUID = nil;
     }
 }
 
-+(void)setLogger:(id<ApigeeLogger>)aLogger
++(void)setLogger:(id<ApigeeLogging>)aLogger
 {
     logger = aLogger;
 }

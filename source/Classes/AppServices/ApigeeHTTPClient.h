@@ -11,6 +11,10 @@
 typedef void (^ApigeeHTTPCompletionHandler)(ApigeeHTTPResult *result);
 typedef void (^ApigeeHTTPProgressHandler)(CGFloat progress);
 
+/*!
+ @class ApigeeHTTPClient
+ @abstract
+ */
 @interface ApigeeHTTPClient : NSObject
 #if TARGET_OS_IPHONE
 <NSURLConnectionDataDelegate>
@@ -21,16 +25,36 @@ typedef void (^ApigeeHTTPProgressHandler)(CGFloat progress);
 @property (readonly) CGFloat progress;
 @property (readonly) BOOL isRunning;
 
+/*!
+ @abstract
+ @param request
+ */
 - (id) initWithRequest:(NSMutableURLRequest *) request;
 
-// make synchronous connection
+/*!
+ @abstract make synchronous connection
+ @return ApigeeHTTPResult instance
+ @see ApigeeHTTPResult ApigeeHTTPResult
+ */
 - (ApigeeHTTPResult *) connect;
 
+/*!
+ @abstract
+ @param completionHandler
+ */
 - (void) connectWithCompletionHandler:(ApigeeHTTPCompletionHandler) completionHandler;
 
+/*!
+ @abstract
+ @param completionHandler
+ @param progressHandler
+ */
 - (void) connectWithCompletionHandler:(ApigeeHTTPCompletionHandler) completionHandler
                       progressHandler:(ApigeeHTTPProgressHandler) progressHandler;
 
+/*!
+ @abstract
+ */
 - (void) cancel;
 
 @end

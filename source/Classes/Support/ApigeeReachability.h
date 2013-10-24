@@ -53,13 +53,23 @@
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
+/*!
+ @abstract State of network connectivity
+ @constant Apigee_NotReachable No network connectivity
+ @constant Apigee_ReachableViaWiFi Network connectivity via WiFi
+ @constant Apigee_ReachableViaWWAN Network connectivity via cellular
+ */
 typedef enum {
 	Apigee_NotReachable = 0,
 	Apigee_ReachableViaWiFi,
 	Apigee_ReachableViaWWAN
 } ApigeeNetworkStatus;
+
 #define kReachabilityChangedNotification @"kNetworkReachabilityChangedNotification"
 
+/*!
+ @internal
+ */
 @interface ApigeeReachability: NSObject
 {
 	BOOL localWiFiRef;

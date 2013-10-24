@@ -1,8 +1,13 @@
 #import <Foundation/Foundation.h>
 
 
-// response states
-enum
+/*!
+ @abstract Status of server request/transaction response states
+ @constant kApigeeClientResponseSuccess The transaction succeeded
+ @constant kApigeeClientResponseFailure The transaction failed
+ @constant kApigeeClientResponsePending The transaction hasn't completed yet
+ */
+enum TransactionResponseState
 {
     kApigeeClientResponseSuccess = 0,
     kApigeeClientResponseFailure = 1,
@@ -13,34 +18,54 @@ enum
 @class ApigeeDataClient;
 @class ApigeeUser;
 
-
+/*!
+ @class ApigeeClientResponse
+ @abstract
+ */
 @interface ApigeeClientResponse : NSObject
 
-// this will be a unique ID for this transaction. If you have
-// multiple transactions in progress, you can keep track of them
-// with this value. Note: The transaction ID of a synchronous
-// call response is always -1.
+/*!
+ @property transactionID
+ @abstract A unique ID for this transaction.
+ @discussion If you have multiple transactions in progress, you can keep track
+    of them with this value. Note: The transaction ID of a synchronous call
+    response is always -1.
+ */
 @property int transactionID;
 
-// this will be one of three possible valuse:
-// kApigeeClientResponseSuccess: The operation is complete and was successful. response will 
-//                          be valid, as will rawResponse
-//
-// kApigeeClientResponseFailure: There was an error with the operation. No further 
-//                          processing will be done. response will be an NSString with
-//                          a plain-text description of what went wrong. rawResponse
-//                          will be valid if the error occurred after receiving data from
-//                          the service. If it occurred before, rawResponse will be nil.
-//
-// kApigeeClientResponsePending: The call is being handled asynchronously and not yet complete. 
-//                          response will be nil. rawResponse will also be nil
+/*!
+ @property transactionState
+ @abstract Will be one of 3 possible values (kApigeeClientResponseSuccess,
+    kApigeeClientResponseFailure, or kApigeeClientResponsePending)
+ <pre>
+ @textblock
+ kApigeeClientResponseSuccess: The operation is complete and was successful. response will
+                            be valid, as will rawResponse
+ 
+ kApigeeClientResponseFailure: There was an error with the operation. No further
+                           processing will be done. response will be an NSString with
+                           a plain-text description of what went wrong. rawResponse
+                           will be valid if the error occurred after receiving data from
+                           the service. If it occurred before, rawResponse will be nil.
+ 
+ kApigeeClientResponsePending: The call is being handled asynchronously and not yet complete.
+                           response will be nil. rawResponse will also be nil
+ @/textblock
+ </pre>
+ */
 @property int transactionState;
 
-// This is the response. The type of this variable is dependant on the call that caused
-// this response. 
+/*!
+ @property response
+ @abstract This is the response. The type of this variable is dependant on the
+    call that caused this response.
+ */
 @property (weak) id response;
 
-// This is the raw text that was returned by the server. 
+/*!
+ @property rawResponse
+ @abstract This is the raw text that was returned by the server.
+ */
 @property (weak) NSString *rawResponse;
 @property (weak) ApigeeDataClient *dataClient;
 
@@ -61,14 +86,42 @@ enum
 @property (strong, nonatomic) ApigeeUser *user;
 
 
+/*!
+ @abstract Initializes new instance
+ @param theDataClient The ApigeeDataClient instance
+ */
 - (id)initWithDataClient:(ApigeeDataClient*)theDataClient;
 
+/*!
+ @abstract Gets the number of retrieved entities
+ @return number of retrieved entities as an integer
+ */
 - (NSUInteger)entityCount;
-- (NSArray*)entities;
+
+/*!
+ @abstract Retrieves the first of the retrieved entities
+ @return ApigeeEntity instance
+ @see ApigeeEntity ApigeeEntity
+ */
 - (ApigeeEntity*)firstEntity;
+
+/*!
+ @abstract Retrieves the last of the retrieved entities
+ @return ApigeeEntity instance
+ @see ApigeeEntity ApigeeEntity
+ */
 - (ApigeeEntity*)lastEntity;
+
+/*!
+ @abstract Parses the response from the server and populates the instance
+ @param serverResponse the response from the server
+ */
 - (void)parse:(NSString*)serverResponse;
 
+/*!
+ @abstract Determines if the server call completed successfully or not
+ @return boolean indicating whether call was successful
+ */
 - (BOOL)completedSuccessfully;
 
 @end

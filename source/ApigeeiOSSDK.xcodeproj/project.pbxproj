@@ -364,7 +364,7 @@
 		63F525081778EF4000FCA013 /* ApigeeConfigFilter+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ApigeeConfigFilter+JSON.h"; path = "Classes/Models/ApigeeConfigFilter+JSON.h"; sourceTree = SOURCE_ROOT; };
 		63F525091778EF4000FCA013 /* ApigeeConfigFilter+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ApigeeConfigFilter+JSON.m"; path = "Classes/Models/ApigeeConfigFilter+JSON.m"; sourceTree = SOURCE_ROOT; };
 		63F5250B1778EF4F00FCA013 /* ApigeeJSONConfigKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeJSONConfigKeys.h; path = Classes/Models/ApigeeJSONConfigKeys.h; sourceTree = SOURCE_ROOT; };
-		63F5250C1778F19200FCA013 /* ApigeeLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeLogger.h; path = Classes/AppServices/ApigeeLogger.h; sourceTree = SOURCE_ROOT; };
+		63F5250C1778F19200FCA013 /* ApigeeLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeLogging.h; path = Classes/AppServices/ApigeeLogging.h; sourceTree = SOURCE_ROOT; };
 		63F5250D1778F1F200FCA013 /* ApigeeDefaultiOSLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeDefaultiOSLog.h; path = Classes/AppServices/ApigeeDefaultiOSLog.h; sourceTree = SOURCE_ROOT; };
 		63F5250E1778F1F200FCA013 /* ApigeeDefaultiOSLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeDefaultiOSLog.m; path = Classes/AppServices/ApigeeDefaultiOSLog.m; sourceTree = SOURCE_ROOT; };
 		63F525101778FDE400FCA013 /* ApigeeCachedConfigUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeCachedConfigUtil.h; path = Classes/Services/ApigeeCachedConfigUtil.h; sourceTree = SOURCE_ROOT; };
@@ -521,7 +521,7 @@
 		63F522E81778C43300FCA013 /* AppServices */ = {
 			isa = PBXGroup;
 			children = (
-				63F5250C1778F19200FCA013 /* ApigeeLogger.h */,
+				63F5250C1778F19200FCA013 /* ApigeeLogging.h */,
 				63F524191778D31A00FCA013 /* ApigeeActivity.h */,
 				63F5241A1778D31A00FCA013 /* ApigeeActivity.m */,
 				63F5241B1778D31A00FCA013 /* ApigeeClientResponse.h */,

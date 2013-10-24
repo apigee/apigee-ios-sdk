@@ -57,6 +57,9 @@
 #define kOpenUDIDErrorOptedOut      1
 #define kOpenUDIDErrorCompromised   2
 
+/*!
+ @internal
+ */
 @interface ApigeeOpenUDID : NSObject {
 }
 + (NSString*) value;

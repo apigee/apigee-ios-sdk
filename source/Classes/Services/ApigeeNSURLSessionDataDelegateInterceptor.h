@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/*!
+ @internal
+ */
 @interface ApigeeNSURLSessionDataDelegateInterceptor : NSObject <NSURLSessionDelegate,NSURLSessionDataDelegate>
 
 - (id) initAndInterceptFor:(id)target;

@@ -46,11 +46,11 @@
     NSString* uniqueIdentifier = nil;
     
     if( ([_organizationUUID length] > 0) && ([_applicationUUID length] > 0) ) {
-        uniqueIdentifier = [NSString stringWithFormat:@"%@.%@",
+        uniqueIdentifier = [NSString stringWithFormat:@"%@_%@",
                             _organizationUUID,
                             _applicationUUID];
     } else if( ([_organizationId length] > 0) && ([_applicationId length] > 0) ) {
-        uniqueIdentifier = [NSString stringWithFormat:@"%@.%@",
+        uniqueIdentifier = [NSString stringWithFormat:@"%@_%@",
                             _organizationId,
                             _applicationId];
     }

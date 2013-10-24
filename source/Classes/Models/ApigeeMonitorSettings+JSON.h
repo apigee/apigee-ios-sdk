@@ -7,6 +7,9 @@
 
 #import "ApigeeMonitorSettings.h"
 
+/*!
+ @internal
+ */
 @interface ApigeeMonitorSettings (JSON)
 
 + (ApigeeMonitorSettings *) fromDictionary:(NSDictionary *) jsonObjects;
