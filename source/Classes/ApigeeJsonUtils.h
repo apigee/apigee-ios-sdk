@@ -7,9 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-/*!
- @internal
- */
+
 @interface ApigeeJsonUtils : NSObject
 
 + (NSString*)encode:(id)object;

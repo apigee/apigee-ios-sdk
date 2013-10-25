@@ -7,9 +7,7 @@
 
 #import "ApigeeCompositeConfiguration.h"
 
-/*!
- @internal
- */
+
 @interface ApigeeCompositeConfiguration (JSON)
 
 + (ApigeeCompositeConfiguration *) fromDictionary:(NSDictionary *) jsonObjects;

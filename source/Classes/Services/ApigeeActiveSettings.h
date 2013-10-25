@@ -23,7 +23,8 @@ typedef enum {
 } ApigeeActiveConfiguration;
 
 /*!
- @internal
+ @abstract ApigeeActiveSettings represents the configuration settings that
+    are in effect to control app monitoring for the current session
  */
 @interface ApigeeActiveSettings : NSObject
 

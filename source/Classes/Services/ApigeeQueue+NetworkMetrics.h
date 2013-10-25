@@ -9,9 +9,7 @@
 
 @class ApigeeNetworkEntry;
 
-/*!
- @internal
- */
+
 @interface ApigeeQueue (NetworkMetrics)
 
 + (ApigeeQueue *) networkMetricsQueue;

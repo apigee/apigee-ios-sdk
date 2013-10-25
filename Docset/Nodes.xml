@@ -53,13 +53,6 @@
           </Subnodes>
         </Node>
         
-        <!-- Push Notifications -->
-        <Node type="folder">
-          <Name>Push Notifications</Name>
-          <Subnodes>
-          </Subnodes>
-        </Node>
-        
       </Subnodes>
     </Node>
   </TOC>

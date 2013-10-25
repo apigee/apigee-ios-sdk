@@ -7,9 +7,7 @@
 
 #import "ApigeeReachability.h"
 
-/*!
- @internal
- */
+
 @interface NSArray (ApigeeConfigFilters)
 
 - (BOOL) isEmpty;

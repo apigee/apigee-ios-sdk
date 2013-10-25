@@ -10,9 +10,7 @@
 #define kApigeeGetConfiguationFailed 100
 #define kApigeeUpdateConfiguationFailed 101
 
-/*!
- @internal
- */
+
 @interface ApigeeCachedConfigUtil : NSObject
 
 + (NSString*)configFileName;

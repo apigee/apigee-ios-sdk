@@ -7,9 +7,7 @@
 
 #define kApigeeMillisecondsPerSecond 1000
 
-/*!
- @internal
- */
+
 @interface NSDate (Apigee)
 
 + (int64_t) nowAsMilliseconds;

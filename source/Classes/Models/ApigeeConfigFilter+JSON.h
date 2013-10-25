@@ -7,9 +7,7 @@
 
 #import "ApigeeConfigFilter.h"
 
-/*!
- @internal
- */
+
 @interface ApigeeConfigFilter (JSON)
 
 + (NSArray *) transformArray:(NSArray *) jsonObjects;

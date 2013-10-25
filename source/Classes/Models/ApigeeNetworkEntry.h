@@ -7,9 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-/*!
- @internal
- */
+
 @interface ApigeeNetworkEntry : NSObject
 
 @property (strong) NSString *url;

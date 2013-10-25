@@ -8,9 +8,6 @@
 #import "ApigeeSessionMetrics.h"
 #import "ApigeeActiveSettings.h"
 
-/*!
- @internal
- */
 @interface ApigeeSessionMetricsCompiler : NSObject
 
 + (ApigeeSessionMetricsCompiler *) systemCompiler;

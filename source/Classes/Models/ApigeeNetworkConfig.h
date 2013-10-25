@@ -7,9 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-/*!
- @internal
- */
+
 @interface ApigeeNetworkConfig : NSObject
 
 @property (assign, nonatomic) NSInteger configId;

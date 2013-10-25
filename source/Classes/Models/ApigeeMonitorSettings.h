@@ -7,9 +7,7 @@
 
 #import "ApigeeNetworkConfig.h"
 
-/*!
- @internal
- */
+
 @interface ApigeeMonitorSettings : NSObject
 
 @property (strong, nonatomic) NSString *description;

@@ -8,13 +8,25 @@
 #import <Foundation/Foundation.h>
 
 /*!
- @internal
+ @abstract A custom configuration parameter
  */
 @interface ApigeeCustomConfigParam : NSObject
 
 @property (assign, nonatomic) NSInteger paramId;
+
+/*!
+ @property category The property category
+ */
 @property (strong, nonatomic) NSString *category;
+
+/*!
+ @property key The property key
+ */
 @property (strong, nonatomic) NSString *key;
+
+/*!
+ @property value The property value
+ */
 @property (strong, nonatomic) NSString *value;
 
 @end

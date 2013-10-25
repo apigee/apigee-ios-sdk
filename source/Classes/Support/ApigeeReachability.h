@@ -67,9 +67,7 @@ typedef enum {
 
 #define kReachabilityChangedNotification @"kNetworkReachabilityChangedNotification"
 
-/*!
- @internal
- */
+
 @interface ApigeeReachability: NSObject
 {
 	BOOL localWiFiRef;

@@ -36,37 +36,6 @@
 #import "ApigeePLCrashReport.h"
 #import "ApigeePLCrashReportTextFormatter.h"
 
-/**
- * @defgroup functions Crash Reporter Functions Reference
- */
-
-/**
- * @defgroup types Crash Reporter Data Types Reference
- */
-
-/**
- * @defgroup constants Crash Reporter Constants Reference
- */
-
-/**
- * @internal
- * @defgroup plcrash_internal Crash Reporter Internal Documentation
- */
-
-/**
- * @defgroup enums Enumerations
- * @ingroup constants
- */
-
-/**
- * @defgroup globals Global Variables
- * @ingroup constants
- */
-
-/**
- * @defgroup exceptions Exceptions
- * @ingroup constants
- */
 
 /* Exceptions */
 extern NSString *Apigee_PLCrashReporterException;

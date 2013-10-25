@@ -7,9 +7,7 @@
 
 #import "ApigeeLogEntry.h"
 
-/*!
- @internal
- */
+
 @interface ApigeeLogEntry (JSON)
 
 + (NSArray *) toDictionaries:(NSArray *) logEntries;

@@ -7,9 +7,6 @@
 
 #import <Foundation/Foundation.h>
 
-/*!
- @internal
- */
 @interface ApigeeNSURLConnectionDataDelegateInterceptor : NSObject <NSURLConnectionDelegate,
                 NSURLConnectionDataDelegate,
                 NSURLConnectionDownloadDelegate>

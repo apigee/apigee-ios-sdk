@@ -7,9 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-/*!
- @internal
- */
+
 @interface UIDevice (Apigee)
 
 + (NSString *) platformStringRaw;
