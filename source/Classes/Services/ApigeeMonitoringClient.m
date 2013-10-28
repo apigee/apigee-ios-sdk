@@ -1587,14 +1587,17 @@ replacementInstanceMethod:(SEL) replacementSelector
         if( [self isDeviceNetworkConnected] ) {
             ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Manually refreshing configuration now");
             if ([self updateConfig]) {
+                ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"Configuration retrieved, applying new configuration");
                 [self applyConfig];
                 configurationUpdated = YES;
+            } else {
+                ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"Unable to retrieve configuration from server");
             }
         } else {
-            ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"refreshConfiguration called, device not connected to network");
+            ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"refreshConfiguration called, device not connected to network");
         }
     } else {
-        ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Configuration was not able to initialize. Unable to refresh.");
+        ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"Configuration was not able to initialize. Unable to refresh.");
     }
     
     return configurationUpdated;
