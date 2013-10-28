@@ -19,10 +19,11 @@ NSString * notifier = @"<YOUR_PUSH_NOTIFIER>";
 
 NSString * baseURL = @"https://api.usergrid.com";
 
+// Invoked as a callback after the application launches. 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     NSLog(@"setting up app services connection");
-    // connect and login to App Services
+    // Connect and login to App Services
     ApigeeClient *apigeeClient =
         [[ApigeeClient alloc] initWithOrganizationId:orgName
                                        applicationId:appName
@@ -30,11 +31,11 @@ NSString * baseURL = @"https://api.usergrid.com";
     dataClient = [apigeeClient dataClient];
     [dataClient setLogging:true]; //comment out to remove debug output from the console window
 
-    // it's not necessary to explicitly login to App Services if the Guest role allows access
-//    NSLog(@"logging in user");
+    // It's not necessary to explicitly login to App Services if the Guest role allows access
+//    NSLog(@"Logging in user");
 //    [usergridClient logInUser: userName password: password];
 
-    // Register for Push Notifications with Apple
+    // Register for push notifications with Apple
     NSLog(@"registering for remote notifications");
     [application registerForRemoteNotificationTypes: UIRemoteNotificationTypeBadge |
                                                      UIRemoteNotificationTypeAlert |
@@ -43,13 +44,15 @@ NSString * baseURL = @"https://api.usergrid.com";
     return YES;
 }
 
+// Invoked as a callback from calling registerForRemoteNotificationTypes. 
+// newDeviceToken is a token received from registering with Apple APNs.
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken
 {
-    // register device token with App Services (will create the Device entity if it doesn't exist)
+    // Register device token with App Services (will create the Device entity if it doesn't exist)
     NSLog(@"registering token with app services");
     ApigeeClientResponse *response = [dataClient setDevicePushToken: newDeviceToken forNotifier: notifier];
     
-    // you could use this if you log in as an app services user to associate the Device to your User
+    // You could use this if you log in as an app services user to associate the Device to your User
 //    if (response.transactionState == kUGClientResponseSuccess) {
 //        response = [self connectEntities: @"users" connectorID: @"me" type: @"devices" connecteeID: deviceId];
 //    }
@@ -59,6 +62,8 @@ NSString * baseURL = @"https://api.usergrid.com";
     }
 }
 
+// Invoked as a callback from calling registerForRemoteNotificationTypes if registration 
+// failed.
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
     [self alert: error.localizedDescription title: @"Error"];
@@ -78,6 +83,7 @@ NSString * baseURL = @"https://api.usergrid.com";
     }
 }
 
+// Invoked when a notification arrives for this device.
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     // Received a push notification from the server
