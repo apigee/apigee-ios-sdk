@@ -92,26 +92,6 @@
     return data;
 }
 
-- (BOOL) timedWriteToURL:(NSURL *) url atomically:(BOOL) useAuxiliaryFile encoding:(NSStringEncoding) enc error:(NSError **) error
-{
-    NSDate *start = [NSDate date];
-    BOOL result = [self writeToURL:url atomically:useAuxiliaryFile encoding:enc error:error];
-    NSDate *end = [NSDate date];
-    
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithURL:url];
-    [entry populateStartTime:start ended:end];
-    
-    if (error && *error) {
-        NSError *theError = *error;
-        [entry populateWithError:theError];
-    }
-    
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
-    
-    return result;
-}
-
 - (BOOL) containsString:(NSString *)substringToLookFor
 {
     NSRange rangeSubstring = [self rangeOfString:substringToLookFor];

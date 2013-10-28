@@ -86,21 +86,6 @@
     return data;
 }
 
-- (BOOL) timedWriteToURL:(NSURL *)url atomically:(BOOL)atomically
-{
-    NSDate *start = [NSDate date];
-    BOOL result = [self writeToURL:url atomically:atomically];
-    NSDate *end = [NSDate date];
-    
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithURL:url];
-    [entry populateStartTime:start ended:end];
-    
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
-    
-    return result;
-}
-
 - (BOOL) timedWriteToURL:(NSURL *)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError **)errorPtr
 {
     NSDate *start = [NSDate date];

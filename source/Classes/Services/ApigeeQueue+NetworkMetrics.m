@@ -32,14 +32,6 @@ static const NSUInteger kMaxQueueDepth = 100;
     return queue;
 }
 
-+ (void) recordNetworkTransaction:(NSURL*) url startTime:(NSDate*) startTime endTime:(NSDate*) endTime
-{
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithURL:url];
-    [entry populateStartTime:startTime ended:endTime];
-    [self recordNetworkEntry:entry];
-}
-
 + (void) recordNetworkEntry:(ApigeeNetworkEntry*) networkEntry
 {
     ApigeeMonitoringClient *monitoringClient = [ApigeeMonitoringClient sharedInstance];
