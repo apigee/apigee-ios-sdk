@@ -22,7 +22,7 @@
 - (id) initWithCoder:(NSCoder *)aDecoder;
 
 /*!
- @abstract Initialation with frame rectangle
+ @abstract Initialization with frame rectangle
  @param frame the rectangle frame for initial size and placement
  */
 - (id) initWithFrame:(CGRect)frame;
