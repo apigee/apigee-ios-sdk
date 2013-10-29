@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		637BC9DB181EFEC900F54D95 /* Aooga.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 637BC9DA181EFEC900F54D95 /* Aooga.aiff */; };
+		637BC9E0181F036900F54D95 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 637BC9DF181F036900F54D95 /* AudioToolbox.framework */; };
 		638C629517A728D80066DC15 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C629417A728D80066DC15 /* SystemConfiguration.framework */; };
 		638C629717A728E90066DC15 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C629617A728E90066DC15 /* CoreLocation.framework */; };
 		638C629917A728F20066DC15 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C629817A728F20066DC15 /* CoreTelephony.framework */; };
@@ -43,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		637BC9DA181EFEC900F54D95 /* Aooga.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Aooga.aiff; sourceTree = "<group>"; };
+		637BC9DF181F036900F54D95 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		638C629417A728D80066DC15 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		638C629617A728E90066DC15 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		638C629817A728F20066DC15 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -80,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				637BC9E0181F036900F54D95 /* AudioToolbox.framework in Frameworks */,
 				638C629B17A7290A0066DC15 /* Security.framework in Frameworks */,
 				638C629917A728F20066DC15 /* CoreTelephony.framework in Frameworks */,
 				638C629717A728E90066DC15 /* CoreLocation.framework in Frameworks */,
@@ -126,6 +131,7 @@
 		C9AFBD1A16B71BD700D67DA3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				637BC9DF181F036900F54D95 /* AudioToolbox.framework */,
 				638C629417A728D80066DC15 /* SystemConfiguration.framework */,
 				638C629617A728E90066DC15 /* CoreLocation.framework */,
 				638C629817A728F20066DC15 /* CoreTelephony.framework */,
@@ -157,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				C913B2AA16E7CC54007A526E /* sisyphus-i5-back.jpg */,
+				637BC9DA181EFEC900F54D95 /* Aooga.aiff */,
 				C9AFBD2316B71BD700D67DA3 /* Push Test-Info.plist */,
 				C9AFBD2416B71BD700D67DA3 /* InfoPlist.strings */,
 				C9AFBD2716B71BD700D67DA3 /* main.m */,
@@ -262,6 +269,7 @@
 				C9AFBD2616B71BD700D67DA3 /* InfoPlist.strings in Resources */,
 				C9AFBD2E16B71BD700D67DA3 /* Default.png in Resources */,
 				C9AFBD3016B71BD700D67DA3 /* Default@2x.png in Resources */,
+				637BC9DB181EFEC900F54D95 /* Aooga.aiff in Resources */,
 				C9AFBD3216B71BD700D67DA3 /* Default-568h@2x.png in Resources */,
 				C9AFBD3516B71BD700D67DA3 /* MainStoryboard_iPhone.storyboard in Resources */,
 				C9AFBD3816B71BD700D67DA3 /* MainStoryboard_iPad.storyboard in Resources */,
@@ -423,7 +431,7 @@
 		C9AFBD5416B71BD700D67DA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Production IOS Push Services: com.apigee.pushtest";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Paul Dardeau (6M48CEAR89)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -439,7 +447,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "Push Test";
-				PROVISIONING_PROFILE = "247A1F25-8A75-4468-A824-080498FC342F";
+				PROVISIONING_PROFILE = "DAA80F2A-4FE8-4B25-A292-F8D92C2A3B9F";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
@@ -448,7 +456,7 @@
 		C9AFBD5516B71BD700D67DA3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Production IOS Push Services: com.apigee.pushtest";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Paul Dardeau (6M48CEAR89)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -464,7 +472,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "Push Test";
-				PROVISIONING_PROFILE = "247A1F25-8A75-4468-A824-080498FC342F";
+				PROVISIONING_PROFILE = "DAA80F2A-4FE8-4B25-A292-F8D92C2A3B9F";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
