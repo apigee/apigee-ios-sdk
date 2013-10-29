@@ -58,41 +58,58 @@ NSString * baseURL = @"https://api.usergrid.com";
 - (void)handlePushNotification:(NSDictionary*)dictPushNotification
                 forApplication:(UIApplication*)application
 {
+    // Received a push notification from the server
+
     NSDictionary* payloadAPS = [dictPushNotification valueForKey:@"aps"];
     if (nil == payloadAPS) {
         NSLog(@"error: no aps payload found");
         return;
     }
-    
+
+    UIRemoteNotificationType enabledTypes =
+        [application enabledRemoteNotificationTypes];
+
     NSString* alertText = [payloadAPS valueForKey:@"alert"];
-    NSString* sound = [payloadAPS valueForKey:@"sound"];
-
-    if ([sound length] == 0) {
-        sound = kBundledSoundName;
-    }
     
-    if ([sound length] > 0) {
-        [self playSound:sound];
+    // enabled for sound?
+    if (enabledTypes & UIRemoteNotificationTypeSound) {
+        NSString* sound = [payloadAPS valueForKey:@"sound"];
+
+        // play a sound even if we haven't been given a value
+        if ([sound length] == 0) {
+            sound = kBundledSoundName;
+        }
+    
+        if ([sound length] > 0) {
+            [self playSound:sound];
+        }
     }
 
-    // Received a push notification from the server
-    // Only pop alert if applicationState is active (if not, the user already saw the alert)
-    if (application.applicationState == UIApplicationStateActive) {
-        if ([alertText length] > 0) {
-            NSString* message = [NSString stringWithFormat:@"Text:\n%@",
-                                 alertText];
-            [self alert:message
-                  title:@"Remote Notification"];
+    // enabled for alerts?
+    if (enabledTypes & UIRemoteNotificationTypeAlert) {
+        // Only pop alert if applicationState is active (if not, the user already saw the alert)
+        if (application.applicationState == UIApplicationStateActive) {
+            if ([alertText length] > 0) {
+                NSString* message = [NSString stringWithFormat:@"Text:\n%@",
+                                     alertText];
+                [self alert:message
+                      title:@"Remote Notification"];
+            }
         }
     }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Register for push notifications with Apple
-    NSLog(@"registering for remote notifications");
-    [application registerForRemoteNotificationTypes: UIRemoteNotificationTypeAlert |
-        UIRemoteNotificationTypeSound];
+    UIRemoteNotificationType enabledTypes =
+        [application enabledRemoteNotificationTypes];
+    
+    if (enabledTypes & (UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound)) {
+        // Register for push notifications with Apple
+        NSLog(@"registering for remote notifications");
+        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert |
+         UIRemoteNotificationTypeSound];
+    }
 }
 
 // Invoked as a callback after the application launches.
