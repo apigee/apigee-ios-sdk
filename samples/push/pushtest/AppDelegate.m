@@ -2,8 +2,10 @@
 #import <ApigeeiOSSDK/Apigee.h>
 #import <AudioToolbox/AudioToolbox.h>
 
+
 static NSString *kBundledSoundName = @"Aooga";
 static NSString *kBundledSongFileType = @"aiff";
+static NSString *kBundledSoundNameWithExt = @"Aooga.aiff";
 
 static SystemSoundID nullSoundId = (SystemSoundID) NULL;
 static SystemSoundID soundId = (SystemSoundID) NULL;
@@ -59,6 +61,7 @@ NSString * baseURL = @"https://api.usergrid.com";
                 forApplication:(UIApplication*)application
 {
     // Received a push notification from the server
+    NSLog(@"push received: %@", dictPushNotification);
 
     NSDictionary* payloadAPS = [dictPushNotification valueForKey:@"aps"];
     if (nil == payloadAPS) {
@@ -146,10 +149,6 @@ NSString * baseURL = @"https://api.usergrid.com";
 // newDeviceToken is a token received from registering with Apple APNs.
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken
 {
-    NSString *tokenString = [[[newDeviceToken description]
-                              stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]]
-                             stringByReplacingOccurrencesOfString:@" " withString:@""];
-    
     // Register device token with App Services (will create the Device entity if it doesn't exist)
     NSLog(@"registering token with app services");
     ApigeeClientResponse *response = [dataClient setDevicePushToken: newDeviceToken
@@ -173,18 +172,73 @@ NSString * baseURL = @"https://api.usergrid.com";
 }
 
 - (void)sendMyselfAPushNotification:(NSString *)message
+completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
 {
+    // send to a single device -- our own device
     NSString *deviceId = [ApigeeDataClient getUniqueDeviceID];
-    NSString *thisDevice = [@"devices/" stringByAppendingString: deviceId];
-    NSString *soundName = kBundledSoundName; // or empty string for no sound
+    ApigeeAPSDestination* destination =
+        [ApigeeAPSDestination destinationSingleDevice:deviceId];
     
-    ApigeeClientResponse *response = [dataClient pushAlert: message
-                                                 withSound: soundName
-                                                        to: thisDevice
-                                             usingNotifier: notifier];
-    if ( ! [response completedSuccessfully]) {
-        [self alert: response.rawResponse title: @"Error"];
-    }
+    // set our APS payload
+    ApigeeAPSPayload* apsPayload = [[ApigeeAPSPayload alloc] init];
+    apsPayload.sound = kBundledSoundNameWithExt;
+    apsPayload.alertText = message;
+    
+    // Example of what a custom payload might look like -- remember that
+    // APNS payloads are limited to a maximum of 256 bytes (for the entire
+    // payload -- including the 'aps' part)
+    NSMutableDictionary* customPayload = [[NSMutableDictionary alloc] init];
+    [customPayload setValue:@"72" forKey:@"degrees"];
+    [customPayload setValue:@"3" forKey:@"newOrders"];
+    
+    __weak AppDelegate* weakSelf = self;
+    
+    // send the push notification
+    [dataClient pushAlert:apsPayload
+            customPayload:customPayload
+              destination:destination
+            usingNotifier:notifier
+        completionHandler:^(ApigeeClientResponse *response) {
+            if ( ! [response completedSuccessfully]) {
+                [weakSelf alert:response.rawResponse
+                          title: @"Error"];
+            }
+            
+            if (completionHandler) {
+                completionHandler(response);
+            }
+        }];
+}
+
+- (void)sendPushNotificationToAllDevices:(NSString *)message
+completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // send to all devices
+    ApigeeAPSDestination* destination =
+        [ApigeeAPSDestination destinationAllDevices];
+    
+    // set our APS payload
+    ApigeeAPSPayload* apsPayload = [[ApigeeAPSPayload alloc] init];
+    apsPayload.sound = kBundledSoundNameWithExt;
+    apsPayload.alertText = message;
+    apsPayload.badgeValue = [NSNumber numberWithInt:3];
+    
+    __weak AppDelegate* weakSelf = self;
+
+    // send the push notification
+    [dataClient pushAlert:apsPayload
+              destination:destination
+            usingNotifier:notifier
+        completionHandler:^(ApigeeClientResponse *response) {
+            if ( ! [response completedSuccessfully]) {
+                [weakSelf alert:response.rawResponse
+                          title: @"Error"];
+            }
+            
+            if (completionHandler) {
+                completionHandler(response);
+            }
+        }];
 }
 
 // Invoked when a notification arrives for this device.
