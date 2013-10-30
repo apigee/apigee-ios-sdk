@@ -15,6 +15,9 @@
 #import "SSKeychain.h"
 #import "ApigeeJsonUtils.h"
 #import "ApigeeLocationService.h"
+#import "ApigeeAPSPayload.h"
+#import "ApigeeAPSDestination.h"
+
 
 static NSString* kDefaultBaseURL = @"https://api.usergrid.com";
 static NSString* kLoggingTag = @"DATA_CLIENT";
@@ -1684,6 +1687,99 @@ NSString *g_deviceUUID = nil;
     
     return [self createEntity: entity completionHandler:completionHandler];
 }
+
+- (ApigeeClientResponse *)pushAlert:(ApigeeAPSPayload*)apsPayload
+                        destination:(ApigeeAPSDestination*)destination
+                      usingNotifier:(NSString*)notifier
+{
+    return [self pushAlert:apsPayload
+             customPayload:nil
+               destination:destination
+             usingNotifier:notifier];
+}
+
+- (ApigeeClientResponse *)pushAlert:(ApigeeAPSPayload*)apsPayload
+                        destination:(ApigeeAPSDestination*)destination
+                      usingNotifier:(NSString*)notifier
+                  completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    return [self pushAlert:apsPayload
+             customPayload:nil
+               destination:destination
+             usingNotifier:notifier
+         completionHandler:completionHandler];
+}
+
+- (ApigeeClientResponse *)pushAlert:(ApigeeAPSPayload*)apsPayload
+                      customPayload:(NSDictionary*)customPayload
+                        destination:(ApigeeAPSDestination*)destination
+                      usingNotifier:(NSString*)notifier
+{
+    NSDictionary *apsDict = [apsPayload toDictionary];
+    
+    NSDictionary *notifierDict;
+    
+    if ([customPayload count] > 0) {
+        notifierDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                        apsDict, @"aps",
+                        customPayload, @"custom",
+                        nil];
+    } else {
+        notifierDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  apsDict, @"aps",
+                                  nil];
+    }
+    
+    NSDictionary *payloadsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  notifierDict, notifier,
+                                  nil];
+    
+    NSString* notificationsPath = [NSString stringWithFormat:@"%@/notifications",
+                                   [destination deliveryPath]];
+    
+    NSMutableDictionary *entity = [[NSMutableDictionary alloc] init];
+    [entity setObject: notificationsPath forKey:@"type"];
+    [entity setObject: payloadsDict forKey:@"payloads"];
+    
+    return [self createEntity: entity];
+}
+
+- (ApigeeClientResponse *)pushAlert:(ApigeeAPSPayload*)apsPayload
+                      customPayload:(NSDictionary*)customPayload
+                        destination:(ApigeeAPSDestination*)destination
+                      usingNotifier:(NSString*)notifier
+                  completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSDictionary *apsDict = [apsPayload toDictionary];
+    
+    NSDictionary *notifierDict;
+    
+    if ([customPayload count] > 0) {
+        notifierDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                        apsDict, @"aps",
+                        customPayload, @"custom",
+                        nil];
+    } else {
+        notifierDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                        apsDict, @"aps",
+                        nil];
+    }
+    
+    NSDictionary *payloadsDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  notifierDict, notifier,
+                                  nil];
+    
+    NSString* notificationsPath = [NSString stringWithFormat:@"%@/notifications",
+                                   [destination deliveryPath]];
+    
+    NSMutableDictionary *entity = [[NSMutableDictionary alloc] init];
+    [entity setObject: notificationsPath forKey:@"type"];
+    [entity setObject: payloadsDict forKey:@"payloads"];
+    
+    return [self createEntity:entity
+            completionHandler:completionHandler];
+}
+
 
 /*************************** SERVER-SIDE STORAGE ***************************/
 /*************************** SERVER-SIDE STORAGE ***************************/

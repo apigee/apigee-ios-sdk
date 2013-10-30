@@ -37,6 +37,8 @@ set the response limit in ApigeeQuery as well.
 ****************************************************************************/
 
 @class ApigeeCollection;
+@class ApigeeAPSPayload;
+@class ApigeeAPSDestination;
 
 typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response);
 
@@ -1165,16 +1167,16 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
 /*!
  @abstract Push an "alert" type notification to the remote group, user, or
     device specified in the path argument
- @discussion the notifier may be a name or UUID of an APNS notifier that has
-    been set up on the Usergrid server.
  @param message The alert message text
  @param sound The name of a sound file to be played on device when notification is received
  @param path The path to be evaluated to determine which devices will receive the notification
  @param notifier The notifier to use
  @return ApigeeClientResponse instance
  @see ApigeeClientResponse ApigeeClientResponse
- @discussion If a sound file is specified, it must be present in the application
-    bundle of the application that receives the notification.
+ @discussion The notifier may be a name or UUID of an APNS notifier that has
+    been set up on the Usergrid server. If a sound file is specified, it must
+    be present in the application bundle of the application that receives the
+    notification.
  */
 - (ApigeeClientResponse *)pushAlert:(NSString *)message
                           withSound:(NSString *)sound
@@ -1184,8 +1186,6 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
 /*!
  @abstract Asynchronously push an "alert" type notification to the remote group, user, or
  device specified in the path argument
- @discussion the notifier may be a name or UUID of an APNS notifier that has
- been set up on the Usergrid server.
  @param message The alert message text
  @param sound The name of a sound file to be played on device when notification is received
  @param path The path to be evaluated to determine which devices will receive the notification
@@ -1193,14 +1193,83 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  @param completionHandler The callback to call when request completes
  @return ApigeeClientResponse instance
  @see ApigeeClientResponse ApigeeClientResponse
- @discussion If a sound file is specified, it must be present in the application
-    bundle of the application that receives the notification.
+ @discussion The notifier may be a name or UUID of an APNS notifier that has
+    been set up on the Usergrid server. If a sound file is specified, it must be
+    present in the application bundle of the application that receives the
+    notification.
  */
 - (ApigeeClientResponse *)pushAlert:(NSString *)message
                           withSound:(NSString *)sound
                                  to:(NSString *)path
                       usingNotifier:(NSString *)notifier
                   completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+/*!
+ @abstract Sends a push notification using APNS
+ @param apsPayload The APS payload object
+ @param destination The destination for the push notification
+ @param notifier The notifier to use
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse
+ @see ApigeeAPSPayload
+ @see ApigeeAPSDestination
+ */
+- (ApigeeClientResponse *)pushAlert:(ApigeeAPSPayload*)apsPayload
+                        destination:(ApigeeAPSDestination*)destination
+                      usingNotifier:(NSString*)notifier;
+
+/*!
+ @abstract Sends a push notification using APNS
+ @param apsPayload The APS payload object
+ @param destination The destination for the push notification
+ @param notifier The notifier to use
+ @param completionHandler The callback to call when request completes
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse
+ @see ApigeeAPSPayload
+ @see ApigeeAPSDestination
+ */
+- (ApigeeClientResponse *)pushAlert:(ApigeeAPSPayload*)apsPayload
+                        destination:(ApigeeAPSDestination*)destination
+                      usingNotifier:(NSString*)notifier
+                  completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+/*!
+ @abstract Sends a push notification using APNS
+ @param apsPayload The APS payload object
+ @param customPayload A dictionary to use for custom payload (can be nil)
+ @param destination The destination for the push notification
+ @param notifier The notifier to use
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse
+ @see ApigeeAPSPayload
+ @see ApigeeAPSDestination
+ @discussion If a custom payload is given, it will be set with the key 'custom'.
+ */
+- (ApigeeClientResponse *)pushAlert:(ApigeeAPSPayload*)apsPayload
+                      customPayload:(NSDictionary*)customPayload
+                        destination:(ApigeeAPSDestination*)destination
+                      usingNotifier:(NSString*)notifier;
+
+/*!
+ @abstract Sends a push notification using APNS
+ @param apsPayload The APS payload object
+ @param customPayload A dictionary to use for custom payload (can be nil)
+ @param destination The destination for the push notification
+ @param notifier The notifier to use
+ @param completionHandler The callback to call when request completes
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse
+ @see ApigeeAPSPayload
+ @see ApigeeAPSDestination
+ @discussion If a custom payload is given, it will be set with the key 'custom'.
+ */
+- (ApigeeClientResponse *)pushAlert:(ApigeeAPSPayload*)apsPayload
+                      customPayload:(NSDictionary*)customPayload
+                        destination:(ApigeeAPSDestination*)destination
+                      usingNotifier:(NSString*)notifier
+                  completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 
 /*********************** ACCESSORS ************************/
 /*!

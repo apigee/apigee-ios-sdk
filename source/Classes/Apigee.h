@@ -31,4 +31,7 @@
 #import "NSData+Apigee.h"
 #import "ApigeeUIWebView.h"
 #import "ApigeeURLConnection.h"
+#import "ApigeeAPSPayload.h"
+#import "ApigeeAPSAlert.h"
+#import "ApigeeAPSDestination.h"
 
