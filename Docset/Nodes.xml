@@ -50,6 +50,9 @@
             <NodeRef refid="18"/>
             <NodeRef refid="19"/>
             <NodeRef refid="20"/>
+            <NodeRef refid="21"/>
+            <NodeRef refid="22"/>
+            <NodeRef refid="23"/>
           </Subnodes>
         </Node>
         
@@ -110,56 +113,71 @@
       <File>index.html</File>
     </Node>
     <Node id="10" documentType="reference">
+      <Name>ApigeeAPSAlert Class Reference</Name>
+      <Path>ApigeeAPSAlert_h/Classes/ApigeeAPSAlert</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="11" documentType="reference">
+      <Name>ApigeeAPSDestination Class Reference</Name>
+      <Path>ApigeeAPSDestination_h/Classes/ApigeeAPSDestination</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="12" documentType="reference">
+      <Name>ApigeeAPSPayload Class Reference</Name>
+      <Path>ApigeeAPSPayload_h/Classes/ApigeeAPSPayload</Path>
+      <File>index.html</File>
+    </Node>
+    <Node id="13" documentType="reference">
       <Name>ApigeeClientDelegate Protocol Reference</Name>
       <Path>ApigeeClientDelegate_h/Protocols/ApigeeClientDelegate</Path>
       <File>index.html</File>
     </Node>
-    <Node id="11" documentType="reference">
+    <Node id="14" documentType="reference">
       <Name>ApigeeClientResponse Class Reference</Name>
       <Path>ApigeeClientResponse_h/Classes/ApigeeClientResponse</Path>
       <File>index.html</File>
     </Node>
-    <Node id="12" documentType="reference">
+    <Node id="15" documentType="reference">
       <Name>ApigeeCollection Class Reference</Name>
       <Path>ApigeeCollection_h/Classes/ApigeeCollection</Path>
       <File>index.html</File>
     </Node>
-    <Node id="13" documentType="reference">
+    <Node id="16" documentType="reference">
       <Name>ApigeeDataClient Class Reference</Name>
       <Path>ApigeeDataClient_h/Classes/ApigeeDataClient</Path>
       <File>index.html</File>
     </Node>
-    <Node id="14" documentType="reference">
+    <Node id="17" documentType="reference">
       <Name>ApigeeDevice Class Reference</Name>
       <Path>ApigeeDevice_h/Classes/ApigeeDevice</Path>
       <File>index.html</File>
     </Node>
-    <Node id="15" documentType="reference">
+    <Node id="18" documentType="reference">
       <Name>ApigeeEntity Class Reference</Name>
       <Path>ApigeeEntity_h/Classes/ApigeeEntity</Path>
       <File>index.html</File>
     </Node>
-    <Node id="16" documentType="reference">
+    <Node id="19" documentType="reference">
       <Name>ApigeeGroup Class Reference</Name>
       <Path>ApigeeGroup_h/Classes/ApigeeGroup</Path>
       <File>index.html</File>
     </Node>
-    <Node id="17" documentType="reference">
+    <Node id="20" documentType="reference">
       <Name>ApigeeLogging Protocol Reference</Name>
       <Path>ApigeeLogging_h/Protocols/ApigeeLogging</Path>
       <File>index.html</File>
     </Node>
-    <Node id="18" documentType="reference">
+    <Node id="21" documentType="reference">
       <Name>ApigeeMessage Class Reference</Name>
       <Path>ApigeeMessage_h/Classes/ApigeeMessage</Path>
       <File>index.html</File>
     </Node>
-    <Node id="19" documentType="reference">
+    <Node id="22" documentType="reference">
       <Name>ApigeeQuery Class Reference</Name>
       <Path>ApigeeQuery_h/Classes/ApigeeQuery</Path>
       <File>index.html</File>
     </Node>
-    <Node id="20" documentType="reference">
+    <Node id="23" documentType="reference">
       <Name>ApigeeUser Class Reference</Name>
       <Path>ApigeeUser_h/Classes/ApigeeUser</Path>
       <File>index.html</File>
