@@ -56,6 +56,12 @@
 #import "ApigeeNSURLSessionSupport.h"
 #import "ApigeeNSURLSessionDataTaskInfo.h"
 
+#import "ApigeeUIEventManager.h"
+#import "ApigeeUIEventScreenVisibility.h"
+#import "ApigeeUIEventButtonPress.h"
+#import "ApigeeUIEventSegmentSelected.h"
+#import "ApigeeUIEventSwitchToggled.h"
+
 static const int64_t kOneMillion = 1000 * 1000;
 static mach_timebase_info_data_t s_timebase_info;
 
@@ -314,6 +320,8 @@ static bool AmIBeingDebugged(void)
         return nil;
     }
     
+    BOOL performAutomaticUIEventTracking = NO;
+    
     self.crashReportingEnabled = YES;
     self.autoInterceptNetworkCalls = YES;
     self.showDebuggingInfo = NO;
@@ -327,6 +335,7 @@ static bool AmIBeingDebugged(void)
         self.interceptNSURLSessionCalls = monitoringOptions.interceptNSURLSessionCalls;
         self.showDebuggingInfo = monitoringOptions.showDebuggingInfo;
         self.customUploadUrl = monitoringOptions.customUploadUrl;
+        performAutomaticUIEventTracking = monitoringOptions.performAutomaticUIEventTracking;
     } else {
         self.autoPromoteLoggedErrors = YES;
         self.interceptNSURLSessionCalls = NO;
@@ -375,6 +384,12 @@ static bool AmIBeingDebugged(void)
     self.dictCustomConfigValuesByCategoryAndKey = [[NSMutableDictionary alloc] init];
     
     [UIDevice currentDevice].batteryMonitoringEnabled = YES;
+    
+    if (performAutomaticUIEventTracking) {
+        ApigeeUIEventManager* uiEventManager = [ApigeeUIEventManager sharedInstance];
+        [uiEventManager setUpApigeeSwizzling];
+        [uiEventManager addUIEventListener:self];
+    }
     
     self.reachability = [ApigeeReachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
@@ -1829,6 +1844,39 @@ replacementInstanceMethod:(SEL) replacementSelector
             [self.lockDataTasks unlock];
         }
     }
+}
+
+#pragma mark UI Event Tracking
+
+- (void)logUIEvent:(NSString*)uiEvent
+{
+    [ApigeeLogger infoFrom:NULL tag:@"UI_EVENT" message:uiEvent];
+    //ApigeeLogInfoMessage(@"UI_EVENT",uiEvent);
+}
+
+- (void)screenVisibilityChanged:(ApigeeUIEventScreenVisibility*)screenEvent
+{
+    [self logUIEvent:[screenEvent trackingEntry]];
+}
+
+- (void)buttonPressed:(ApigeeUIEventButtonPress*)buttonPressEvent
+{
+    [self logUIEvent:[buttonPressEvent trackingEntry]];
+}
+
+- (void)switchToggled:(ApigeeUIEventSwitchToggled*)switchToggledEvent
+{
+    [self logUIEvent:[switchToggledEvent trackingEntry]];
+}
+
+- (void)segmentSelected:(ApigeeUIEventSegmentSelected*)segmentSelectedEvent
+{
+    [self logUIEvent:[segmentSelectedEvent trackingEntry]];
+}
+
+- (BOOL)invokeOnMainThread
+{
+    return NO;
 }
 
 @end

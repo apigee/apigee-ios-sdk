@@ -90,4 +90,7 @@
  */
 @property(copy, nonatomic) NSString* customUploadUrl;
 
+@property(assign, nonatomic) BOOL performAutomaticUIEventTracking;
+
+
 @end

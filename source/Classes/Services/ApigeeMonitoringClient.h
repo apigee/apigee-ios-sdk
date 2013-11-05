@@ -6,6 +6,7 @@
 
 #import "ApigeeActiveSettings.h"
 #import "ApigeeUploadListener.h"
+#import "ApigeeUIEventListener.h"
 
 @class ApigeeAppIdentification;
 @class ApigeeDataClient;
@@ -17,7 +18,7 @@
  @class ApigeeMonitoringClient
  @abstract Top-level class for interfacing with app monitoring functionality
  */
-@interface ApigeeMonitoringClient : NSObject
+@interface ApigeeMonitoringClient : NSObject<ApigeeUIEventListener>
 
 /*!
  @property apigeeDeviceId

@@ -14,6 +14,18 @@
 		637BC9F6182155FF00F54D95 /* ApigeeAPSDestination.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 637BC9F318214FC900F54D95 /* ApigeeAPSDestination.h */; };
 		637BC9F71821560300F54D95 /* ApigeeAPSAlert.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 637BC9F01821498D00F54D95 /* ApigeeAPSAlert.h */; };
 		637BC9F81821560800F54D95 /* ApigeeAPSPayload.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 637BC9ED182148F200F54D95 /* ApigeeAPSPayload.h */; };
+		637BCAA3182943FC00F54D95 /* ApigeeUIControlEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BCAA2182943FC00F54D95 /* ApigeeUIControlEvent.m */; };
+		637BCAA61829448300F54D95 /* ApigeeUIEventButtonPress.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BCAA51829448300F54D95 /* ApigeeUIEventButtonPress.m */; };
+		637BCAA9182944ED00F54D95 /* ApigeeUIEventSwitchToggled.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BCAA8182944ED00F54D95 /* ApigeeUIEventSwitchToggled.m */; };
+		637BCAAC1829457400F54D95 /* ApigeeUIEventSegmentSelected.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BCAAB1829457400F54D95 /* ApigeeUIEventSegmentSelected.m */; };
+		637BCAAF182945DE00F54D95 /* ApigeeUIEventScreenVisibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BCAAE182945DE00F54D95 /* ApigeeUIEventScreenVisibility.m */; };
+		637BCAB21829463000F54D95 /* ApigeeUIEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BCAB11829463000F54D95 /* ApigeeUIEventManager.m */; };
+		637BCAB51829484F00F54D95 /* UIApplication+ApigeeSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BCAB41829484F00F54D95 /* UIApplication+ApigeeSwizzling.m */; };
+		637BCAB8182948DE00F54D95 /* UIViewController+ApigeeSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BCAB7182948DE00F54D95 /* UIViewController+ApigeeSwizzling.m */; };
+		637BCABB1829499E00F54D95 /* UIButton+ApigeeSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BCABA1829499E00F54D95 /* UIButton+ApigeeSwizzling.m */; };
+		637BCABE18294A0E00F54D95 /* UISwitch+ApigeeSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BCABD18294A0E00F54D95 /* UISwitch+ApigeeSwizzling.m */; };
+		637BCAC118294AAA00F54D95 /* UISegmentedControl+ApigeeSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BCAC018294AAA00F54D95 /* UISegmentedControl+ApigeeSwizzling.m */; };
+		637BCAC9182959E600F54D95 /* ApigeeUIEventListener.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 637BCAA01829437000F54D95 /* ApigeeUIEventListener.h */; };
 		638C625A179F304E0066DC15 /* ApigeeHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C6259179F30470066DC15 /* ApigeeHTTPClient.m */; };
 		638C625C179F30790066DC15 /* ApigeeHTTPClient.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 638C625B179F305E0066DC15 /* ApigeeHTTPClient.h */; };
 		638C629117A71BFA0066DC15 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C629017A71BFA0066DC15 /* SSKeychain.m */; };
@@ -167,6 +179,7 @@
 				63F52559177A397000FCA013 /* ApigeeHTTPManager.h in CopyFiles */,
 				637BC9F6182155FF00F54D95 /* ApigeeAPSDestination.h in CopyFiles */,
 				637BC9F81821560800F54D95 /* ApigeeAPSPayload.h in CopyFiles */,
+				637BCAC9182959E600F54D95 /* ApigeeUIEventListener.h in CopyFiles */,
 				637BC9F71821560300F54D95 /* ApigeeAPSAlert.h in CopyFiles */,
 				63F5258C178B6F0600FCA013 /* ApigeeHTTPResult.h in CopyFiles */,
 				63F5258B178B6EFB00FCA013 /* ApigeeHTTPHelpers.h in CopyFiles */,
@@ -213,6 +226,29 @@
 		637BC9F11821498D00F54D95 /* ApigeeAPSAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeAPSAlert.m; path = Classes/AppServices/ApigeeAPSAlert.m; sourceTree = SOURCE_ROOT; };
 		637BC9F318214FC900F54D95 /* ApigeeAPSDestination.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeAPSDestination.h; path = Classes/AppServices/ApigeeAPSDestination.h; sourceTree = SOURCE_ROOT; };
 		637BC9F418214FC900F54D95 /* ApigeeAPSDestination.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeAPSDestination.m; path = Classes/AppServices/ApigeeAPSDestination.m; sourceTree = SOURCE_ROOT; };
+		637BCAA01829437000F54D95 /* ApigeeUIEventListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ApigeeUIEventListener.h; path = Classes/UIEventTracking/ApigeeUIEventListener.h; sourceTree = SOURCE_ROOT; };
+		637BCAA1182943FC00F54D95 /* ApigeeUIControlEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeUIControlEvent.h; path = Classes/UIEventTracking/ApigeeUIControlEvent.h; sourceTree = SOURCE_ROOT; };
+		637BCAA2182943FC00F54D95 /* ApigeeUIControlEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeUIControlEvent.m; path = Classes/UIEventTracking/ApigeeUIControlEvent.m; sourceTree = SOURCE_ROOT; };
+		637BCAA41829448300F54D95 /* ApigeeUIEventButtonPress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeUIEventButtonPress.h; path = Classes/UIEventTracking/ApigeeUIEventButtonPress.h; sourceTree = SOURCE_ROOT; };
+		637BCAA51829448300F54D95 /* ApigeeUIEventButtonPress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeUIEventButtonPress.m; path = Classes/UIEventTracking/ApigeeUIEventButtonPress.m; sourceTree = SOURCE_ROOT; };
+		637BCAA7182944ED00F54D95 /* ApigeeUIEventSwitchToggled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeUIEventSwitchToggled.h; path = Classes/UIEventTracking/ApigeeUIEventSwitchToggled.h; sourceTree = SOURCE_ROOT; };
+		637BCAA8182944ED00F54D95 /* ApigeeUIEventSwitchToggled.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeUIEventSwitchToggled.m; path = Classes/UIEventTracking/ApigeeUIEventSwitchToggled.m; sourceTree = SOURCE_ROOT; };
+		637BCAAA1829457400F54D95 /* ApigeeUIEventSegmentSelected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeUIEventSegmentSelected.h; path = Classes/UIEventTracking/ApigeeUIEventSegmentSelected.h; sourceTree = SOURCE_ROOT; };
+		637BCAAB1829457400F54D95 /* ApigeeUIEventSegmentSelected.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeUIEventSegmentSelected.m; path = Classes/UIEventTracking/ApigeeUIEventSegmentSelected.m; sourceTree = SOURCE_ROOT; };
+		637BCAAD182945DE00F54D95 /* ApigeeUIEventScreenVisibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeUIEventScreenVisibility.h; path = Classes/UIEventTracking/ApigeeUIEventScreenVisibility.h; sourceTree = SOURCE_ROOT; };
+		637BCAAE182945DE00F54D95 /* ApigeeUIEventScreenVisibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeUIEventScreenVisibility.m; path = Classes/UIEventTracking/ApigeeUIEventScreenVisibility.m; sourceTree = SOURCE_ROOT; };
+		637BCAB01829463000F54D95 /* ApigeeUIEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeUIEventManager.h; path = Classes/UIEventTracking/ApigeeUIEventManager.h; sourceTree = SOURCE_ROOT; };
+		637BCAB11829463000F54D95 /* ApigeeUIEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeUIEventManager.m; path = Classes/UIEventTracking/ApigeeUIEventManager.m; sourceTree = SOURCE_ROOT; };
+		637BCAB41829484F00F54D95 /* UIApplication+ApigeeSwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+ApigeeSwizzling.m"; path = "Classes/UIEventTracking/UIApplication+ApigeeSwizzling.m"; sourceTree = SOURCE_ROOT; };
+		637BCAB7182948DE00F54D95 /* UIViewController+ApigeeSwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+ApigeeSwizzling.m"; path = "Classes/UIEventTracking/UIViewController+ApigeeSwizzling.m"; sourceTree = SOURCE_ROOT; };
+		637BCABA1829499E00F54D95 /* UIButton+ApigeeSwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+ApigeeSwizzling.m"; path = "Classes/UIEventTracking/UIButton+ApigeeSwizzling.m"; sourceTree = SOURCE_ROOT; };
+		637BCABD18294A0E00F54D95 /* UISwitch+ApigeeSwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UISwitch+ApigeeSwizzling.m"; path = "Classes/UIEventTracking/UISwitch+ApigeeSwizzling.m"; sourceTree = SOURCE_ROOT; };
+		637BCAC018294AAA00F54D95 /* UISegmentedControl+ApigeeSwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UISegmentedControl+ApigeeSwizzling.m"; path = "Classes/UIEventTracking/UISegmentedControl+ApigeeSwizzling.m"; sourceTree = SOURCE_ROOT; };
+		637BCAC218294D3400F54D95 /* UIApplication+ApigeeSwizzling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UIApplication+ApigeeSwizzling.h"; path = "Classes/UIEventTracking/UIApplication+ApigeeSwizzling.h"; sourceTree = SOURCE_ROOT; };
+		637BCAC318294D9800F54D95 /* UIViewController+ApigeeSwizzling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UIViewController+ApigeeSwizzling.h"; path = "Classes/UIEventTracking/UIViewController+ApigeeSwizzling.h"; sourceTree = SOURCE_ROOT; };
+		637BCAC418294DE400F54D95 /* UIButton+ApigeeSwizzling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UIButton+ApigeeSwizzling.h"; path = "Classes/UIEventTracking/UIButton+ApigeeSwizzling.h"; sourceTree = SOURCE_ROOT; };
+		637BCAC518294E2400F54D95 /* UISwitch+ApigeeSwizzling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UISwitch+ApigeeSwizzling.h"; path = "Classes/UIEventTracking/UISwitch+ApigeeSwizzling.h"; sourceTree = SOURCE_ROOT; };
+		637BCAC618294E5B00F54D95 /* UISegmentedControl+ApigeeSwizzling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UISegmentedControl+ApigeeSwizzling.h"; path = "Classes/UIEventTracking/UISegmentedControl+ApigeeSwizzling.h"; sourceTree = SOURCE_ROOT; };
 		638C6259179F30470066DC15 /* ApigeeHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeHTTPClient.m; path = Classes/AppServices/ApigeeHTTPClient.m; sourceTree = SOURCE_ROOT; };
 		638C625B179F305E0066DC15 /* ApigeeHTTPClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ApigeeHTTPClient.h; path = Classes/AppServices/ApigeeHTTPClient.h; sourceTree = SOURCE_ROOT; };
 		638C628F17A71BEE0066DC15 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSKeychain.h; path = ThirdParty/SSKeychain/SSKeychain.h; sourceTree = "<group>"; };
@@ -433,6 +469,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		637BCA9F1829431E00F54D95 /* UIEventTracking */ = {
+			isa = PBXGroup;
+			children = (
+				637BCAA01829437000F54D95 /* ApigeeUIEventListener.h */,
+				637BCAA1182943FC00F54D95 /* ApigeeUIControlEvent.h */,
+				637BCAA2182943FC00F54D95 /* ApigeeUIControlEvent.m */,
+				637BCAA41829448300F54D95 /* ApigeeUIEventButtonPress.h */,
+				637BCAA51829448300F54D95 /* ApigeeUIEventButtonPress.m */,
+				637BCAA7182944ED00F54D95 /* ApigeeUIEventSwitchToggled.h */,
+				637BCAA8182944ED00F54D95 /* ApigeeUIEventSwitchToggled.m */,
+				637BCAAA1829457400F54D95 /* ApigeeUIEventSegmentSelected.h */,
+				637BCAAB1829457400F54D95 /* ApigeeUIEventSegmentSelected.m */,
+				637BCAAD182945DE00F54D95 /* ApigeeUIEventScreenVisibility.h */,
+				637BCAAE182945DE00F54D95 /* ApigeeUIEventScreenVisibility.m */,
+				637BCAB01829463000F54D95 /* ApigeeUIEventManager.h */,
+				637BCAB11829463000F54D95 /* ApigeeUIEventManager.m */,
+				637BCAB41829484F00F54D95 /* UIApplication+ApigeeSwizzling.m */,
+				637BCAC218294D3400F54D95 /* UIApplication+ApigeeSwizzling.h */,
+				637BCAB7182948DE00F54D95 /* UIViewController+ApigeeSwizzling.m */,
+				637BCAC318294D9800F54D95 /* UIViewController+ApigeeSwizzling.h */,
+				637BCABA1829499E00F54D95 /* UIButton+ApigeeSwizzling.m */,
+				637BCAC418294DE400F54D95 /* UIButton+ApigeeSwizzling.h */,
+				637BCABD18294A0E00F54D95 /* UISwitch+ApigeeSwizzling.m */,
+				637BCAC518294E2400F54D95 /* UISwitch+ApigeeSwizzling.h */,
+				637BCAC018294AAA00F54D95 /* UISegmentedControl+ApigeeSwizzling.m */,
+				637BCAC618294E5B00F54D95 /* UISegmentedControl+ApigeeSwizzling.h */,
+			);
+			name = UIEventTracking;
+			sourceTree = "<group>";
+		};
 		638C628E17A71B6B0066DC15 /* SSKeychain */ = {
 			isa = PBXGroup;
 			children = (
@@ -510,6 +576,7 @@
 		63F522E61778C41600FCA013 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				637BCA9F1829431E00F54D95 /* UIEventTracking */,
 				63F522ED1778C47E00FCA013 /* MonitoringServices */,
 				63F522EC1778C47100FCA013 /* Models */,
 				63F522EB1778C45B00FCA013 /* Categories */,
@@ -979,6 +1046,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				637BCAAC1829457400F54D95 /* ApigeeUIEventSegmentSelected.m in Sources */,
 				63F524311778D31A00FCA013 /* ApigeeActivity.m in Sources */,
 				63F524321778D31A00FCA013 /* ApigeeClientResponse.m in Sources */,
 				63F524331778D31A00FCA013 /* ApigeeCollection.m in Sources */,
@@ -987,12 +1055,14 @@
 				63F524361778D31A00FCA013 /* ApigeeEntity.m in Sources */,
 				63F524371778D31A00FCA013 /* ApigeeGroup.m in Sources */,
 				63F524381778D31A00FCA013 /* ApigeeHTTPManager.m in Sources */,
+				637BCABB1829499E00F54D95 /* UIButton+ApigeeSwizzling.m in Sources */,
 				63F524391778D31A00FCA013 /* ApigeeMessage.m in Sources */,
 				63F5243B1778D31A00FCA013 /* ApigeeQuery.m in Sources */,
 				63F5243C1778D31A00FCA013 /* ApigeeUser.m in Sources */,
 				63F5244B1778D34700FCA013 /* NSArray+ApigeeConfigFilters.m in Sources */,
 				63F5244C1778D34700FCA013 /* NSDate+Apigee.m in Sources */,
 				63F524501778D34700FCA013 /* NSString+UUID.m in Sources */,
+				637BCAAF182945DE00F54D95 /* ApigeeUIEventScreenVisibility.m in Sources */,
 				63F524511778D34700FCA013 /* UIDevice+Apigee.m in Sources */,
 				63F524561778D35E00FCA013 /* ApigeeOpenUDID.m in Sources */,
 				63F524571778D35E00FCA013 /* ApigeeReachability.m in Sources */,
@@ -1012,13 +1082,17 @@
 				63F5248D1778EA4E00FCA013 /* ApigeeCompositeConfiguration.m in Sources */,
 				63F524901778EA6200FCA013 /* ApigeeMonitorSettings.m in Sources */,
 				63F524931778EA7900FCA013 /* ApigeeNetworkConfig.m in Sources */,
+				637BCAA61829448300F54D95 /* ApigeeUIEventButtonPress.m in Sources */,
+				637BCAB51829484F00F54D95 /* UIApplication+ApigeeSwizzling.m in Sources */,
 				63F524961778EA9100FCA013 /* ApigeeCustomConfigParam.m in Sources */,
 				63F524CA1778ECD000FCA013 /* ApigeeCrashReporter.m in Sources */,
 				63F524CB1778ECD000FCA013 /* ApigeePLCrashAsync.c in Sources */,
 				63B68EFE18035433003424E1 /* ApigeeNSURLSessionDataTaskInfo.m in Sources */,
+				637BCAA3182943FC00F54D95 /* ApigeeUIControlEvent.m in Sources */,
 				63F524CC1778ECD000FCA013 /* ApigeePLCrashAsyncImage.c in Sources */,
 				63F524CD1778ECD000FCA013 /* ApigeePLCrashAsyncSignalInfo.c in Sources */,
 				63F524CE1778ECD000FCA013 /* ApigeePLCrashFrameWalker_arm.c in Sources */,
+				637BCAB8182948DE00F54D95 /* UIViewController+ApigeeSwizzling.m in Sources */,
 				63F524CF1778ECD000FCA013 /* ApigeePLCrashFrameWalker_i386.c in Sources */,
 				63F524D21778ECD000FCA013 /* ApigeePLCrashFrameWalker.c in Sources */,
 				63F524D31778ECD000FCA013 /* ApigeePLCrashLogWriter.m in Sources */,
@@ -1026,6 +1100,7 @@
 				637BC9F518214FC900F54D95 /* ApigeeAPSDestination.m in Sources */,
 				63F524D51778ECD000FCA013 /* ApigeePLCrashReport.m in Sources */,
 				63F524D61778ECD000FCA013 /* ApigeePLCrashReportApplicationInfo.m in Sources */,
+				637BCABE18294A0E00F54D95 /* UISwitch+ApigeeSwizzling.m in Sources */,
 				63F524D71778ECD000FCA013 /* ApigeePLCrashReportBinaryImageInfo.m in Sources */,
 				63F524D81778ECD000FCA013 /* ApigeePLCrashReporter.m in Sources */,
 				63F524D91778ECD000FCA013 /* ApigeePLCrashReportExceptionInfo.m in Sources */,
@@ -1035,6 +1110,7 @@
 				63F524DC1778ECD000FCA013 /* ApigeePLCrashReportProcessorInfo.m in Sources */,
 				63F524DD1778ECD000FCA013 /* ApigeePLCrashReportSignalInfo.m in Sources */,
 				63F524DE1778ECD000FCA013 /* ApigeePLCrashReportSystemInfo.m in Sources */,
+				637BCAA9182944ED00F54D95 /* ApigeeUIEventSwitchToggled.m in Sources */,
 				63F524DF1778ECD000FCA013 /* ApigeePLCrashReportTextFormatter.m in Sources */,
 				63F524E01778ECD000FCA013 /* ApigeePLCrashReportThreadInfo.m in Sources */,
 				63F524E11778ECD000FCA013 /* ApigeePLCrashSignalHandler.m in Sources */,
@@ -1060,6 +1136,7 @@
 				63F5251D1778FE4600FCA013 /* NSData+Apigee.m in Sources */,
 				63F5251E1778FE4600FCA013 /* NSString+Apigee.m in Sources */,
 				63F5251F1778FE4600FCA013 /* NSURLConnection+Apigee.m in Sources */,
+				637BCAC118294AAA00F54D95 /* UISegmentedControl+ApigeeSwizzling.m in Sources */,
 				63F525241778FE6000FCA013 /* ApigeeUIWebView.m in Sources */,
 				63F525251778FE6000FCA013 /* ApigeeUIWebViewDelegateInterceptor.m in Sources */,
 				63B68EC517FF6A6A003424E1 /* ApigeeNSURLSessionDataDelegateInterceptor.m in Sources */,
@@ -1067,6 +1144,7 @@
 				63F5252B1778FE8700FCA013 /* ApigeeNSURLConnectionDataDelegateInterceptor.m in Sources */,
 				63F5252E1778FEC800FCA013 /* ApigeeCompositeConfiguration+Initializers.m in Sources */,
 				63F52535177A228300FCA013 /* crash_report.pb-c.c in Sources */,
+				637BCAB21829463000F54D95 /* ApigeeUIEventManager.m in Sources */,
 				63F5256C1781DC6700FCA013 /* ApigeeConnection.m in Sources */,
 				63F525721781DF4C00FCA013 /* ApigeeHTTPHelpers.m in Sources */,
 				63F525761781E07F00FCA013 /* ApigeeHTTPResult.m in Sources */,
