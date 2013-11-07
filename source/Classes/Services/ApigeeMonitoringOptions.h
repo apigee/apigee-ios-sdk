@@ -90,6 +90,13 @@
  */
 @property(copy, nonatomic) NSString* customUploadUrl;
 
+/*!
+ @property performAutomaticUIEventTracking
+ @abstract Allows for automatic capture of UI events for tracking purposes
+ @discussion By default, this parameter is turned off. When turned on, UIViewController,
+    UIButton, UISwitch, and UISegmentedControl are swizzled to intercept UI events
+    and logged to portal with tag value of 'UI_EVENT'.
+ */
 @property(assign, nonatomic) BOOL performAutomaticUIEventTracking;
 
 

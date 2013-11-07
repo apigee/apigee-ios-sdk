@@ -1851,7 +1851,6 @@ replacementInstanceMethod:(SEL) replacementSelector
 - (void)logUIEvent:(NSString*)uiEvent
 {
     [ApigeeLogger infoFrom:NULL tag:@"UI_EVENT" message:uiEvent];
-    //ApigeeLogInfoMessage(@"UI_EVENT",uiEvent);
 }
 
 - (void)screenVisibilityChanged:(ApigeeUIEventScreenVisibility*)screenEvent
