@@ -165,7 +165,7 @@ enum RelationalOperator
  @param term
  @param latitude
  @param longitude
- @param distance
+ @param distance in meters
  @discussion This adds a constraint that the term be within a certain distance
     of the sent-in x,y coordinates.
  */
@@ -177,8 +177,11 @@ enum RelationalOperator
 /*!
  @abstract assembles a "within" requirement with a term name, CLLocation, and distance
  @param term
- @param location
- @param distance
+ @param location value specified as a CLLocation
+ @param distance in meters
+ @discussion This method is a convenience method and simply calls
+    addRequiredWithin:latitude:longitude:distance:
+ @see addRequiredWithin:latitude:longitude:distance:
  */
 -(void)addRequiredWithinLocation:(NSString *)term
                         location:(CLLocation *)location
