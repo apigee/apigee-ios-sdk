@@ -20,11 +20,12 @@ static NSString* PROPERTY_TYPE = @"type";
 @synthesize dataClient;
 @synthesize properties;
 
-- (id)initWithDataClient:(ApigeeDataClient*)dataClient
+- (id)initWithDataClient:(ApigeeDataClient*)theDataClient
 {
     self = [super init];
     if( self )
     {
+        self.dataClient = theDataClient;
         self.properties = [[NSMutableDictionary alloc] init];
     }
     
