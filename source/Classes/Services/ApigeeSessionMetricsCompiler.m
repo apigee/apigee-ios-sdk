@@ -66,6 +66,7 @@
 #pragma mark - Public implementation
 
 - (ApigeeSessionMetrics *) compileMetricsForSettings:(ApigeeActiveSettings *) settings
+                                              isWiFi:(BOOL)isWiFi
 {
     ApigeeSessionMetrics *metrics = [[ApigeeSessionMetrics alloc] init];
     UIDevice *currentDevice = [UIDevice currentDevice];
@@ -85,25 +86,27 @@
 
     NSLocale *locale = [NSLocale currentLocale];
     
-    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
-    CTCarrier *carrier = [networkInfo subscriberCellularProvider];
-
-    BOOL isWiFi = (settings.activeNetworkStatus == Apigee_ReachableViaWiFi);
     BOOL isCapturingCarrierInfo = NO;
 
-    if( carrier && ([carrier.carrierName length] > 0) )
-    {
-        //NSString *mcc = [carrier mobileCountryCode];
-        if( settings.networkCarrierCaptureEnabled && !isWiFi )
-        {
-            isCapturingCarrierInfo = YES;
-            metrics.networkCarrier = carrier.carrierName;
-            metrics.networkCountry = carrier.isoCountryCode;
-        }
+    if (!isWiFi) {
+        
+        CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
+        CTCarrier *carrier = [networkInfo subscriberCellularProvider];
 
-        // Until we figure out what we want to do here...
-        //metrics.deviceCountry = [locale displayNameForKey:NSLocaleCountryCode value:mcc];
-        metrics.deviceCountry = kValueUnkown;
+        if( carrier && ([carrier.carrierName length] > 0) )
+        {
+            //NSString *mcc = [carrier mobileCountryCode];
+            if( settings.networkCarrierCaptureEnabled && !isWiFi )
+            {
+                isCapturingCarrierInfo = YES;
+                metrics.networkCarrier = carrier.carrierName;
+                metrics.networkCountry = carrier.isoCountryCode;
+            }
+
+            // Until we figure out what we want to do here...
+            //metrics.deviceCountry = [locale displayNameForKey:NSLocaleCountryCode value:mcc];
+            metrics.deviceCountry = kValueUnkown;
+        }
     }
     
     if (!isCapturingCarrierInfo)

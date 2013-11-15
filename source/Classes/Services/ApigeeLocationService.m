@@ -107,7 +107,7 @@
 
 #pragma mark - Implementation
 
-- (void) reset
+- (void) stopScan
 {
     @synchronized(self) {
         _location = nil;
@@ -147,7 +147,7 @@
 - (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     @synchronized (self) {
-        //check to see if we were reset
+        //check to see if we were stopped
         if (!self.working) {
             return;
         }

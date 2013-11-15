@@ -15,6 +15,8 @@
 
 + (NSString*)configFileName;
 + (BOOL) isCached;
++ (ApigeeCompositeConfiguration *) parseConfiguration:(NSString*)jsonConfigAsString
+                                                error:(NSError **)error;
 + (ApigeeCompositeConfiguration *) getConfiguration:(NSError **) error;
 + (BOOL) updateConfiguration:(NSData *) fileData error: (NSError **) error;
 

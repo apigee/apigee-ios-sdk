@@ -10,9 +10,10 @@
 #import "ApigeeCompositeConfiguration+Initializers.h"
 #import "ApigeeCachedConfigUtil.h"
 #import "ApigeeJsonUtils.h"
+#import "ApigeeMonitoringClient.h"
 
 static NSString* kApigeeDisckCacheErrorDomain = @"apigee-disk-cache";
-static NSString* kApigeeConfigFileName = @"webmanagerclientconfig.json";
+static NSString* kApigeeConfigFileName = @"config.json";
 
 @interface ApigeeCachedConfigUtil ()
 
@@ -25,7 +26,10 @@ static NSString* kApigeeConfigFileName = @"webmanagerclientconfig.json";
 
 + (NSString*)configFileName
 {
-    return kApigeeConfigFileName;
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    return [NSString stringWithFormat:@"%@_%@",
+            [monitoringClient uniqueIdentifierForApp],
+            kApigeeConfigFileName];
 }
 
 #pragma mark - Private implementations
@@ -37,7 +41,7 @@ static NSString* kApigeeConfigFileName = @"webmanagerclientconfig.json";
 
 + (NSString *) configFilePath
 {
-    return [[self myCacheDirectory] stringByAppendingPathComponent:kApigeeConfigFileName];
+    return [[self myCacheDirectory] stringByAppendingPathComponent:[self configFileName]];
 }
 
 + (BOOL) isCached
@@ -46,6 +50,19 @@ static NSString* kApigeeConfigFileName = @"webmanagerclientconfig.json";
 }
 
 #pragma mark - Public implementations
+
++ (ApigeeCompositeConfiguration *) parseConfiguration:(NSString*)jsonConfigAsString
+                                                error:(NSError**)error
+{
+    id objects = [ApigeeJsonUtils decode:jsonConfigAsString error:error];
+    
+    if( (objects == nil) || *error ) {
+        NSLog(@"JSON serialization returned nil");
+        return nil;
+    }
+    
+    return [ApigeeCompositeConfiguration fromDictionary:objects];
+}
 
 /**
  * note: we must always return a configuration, even if there is no available entry in the cache
@@ -61,8 +78,11 @@ static NSString* kApigeeConfigFileName = @"webmanagerclientconfig.json";
     if (!contents) {
         if (*error) {
             NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-            [errorDetail setValue:@"Error fetching config file contents from disk" forKey:NSLocalizedDescriptionKey];
-            *error = [NSError errorWithDomain:kApigeeDisckCacheErrorDomain code:kApigeeGetConfiguationFailed userInfo:errorDetail];
+            [errorDetail setValue:@"Error fetching config file contents from disk"
+                           forKey:NSLocalizedDescriptionKey];
+            *error = [NSError errorWithDomain:kApigeeDisckCacheErrorDomain
+                                         code:kApigeeGetConfiguationFailed
+                                     userInfo:errorDetail];
         }
         
         return nil;
@@ -70,27 +90,24 @@ static NSString* kApigeeConfigFileName = @"webmanagerclientconfig.json";
     
     NSString* contentsAsString = [[NSString alloc] initWithData:contents
                                                        encoding:NSUTF8StringEncoding];
-    
-    id objects = [ApigeeJsonUtils decode:contentsAsString error:error];
-        
-    if( objects == nil || *error ) {
-        NSLog(@"JSON serialization returned nil");
-        return nil;
-    }
-
-    return [ApigeeCompositeConfiguration fromDictionary:objects];
+    return [self parseConfiguration:contentsAsString error:error];
 }
 
 + (BOOL) updateConfiguration:(NSData *) fileData error:(NSError **) error
 {
-    if ([[NSFileManager defaultManager] createFileAtPath:[self configFilePath] contents:fileData attributes:nil]) {
+    if ([[NSFileManager defaultManager] createFileAtPath:[self configFilePath]
+                                                contents:fileData
+                                              attributes:nil]) {
         return YES;
     }
     
     if (*error) {
         NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
-        [errorDetail setValue:@"Error updating cache file on disk" forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:kApigeeDisckCacheErrorDomain code:kApigeeUpdateConfiguationFailed userInfo:errorDetail];
+        [errorDetail setValue:@"Error updating cache file on disk"
+                       forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:kApigeeDisckCacheErrorDomain
+                                     code:kApigeeUpdateConfiguationFailed
+                                 userInfo:errorDetail];
     }
     
     return NO;

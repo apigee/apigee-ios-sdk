@@ -222,6 +222,12 @@
                              error:(NSString*)errorDescription;
 
 /*!
+ @abstract Retrieves the unique string identifier for the current app
+ @return unique string identifier for app
+ */
+- (NSString*)uniqueIdentifierForApp;
+
+/*!
  @abstract Retrieves the base URL path used by monitoring
  @return string indicating base URL path used by monitoring
  */
