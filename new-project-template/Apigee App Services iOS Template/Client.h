@@ -12,7 +12,7 @@
 
 @interface Client : NSObject
 
-@property (nonatomic, strong) ApigeeDataClient *usergridClient;
+@property (nonatomic, strong) ApigeeDataClient *dataClient;
 
 -(NSString*)postBook;
 
