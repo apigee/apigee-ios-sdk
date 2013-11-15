@@ -142,9 +142,15 @@ static bool AmIBeingDebugged(void)
 @property (assign) BOOL crashReporterInitialized;
 @property (copy, nonatomic) NSString* customUploadUrl;
 
-- (void) retrieveAndApplyServerConfig;
+@property (assign, nonatomic) ApigeeNetworkStatus activeNetworkStatus;
+
+
+- (void) retrieveCachedConfig;
+- (BOOL) retrieveServerConfig;
+- (void) populateCustomConfigData;
+- (BOOL) isMonitoringDisabled;
+- (void) startMonitoring;
 - (BOOL) uploadEvents;
-- (void) applyConfig;
 - (BOOL) hasPendingCrashReports;
 - (void) uploadCrashReports;
 - (BOOL) enableCrashReporter:(NSError**) error;
@@ -179,6 +185,7 @@ static bool AmIBeingDebugged(void)
 @synthesize interceptNSURLSessionCalls;
 @synthesize showDebuggingInfo;
 @synthesize crashReporterInitialized;
+@synthesize activeNetworkStatus;
 
 
 // this method is sometimes handy for debugging
@@ -219,6 +226,14 @@ static bool AmIBeingDebugged(void)
 {
     // only returns non-nil pointer if it's been already created
     return singletonInstance;
+}
+
+- (void)checkReachability
+{
+    self.activeNetworkStatus = [self.reachability currentReachabilityStatus];
+    if (self.activeSettings) {
+        self.activeSettings.activeNetworkStatus = self.activeNetworkStatus;
+    }
 }
 
 - (void) dealloc
@@ -393,6 +408,7 @@ static bool AmIBeingDebugged(void)
     
     self.reachability = [ApigeeReachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
+    [self checkReachability];
     
     NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
     [notifyCenter addObserver:self
@@ -430,9 +446,14 @@ static bool AmIBeingDebugged(void)
                          name:UIApplicationWillTerminateNotification
                        object:nil];
 
-    
+    // fire off the remainder of our startup logic asynchronously so we
+    // don't block the UI
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self retrieveAndApplyServerConfig];
+        [self retrieveCachedConfig];
+        [self retrieveServerConfig];
+        if (![self isMonitoringDisabled]) {
+            [self startMonitoring];
+        }
     });
     
     return self;
@@ -455,62 +476,289 @@ static bool AmIBeingDebugged(void)
     [ApigeeQueue recordNetworkEntry:entry];
 }
 
-- (void) retrieveAndApplyServerConfig
+- (void) retrieveCachedConfig
 {
-    if ([self updateConfig]) {
-    
-#ifdef __arm64__
-        if (self.crashReportingEnabled) {
-            self.crashReportingEnabled = NO;
-            ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Disabling crash reporting on arm64 (not supported yet)");
-        }
-#endif
-    
-        if (AmIBeingDebugged()) {
-            self.crashReportingEnabled = NO;
-            ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Disabling crash reporting under debugger");
-        }
-    
-        if (self.crashReportingEnabled) {
+    NSError *error;
+    ApigeeCompositeConfiguration* config =
+        [ApigeeCachedConfigUtil getConfiguration:&error];
         
-            // look for other crash reporters that may be present
-            NSString* otherCrashReporterClasses =
-            @"PLCrashReporter|BITCrashManager|BugSenseCrashController|Crittercism|KSCrash|CrashController";
-            NSArray* listOtherCrashReporterClasses = [otherCrashReporterClasses componentsSeparatedByString:@"|"];
+    if (config) {
+        self.activeSettings = [[ApigeeActiveSettings alloc] initWithConfig:config];
+    }
+}
+
+- (BOOL) retrieveServerConfig
+{
+    BOOL retrievalOfServerConfigSucceeded = NO;
+    
+    if (self.showDebuggingInfo) {
+        [self printDebugMessage:@"retrieving configuration from server"];
+    }
+    
+    NSString* jsonConfig = [self retrieveConfigFromServer];
+    if( jsonConfig != nil ) {
         
-            for( NSString* crashReporterClass in listOtherCrashReporterClasses )
-            {
-                Class clsCrashReporter = NSClassFromString(crashReporterClass);
-                if (nil != clsCrashReporter) {
-                    ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Multiple crash reporters detected");
-                    break;
+        BOOL willUpdateCacheFromServer = YES;  // until we find out otherwise
+        
+        NSDictionary* configDict = [ApigeeJsonUtils decode:jsonConfig];
+        if( configDict != nil ) {
+            id lastModifedDate = [configDict valueForKey:@"lastModifiedDate"];
+            if( lastModifedDate != nil ) {
+                long long lastModifiedDateValue = 0;
+                
+                if( [lastModifedDate isKindOfClass:[NSString class]] ) {
+                    NSString* lastModifiedDateAsString = (NSString*) lastModifedDate;
+                    lastModifiedDateValue = [lastModifiedDateAsString longLongValue];
+                } else if( [lastModifedDate isKindOfClass:[NSNumber class]] ) {
+                    NSNumber* lastModifiedDateAsNumber = (NSNumber*) lastModifedDate;
+                    lastModifiedDateValue = [lastModifiedDateAsNumber longLongValue];
                 }
-            }
-        
-            NSError *error = nil;
-        
-            if( ! self.crashReporterInitialized ) {
-                if (![self enableCrashReporter:&error] || (nil !=error)) {
-                    ApigeeLogAssert(kApigeeMonitoringClientTag, @"Failed to start the crash reporter: %@", error);
-                } else if ([self hasPendingCrashReports]){
-                    [self uploadCrashReports];
-                    self.crashReporterInitialized = YES;
+                
+                if( lastModifiedDateValue > 0 ) {
+                    
+                    retrievalOfServerConfigSucceeded = YES;
+                    
+                    NSDate* serverLastModifiedDate = [NSDate dateFromMilliseconds:lastModifiedDateValue];
+                    
+                    if (self.showDebuggingInfo) {
+                        [self printDebugMessage:[NSString stringWithFormat:@"lastModifiedDate = %@",
+                                                 serverLastModifiedDate]];
+                    }
+                    
+                    if( self.activeSettings && self.activeSettings.appLastModifiedDate ) {
+                        if (self.showDebuggingInfo) {
+                            [self printDebugMessage:[NSString stringWithFormat:@"cache lastModifiedDate = %@",
+                                                     self.activeSettings.appLastModifiedDate]];
+                        }
+                        
+                        if( ! [self.activeSettings.appLastModifiedDate isEqualToDate:serverLastModifiedDate] ) {
+                            NSDate* laterConfigDate = [self.activeSettings.appLastModifiedDate laterDate:serverLastModifiedDate];
+                            
+                            // is configuration from server newer than what we currently have?
+                            if( laterConfigDate == self.activeSettings.appLastModifiedDate  ) {
+                                willUpdateCacheFromServer = NO;
+                                
+                                if (self.showDebuggingInfo) {
+                                    [self printDebugMessage:@"lastModifiedDate value for cache is more recent -- not updating cache"];
+                                }
+                            } else {
+                                if (self.showDebuggingInfo) {
+                                    [self printDebugMessage:@"lastModifiedDate value from server is more recent -- updating cache"];
+                                }
+                            }
+                        } else {
+                            // server config date and local config dates match -- no need to update
+                            willUpdateCacheFromServer = NO;
+                            
+                            if (self.showDebuggingInfo) {
+                                [self printDebugMessage:@"lastModifiedDate values for server and cache match -- not updating cache"];
+                            }
+                        }
+                    }
+                } else {
+                    if (self.showDebuggingInfo) {
+                        [self printDebugMessage:[NSString stringWithFormat:@"unrecognized value for lastModifiedDate '%@'", lastModifedDate]];
+                    }
+                }
+            } else {
+                if (self.showDebuggingInfo) {
+                    [self printDebugMessage:@"server config does not contain 'lastModifiedDate'"];
                 }
             }
         } else {
-            ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Crash reporting disabled");
+            SystemError(kApigeeMonitoringClientTag, @"parsing of config from server returned nil");
         }
-    
-        ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"INIT_AGENT");
-    
-        [self applyConfig];
-    
-        if (autoInterceptNetworkCalls) {
-            [self enableInterceptedNetworkingCalls];
+        
+        if( willUpdateCacheFromServer ) {
+            [self saveConfig:jsonConfig];
+            NSError* error = nil;
+            ApigeeCompositeConfiguration* config =
+                [ApigeeCachedConfigUtil parseConfiguration:jsonConfig
+                                                     error:&error];
+            if (config) {
+                self.activeSettings =
+                    [[ApigeeActiveSettings alloc] initWithConfig:config];
+            }
         }
+    } else {
+        // request to read config from server failed
+        SystemError(kApigeeMonitoringClientTag, @"Unable to read configuration from server");
+    }
     
+    return retrievalOfServerConfigSucceeded;
+}
+
+- (BOOL) isMonitoringDisabled
+{
+    return (self.activeSettings && self.activeSettings.monitoringDisabled);
+}
+
+- (void) populateCustomConfigData
+{
+    // populate our internal dictionaries with custom config parameters
+    [self.dictCustomConfigKeysByCategory removeAllObjects];
+    [self.dictCustomConfigValuesByKey removeAllObjects];
+    [self.dictCustomConfigValuesByCategoryAndKey removeAllObjects];
+    
+    NSArray *settings = self.activeSettings.customConfigParams;
+    
+    for (ApigeeCustomConfigParam *param in settings) {
+        NSString *category = param.category;
+        NSString *key = param.key;
+        NSString *value = param.value;
+        
+        NSMutableArray *listKeysForCategory =
+        [self.dictCustomConfigKeysByCategory valueForKey:category];
+        
+        if( nil == listKeysForCategory )
+        {
+            listKeysForCategory = [[NSMutableArray alloc] init];
+            [self.dictCustomConfigKeysByCategory setValue:listKeysForCategory
+                                                   forKey:category];
+        }
+        
+        [listKeysForCategory addObject:key];
+        
+        [self.dictCustomConfigValuesByKey setValue:value forKey:key];
+        
+        NSString *combinedCategoryKey =
+        [self dictionaryKeyForCategory:category
+                                   key:key];
+        [self.dictCustomConfigValuesByCategoryAndKey setValue:value
+                                                       forKey:combinedCategoryKey];
+    }
+}
+
+- (void)setUpCrashReporting
+{
+#ifdef __arm64__
+    if (self.crashReportingEnabled) {
+        self.crashReportingEnabled = NO;
+        ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Disabling crash reporting on arm64 (not supported yet)");
+    }
+#endif
+    
+    if (AmIBeingDebugged()) {
+        self.crashReportingEnabled = NO;
+        ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Disabling crash reporting under debugger");
+    }
+    
+    if (self.crashReportingEnabled) {
+        
+        // look for other crash reporters that may be present
+        NSString* otherCrashReporterClasses =
+        @"PLCrashReporter|BITCrashManager|BugSenseCrashController|Crittercism|KSCrash|CrashController";
+        NSArray* listOtherCrashReporterClasses = [otherCrashReporterClasses componentsSeparatedByString:@"|"];
+        
+        for( NSString* crashReporterClass in listOtherCrashReporterClasses )
+        {
+            Class clsCrashReporter = NSClassFromString(crashReporterClass);
+            if (nil != clsCrashReporter) {
+                ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Multiple crash reporters detected");
+                break;
+            }
+        }
+        
+        if( ! self.crashReporterInitialized ) {
+            NSError *error = nil;
+
+            if (![self enableCrashReporter:&error] || (nil !=error)) {
+                ApigeeLogAssert(kApigeeMonitoringClientTag, @"Failed to start the crash reporter: %@", error);
+            } else {
+                self.crashReporterInitialized = YES;
+            }
+        }
+        
+        if (self.crashReporterInitialized) {
+            if ([self hasPendingCrashReports]) {
+                [self uploadCrashReports];
+            }
+        }
+
+    } else {
+        ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Crash reporting disabled");
+    }
+}
+
+- (void)startMonitoring
+{
+    @synchronized (self) {
+        
+        // clean up any existing stuff that may be left over from
+        // earlier monitoring
+        if (self.timer) {
+            [self.timer cancel];
+            self.timer = nil;
+        }
+        
+#if !(TARGET_IPHONE_SIMULATOR)
+        [[ApigeeLocationService defaultService] stopScan];
+#endif
+        
+        if ([self isMonitoringDisabled]) {
+            SystemDebug(@"IO_Diagnostics",@"Monitoring disabled");
+            return;
+        }
+
+        if (!self.activeSettings) {
+            ApigeeLogErrorMessage(kApigeeMonitoringClientTag,@"No configuration available. Cannot start monitoring");
+            return;
+        }
+        
+        
+        // Will monitoring be active for this device?
+        
+        //coin flip for sample rate
+        const uint32_t r = arc4random_uniform(100);
+        
+        if (self.showDebuggingInfo) {
+            NSString* debugMsg =
+            [NSString stringWithFormat:@"configuration sampling rate=%d",
+             self.activeSettings.samplingRate];
+            [self printDebugMessage:debugMsg];
+            debugMsg = [NSString stringWithFormat:@"coin flip result = %d",
+                        r];
+            [self printDebugMessage:debugMsg];
+        }
+        
+        if (r < self.activeSettings.samplingRate) {
+            self.isPartOfSample = YES;
+            self.isActive = YES;
+            ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Configuration values applied");
+        } else {
+            self.isPartOfSample = NO;
+            SystemDebug(@"IO_Diagnostics",@"Device not chosen for sample");
+        }
+
+        
+        if (isActive && self.isPartOfSample) {
+            [self setUpCrashReporting];
+
+#if !(TARGET_IPHONE_SIMULATOR)
+            if (self.activeSettings.locationCaptureEnabled) {
+                [[ApigeeLocationService defaultService] startScan];
+            }
+#endif
+        
+            // if we've never sent any data to server, do so now
+            if (!self.sentStartingSessionData) {
+                [self timerFired];
+                if (autoInterceptNetworkCalls) {
+                    [self enableInterceptedNetworkingCalls];
+                }
+            } else {
+                self.timer = [[ApigeeIntervalTimer alloc] init];
+                [self.timer fireOnInterval:self.activeSettings.agentUploadIntervalInSeconds
+                                    target:self
+                                  selector:@selector(timerFired)
+                                   repeats:NO];
+            }
+        }
+        
         self.isInitialized = YES;
     }
+    
+    ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"INIT_AGENT");
 }
 
 #pragma mark - Property implementations
@@ -521,45 +769,6 @@ static bool AmIBeingDebugged(void)
 }
 
 #pragma mark - System configuration
-
-- (void) applyConfig
-{
-    // are we disabled?
-    if (!self.activeSettings.monitoringDisabled) {
-        
-        //coin flip for sample rate
-        const uint32_t r = arc4random_uniform(100);
-        
-        if (self.showDebuggingInfo) {
-            NSString* debugMsg =
-                [NSString stringWithFormat:@"configuration sampling rate=%d",
-                 self.activeSettings.samplingRate];
-            [self printDebugMessage:debugMsg];
-            debugMsg = [NSString stringWithFormat:@"coin flip result = %d",
-                        r];
-            [self printDebugMessage:debugMsg];
-        }
-        
-        if (r < self.activeSettings.samplingRate) {
-            self.isPartOfSample = YES;
-            self.isActive = YES;
-            [self reset];
-            ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Configuration values applied");
-            
-        } else {
-            self.isPartOfSample = NO;
-            
-            if (self.timer) {
-                [self.timer cancel];
-                self.timer = nil;
-            }
-            
-            SystemDebug(@"IO_Diagnostics",@"Device not chosen for sample");
-        }
-    } else {
-        SystemDebug(@"IO_Diagnostics",@"Monitoring disabled");
-    }
-}
 
 - (NSString*)baseServerURL
 {
@@ -630,149 +839,6 @@ static bool AmIBeingDebugged(void)
     } else {
         ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"Unable to retrieve config from server, device not connected to network");
         return nil;
-    }
-}
-
-- (BOOL) updateConfig
-{
-    BOOL isSuccess = NO;
-    
-    NSString* jsonConfig = [self retrieveConfigFromServer];
-    if( jsonConfig != nil ) {
-        
-        BOOL willUpdateCacheFromServer = YES;  // until we find out otherwise
-        
-        NSDictionary* configDict = [ApigeeJsonUtils decode:jsonConfig];
-        if( configDict != nil ) {
-            id lastModifedDate = [configDict valueForKey:@"lastModifiedDate"];
-            if( lastModifedDate != nil ) {
-                long long lastModifiedDateValue = 0;
-            
-                if( [lastModifedDate isKindOfClass:[NSString class]] ) {
-                    NSString* lastModifiedDateAsString = (NSString*) lastModifedDate;
-                    lastModifiedDateValue = [lastModifiedDateAsString longLongValue];
-                } else if( [lastModifedDate isKindOfClass:[NSNumber class]] ) {
-                    NSNumber* lastModifiedDateAsNumber = (NSNumber*) lastModifedDate;
-                    lastModifiedDateValue = [lastModifiedDateAsNumber longLongValue];
-                }
-            
-                if( lastModifiedDateValue > 0 ) {
-                    
-                    isSuccess = YES;
-                    
-                    NSDate* serverLastModifiedDate = [NSDate dateFromMilliseconds:lastModifiedDateValue];
-                    
-                    if( self.activeSettings && self.activeSettings.appLastModifiedDate ) {
-                        if( ! [self.activeSettings.appLastModifiedDate isEqualToDate:serverLastModifiedDate] ) {
-                            NSDate* laterConfigDate = [self.activeSettings.appLastModifiedDate laterDate:serverLastModifiedDate];
-                            
-                            // is configuration from server newer than what we currently have?
-                            if( laterConfigDate == self.activeSettings.appLastModifiedDate  ) {
-                                willUpdateCacheFromServer = NO;
-                            }
-                        } else {
-                            // server config date and local config dates match -- no need to update
-                            willUpdateCacheFromServer = NO;
-                        }
-                    }
-                }
-            }
-        } else {
-            SystemError(kApigeeMonitoringClientTag, @"parsing of config from server returned nil");
-        }
-        
-        if( willUpdateCacheFromServer ) {
-            [self saveConfig:jsonConfig];
-        }
-    } else {
-        // request to read config from server failed
-        SystemError(kApigeeMonitoringClientTag, @"Unable to read configuration from server");
-    }
-    
-    return isSuccess;
-}
-
-//note: this can be called by async background thread
-- (void) reset
-{
-    @synchronized (self) {
-        if (self.timer) {
-            [self.timer cancel];
-            self.timer = nil;
-        }
-        
-#if !(TARGET_IPHONE_SIMULATOR)
-        [[ApigeeLocationService defaultService] reset];
-#endif
-        
-        NSError *error;
-        ApigeeCompositeConfiguration* config = [ApigeeCachedConfigUtil getConfiguration:&error];
-        
-        if (!config) {
-            SystemError(kApigeeMonitoringClientTag, @"Initializing configuration failed: %@", [error localizedDescription]);
-            return;
-        }
-        
-        
-        //we always want these values to be set from what was passed during SDK initialization
-        
-        
-        self.activeSettings = [[ApigeeActiveSettings alloc] initWithConfig:config];
-        self.activeSettings.activeNetworkStatus = [self.reachability currentReachabilityStatus];
-        
-        // populate our internal dictionaries with custom config parameters
-        [self.dictCustomConfigKeysByCategory removeAllObjects];
-        [self.dictCustomConfigValuesByKey removeAllObjects];
-        [self.dictCustomConfigValuesByCategoryAndKey removeAllObjects];
-        
-        NSArray *settings = self.activeSettings.customConfigParams;
-        
-        for (ApigeeCustomConfigParam *param in settings) {
-            NSString *category = param.category;
-            NSString *key = param.key;
-            NSString *value = param.value;
-            
-            NSMutableArray *listKeysForCategory =
-                [self.dictCustomConfigKeysByCategory valueForKey:category];
-            
-            if( nil == listKeysForCategory )
-            {
-                listKeysForCategory = [[NSMutableArray alloc] init];
-                [self.dictCustomConfigKeysByCategory setValue:listKeysForCategory
-                                                       forKey:category];
-            }
-            
-            [listKeysForCategory addObject:key];
-            
-            [self.dictCustomConfigValuesByKey setValue:value forKey:key];
-            
-            NSString *combinedCategoryKey =
-                [self dictionaryKeyForCategory:category
-                                           key:key];
-            [self.dictCustomConfigValuesByCategoryAndKey setValue:value
-                                                          forKey:combinedCategoryKey];
-        }
-
-        if (self.activeSettings.monitoringDisabled) {
-            return;
-        }
-        
-#if !(TARGET_IPHONE_SIMULATOR)
-        if (self.activeSettings.locationCaptureEnabled) {
-            [[ApigeeLocationService defaultService] startScan];
-        }
-#endif
-        
-        // if we've never sent any data to server, do so now
-        if (!self.sentStartingSessionData) {
-            [self timerFired];
-        } else {
-            self.timer = [[ApigeeIntervalTimer alloc] init];
-            [self.timer fireOnInterval:self.activeSettings.agentUploadIntervalInSeconds
-                                target:self
-                              selector:@selector(timerFired)
-                               repeats:NO];
-        }
     }
 }
 
@@ -987,8 +1053,7 @@ static bool AmIBeingDebugged(void)
         [self printDebugMessage:@"network status changed"];
     }
 
-    self.activeSettings.activeNetworkStatus =
-        [self.reachability currentReachabilityStatus];
+    [self checkReachability];
     
     // do we have network connectivity?
     if ([self isDeviceNetworkConnected] && !self.isInitialized) {
@@ -996,20 +1061,31 @@ static bool AmIBeingDebugged(void)
         NSLog(@"attempting initialization");
         if ([NSThread isMainThread]) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [self retrieveAndApplyServerConfig];
+                if ([self retrieveServerConfig]) {
+                    [self startMonitoring];
+                }
             });
         } else {
-            [self retrieveAndApplyServerConfig];
+            if ([self retrieveServerConfig]) {
+                [self startMonitoring];
+            }
         }
     }
 }
 
 - (void)populateClientMetricsEnvelope:(NSMutableDictionary*)clientMetricsEnvelope
 {
-    [clientMetricsEnvelope setObject:self.activeSettings.instaOpsApplicationId forKey:@"instaOpsApplicationId"];
-    [clientMetricsEnvelope setObject:self.activeSettings.orgName forKey:@"orgName"];
-    [clientMetricsEnvelope setObject:self.activeSettings.appName forKey:@"appName"];
-    [clientMetricsEnvelope setObject:self.activeSettings.fullAppName forKey:@"fullAppName"];
+    if (self.activeSettings) {
+        if (self.activeSettings.instaOpsApplicationId) {
+            [clientMetricsEnvelope setObject:self.activeSettings.instaOpsApplicationId
+                                      forKey:@"instaOpsApplicationId"];
+        }
+        
+        [clientMetricsEnvelope setObject:self.activeSettings.orgName forKey:@"orgName"];
+        [clientMetricsEnvelope setObject:self.activeSettings.appName forKey:@"appName"];
+        [clientMetricsEnvelope setObject:self.activeSettings.fullAppName forKey:@"fullAppName"];
+    }
+    
     [clientMetricsEnvelope setObject:[NSDate unixTimestampAsString] forKey:@"timeStamp"];
 }
 
@@ -1023,7 +1099,13 @@ static bool AmIBeingDebugged(void)
 {
     @autoreleasepool {
         
-        ApigeeNetworkStatus netStatus = self.activeSettings.activeNetworkStatus;
+        if (!self.activeSettings) {
+            ApigeeLogVerboseMessage(kApigeeMonitoringClientTag,@"activeSettings is nil, abandoning upload");
+            return NO;
+        }
+        
+        [self checkReachability];
+        ApigeeNetworkStatus netStatus = self.activeNetworkStatus;
         
         // do we have network connectivity?
         if (Apigee_NotReachable == netStatus) {
@@ -1055,8 +1137,11 @@ static bool AmIBeingDebugged(void)
             return NO;
         }
         
+        BOOL isWiFi = (self.activeNetworkStatus == Apigee_ReachableViaWiFi);
+
         ApigeeSessionMetrics *sessionMetrics =
-            [[ApigeeSessionMetricsCompiler systemCompiler] compileMetricsForSettings:self.activeSettings];
+            [[ApigeeSessionMetricsCompiler systemCompiler] compileMetricsForSettings:self.activeSettings
+                                                                              isWiFi:isWiFi];
     
         NSMutableDictionary *clientMetricsEnvelope = [NSMutableDictionary dictionary];
         [self populateClientMetricsEnvelope:clientMetricsEnvelope];
@@ -1144,7 +1229,13 @@ static bool AmIBeingDebugged(void)
     logEntry.logMessage = fileName;
     logEntry.logLevel = @"A"; // assert
     
-    ApigeeSessionMetrics *sessionMetrics = [[ApigeeSessionMetricsCompiler systemCompiler] compileMetricsForSettings:self.activeSettings];
+    [self checkReachability];
+    
+    BOOL isWiFi = (self.activeNetworkStatus == Apigee_ReachableViaWiFi);
+
+    ApigeeSessionMetrics *sessionMetrics =
+        [[ApigeeSessionMetricsCompiler systemCompiler] compileMetricsForSettings:self.activeSettings
+                                                                          isWiFi:isWiFi];
     NSArray *logEntries = [NSArray arrayWithObject:logEntry];
 
     NSMutableDictionary *clientMetricsEnvelope = [NSMutableDictionary dictionary];
@@ -1185,7 +1276,6 @@ static bool AmIBeingDebugged(void)
     NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
     
     [ApigeeCachedConfigUtil updateConfiguration:data error:&error];
-    [self reset];
     
     if (error) {
         SystemError(kApigeeMonitoringClientTag, @"Error updating cached config file: %@", [error localizedDescription]);
@@ -1514,13 +1604,7 @@ replacementInstanceMethod:(SEL) replacementSelector
 
 - (BOOL)isDeviceNetworkConnected
 {
-    if (self.activeSettings) {
-        return (Apigee_NotReachable != self.activeSettings.activeNetworkStatus);
-    } else {
-        return (Apigee_NotReachable != [self.reachability currentReachabilityStatus]);
-    }
-    
-    return NO;
+    return (Apigee_NotReachable != self.activeNetworkStatus);
 }
 
 - (NSString*)dictionaryKeyForCategory:(NSString*)categoryName key:(NSString*)keyName
@@ -1601,9 +1685,9 @@ replacementInstanceMethod:(SEL) replacementSelector
         // are we currently connected to network?
         if( [self isDeviceNetworkConnected] ) {
             ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"Manually refreshing configuration now");
-            if ([self updateConfig]) {
+            if ([self retrieveServerConfig]) {
                 ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"Configuration retrieved, applying new configuration");
-                [self applyConfig];
+                [self startMonitoring];
                 configurationUpdated = YES;
             } else {
                 ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"Unable to retrieve configuration from server");
@@ -1680,6 +1764,11 @@ replacementInstanceMethod:(SEL) replacementSelector
     }
     
     return metricsRecorded;
+}
+
+- (NSString*)uniqueIdentifierForApp
+{
+    return [self.appIdentification uniqueIdentifier];
 }
 
 - (NSString*)baseURLPath

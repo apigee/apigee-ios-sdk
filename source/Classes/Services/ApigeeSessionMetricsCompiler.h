@@ -12,6 +12,7 @@
 
 + (ApigeeSessionMetricsCompiler *) systemCompiler;
 
-- (ApigeeSessionMetrics *) compileMetricsForSettings:(ApigeeActiveSettings *) settings;
+- (ApigeeSessionMetrics *) compileMetricsForSettings:(ApigeeActiveSettings *) settings
+                                              isWiFi:(BOOL)isWiFi;
 
 @end

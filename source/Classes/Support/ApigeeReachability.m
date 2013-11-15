@@ -57,7 +57,7 @@
 #import "ApigeeSystemLogger.h"
 #import "ApigeeReachability.h"
 
-#define kShouldPrintReachabilityFlags 1
+#define kShouldPrintReachabilityFlags 0
 
 static void PrintReachabilityFlags(SCNetworkReachabilityFlags    flags, const char* comment)
 {

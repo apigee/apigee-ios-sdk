@@ -35,7 +35,7 @@
 - (id) initWithDefaultPolicy;
 - (id) initWithDefaultPolicyFor:(id<ApigeeLocationServiceDelegate>) delegate;
 
-- (void) reset;
+- (void) stopScan;
 - (void) startScan;
 
 @end
