@@ -4,19 +4,44 @@ Apigee iOS SDK Overview
 There are 2 main areas of functionality provided: (1) App Services (Usergrid), and (2) App Monitoring.  App Services provides server-side storage functionality.  App Monitoring provides crash reporting, error tracking, application configuration management, and network performance monitoring.  You may use both of these areas or decide to just use one of them.
 
 
-Linking in Xcode
-----------------
-Add the following flags to "Other Linker Flags" in "Build Settings":
+Installing the SDK
+------------------
+
+1. Add 'ApigeeiOSSDK.framework' to your project.
+2. Add the following iOS frameworks to your project:
 <pre>
-	-ObjC -all_load
+CoreLocation.framework
+Security.framework
+CoreTelephony.framework
+SystemConfiguration.framework
+UIKit.framework
 </pre>
-
-Add the following frameworks:
-
-* CoreLocation.framework
-* CoreTelephony.framework
-* SystemConfiguration.framework
-* Security.framework
+3. Add the following flags to 'Other Linker Flags' in 'Build Settings':
+<pre>-ObjC -all_load</pre>
+Confirm that flags are set for both 'DEBUG' and 'RELEASE'.
+4. Import the SDK in your code:
+<pre>#import &lt;ApigeeiOSSDK/Apigee.h&gt;</pre>
+5. Declare the following properties in 'AppDelegate.h':
+<pre>
+@property (strong, nonatomic) ApigeeClient *apigeeClient; //object for initializing the App Services SDK
+@property (strong, nonatomic) ApigeeMonitoringClient *monitoringClient; //client object for Apigee App Monitoring methods
+@property (strong, nonatomic) ApigeeDataClient *dataClient;	//client object for App Services data methods
+</pre>
+6. Instantiate the 'ApigeeClient' class inside the 'didFinishLaunching' method of 'AppDelegate.m':
+<pre>
+//Instantiate the AppDelegate
+AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//Sepcify your App Services organization and application names
+NSString *orgName = @"YOUR-ORG";
+NSString *appName = @"YOUR-APP";
+//Instantiate ApigeeClient to initialize the SDK
+appDelegate.apigeeClient = [[ApigeeClient alloc]
+                            initWithOrganizationId:orgName
+                            applicationId:appName];
+//Retrieve instances of ApigeeClient.monitoringClient and ApigeeClient.dataClient
+self.monitoringClient = [appDelegate.apigeeClient monitoringClient]; //used to call App Monitoring methods
+self.dataClient = [appDelegate.apigeeClient dataClient]; //used to call data methods
+</pre>
 
 Technical Details
 -----------------
