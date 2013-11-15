@@ -88,6 +88,8 @@ static const char *kHardwareMachineType = "hw.machine";
             platform = @"iPod Touch 3G";
         } else if ([platform isEqualToString:@"iPod4,1"]) {
             platform = @"iPod Touch 4G";
+        } else if ([platform isEqualToString:@"iPod5,1"]) {
+            platform = @"iPod Touch 5G";
         }
     } else if ([platform hasPrefix:@"iPad"]) {
         if ([platform isEqualToString:@"iPad1,1"]) {
@@ -108,6 +110,14 @@ static const char *kHardwareMachineType = "hw.machine";
             platform = @"iPad-3G (4G)";
         } else if ([platform isEqualToString:@"iPad3,3"]) {
             platform = @"iPad-3G (4G)";
+        } else if ([platform isEqualToString:@"iPad4,1"]) {
+            platform = @"iPad Air (WiFi)";
+        } else if ([platform isEqualToString:@"iPad4,2"]) {
+            platform = @"iPad Air (Cellular)";
+        } else if ([platform isEqualToString:@"iPad4,4"]) {
+            platform = @"iPad mini 2G (WiFi)";
+        } else if ([platform isEqualToString:@"iPad4,5"]) {
+            platform = @"iPad mini 2G (Cellular)";
         }
     } else {
         // Simulator
