@@ -117,7 +117,15 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
 {
     if (error) {
         self.numErrors = @"1";
-        self.transactionDetails = [error localizedDescription];
+        
+        // the following check on class type should not be necessary, but
+        // we're doing it as a safeguard as there have been some strange
+        // edge cases where a string (NSString*) is passed in.
+        if ([error isKindOfClass:[NSError class]]) {
+            self.transactionDetails = [error localizedDescription];
+        } else if ([error isKindOfClass:[NSString class]]) {
+            self.transactionDetails = (NSString*) error;
+        }
     }
 }
 
