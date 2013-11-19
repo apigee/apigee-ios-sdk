@@ -121,6 +121,9 @@ static NSString* kEntityTypeKey = @"type";
     {
         // we already have some terms. Append an & before continuing
         [m_urlTerms appendFormat:@"&"];
+    } else {
+        // append ql= to start the query string
+        [m_urlTerms appendFormat:@"ql="];
     }
     [m_urlTerms appendFormat:@"%@=%@", escapedUrlTerm, escapedEquals];
 }
