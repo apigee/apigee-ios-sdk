@@ -61,6 +61,7 @@
 #import "ApigeeUIEventButtonPress.h"
 #import "ApigeeUIEventSegmentSelected.h"
 #import "ApigeeUIEventSwitchToggled.h"
+#import "NSURLConnection+Apigee.h"
 
 static const int64_t kOneMillion = 1000 * 1000;
 static mach_timebase_info_data_t s_timebase_info;
@@ -1283,158 +1284,15 @@ static bool AmIBeingDebugged(void)
     }
 }
 
-- (BOOL) swizzleClass:(Class) targetClass
-          classMethod:(SEL) originalSelector
-replacementClassMethod:(SEL) replacementSelector
-{
-    Method origMethod = class_getClassMethod(targetClass, originalSelector);
-    Method newMethod = class_getClassMethod(targetClass, replacementSelector);
-    
-    if( origMethod == NULL ) {
-        NSLog( @"error: can't find method %@ in class %@",
-              NSStringFromSelector(originalSelector),
-              NSStringFromClass(targetClass));
-        return NO;
-    }
-    
-    if( newMethod == NULL ) {
-        NSLog( @"error: can't find method %@ in class %@",
-              NSStringFromSelector(replacementSelector),
-              NSStringFromClass(targetClass));
-        return NO;
-    }
-    
-    method_exchangeImplementations(origMethod, newMethod);
-    
-    return YES;
-}
-
-- (BOOL) swizzleClass:(Class) targetClass
-       instanceMethod:(SEL) originalSelector
-replacementInstanceMethod:(SEL) replacementSelector
-{
-    Method originalMethod = class_getInstanceMethod(targetClass, originalSelector);
-    Method replacementMethod = class_getInstanceMethod(targetClass, replacementSelector);
-    
-    /*
-     If the method we're swizzling is actually defined in a superclass, we have
-     to use class_addMethod to add an implementation to the target class, which
-     we do using our replacement implementation. Then we can use
-     class_replaceMethod to replace with the superclass's implementation, so
-     our new version will be able to correctly call the old.
-     
-     If the method is defined in the target class, class_addMethod will fail
-     but then we can use method_exchangeImplementations to just swap the new
-     and old versions.
-     */
-
-    if( originalMethod == NULL ) {
-        NSLog( @"error: can't find method %@ in class %@",
-              NSStringFromSelector(originalSelector),
-              NSStringFromClass(targetClass));
-        return NO;
-    }
-    
-    if( replacementMethod == NULL ) {
-        NSLog( @"error: can't find method %@ in class %@",
-              NSStringFromSelector(replacementSelector),
-              NSStringFromClass(targetClass));
-        return NO;
-    }
-
-    if (class_addMethod(targetClass,
-                        originalSelector,
-                        method_getImplementation(replacementMethod),
-                        method_getTypeEncoding(replacementMethod))) {
-        class_replaceMethod(targetClass,
-                            replacementSelector,
-                            method_getImplementation(originalMethod),
-                            method_getTypeEncoding(originalMethod));
-    } else {
-        method_exchangeImplementations(originalMethod, replacementMethod);
-    }
-
-    return YES;
-}
-
-- (BOOL) swizzleClass:(Class) targetClass
-       instanceMethod:(SEL) originalSelector
-     replacementClass:(Class) replacementClass
-replacementInstanceMethod:(SEL) replacementSelector
-{
-    Method originalMethod = class_getInstanceMethod(targetClass, originalSelector);
-    Method replacementMethod = class_getInstanceMethod(replacementClass, replacementSelector);
-    
-    /*
-     If the method we're swizzling is actually defined in a superclass, we have
-     to use class_addMethod to add an implementation to the target class, which
-     we do using our replacement implementation. Then we can use
-     class_replaceMethod to replace with the superclass's implementation, so
-     our new version will be able to correctly call the old.
-     
-     If the method is defined in the target class, class_addMethod will fail
-     but then we can use method_exchangeImplementations to just swap the new
-     and old versions.
-     */
-    
-    if( originalMethod == NULL ) {
-        NSLog( @"error: can't find method %@ in class %@",
-              NSStringFromSelector(originalSelector),
-              NSStringFromClass(targetClass));
-        return NO;
-    }
-    
-    if( replacementMethod == NULL ) {
-        NSLog( @"error: can't find method %@ in class %@",
-              NSStringFromSelector(replacementSelector),
-              NSStringFromClass(replacementClass));
-        return NO;
-    }
-    
-     if (class_addMethod(targetClass,
-                         originalSelector,
-                         method_getImplementation(replacementMethod),
-                         method_getTypeEncoding(replacementMethod))) {
-         class_replaceMethod(targetClass,
-                             replacementSelector,
-                             method_getImplementation(originalMethod),
-                             method_getTypeEncoding(originalMethod));
-     } else {
-         method_exchangeImplementations(originalMethod, replacementMethod);
-    }
-    
-    return YES;
-}
-
 - (void) enableInterceptedNetworkingCalls
 {
     if (!self.activeSettings.monitoringDisabled && !self.swizzledNSURLConnection) {
 
-        Class clsNSURLConnection = [NSURLConnection class];
-        
         if (self.showDebuggingInfo) {
             [self printDebugMessage:@"swizzling NSURLConnection methods"];
         }
-    
-        [self swizzleClass:clsNSURLConnection
-               classMethod:@selector(sendSynchronousRequest:returningResponse:error:)
-    replacementClassMethod:@selector(swzSendSynchronousRequest:returningResponse:error:)];
-
-        [self swizzleClass:clsNSURLConnection
-               classMethod:@selector(connectionWithRequest:delegate:)
-    replacementClassMethod:@selector(swzConnectionWithRequest:delegate:)];
-
-        [self swizzleClass:clsNSURLConnection
-            instanceMethod:@selector(initWithRequest:delegate:startImmediately:)
- replacementInstanceMethod:@selector(initSwzWithRequest:delegate:startImmediately:)];
-    
-        [self swizzleClass:clsNSURLConnection
-            instanceMethod:@selector(initWithRequest:delegate:)
- replacementInstanceMethod:@selector(initSwzWithRequest:delegate:)];
         
-        [self swizzleClass:clsNSURLConnection
-            instanceMethod:@selector(start)
- replacementInstanceMethod:@selector(swzStart)];
+        [NSURLConnection apigeeSwizzlingSetup];
     
         self.swizzledNSURLConnection = YES;
         

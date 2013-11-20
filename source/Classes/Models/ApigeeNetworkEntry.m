@@ -116,15 +116,21 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
 - (void)populateWithError:(NSError*)error
 {
     if (error) {
-        self.numErrors = @"1";
+        BOOL treatAsError = NO;
         
         // the following check on class type should not be necessary, but
         // we're doing it as a safeguard as there have been some strange
         // edge cases where a string (NSString*) is passed in.
         if ([error isKindOfClass:[NSError class]]) {
             self.transactionDetails = [error localizedDescription];
+            treatAsError = YES;
         } else if ([error isKindOfClass:[NSString class]]) {
             self.transactionDetails = (NSString*) error;
+            treatAsError = YES;
+        }
+        
+        if (treatAsError) {
+            self.numErrors = @"1";
         }
     }
 }

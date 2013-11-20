@@ -18,6 +18,141 @@
 static void *KEY_START_TIME;
 
 
+// Declarations for swizzled methods
+
+//+ (NSData *)sendSynchronousRequest:(NSURLRequest *)request
+//                  returningResponse:(NSURLResponse **)response
+//                              error:(NSError **)error
+NSData* (*gOrigNSURLConnection_sendSynchronousRequestReturningResponseError)(id,SEL,NSURLRequest*,NSURLResponse**,NSError**) = NULL;
+
+//+ (NSURLConnection *)connectionWithRequest:(NSURLRequest *)request
+//                                  delegate:(id < NSURLConnectionDelegate >)delegate
+NSURLConnection* (*gOrigNSURLConnection_connectionWithRequestDelegate)(id,SEL,NSURLRequest*,id) = NULL;
+
+//- (id)initWithRequest:(NSURLRequest *)request
+//            delegate:(id < NSURLConnectionDelegate >)delegate
+//    startImmediately:(BOOL)startImmediately
+id (*gOrigNSURLConnection_initWithRequestDelegateStartImmediately)(id,SEL,NSURLRequest*,id,BOOL) = NULL;
+
+//- (id)initWithRequest:(NSURLRequest *)request
+//            delegate:(id < NSURLConnectionDelegate >)delegate
+id (*gOrigNSURLConnection_initWithRequestDelegate)(id,SEL,NSURLRequest*,id) = NULL;
+
+//- (void)start
+void (*gOrigNSURLConnection_start)(id,SEL) = NULL;
+
+
+
+static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseError(id self,SEL _cmd,NSURLRequest* request,NSURLResponse** response,NSError** error)
+{
+    //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeSendSynchronousRequestReturningResponseError");
+    
+    
+    //TODO: pass in non-null error object even if caller hasn't (so that
+    // we can relay the error information to the server)
+    
+    if (gOrigNSURLConnection_sendSynchronousRequestReturningResponseError != NULL) {
+    
+        NSDate *startTime = [NSDate date];
+
+        NSData *responseData =
+            gOrigNSURLConnection_sendSynchronousRequestReturningResponseError(self,
+                                                                              _cmd,
+                                                                              request,
+                                                                              response,
+                                                                              error);
+    
+        NSDate *endTime = [NSDate date];
+    
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateWithRequest:request];
+        [entry populateStartTime:startTime ended:endTime];
+    
+        if (response && *response) {
+            NSURLResponse *theResponse = *response;
+            [entry populateWithResponse:theResponse];
+        }
+    
+        [entry populateWithResponseData:responseData];
+    
+        if (error && *error) {
+            NSError *theError = *error;
+            [entry populateWithError:theError];
+        }
+    
+        [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
+    
+        return responseData;
+    } else {
+        return nil;
+    }
+}
+
+
+static NSURLConnection* NSURLConnection_apigeeConnectionWithRequestDelegate(id self,SEL _cmd,NSURLRequest* request,id delegate)
+{
+    //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeConnectionWithRequestDelegate");
+
+    if (gOrigNSURLConnection_connectionWithRequestDelegate != NULL) {
+        ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
+        [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
+                                                                      withRequest:request];
+        return gOrigNSURLConnection_connectionWithRequestDelegate(self,_cmd,request,interceptor);
+    } else {
+        return nil;
+    }
+}
+
+static id NSURLConnection_apigeeInitWithRequestDelegateStartImmediately(id self,SEL _cmd,NSURLRequest* request,id delegate,BOOL startImmediately)
+{
+    //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeInitWithRequestDelegateStartImmediately");
+    
+    if (gOrigNSURLConnection_initWithRequestDelegateStartImmediately) {
+        ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
+        [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
+                                                                      withRequest:request];
+
+        return gOrigNSURLConnection_initWithRequestDelegateStartImmediately(self,
+                                                                            _cmd,
+                                                                            request,
+                                                                            interceptor,
+                                                                            startImmediately);
+    } else {
+        return nil;
+    }
+}
+
+static id NSURLConnection_apigeeInitWithRequestDelegate(id self,SEL _cmd,NSURLRequest* request,id delegate)
+{
+    //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeInitWithRequestDelegate");
+    
+    if (gOrigNSURLConnection_initWithRequestDelegate) {
+        ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
+        [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
+                                                                      withRequest:request];
+
+        return gOrigNSURLConnection_initWithRequestDelegate(self,
+                                                            _cmd,
+                                                            request,
+                                                            interceptor);
+    } else {
+        return nil;
+    }
+}
+
+static void NSURLConnection_apigeeStart(id self,SEL _cmd)
+{
+    //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeStart");
+    
+    [self setStartTime:[NSDate date]];
+    
+    if (gOrigNSURLConnection_start != NULL) {
+        gOrigNSURLConnection_start(self,_cmd);
+    }
+}
+
+
+
 @implementation NSURLConnection (Apigee)
 
 + (NSURLConnection*) timedConnectionWithRequest:(NSURLRequest *) request
@@ -75,93 +210,95 @@ static void *KEY_START_TIME;
 //******************************************************************************
 //******************************************************************************
 
-+ (NSData*) swzSendSynchronousRequest:(NSURLRequest *) request
-                    returningResponse:(NSURLResponse **)response
-                                error:(NSError **)error
++ (BOOL)apigeeSwizzlingSetup
 {
-    //ApigeeLogVerbose(@"MOBILE_AGENT", @"swzSendSynchronousRequest");
+    SEL selMethod;
+    IMP impOverrideMethod;
+    Method origMethod;
+    int numSwizzledMethods = 0;
+    Class c = [NSURLConnection class];
+    
+    
+    //***********************************
+    // NSURLConnection +sendSynchronousRequest:returningResponse:error:
+    selMethod = @selector(sendSynchronousRequest:returningResponse:error:);
+    impOverrideMethod = (IMP) NSURLConnection_apigeeSendSynchronousRequestReturningResponseError;
+    origMethod = class_getClassMethod(c,selMethod);
+    gOrigNSURLConnection_sendSynchronousRequestReturningResponseError = (void *)method_getImplementation(origMethod);
+    
+    if( gOrigNSURLConnection_sendSynchronousRequestReturningResponseError != NULL )
+    {
+        method_setImplementation(origMethod, impOverrideMethod);
+        ++numSwizzledMethods;
+    } else {
+        NSLog(@"error: unable to swizzle +sendSynchronousRequest:returningResponse:error:");
+    }
 
-    NSDate *startTime = [NSDate date];
     
-    //TODO: pass in non-null error object even if caller hasn't (so that
-    // we can relay the error information to the server)
+    //***********************************
+    // NSURLConnection +connectionWithRequest:delegate:
+    selMethod = @selector(connectionWithRequest:delegate:);
+    impOverrideMethod = (IMP) NSURLConnection_apigeeConnectionWithRequestDelegate;
+    origMethod = class_getClassMethod(c,selMethod);
+    gOrigNSURLConnection_connectionWithRequestDelegate = (void *)method_getImplementation(origMethod);
     
-    // this looks like a recursive call, but it's not (swizzling)
-    NSData *responseData = [self swzSendSynchronousRequest:request
-                                           returningResponse:response
-                                                       error:error];
+    if( gOrigNSURLConnection_connectionWithRequestDelegate != NULL )
+    {
+        method_setImplementation(origMethod, impOverrideMethod);
+        ++numSwizzledMethods;
+    } else {
+        NSLog(@"error: unable to swizzle +connectionWithRequest:delegate:");
+    }
+
+
+    //***********************************
+    // NSURLConnection -initWithRequest:delegate:startImmediately:
+    selMethod = @selector(initWithRequest:delegate:startImmediately:);
+    impOverrideMethod = (IMP) NSURLConnection_apigeeInitWithRequestDelegateStartImmediately;
+    origMethod = class_getInstanceMethod(c,selMethod);
+    gOrigNSURLConnection_initWithRequestDelegateStartImmediately = (void *)method_getImplementation(origMethod);
     
-    NSDate *endTime = [NSDate date];
+    if( gOrigNSURLConnection_initWithRequestDelegateStartImmediately != NULL )
+    {
+        method_setImplementation(origMethod, impOverrideMethod);
+        ++numSwizzledMethods;
+    } else {
+        NSLog(@"error: unable to swizzle -initWithRequest:delegate:startImmediately:");
+    }
+
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithRequest:request];
-    [entry populateStartTime:startTime ended:endTime];
+    //***********************************
+    // NSURLConnection -initWithRequest:delegate:
+    selMethod = @selector(initWithRequest:delegate:);
+    impOverrideMethod = (IMP) NSURLConnection_apigeeInitWithRequestDelegate;
+    origMethod = class_getInstanceMethod(c,selMethod);
+    gOrigNSURLConnection_initWithRequestDelegate = (void *)method_getImplementation(origMethod);
     
-    if (response && *response) {
-        NSURLResponse *theResponse = *response;
-        [entry populateWithResponse:theResponse];
+    if( gOrigNSURLConnection_initWithRequestDelegate != NULL )
+    {
+        method_setImplementation(origMethod, impOverrideMethod);
+        ++numSwizzledMethods;
+    } else {
+        NSLog(@"error: unable to swizzle -initWithRequest:delegate:");
+    }
+
+    
+    //***********************************
+    // NSURLConnection -start
+    selMethod = @selector(start);
+    impOverrideMethod = (IMP) NSURLConnection_apigeeStart;
+    origMethod = class_getInstanceMethod(c,selMethod);
+    gOrigNSURLConnection_start = (void *)method_getImplementation(origMethod);
+    
+    if( gOrigNSURLConnection_start != NULL )
+    {
+        method_setImplementation(origMethod, impOverrideMethod);
+        ++numSwizzledMethods;
+    } else {
+        NSLog(@"error: unable to swizzle -start");
     }
     
-    [entry populateWithResponseData:responseData];
-    
-    if (error && *error) {
-        NSError *theError = *error;
-        [entry populateWithError:theError];
-    }
-    
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
-    
-    return responseData;
-}
-
-+ (NSURLConnection *)swzConnectionWithRequest:(NSURLRequest *)request
-                                     delegate:(id < NSURLConnectionDelegate >)delegate
-{
-    //ApigeeLogVerbose(@"MOBILE_AGENT", @"swzConnectionWithRequest");
-
-    ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
-    [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
-                                                                  withRequest:request];
-    // the following looks like a recursive call, but it isn't (swizzling)
-    return [NSURLConnection swzConnectionWithRequest:request delegate:interceptor];
-}
-
-- (id) initSwzWithRequest:(NSURLRequest *) request
-                 delegate:(id < NSURLConnectionDelegate >)delegate
-{
-    //ApigeeLogVerbose(@"MOBILE_AGENT", @"initSwzWithRequest");
-    
-    ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
-    [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
-                                                                  withRequest:request];
-    // the following looks like a recursive call, but it isn't (swizzling)
-    return [self initSwzWithRequest:request
-                           delegate:interceptor];
-}
-
-- (id) initSwzWithRequest:(NSURLRequest *) request
-                 delegate:(id < NSURLConnectionDelegate >)delegate
-         startImmediately:(BOOL) startImmediately
-{
-    //ApigeeLogVerbose(@"MOBILE_AGENT", @"initSwzWithRequest");
-
-    ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
-    [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
-                                                                  withRequest:request];
-    // the following looks like a recursive call, but it isn't (swizzling)
-    return [self initSwzWithRequest:request
-                           delegate:interceptor
-                   startImmediately:startImmediately];
-}
-
-- (void) swzStart
-{
-    //ApigeeLogVerbose(@"MOBILE_AGENT", @"swzStart");
-
-    [self setStartTime:[NSDate date]];
-    
-    // the following looks like a recursive call, but it isn't (swizzling)
-    [self swzStart];
+    return (numSwizzledMethods == 5);
 }
 
 - (NSDate*)startTime
