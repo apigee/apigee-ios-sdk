@@ -52,15 +52,27 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
     // we can relay the error information to the server)
     
     if (gOrigNSURLConnection_sendSynchronousRequestReturningResponseError != NULL) {
-    
+        
         NSDate *startTime = [NSDate date];
 
-        NSData *responseData =
-            gOrigNSURLConnection_sendSynchronousRequestReturningResponseError(self,
+        NSData *responseData;
+        NSError *reportingError = nil;
+        
+        if (error != nil) {
+            responseData =
+                gOrigNSURLConnection_sendSynchronousRequestReturningResponseError(self,
                                                                               _cmd,
                                                                               request,
                                                                               response,
                                                                               error);
+        } else {
+            responseData =
+                gOrigNSURLConnection_sendSynchronousRequestReturningResponseError(self,
+                                                                              _cmd,
+                                                                              request,
+                                                                              response,
+                                                                              &reportingError);
+        }
     
         NSDate *endTime = [NSDate date];
     
@@ -75,9 +87,19 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
     
         [entry populateWithResponseData:responseData];
     
-        if (error && *error) {
-            NSError *theError = *error;
-            [entry populateWithError:theError];
+        if (nil == responseData) {
+            @try {
+                if ( error && *error) {
+                    NSError *theError = *error;
+                    [entry populateWithError:theError];
+                } else if (reportingError != nil) {
+                    [entry populateWithError:reportingError];
+                }
+            } @catch (NSException* exception) {
+                ApigeeLogWarn(@"MONITOR_CLIENT",
+                              @"unable to capture potential networking error: %@",
+                              [exception reason]);
+            }
         }
     
         [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
