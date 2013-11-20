@@ -93,36 +93,7 @@
 
 // ******  swizzling  *******
 
-/*!
- @internal
- */
-+ (NSData*) swzSendSynchronousRequest:(NSURLRequest *) request
-                    returningResponse:(NSURLResponse **)response
-                                error:(NSError **)error;
-
-/*!
- @internal
- */
-+ (NSURLConnection *)swzConnectionWithRequest:(NSURLRequest *)request
-                                     delegate:(id < NSURLConnectionDelegate >)delegate;
-
-/*!
- @internal
- */
-- (id) initSwzWithRequest:(NSURLRequest *) request
-                 delegate:(id < NSURLConnectionDelegate >)delegate;
-
-/*!
- @internal
- */
-- (id) initSwzWithRequest:(NSURLRequest *) request
-                 delegate:(id < NSURLConnectionDelegate >)delegate
-         startImmediately:(BOOL) startImmediately;
-
-/*!
- @internal
- */
-- (void) swzStart;
++ (BOOL)apigeeSwizzlingSetup;
 
 /*!
  @internal
