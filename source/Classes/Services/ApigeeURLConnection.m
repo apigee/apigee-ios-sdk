@@ -30,12 +30,18 @@
 {
     NSDate *startTime = [NSDate date];
     
-    //TODO: pass in non-null error object even if caller hasn't (so that
-    // we can relay the error information to the server)
+    NSError *reportingError = nil;
+    NSData *responseData;
     
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request
-                                                 returningResponse:response
-                                                             error:error];
+    if (error != nil) {
+        responseData = [NSURLConnection sendSynchronousRequest:request
+                                                     returningResponse:response
+                                                                 error:error];
+    } else {
+        responseData = [NSURLConnection sendSynchronousRequest:request
+                                                     returningResponse:response
+                                                                 error:&reportingError];
+    }
     
     NSDate* endTime = [NSDate date];
     
@@ -48,11 +54,19 @@
         [entry populateWithResponse:theResponse];
     }
     
-    [entry populateWithResponseData:responseData];
-    
-    if (error && *error) {
-        NSError *theError = *error;
-        [entry populateWithError:theError];
+    if (responseData != nil) {
+        [entry populateWithResponseData:responseData];
+    } else {
+        @try {
+            if (error && *error) {
+                NSError *theError = *error;
+                [entry populateWithError:theError];
+            }
+        } @catch (NSException* exception) {
+            ApigeeLogWarn(@"MONITOR_CLIENT",
+                          @"unable to capture networking error: %@",
+                          [exception reason]);
+        }
     }
     
     [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
