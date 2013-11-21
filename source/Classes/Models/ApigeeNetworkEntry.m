@@ -123,7 +123,7 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
         @catch (NSException *exception)
         {
             ApigeeLogWarn(@"MONITOR_CLIENT",
-                          @"unable to capture potential networking error: %@",
+                          @"unable to capture networking error: %@",
                           [exception reason]);
         }
     }

@@ -42,14 +42,13 @@ id (*gOrigNSURLConnection_initWithRequestDelegate)(id,SEL,NSURLRequest*,id) = NU
 void (*gOrigNSURLConnection_start)(id,SEL) = NULL;
 
 
-
 static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseError(id self,SEL _cmd,NSURLRequest* request,NSURLResponse** response,NSError** error)
 {
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeSendSynchronousRequestReturningResponseError");
     
     
-    //TODO: pass in non-null error object even if caller hasn't (so that
-    // we can relay the error information to the server)
+    //TODO: pass in non-null response object even if caller hasn't (so that
+    // we can relay the HTTP status code information to the server)
     
     if (gOrigNSURLConnection_sendSynchronousRequestReturningResponseError != NULL) {
         
@@ -97,7 +96,7 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
                 }
             } @catch (NSException* exception) {
                 ApigeeLogWarn(@"MONITOR_CLIENT",
-                              @"unable to capture potential networking error: %@",
+                              @"unable to capture networking error: %@",
                               [exception reason]);
             }
         }
