@@ -709,6 +709,7 @@ static size_t Apigee_plcrash_writer_write_thread_register (Apigee_plcrash_async_
  * @param cursor The cursor from which to acquire frame data.
  */
 static size_t Apigee_plcrash_writer_write_thread_registers (Apigee_plcrash_async_file_t *file, ucontext_t *uap) {
+#ifndef __LP64__
     Apigee_plframe_cursor_t cursor;
     Apigee_plframe_error_t frame_err;
     uint32_t regCount;
@@ -754,6 +755,9 @@ static size_t Apigee_plcrash_writer_write_thread_registers (Apigee_plcrash_async
     }
     
     return rv;
+#else
+    return 0;
+#endif
 }
 
 /**
@@ -784,6 +788,8 @@ static size_t Apigee_plcrash_writer_write_thread_frame (Apigee_plcrash_async_fil
  */
 static size_t Apigee_plcrash_writer_write_thread (Apigee_plcrash_async_file_t *file, thread_t thread, uint32_t thread_number, ucontext_t *crashctx) {
     size_t rv = 0;
+    
+#ifndef __LP64__
     Apigee_plframe_cursor_t cursor;
     Apigee_plframe_error_t ferr;
     bool crashed_thread = false;
@@ -854,6 +860,7 @@ static size_t Apigee_plcrash_writer_write_thread (Apigee_plcrash_async_file_t *f
     if (crashed_thread) {
         rv += Apigee_plcrash_writer_write_thread_registers(file, crashctx);
     }
+#endif
 
     return rv;
 }
