@@ -47,7 +47,7 @@ Technical Details
 -----------------
 - The majority of the Objective-C classes make use of ARC.
 - Targeted for iOS 5.0 and newer.
-- Requires Xcode 5.0 (or newer) to build from source.
+- Requires Xcode 5.0.2 (or newer) to build from source.
 
 
 Building From Source
