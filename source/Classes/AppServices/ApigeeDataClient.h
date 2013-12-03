@@ -758,6 +758,32 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
                    completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 /*!
+ @abstract Get a list of entities that meet the specified query parameters
+ @param type The collection (type) of the entities to retrieve
+ @param queryParams Dictionary of query parameters to restrict the returned entities
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ @see ApigeeQuery ApigeeQuery
+ */
+-(ApigeeClientResponse *)getEntities:(NSString *)type
+                         queryParams:(NSDictionary *)queryParams;
+
+
+/*!
+ @abstract Get a list of entities that meet the specified query parameters
+ @param type The collection (type) of the entities to retrieve
+ @param queryParams Dictionary of query parameters to restrict the returned entities
+ @param completionHandler The callback to call when the request completes
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ @see ApigeeQuery ApigeeQuery
+ */
+-(ApigeeClientResponse *)getEntities:(NSString *)type
+                         queryParams:(NSDictionary *)queryParams
+                   completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+
+/*!
  @abstract Get a list of entities that meet the specified query
  @param type The collection (type) of the entities to retrieve
  @param queryString The query string to restrict the returned entities
@@ -1418,6 +1444,16 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  @see ApigeeCollection ApigeeCollection
  */
 -(ApigeeCollection*)getCollection:(NSString*)type query:(NSDictionary*)qs;
+
+/*!
+ @abstract Retrieves a collection by type name and query
+ @param type The type whose collection is to be retrieved
+ @param query ApigeeQuery object to control the query
+ @return Instance of ApigeeCollection that corresponds to the collection
+ @see ApigeeCollection
+ @see ApigeeQuery
+ */
+-(ApigeeCollection*)getCollection:(NSString*)type usingQuery:(ApigeeQuery*)query;
 
 
 //**********************  HTTP HEADERS  **************************

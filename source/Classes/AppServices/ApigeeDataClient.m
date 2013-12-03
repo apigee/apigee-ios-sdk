@@ -1393,6 +1393,32 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
 }
 
+-(ApigeeClientResponse *)getEntities:(NSString *)type
+                         queryParams:(NSDictionary *)queryParams
+{
+    ApigeeQuery* query = nil;
+    
+    if( [queryParams count] > 0 ) {
+        query = [ApigeeQuery queryFromDictionary:queryParams];
+    }
+    
+    return [self getEntities:type query:query];
+}
+
+-(ApigeeClientResponse *)getEntities:(NSString *)type
+                         queryParams:(NSDictionary *)queryParams
+                   completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    ApigeeQuery* query = nil;
+    
+    if( [queryParams count] > 0 ) {
+        query = [ApigeeQuery queryFromDictionary:queryParams];
+    }
+    
+    return [self getEntities:type query:query completionHandler:completionHandler];
+}
+
+
 -(ApigeeClientResponse *)updateEntity: (NSString *)entityID entity:(NSDictionary *)updatedEntity
 {
     NSString *jsonStr;
@@ -1972,6 +1998,11 @@ NSString *g_deviceUUID = nil;
 -(ApigeeCollection*)getCollection:(NSString*)type query:(NSDictionary*)qs
 {
     return [[ApigeeCollection alloc] init:self type:type qs:qs];
+}
+
+-(ApigeeCollection*)getCollection:(NSString*)type usingQuery:(ApigeeQuery*)query
+{
+    return [[ApigeeCollection alloc] init:self type:type query:query];
 }
 
 //**********************  LOCATION  ***************************

@@ -10,6 +10,7 @@
 @class ApigeeDataClient;
 @class ApigeeClientResponse;
 @class ApigeeEntity;
+@class ApigeeQuery;
 
 
 /*!
@@ -17,15 +18,6 @@
  @abstract
  */
 @interface ApigeeCollection : NSObject
-{
-	NSString* _type;
-	NSMutableDictionary* _qs;
-	NSMutableArray* _list;
-	int _iterator;
-	NSMutableArray* _previous;
-	NSString* _next;
-	NSString* _cursor;
-}
 
 @property (weak, nonatomic) ApigeeDataClient* dataClient;
 @property (strong, nonatomic) NSString* type;
@@ -34,15 +26,23 @@
 @property (strong, nonatomic) NSMutableArray* previous;
 @property (strong, nonatomic) NSString* next;
 @property (strong, nonatomic) NSString* cursor;
-
+@property (strong, nonatomic) ApigeeQuery* query;
 
 /*!
- @abstract
- @param theDataClient
- @param type
- @param qs
+ @abstract Initializes and populates a collection of the specified type using the given query parameters
+ @param theDataClient instance of ApigeeDataClient
+ @param type The collection type
+ @param qs The query parameters to restrict which entities are returned
  */
 - (id)init:(ApigeeDataClient*)theDataClient type:(NSString*)type qs:(NSDictionary*)qs;
+
+/*!
+ @abstract Initializes and populates a collection of the specified type using the given query
+ @param theDataClient instance of ApigeeDataClient
+ @param type The collection type
+ @param query The query to restrict which entities are returned
+ */
+- (id)init:(ApigeeDataClient*)theDataClient type:(NSString*)type query:(ApigeeQuery*)query;
 
 /*!
  @abstract

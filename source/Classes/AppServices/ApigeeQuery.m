@@ -17,10 +17,27 @@ static NSString* kEntityTypeKey = @"type";
 
     if( [allKeys count] > 0 ) {
         query = [[ApigeeQuery alloc] init];
+        
+        Class clsNSNumber = [NSNumber class];
+        Class clsNSString = [NSString class];
     
         for( NSString* key in allKeys ) {
             if( ! [key isEqualToString:kEntityTypeKey] ) {
-                [query addURLTerm:key equals:[dictParams valueForKey:key]];
+                id value = [dictParams valueForKey:key];
+                if ([value isKindOfClass:clsNSNumber]) {
+                    NSNumber* valueAsNumber = (NSNumber*) value;
+                    [query addRequiredOperation:key
+                                             op:kApigeeQueryOperationEquals
+                                       valueInt:[valueAsNumber intValue]];
+                } else if ([value isKindOfClass:clsNSString]) {
+                    NSString* valueAsString = (NSString*) value;
+                    [query addRequiredOperation:key
+                                             op:kApigeeQueryOperationEquals
+                                       valueStr:valueAsString];
+                } else {
+                    //TODO: add log message indicating that the key is not
+                    //      being used to construct the query
+                }
             }
         }
     }
