@@ -136,7 +136,7 @@ enum RelationalOperator
     Example:
     <pre>
     @textblock
-        [foo addRequiredContains:@"hobbies value:@"fishing"];
+        [foo addRequiredContains:@"hobbies" value:@"fishing"];
     @/textblock
     </pre>
     would add the term "hobbies contains 'fishing'" to the ql.
