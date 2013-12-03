@@ -117,7 +117,7 @@ static NSString* kEntityTypeKey = @"type";
     NSString *escapedEquals = [ApigeeHTTPManager escapeSpecials:equals];
 
     // add it in
-    if ( [m_urlTerms length] > 0 || urlTerm == @"ql" )
+    if ( ([m_urlTerms length] > 0) || ([urlTerm isEqualToString:@"ql"]) )
     {
         // we already have some terms. Append an & before continuing
         [m_urlTerms appendFormat:@"&"];
