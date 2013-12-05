@@ -11,6 +11,21 @@
 #import "ApigeeEntity.h"
 #import "ApigeeQuery.h"
 
+@interface ApigeeCollection ()
+{
+	NSString* _type;
+	NSMutableDictionary* _qs;
+	NSMutableArray* _list;
+	int _iterator;
+	NSMutableArray* _previous;
+	NSString* _next;
+	NSString* _cursor;
+    ApigeeQuery* _query;
+}
+
+@end
+
+
 @implementation ApigeeCollection
 
 @synthesize dataClient;
@@ -20,6 +35,7 @@
 @synthesize previous=_previous;
 @synthesize next=_next;
 @synthesize cursor=_cursor;
+@synthesize query=_query;
 
 - (id)init:(ApigeeDataClient*)theDataClient type:(NSString*)type qs:(NSDictionary*)qs
 {
@@ -50,24 +66,50 @@
     
     return self;
 }
+
+- (id)init:(ApigeeDataClient*)theDataClient type:(NSString*)type query:(ApigeeQuery *)theQuery
+{
+    self = [super init];
+    if( self )
+    {
+	    self.dataClient = theDataClient;
+	    self.type = type;
+	    
+        self.query = theQuery;
+        
+	    self.list = [[NSMutableArray alloc] init];
+	    _iterator = -1;
+        
+	    self.previous = [[NSMutableArray alloc] init];
+	    self.next = nil;
+	    self.cursor = nil;
+        
+	    [self fetch];
+    }
     
+    return self;
+}
+
 - (ApigeeClientResponse*)fetch
 {
-    if (self.cursor != nil) {
-        [self.qs setValue:self.cursor forKey:@"cursor"];
-    }
-    else if ( [self.qs valueForKey:@"cursor"]  != nil ) {
-        [self.qs removeObjectForKey:@"cursor"];
-    }
+    ApigeeQuery* theQuery = nil;
     
-    ApigeeQuery* query = nil;
+    if (self.qs) {
+        if (self.cursor != nil) {
+            [self.qs setValue:self.cursor forKey:@"cursor"];
+        } else if ( [self.qs valueForKey:@"cursor"]  != nil ) {
+            [self.qs removeObjectForKey:@"cursor"];
+        }
     
-    if( [self.qs count] > 0 ) {
-        query = [ApigeeQuery queryFromDictionary:self.qs];
+        if( [self.qs count] > 0 ) {
+            theQuery = [ApigeeQuery queryFromDictionary:self.qs];
+        }
+    } else {
+        theQuery = self.query;
     }
     
     ApigeeClientResponse* response = [self.dataClient getEntities:self.type
-                                                            query:query];
+                                                            query:theQuery];
     
     if ([response error] != nil) {
         [self.dataClient writeLog:@"Error getting collection."];
