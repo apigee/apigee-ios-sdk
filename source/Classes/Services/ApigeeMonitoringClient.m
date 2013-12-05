@@ -714,8 +714,8 @@ static bool AmIBeingDebugged(void)
         
         if (self.showDebuggingInfo) {
             NSString* debugMsg =
-            [NSString stringWithFormat:@"configuration sampling rate=%d",
-             self.activeSettings.samplingRate];
+            [NSString stringWithFormat:@"configuration sampling rate=%ld",
+             (long)self.activeSettings.samplingRate];
             [self printDebugMessage:debugMsg];
             debugMsg = [NSString stringWithFormat:@"coin flip result = %d",
                         r];
@@ -884,7 +884,7 @@ static bool AmIBeingDebugged(void)
     }
     
     NSData* postData = [postBody dataUsingEncoding:NSUTF8StringEncoding];
-    NSString* postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    NSString* postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
@@ -936,7 +936,7 @@ static bool AmIBeingDebugged(void)
     }
     
     NSData* postData = [postBody dataUsingEncoding:NSUTF8StringEncoding];
-    NSString* postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    NSString* postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
@@ -1576,8 +1576,8 @@ static bool AmIBeingDebugged(void)
 }
 
 - (BOOL)recordNetworkSuccessForUrl:(NSString*)url
-                         startTime:(NSDate*)startTime
-                           endTime:(NSDate*)endTime
+                         startTime:(uint64_t)startTime
+                           endTime:(uint64_t)endTime
 {
     BOOL metricsRecorded = NO;
     
@@ -1598,8 +1598,8 @@ static bool AmIBeingDebugged(void)
 }
 
 - (BOOL)recordNetworkFailureForUrl:(NSString*)url
-                         startTime:(NSDate*)startTime
-                           endTime:(NSDate*)endTime
+                         startTime:(uint64_t)startTime
+                           endTime:(uint64_t)endTime
                              error:(NSString*)errorDescription
 {
     BOOL metricsRecorded = NO;
@@ -1769,7 +1769,7 @@ static bool AmIBeingDebugged(void)
     }
 }
 
-- (void)setStartTime:(NSDate*)startTime forSessionDataTask:(NSURLSessionDataTask*)dataTask
+- (void)setStartTime:(uint64_t)startTime forSessionDataTask:(NSURLSessionDataTask*)dataTask
 {
     if (self.isInitialized) {
         if( startTime && dataTask )

@@ -28,7 +28,7 @@
                        returningResponse:(NSURLResponse **)response
                                    error:(NSError **)error
 {
-    NSDate *startTime = [NSDate date];
+    uint64_t startTime = [ApigeeNetworkEntry machTime];
     
     NSError *reportingError = nil;
     NSData *responseData;
@@ -43,7 +43,7 @@
                                                                  error:&reportingError];
     }
     
-    NSDate* endTime = [NSDate date];
+    uint64_t endTime = [ApigeeNetworkEntry machTime];
     
     ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
     [entry populateStartTime:startTime ended:endTime];
@@ -76,7 +76,7 @@
 
 + (void)sendAsynchronousRequest:(NSURLRequest *)request queue:(NSOperationQueue *)queue completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler
 {
-    NSDate *startTime = [NSDate date];
+    uint64_t startTime = [ApigeeNetworkEntry machTime];
     
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:queue
@@ -84,7 +84,7 @@
                                                NSData *data,
                                                NSError *error) {
                                                           
-                               NSDate *endTime = [NSDate date];
+                               uint64_t endTime = [ApigeeNetworkEntry machTime];
                                                           
                                // invoke our caller's completion handler
                                if (handler) {
@@ -122,7 +122,7 @@
 
 - (void) start
 {
-    _started = [NSDate date];
+    _started = [ApigeeNetworkEntry machTime];
     
     [super start];
 }

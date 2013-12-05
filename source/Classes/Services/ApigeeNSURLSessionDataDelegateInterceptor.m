@@ -185,7 +185,7 @@ didCompleteWithError:(NSError *)error
 {
     //NSLog(@"interceptor URLSession:task:didCompleteWithError:");
     
-    NSDate* endTime = [NSDate date];
+    uint64_t endTime = [ApigeeNetworkEntry machTime];
     
     ApigeeMonitoringClient* monitoringClient =
         [ApigeeMonitoringClient sharedInstance];
