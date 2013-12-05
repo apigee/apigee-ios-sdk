@@ -43,7 +43,7 @@
         NSLog(@"networkEntry is nil");
     }
     NSLog(@"completionHandler=%@", self.completionHandler);
-    NSLog(@"dataSize=%d", self.dataSize);
+    NSLog(@"dataSize=%lu", (unsigned long)self.dataSize);
     NSLog(@"key=%@", self.key);
     NSLog(@"========= End ApigeeNSURLSessionDataTaskInfo ======");
 }

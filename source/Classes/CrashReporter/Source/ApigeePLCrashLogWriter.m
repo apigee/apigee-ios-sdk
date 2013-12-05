@@ -594,7 +594,7 @@ static size_t Apigee_plcrash_writer_write_machine_info (Apigee_plcrash_async_fil
 
     /* Processor */
     {
-        uint32_t size;
+        size_t size;
 
         /* Determine size */
         size = Apigee_plcrash_writer_write_processor_info(NULL, writer->machine_info.cpu_type, writer->machine_info.cpu_subtype);
@@ -964,7 +964,7 @@ static size_t Apigee_plcrash_writer_write_binary_image (Apigee_plcrash_async_fil
     }
     
     /* Get the processor message size */
-    uint32_t msgsize = Apigee_plcrash_writer_write_processor_info(NULL, cpu_type, cpu_subtype);
+    size_t msgsize = Apigee_plcrash_writer_write_processor_info(NULL, cpu_type, cpu_subtype);
 
     /* Write the header and message */
     rv += Apigee_plcrash_writer_pack(file, Apigee_PLCRASH_PROTO_BINARY_IMAGE_CODE_TYPE_ID, Apigee_PLPROTOBUF_C_TYPE_MESSAGE, &msgsize);
@@ -996,7 +996,7 @@ static size_t Apigee_plcrash_writer_write_exception (Apigee_plcrash_async_file_t
         uint64_t pc = (uint64_t)(uintptr_t) writer->uncaught_exception.callstack[i];
         
         /* Determine the size */
-        uint32_t frame_size = Apigee_plcrash_writer_write_thread_frame(NULL, pc);
+        size_t frame_size = Apigee_plcrash_writer_write_thread_frame(NULL, pc);
         
         rv += Apigee_plcrash_writer_pack(file, Apigee_PLCRASH_PROTO_EXCEPTION_FRAMES_ID, Apigee_PLPROTOBUF_C_TYPE_MESSAGE, &frame_size);
         rv += Apigee_plcrash_writer_write_thread_frame(file, pc);
@@ -1074,7 +1074,7 @@ Apigee_plcrash_error_t Apigee_plcrash_log_writer_write (Apigee_plcrash_log_write
     /* System Info */
     {
         time_t timestamp;
-        uint32_t size;
+        size_t size;
 
         /* Must stay the same across both calls, so get the timestamp here */
         if (time(&timestamp) == (time_t)-1) {
@@ -1092,7 +1092,7 @@ Apigee_plcrash_error_t Apigee_plcrash_log_writer_write (Apigee_plcrash_log_write
     
     /* Machine Info */
     {
-        uint32_t size;
+        size_t size;
 
         /* Determine size */
         size = Apigee_plcrash_writer_write_machine_info(NULL, writer);
@@ -1104,7 +1104,7 @@ Apigee_plcrash_error_t Apigee_plcrash_log_writer_write (Apigee_plcrash_log_write
 
     /* App info */
     {
-        uint32_t size;
+        size_t size;
 
         /* Determine size */
         size = Apigee_plcrash_writer_write_app_info(NULL, writer->application_info.app_identifier, writer->application_info.app_version);
@@ -1116,7 +1116,7 @@ Apigee_plcrash_error_t Apigee_plcrash_log_writer_write (Apigee_plcrash_log_write
     
     /* Process info */
     {
-        uint32_t size;
+        size_t size;
         
         /* Determine size */
         size = Apigee_plcrash_writer_write_process_info(NULL, writer->process_info.process_name, writer->process_info.process_id, 
@@ -1144,7 +1144,7 @@ Apigee_plcrash_error_t Apigee_plcrash_log_writer_write (Apigee_plcrash_log_write
         /* Suspend each thread and write out its state */
         for (mach_msg_type_number_t i = 0; i < thread_count; i++) {
             thread_t thread = threads[i];
-            uint32_t size;
+            size_t size;
             bool suspend_thread = true;
             
             /* Check if we're running on the to be examined thread */
@@ -1181,7 +1181,7 @@ Apigee_plcrash_error_t Apigee_plcrash_log_writer_write (Apigee_plcrash_log_write
 
     Apigee_plcrash_async_image_t *image = NULL;
     while ((image = Apigee_plcrash_async_image_list_next(&writer->image_info.image_list, image)) != NULL) {
-        uint32_t size;
+        size_t size;
 
         /* Calculate the message size */
         // TODO - switch to plframe_read_addr()
@@ -1194,7 +1194,7 @@ Apigee_plcrash_error_t Apigee_plcrash_log_writer_write (Apigee_plcrash_log_write
 
     /* Exception */
     if (writer->uncaught_exception.has_exception) {
-        uint32_t size;
+        size_t size;
 
         /* Calculate the message size */
         size = Apigee_plcrash_writer_write_exception(NULL, writer);
@@ -1204,7 +1204,7 @@ Apigee_plcrash_error_t Apigee_plcrash_log_writer_write (Apigee_plcrash_log_write
     
     /* Signal */
     {
-        uint32_t size;
+        size_t size;
         
         /* Calculate the message size */
         size = Apigee_plcrash_writer_write_signal(NULL, siginfo);

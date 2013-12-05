@@ -77,7 +77,7 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
     if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
         
-        self.httpStatusCode = [NSString stringWithFormat:@"%d", [httpResponse statusCode]];
+        self.httpStatusCode = [NSString stringWithFormat:@"%ld", (long)[httpResponse statusCode]];
         
         NSDictionary *headerFields = [httpResponse allHeaderFields];
         NSString *receiptTime = [headerFields valueForKey:kHeaderReceiptTime];
@@ -110,7 +110,7 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
 
 - (void)populateWithResponseDataSize:(NSUInteger)dataSize
 {
-    self.responseDataSize = [NSString stringWithFormat:@"%d", dataSize];
+    self.responseDataSize = [NSString stringWithFormat:@"%lu", (unsigned long)dataSize];
 }
 
 - (void)populateWithError:(NSError*)error

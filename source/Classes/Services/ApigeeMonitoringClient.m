@@ -714,8 +714,8 @@ static bool AmIBeingDebugged(void)
         
         if (self.showDebuggingInfo) {
             NSString* debugMsg =
-            [NSString stringWithFormat:@"configuration sampling rate=%d",
-             self.activeSettings.samplingRate];
+            [NSString stringWithFormat:@"configuration sampling rate=%ld",
+             (long)self.activeSettings.samplingRate];
             [self printDebugMessage:debugMsg];
             debugMsg = [NSString stringWithFormat:@"coin flip result = %d",
                         r];
@@ -884,7 +884,7 @@ static bool AmIBeingDebugged(void)
     }
     
     NSData* postData = [postBody dataUsingEncoding:NSUTF8StringEncoding];
-    NSString* postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    NSString* postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
@@ -936,7 +936,7 @@ static bool AmIBeingDebugged(void)
     }
     
     NSData* postData = [postBody dataUsingEncoding:NSUTF8StringEncoding];
-    NSString* postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    NSString* postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     
