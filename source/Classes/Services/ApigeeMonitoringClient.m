@@ -1576,8 +1576,8 @@ static bool AmIBeingDebugged(void)
 }
 
 - (BOOL)recordNetworkSuccessForUrl:(NSString*)url
-                         startTime:(NSDate*)startTime
-                           endTime:(NSDate*)endTime
+                         startTime:(uint64_t)startTime
+                           endTime:(uint64_t)endTime
 {
     BOOL metricsRecorded = NO;
     
@@ -1598,8 +1598,8 @@ static bool AmIBeingDebugged(void)
 }
 
 - (BOOL)recordNetworkFailureForUrl:(NSString*)url
-                         startTime:(NSDate*)startTime
-                           endTime:(NSDate*)endTime
+                         startTime:(uint64_t)startTime
+                           endTime:(uint64_t)endTime
                              error:(NSString*)errorDescription
 {
     BOOL metricsRecorded = NO;
@@ -1769,7 +1769,7 @@ static bool AmIBeingDebugged(void)
     }
 }
 
-- (void)setStartTime:(NSDate*)startTime forSessionDataTask:(NSURLSessionDataTask*)dataTask
+- (void)setStartTime:(uint64_t)startTime forSessionDataTask:(NSURLSessionDataTask*)dataTask
 {
     if (self.isInitialized) {
         if( startTime && dataTask )

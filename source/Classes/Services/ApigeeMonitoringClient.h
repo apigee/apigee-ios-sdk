@@ -205,8 +205,8 @@
  @return boolean indicating whether the recording was made or not
  */
 - (BOOL)recordNetworkSuccessForUrl:(NSString*)url
-                         startTime:(NSDate*)startTime
-                           endTime:(NSDate*)endTime;
+                         startTime:(uint64_t)startTime
+                           endTime:(uint64_t)endTime;
 
 /*!
  @abstract Records a failed network call.
@@ -217,8 +217,8 @@
  @return boolean indicating whether the recording was made or not
  */
 - (BOOL)recordNetworkFailureForUrl:(NSString*)url
-                         startTime:(NSDate*)startTime
-                           endTime:(NSDate*)endTime
+                         startTime:(uint64_t)startTime
+                           endTime:(uint64_t)endTime
                              error:(NSString*)errorDescription;
 
 /*!
@@ -319,7 +319,7 @@
 /*!
  @internal
  */
-- (void)setStartTime:(NSDate*)startTime
+- (void)setStartTime:(uint64_t)startTime
   forSessionDataTask:(NSURLSessionDataTask*)dataTask;
 
 #endif

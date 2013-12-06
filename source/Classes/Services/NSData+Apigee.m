@@ -14,9 +14,9 @@
 
 + (NSData*) timedDataWithContentsOfURL:(NSURL *) url options:(NSDataReadingOptions) readOptionsMask error:(NSError **) errorPtr
 {
-    NSDate *start = [NSDate date];
+    uint64_t start = [ApigeeNetworkEntry machTime];
     NSData *data = [NSData dataWithContentsOfURL:url options:readOptionsMask error:errorPtr];
-    NSDate *end = [NSDate date];
+    uint64_t end = [ApigeeNetworkEntry machTime];
     
     ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
     [entry populateWithURL:url];
@@ -35,9 +35,9 @@
 
 + (NSData*) timedDataWithContentsOfURL:(NSURL *) url
 {
-    NSDate *start = [NSDate date];
+    uint64_t start = [ApigeeNetworkEntry machTime];
     NSData *data = [NSData dataWithContentsOfURL:url];
-    NSDate *end = [NSDate date];
+    uint64_t end = [ApigeeNetworkEntry machTime];
     
     ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
     [entry populateWithURL:url];
@@ -51,9 +51,9 @@
 
 - (id) initWithTimedContentsOfURL:(NSURL *) url options:(NSDataReadingOptions) readOptionsMask error:(NSError **) errorPtr
 {
-    NSDate *start = [NSDate date];
+    uint64_t start = [ApigeeNetworkEntry machTime];
     NSData *data = [[NSData alloc] initWithContentsOfURL:url options:readOptionsMask error:errorPtr];
-    NSDate *end = [NSDate date];
+    uint64_t end = [ApigeeNetworkEntry machTime];
     
     ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
     [entry populateWithURL:url];
@@ -72,9 +72,9 @@
 
 - (id) initWithTimedContentsOfURL:(NSURL *) url
 {
-    NSDate *start = [NSDate date];
+    uint64_t start = [ApigeeNetworkEntry machTime];
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
-    NSDate *end = [NSDate date];
+    uint64_t end = [ApigeeNetworkEntry machTime];
     
     ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
     [entry populateWithURL:url];
@@ -88,9 +88,9 @@
 
 - (BOOL) timedWriteToURL:(NSURL *)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError **)errorPtr
 {
-    NSDate *start = [NSDate date];
+    uint64_t start = [ApigeeNetworkEntry machTime];
     BOOL result = [self writeToURL:url options:writeOptionsMask error:errorPtr];
-    NSDate *end = [NSDate date];
+    uint64_t end = [ApigeeNetworkEntry machTime];
 
     ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
     [entry populateWithURL:url];

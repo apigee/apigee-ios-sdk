@@ -32,7 +32,7 @@
 - (void)debugPrint
 {
     NSLog(@"========= Start ApigeeNSURLSessionDataTaskInfo ======");
-    NSLog(@"startTime=%@", self.startTime);
+    NSLog(@"startTime=%@", [ApigeeNetworkEntry machTimeToDate:self.startTime]);
     NSLog(@"sessionDataTask=%@", self.sessionDataTask);
     if( self.networkEntry )
     {

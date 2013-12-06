@@ -15,7 +15,7 @@
 }
 
 
-@property(strong) NSDate *createTime;
+@property (assign) uint64_t createTime;
 
 - (id) initAndInterceptFor:(id) target withRequest:(NSURLRequest*)request;
 

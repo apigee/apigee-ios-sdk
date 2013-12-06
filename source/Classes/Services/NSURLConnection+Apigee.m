@@ -52,7 +52,7 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
     
     if (gOrigNSURLConnection_sendSynchronousRequestReturningResponseError != NULL) {
         
-        NSDate *startTime = [NSDate date];
+        uint64_t startTime = [ApigeeNetworkEntry machTime];
 
         NSData *responseData;
         NSError *reportingError = nil;
@@ -73,7 +73,7 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
                                                                               &reportingError);
         }
     
-        NSDate *endTime = [NSDate date];
+        uint64_t endTime = [ApigeeNetworkEntry machTime];
     
         ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
         [entry populateWithRequest:request];
@@ -165,7 +165,9 @@ static void NSURLConnection_apigeeStart(id self,SEL _cmd)
 {
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeStart");
     
-    [self setStartTime:[NSDate date]];
+    NSURLConnection* connection = (NSURLConnection*)self;
+    
+    [connection setStartTime:[ApigeeNetworkEntry machTime]];
     
     if (gOrigNSURLConnection_start != NULL) {
         gOrigNSURLConnection_start(self,_cmd);
@@ -322,24 +324,22 @@ static void NSURLConnection_apigeeStart(id self,SEL _cmd)
     return (numSwizzledMethods == 5);
 }
 
-- (NSDate*)startTime
+- (uint64_t)startTime
 {
-    NSDate* theStartTime = nil;
-    
-    if( [self isKindOfClass:[ApigeeURLConnection class]] )
-    {
-        theStartTime = ((ApigeeURLConnection *)self).started;
+    if( [self isKindOfClass:[ApigeeURLConnection class]] ) {
+        return ((ApigeeURLConnection *)self).started;
+    } else {
+        NSNumber* startTimeAsNumber =
+            (NSNumber*) objc_getAssociatedObject(self, &KEY_START_TIME);
+        if (startTimeAsNumber) {
+            return [startTimeAsNumber unsignedLongLongValue];
+        }
     }
     
-    if( ! theStartTime )
-    {
-        theStartTime = (NSDate*) objc_getAssociatedObject(self, &KEY_START_TIME);
-    }
-    
-    return theStartTime;
+    return 0;
 }
 
-- (void)setStartTime:(NSDate*)theStartTime
+- (void)setStartTime:(uint64_t)theStartTime
 {
     if( [self isKindOfClass:[ApigeeURLConnection class]] )
     {
@@ -348,10 +348,11 @@ static void NSURLConnection_apigeeStart(id self,SEL _cmd)
     }
     else
     {
+        NSNumber* startTimeAsNumber = [NSNumber numberWithUnsignedLongLong:theStartTime];
         //attach the start time to ourselves
         objc_setAssociatedObject(self,
                                  &KEY_START_TIME,
-                                 theStartTime,
+                                 startTimeAsNumber,
                                  OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
 }

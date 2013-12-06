@@ -98,11 +98,11 @@
 /*!
  @internal
  */
-- (NSDate*)startTime;
+- (uint64_t)startTime;
 
 /*!
  @internal
  */
-- (void)setStartTime:(NSDate*)theStartTime;
+- (void)setStartTime:(uint64_t)theStartTime;
 
 @end
