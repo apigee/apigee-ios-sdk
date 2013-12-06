@@ -42,7 +42,7 @@
     
     if (self) {
         self.target = target;
-        self.createTime = [NSDate date];
+        self.createTime = [ApigeeNetworkEntry machTime];
         self.dataSize = 0;
         _connectionAlive = YES;
         
@@ -106,13 +106,13 @@
 
     _connectionAlive = NO;
     
-    NSDate *ended = [NSDate date];
+    uint64_t ended = [ApigeeNetworkEntry machTime];
     
     if (self.target && [self.target respondsToSelector:@selector(connection:didFailWithError:)]) {
         [self.target connection:connection didFailWithError:error];
     }
     
-    NSDate *started = [connection startTime];
+    uint64_t started = [connection startTime];
     
     if( ! started )
     {
@@ -273,13 +273,13 @@
 
     _connectionAlive = NO;
 
-    NSDate *ended = [NSDate date];
+    uint64_t ended = [ApigeeNetworkEntry machTime];
     
     if (self.target && [self.target respondsToSelector:@selector(connectionDidFinishLoading:)]) {
         [self.target connectionDidFinishLoading:connection];
     }
     
-    NSDate *started = [connection startTime];
+    uint64_t started = [connection startTime];
 
     if( ! started )
     {

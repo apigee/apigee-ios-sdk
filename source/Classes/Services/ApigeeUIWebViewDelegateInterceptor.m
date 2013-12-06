@@ -14,7 +14,7 @@
 @interface ApigeeUIWebViewDelegateInterceptor()
 
 @property (weak) id<UIWebViewDelegate> target;
-@property (strong) NSDate *started;
+@property (assign) uint64_t started;
 @property (strong) ApigeeNetworkEntry *networkEntry;
 @end
 
@@ -49,7 +49,7 @@
 
 - (void) webViewDidStartLoad:(UIWebView *) webView
 {
-    self.started = [NSDate date];
+    self.started = [ApigeeNetworkEntry machTime];
     
     if (self.target && [self.target respondsToSelector:@selector(webViewDidStartLoad:)]) {
         [self.target webViewDidStartLoad:webView];
@@ -58,7 +58,7 @@
 
 - (void) webViewDidFinishLoad:(UIWebView *) webView
 {
-    NSDate *ended = [NSDate date];
+    uint64_t ended = [ApigeeNetworkEntry machTime];
     
     if (self.target && [self.target respondsToSelector:@selector(webViewDidFinishLoad:)]) {
         [self.target webViewDidFinishLoad:webView];
@@ -71,7 +71,7 @@
 
 - (void) webView:(UIWebView *) webView didFailLoadWithError:(NSError *) error
 {
-    NSDate *ended = [NSDate date];
+    uint64_t ended = [ApigeeNetworkEntry machTime];
     
     if (self.target && [self.target respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
         [self.target webView:webView didFailLoadWithError:error];

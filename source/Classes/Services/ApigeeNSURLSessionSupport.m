@@ -55,7 +55,7 @@ static NSURLSession* NSURLSession_apigeeSessionWithConfigurationDelegateAndQueue
 static void NSCFLocalDataTask_apigeeResume(id self, SEL _cmd)
 {
     // set the starting time for this data task
-    NSDate* startTime = [NSDate date];
+    uint64_t startTime = [ApigeeNetworkEntry machTime];
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     [monitoringClient setStartTime:startTime forSessionDataTask:self];
     
@@ -66,7 +66,7 @@ static void NSCFLocalDataTask_apigeeResume(id self, SEL _cmd)
 static void NSURLSessionTask_apigeeResume(id self, SEL _cmd)
 {
     // set the starting time for this data task
-    NSDate* startTime = [NSDate date];
+    uint64_t startTime = [ApigeeNetworkEntry machTime];
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     [monitoringClient setStartTime:startTime forSessionDataTask:self];
     
@@ -88,7 +88,7 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithURLAndCompletionHa
                                                                  NSURLResponse *response,
                                                                  NSError *error) {
             
-            NSDate* endTime = [NSDate date];
+            uint64_t endTime = [ApigeeNetworkEntry machTime];
             
             ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo =
             [monitoringClient dataTaskInfoForIdentifier:dataTaskIdentifier];
@@ -146,7 +146,7 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithRequestAndCompleti
                                                                          NSURLResponse *response,
                                                                          NSError *error) {
             
-            NSDate* endTime = [NSDate date];
+            uint64_t endTime = [ApigeeNetworkEntry machTime];
             
             ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo =
             [monitoringClient dataTaskInfoForIdentifier:dataTaskIdentifier];

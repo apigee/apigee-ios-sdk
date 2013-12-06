@@ -5,6 +5,8 @@
 //  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
+#import <mach/mach_time.h>
+
 #import "NSDate+Apigee.h"
 #import "ApigeeModelUtils.h"
 #import "ApigeeNetworkEntry.h"
@@ -15,6 +17,10 @@ static NSString *kHeaderReceiptTime    = @"x-apigee-receipttime";
 static NSString *kHeaderResponseTime   = @"x-apigee-responsetime";
 static NSString *kHeaderProcessingTime = @"x-apigee-serverprocessingtime";
 static NSString *kHeaderServerId       = @"x-apigee-serverid";
+
+static mach_timebase_info_data_t mach_time_info;
+static uint64_t startupTimeMach;
+static NSDate* startupTime;
 
 
 @implementation ApigeeNetworkEntry
@@ -35,6 +41,41 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
 @synthesize serverId;
 @synthesize domain;
 //@synthesize allowsCellularAccess;
+
++ (void)load
+{
+    mach_timebase_info(&mach_time_info);
+    startupTimeMach = mach_absolute_time();
+    startupTime = [NSDate date];
+}
+
++ (uint64_t)machTime
+{
+    return mach_absolute_time();
+}
+
++ (CGFloat)millisFromMachStartTime:(uint64_t)startTime endTime:(uint64_t)endTime
+{
+    const uint64_t elapsedTime = endTime - startTime;
+    const uint64_t nanos = elapsedTime * mach_time_info.numer / mach_time_info.denom;
+    return ((CGFloat) nanos) / NSEC_PER_MSEC;
+}
+
++ (CGFloat)secondsFromMachStartTime:(uint64_t)startTime endTime:(uint64_t)endTime
+{
+    const uint64_t elapsedTime = endTime - startTime;
+    const uint64_t nanos = elapsedTime * mach_time_info.numer / mach_time_info.denom;
+    return ((CGFloat) nanos) / NSEC_PER_SEC;
+}
+
++ (NSDate*)machTimeToDate:(uint64_t)machTime
+{
+    NSTimeInterval timeSinceStartup =
+        [ApigeeNetworkEntry secondsFromMachStartTime:startupTimeMach
+                                             endTime:machTime];
+    return [startupTime dateByAddingTimeInterval:timeSinceStartup];
+}
+
 
 - (id)init
 {
@@ -77,7 +118,7 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
     if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
         
-        self.httpStatusCode = [NSString stringWithFormat:@"%d", [httpResponse statusCode]];
+        self.httpStatusCode = [NSString stringWithFormat:@"%ld", (long)[httpResponse statusCode]];
         
         NSDictionary *headerFields = [httpResponse allHeaderFields];
         NSString *receiptTime = [headerFields valueForKey:kHeaderReceiptTime];
@@ -110,7 +151,7 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
 
 - (void)populateWithResponseDataSize:(NSUInteger)dataSize
 {
-    self.responseDataSize = [NSString stringWithFormat:@"%d", dataSize];
+    self.responseDataSize = [NSString stringWithFormat:@"%lu", (unsigned long)dataSize];
 }
 
 - (void)populateWithError:(NSError*)error
@@ -129,15 +170,19 @@ static NSString *kHeaderServerId       = @"x-apigee-serverid";
     }
 }
 
-- (void)populateStartTime:(NSDate*)started ended:(NSDate*)ended
+- (void)populateStartTime:(uint64_t)started ended:(uint64_t)ended
 {
-    NSDate *copyOfStartedDate = [started copy];
-    NSString* startedTimestampMillis = [NSDate stringFromMilliseconds:[started dateAsMilliseconds]];
+    NSDate* start = [ApigeeNetworkEntry machTimeToDate:started];
+    NSDate* end = [ApigeeNetworkEntry machTimeToDate:ended];
+    
+    NSString* startedTimestampMillis = [NSDate stringFromMilliseconds:[start dateAsMilliseconds]];
     self.timeStamp = startedTimestampMillis;
     self.startTime = startedTimestampMillis;
-    self.endTime = [NSDate stringFromMilliseconds:[ended dateAsMilliseconds]];
+    self.endTime = [NSDate stringFromMilliseconds:[end dateAsMilliseconds]];
     
-    const long latencyMillis = [ended timeIntervalSinceDate:copyOfStartedDate] * 1000;
+    const long latencyMillis =
+        [ApigeeNetworkEntry millisFromMachStartTime:started
+                                            endTime:ended];
     
     self.latency = [NSString stringWithFormat:@"%ld", latencyMillis ];
 }

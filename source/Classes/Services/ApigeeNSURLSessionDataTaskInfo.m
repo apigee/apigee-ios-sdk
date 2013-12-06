@@ -32,7 +32,7 @@
 - (void)debugPrint
 {
     NSLog(@"========= Start ApigeeNSURLSessionDataTaskInfo ======");
-    NSLog(@"startTime=%@", self.startTime);
+    NSLog(@"startTime=%@", [ApigeeNetworkEntry machTimeToDate:self.startTime]);
     NSLog(@"sessionDataTask=%@", self.sessionDataTask);
     if( self.networkEntry )
     {
@@ -43,7 +43,7 @@
         NSLog(@"networkEntry is nil");
     }
     NSLog(@"completionHandler=%@", self.completionHandler);
-    NSLog(@"dataSize=%d", self.dataSize);
+    NSLog(@"dataSize=%lu", (unsigned long)self.dataSize);
     NSLog(@"key=%@", self.key);
     NSLog(@"========= End ApigeeNSURLSessionDataTaskInfo ======");
 }

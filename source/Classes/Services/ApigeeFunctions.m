@@ -170,8 +170,6 @@ void Apigee_record_server_response_metrics(const server_response_metrics *metric
     }
     
     // next, convert data types for Objective-C
-    NSDate *startTime = [monitoringClient machTimeToDate:metrics->start_time];
-    NSDate *endTime = [monitoringClient machTimeToDate:metrics->end_time];
     NSString *url;
     
     if (have_non_empty_string_value(metrics->url)) {
@@ -199,7 +197,7 @@ void Apigee_record_server_response_metrics(const server_response_metrics *metric
 
     ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
     [entry populateWithURLString:url];
-    [entry populateStartTime:startTime ended:endTime];
+    [entry populateStartTime:metrics->start_time ended:metrics->end_time];
     
     if (metrics->http_status_code > 0) {
         entry.httpStatusCode = [NSString stringWithFormat:@"%d",

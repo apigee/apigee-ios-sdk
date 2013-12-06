@@ -12,7 +12,7 @@
  */
 @interface ApigeeURLConnection : NSURLConnection
 
-@property (strong) NSDate *started;
+@property (assign) uint64_t started;
 
 + (NSURLConnection *) connectionWithRequest:(NSURLRequest *) request delegate:(id < NSURLConnectionDelegate >) delegate;
 + (NSData *) sendSynchronousRequest:(NSURLRequest *) request

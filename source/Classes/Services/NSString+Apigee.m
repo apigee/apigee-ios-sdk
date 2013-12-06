@@ -14,9 +14,9 @@
 
 + (NSString*) stringWithTimedContentsOfURL:(NSURL *) url encoding:(NSStringEncoding) enc error:(NSError **) error
 {
-    NSDate *start = [NSDate date];
+    uint64_t start = [ApigeeNetworkEntry machTime];
     NSString *data = [NSString stringWithContentsOfURL:url encoding:enc error:error];
-    NSDate *end = [NSDate date];
+    uint64_t end = [ApigeeNetworkEntry machTime];
     
     ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
     [entry populateWithURL:url];
@@ -34,9 +34,9 @@
 
 + (NSString*) stringWithTimedContentsOfURL:(NSURL *) url usedEncoding:(NSStringEncoding *) enc error:(NSError **) error
 {
-    NSDate *start = [NSDate date];
+    uint64_t start = [ApigeeNetworkEntry machTime];
     NSString *data = [NSString stringWithContentsOfURL:url usedEncoding:enc error:error];
-    NSDate *end = [NSDate date];
+    uint64_t end = [ApigeeNetworkEntry machTime];
     
     ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
     [entry populateWithURL:url];
@@ -54,9 +54,9 @@
 
 - (id) initWithTimedContentsOfURL:(NSURL *) url encoding:(NSStringEncoding) enc error:(NSError **) error
 {
-    NSDate *start = [NSDate date];
+    uint64_t start = [ApigeeNetworkEntry machTime];
     NSString *data = [[NSString alloc] initWithContentsOfURL:url encoding:enc error:error];
-    NSDate *end = [NSDate date];
+    uint64_t end = [ApigeeNetworkEntry machTime];
     
     ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
     [entry populateWithURL:url];
@@ -74,9 +74,9 @@
 
 - (id) initWithTimedContentsOfURL:(NSURL *) url usedEncoding:(NSStringEncoding *) enc error:(NSError **) error
 {
-    NSDate *start = [NSDate date];
+    uint64_t start = [ApigeeNetworkEntry machTime];
     NSString *data = [[NSString alloc] initWithContentsOfURL:url usedEncoding:enc error:error];
-    NSDate *end = [NSDate date];
+    uint64_t end = [ApigeeNetworkEntry machTime];
 
     ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
     [entry populateWithURL:url];

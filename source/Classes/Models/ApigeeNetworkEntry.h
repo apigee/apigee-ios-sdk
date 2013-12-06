@@ -27,6 +27,11 @@
 @property (strong) NSString *domain;
 //@property (strong) NSNumber *allowsCellularAccess;
 
++ (uint64_t)machTime;
++ (CGFloat)millisFromMachStartTime:(uint64_t)startTime endTime:(uint64_t)endTime;
++ (CGFloat)secondsFromMachStartTime:(uint64_t)startTime endTime:(uint64_t)endTime;
++ (NSDate*)machTimeToDate:(uint64_t)machTime;
+
 - (id)init;
 
 - (NSDictionary*) asDictionary;
@@ -38,7 +43,7 @@
 - (void)populateWithResponseData:(NSData*)responseData;
 - (void)populateWithResponseDataSize:(NSUInteger)dataSize;
 - (void)populateWithError:(NSError*)error;
-- (void)populateStartTime:(NSDate*)started ended:(NSDate*)ended;
+- (void)populateStartTime:(uint64_t)started ended:(uint64_t)ended;
 
 - (void)debugPrint;
 
