@@ -319,7 +319,7 @@ int Apigee_connected_via_mobile();
  @abstract Retrieves number of custom config parameters available in configuration data
  @return number of custom config parameters
  */
-int Apigee_number_custom_config_parameters();
+NSUInteger Apigee_number_custom_config_parameters();
 
 /*!
  @abstract Retrieves the category for the specified (0-based) parameter

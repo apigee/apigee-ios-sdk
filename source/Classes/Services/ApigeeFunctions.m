@@ -327,7 +327,7 @@ int Apigee_logging_level()
 {
     ApigeeActiveSettings *activeSettings = Apigee_active_settings();
     if (activeSettings) {
-        return activeSettings.logLevelToMonitor;
+        return (int) activeSettings.logLevelToMonitor;
     } else {
         return 0;
     }
@@ -508,7 +508,7 @@ int Apigee_connected_via_mobile()
 
 
 /***********************  custom config parameters  ***************************/
-int Apigee_number_custom_config_parameters()
+NSUInteger Apigee_number_custom_config_parameters()
 {
     ApigeeActiveSettings *activeSettings = Apigee_active_settings();
     if (activeSettings) {

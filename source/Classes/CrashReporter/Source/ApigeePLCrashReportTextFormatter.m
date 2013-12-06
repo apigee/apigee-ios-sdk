@@ -264,7 +264,7 @@ NSInteger binaryImageSort(id binary1, id binary2, void *context);
         NSInteger threadNum = maxThreadNum + 1;
 
         /* Create the pseudo-thread header. We use the named thread format to mark this thread */
-        [text appendFormat: @"Thread %d name:  Exception Backtrace\n", threadNum];
+        [text appendFormat: @"Thread %ld name:  Exception Backtrace\n", (long)threadNum];
         [text appendFormat: @"Thread %ld:\n", (long) threadNum];
 
         /* Write out the frames */
