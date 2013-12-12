@@ -64,8 +64,12 @@
         [self.target webViewDidFinishLoad:webView];
     }
     
-    [self.networkEntry populateStartTime:self.started ended:ended];
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:self.networkEntry];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if (![monitoringClient isPaused]) {
+        [self.networkEntry populateStartTime:self.started ended:ended];
+        [monitoringClient recordNetworkEntry:self.networkEntry];
+    }
+    
     self.networkEntry = nil;
 }
 
@@ -77,9 +81,13 @@
         [self.target webView:webView didFailLoadWithError:error];
     }
     
-    [self.networkEntry populateWithError:error];
-    [self.networkEntry populateStartTime:self.started ended:ended];
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:self.networkEntry];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if (![monitoringClient isPaused]) {
+        [self.networkEntry populateWithError:error];
+        [self.networkEntry populateStartTime:self.started ended:ended];
+        [monitoringClient recordNetworkEntry:self.networkEntry];
+    }
+    
     self.networkEntry = nil;
 }
 

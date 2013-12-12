@@ -12,6 +12,7 @@
 #import "ApigeeOpenUDID.h"
 #import "ApigeeCustomASLMessageKeys.h"
 #import "ApigeeLogger.h"
+#import "ApigeeMonitoringClient.h"
 
 #define kApigeeSystemSenderKey @"com.Apigee.system"
 
@@ -144,6 +145,11 @@ static BOOL haveGidAndUid = NO;
           message:(NSString *) message
             level:(ApigeeLogLevel) level
 {
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if ([monitoringClient isPaused]) {
+        return;
+    }
+    
     //note: swap the commented line below to stop output to standard err stream (xcode console)
     //aslclient client = asl_open([sender UTF8String], [tag UTF8String], ASL_OPT_NO_REMOTE);
     aslclient client = asl_open([sender UTF8String], [tag UTF8String], ASL_OPT_STDERR | ASL_OPT_NO_REMOTE);

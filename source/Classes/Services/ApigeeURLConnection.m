@@ -43,33 +43,36 @@
                                                                  error:&reportingError];
     }
     
-    uint64_t endTime = [ApigeeNetworkEntry machTime];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if (![monitoringClient isPaused]) {
+        uint64_t endTime = [ApigeeNetworkEntry machTime];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateStartTime:startTime ended:endTime];
-    [entry populateWithRequest:request];
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateStartTime:startTime ended:endTime];
+        [entry populateWithRequest:request];
     
-    if (response && *response) {
-        NSURLResponse *theResponse = *response;
-        [entry populateWithResponse:theResponse];
-    }
-    
-    if (responseData != nil) {
-        [entry populateWithResponseData:responseData];
-    } else {
-        @try {
-            if (error && *error) {
-                NSError *theError = *error;
-                [entry populateWithError:theError];
-            }
-        } @catch (NSException* exception) {
-            ApigeeLogWarn(@"MONITOR_CLIENT",
-                          @"unable to capture networking error: %@",
-                          [exception reason]);
+        if (response && *response) {
+            NSURLResponse *theResponse = *response;
+            [entry populateWithResponse:theResponse];
         }
-    }
     
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
+        if (responseData != nil) {
+            [entry populateWithResponseData:responseData];
+        } else {
+            @try {
+                if (error && *error) {
+                    NSError *theError = *error;
+                    [entry populateWithError:theError];
+                }
+            } @catch (NSException* exception) {
+                ApigeeLogWarn(@"MONITOR_CLIENT",
+                              @"unable to capture networking error: %@",
+                              [exception reason]);
+            }
+        }
+    
+        [monitoringClient recordNetworkEntry:entry];
+    }
     
     return responseData;
 }
@@ -90,19 +93,21 @@
                                if (handler) {
                                    handler(response,data,error);
                                }
-                                                          
-                               ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-                               [entry populateStartTime:startTime ended:endTime];
-                               [entry populateWithRequest:request];
-                               [entry populateWithResponse:response];
-                               [entry populateWithResponseData:data];
                                
-                                if (error) {
-                                    [entry populateWithError:error];
-                                }
+                               ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+                               if (![monitoringClient isPaused]) {
+                                   ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+                                   [entry populateStartTime:startTime ended:endTime];
+                                   [entry populateWithRequest:request];
+                                   [entry populateWithResponse:response];
+                                   [entry populateWithResponseData:data];
                                
-                               [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
+                                   if (error) {
+                                       [entry populateWithError:error];
+                                   }
                                
+                                   [monitoringClient recordNetworkEntry:entry];
+                               }
                             }];
 }
 

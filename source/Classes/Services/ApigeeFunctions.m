@@ -169,6 +169,10 @@ void Apigee_record_server_response_metrics(const server_response_metrics *metric
         return;
     }
     
+    if ([monitoringClient isPaused]) {
+        return;
+    }
+    
     // next, convert data types for Objective-C
     NSString *url;
     

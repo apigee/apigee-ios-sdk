@@ -80,6 +80,7 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithURLAndCompletionHa
     
     if( completionHandler ) {
         ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+        const BOOL monitoringPaused = [monitoringClient isPaused];
         id dataTaskIdentifier = [monitoringClient generateIdentifierForDataTask];
         
         // execute original implementation but with our own completion handler
@@ -88,18 +89,20 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithURLAndCompletionHa
                                                                  NSURLResponse *response,
                                                                  NSError *error) {
             
-            uint64_t endTime = [ApigeeNetworkEntry machTime];
-            
             ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo =
             [monitoringClient dataTaskInfoForIdentifier:dataTaskIdentifier];
+
+            if (!monitoringPaused) {
+                uint64_t endTime = [ApigeeNetworkEntry machTime];
             
-            [sessionDataTaskInfo.networkEntry populateWithResponseData:data];
-            [sessionDataTaskInfo.networkEntry populateWithResponse:response];
-            [sessionDataTaskInfo.networkEntry populateWithError:error];
-            [sessionDataTaskInfo.networkEntry populateStartTime:sessionDataTaskInfo.startTime
-                                                          ended:endTime];
+                [sessionDataTaskInfo.networkEntry populateWithResponseData:data];
+                [sessionDataTaskInfo.networkEntry populateWithResponse:response];
+                [sessionDataTaskInfo.networkEntry populateWithError:error];
+                [sessionDataTaskInfo.networkEntry populateStartTime:sessionDataTaskInfo.startTime
+                                                              ended:endTime];
             
-            [monitoringClient recordNetworkEntry:sessionDataTaskInfo.networkEntry];
+                [monitoringClient recordNetworkEntry:sessionDataTaskInfo.networkEntry];
+            }
             
             // do we have a completion handler?
             if( sessionDataTaskInfo.completionHandler ) {
@@ -109,20 +112,23 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithURLAndCompletionHa
             
             [monitoringClient removeDataTaskInfoForIdentifier:dataTaskIdentifier];
         });
-        
-        ApigeeNetworkEntry* networkEntry = [[ApigeeNetworkEntry alloc] init];
-        [networkEntry populateWithURL:url];
-        
+
         ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo =
         [[ApigeeNSURLSessionDataTaskInfo alloc] init];
+
+        if (!monitoringPaused) {
+            ApigeeNetworkEntry* networkEntry = [[ApigeeNetworkEntry alloc] init];
+            [networkEntry populateWithURL:url];
+            sessionDataTaskInfo.networkEntry = networkEntry;
+        }
         
-        sessionDataTaskInfo.networkEntry = networkEntry;
         sessionDataTaskInfo.sessionDataTask = sessionDataTask;
         sessionDataTaskInfo.completionHandler = completionHandler;
         sessionDataTaskInfo.key = dataTaskIdentifier;
         
         [monitoringClient registerDataTaskInfo:sessionDataTaskInfo
                                 withIdentifier:dataTaskIdentifier];
+
     } else {
         // execute original implementation with no changes
         sessionDataTask =
@@ -136,6 +142,7 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithRequestAndCompleti
 {
     NSURLSessionDataTask* sessionDataTask = nil;
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    const BOOL monitoringPaused = [monitoringClient isPaused];
     id dataTaskIdentifier = [monitoringClient generateIdentifierForDataTask];
     
     if( completionHandler ) {
@@ -146,19 +153,20 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithRequestAndCompleti
                                                                          NSURLResponse *response,
                                                                          NSError *error) {
             
-            uint64_t endTime = [ApigeeNetworkEntry machTime];
-            
             ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo =
             [monitoringClient dataTaskInfoForIdentifier:dataTaskIdentifier];
             
+            if (!monitoringPaused) {
+                uint64_t endTime = [ApigeeNetworkEntry machTime];
+
+                [sessionDataTaskInfo.networkEntry populateWithResponseData:data];
+                [sessionDataTaskInfo.networkEntry populateWithResponse:response];
+                [sessionDataTaskInfo.networkEntry populateWithError:error];
+                [sessionDataTaskInfo.networkEntry populateStartTime:sessionDataTaskInfo.startTime
+                                                              ended:endTime];
             
-            [sessionDataTaskInfo.networkEntry populateWithResponseData:data];
-            [sessionDataTaskInfo.networkEntry populateWithResponse:response];
-            [sessionDataTaskInfo.networkEntry populateWithError:error];
-            [sessionDataTaskInfo.networkEntry populateStartTime:sessionDataTaskInfo.startTime
-                                                          ended:endTime];
-            
-            [monitoringClient recordNetworkEntry:sessionDataTaskInfo.networkEntry];
+                [monitoringClient recordNetworkEntry:sessionDataTaskInfo.networkEntry];
+            }
             
             // do we have a completion handler?
             if( sessionDataTaskInfo.completionHandler ) {
@@ -175,13 +183,16 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithRequestAndCompleti
         gOrigDataTaskWithRequestAndCompletionHandler(self,_cmd,request,completionHandler);
     }
     
-    ApigeeNetworkEntry* networkEntry = [[ApigeeNetworkEntry alloc] init];
-    [networkEntry populateWithRequest:request];
     
     ApigeeNSURLSessionDataTaskInfo* sessionDataTaskInfo =
     [[ApigeeNSURLSessionDataTaskInfo alloc] init];
+
+    if (!monitoringPaused) {
+        ApigeeNetworkEntry* networkEntry = [[ApigeeNetworkEntry alloc] init];
+        [networkEntry populateWithRequest:request];
+        sessionDataTaskInfo.networkEntry = networkEntry;
+    }
     
-    sessionDataTaskInfo.networkEntry = networkEntry;
     sessionDataTaskInfo.sessionDataTask = sessionDataTask;
     sessionDataTaskInfo.completionHandler = completionHandler;
     sessionDataTaskInfo.key = dataTaskIdentifier;

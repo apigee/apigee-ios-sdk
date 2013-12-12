@@ -20,4 +20,6 @@
 - (IBAction)logLevelSettingChanged:(id)sender;
 - (IBAction)errorLevelSettingChanged:(id)sender;
 
+- (IBAction)pauseSwitchToggled:(id)sender;
+
 @end

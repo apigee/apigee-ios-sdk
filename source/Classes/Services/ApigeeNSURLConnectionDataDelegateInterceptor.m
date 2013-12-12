@@ -106,22 +106,27 @@
 
     _connectionAlive = NO;
     
-    uint64_t ended = [ApigeeNetworkEntry machTime];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     
-    if (self.target && [self.target respondsToSelector:@selector(connection:didFailWithError:)]) {
-        [self.target connection:connection didFailWithError:error];
+    if (![monitoringClient isPaused]) {
+        uint64_t ended = [ApigeeNetworkEntry machTime];
+    
+        if (self.target && [self.target respondsToSelector:@selector(connection:didFailWithError:)]) {
+            [self.target connection:connection didFailWithError:error];
+        }
+    
+        uint64_t started = [connection startTime];
+    
+        if( ! started )
+        {
+            started = self.createTime;
+        }
+    
+        [self.networkEntry populateStartTime:started ended:ended];
+        [self.networkEntry populateWithError:error];
+        [monitoringClient recordNetworkEntry:self.networkEntry];
     }
     
-    uint64_t started = [connection startTime];
-    
-    if( ! started )
-    {
-        started = self.createTime;
-    }
-    
-    [self.networkEntry populateStartTime:started ended:ended];
-    [self.networkEntry populateWithError:error];
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:self.networkEntry];
     self.networkEntry = nil;
 }
 

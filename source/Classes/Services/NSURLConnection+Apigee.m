@@ -72,37 +72,40 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
                                                                               response,
                                                                               &reportingError);
         }
+        
+        ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+        if (![monitoringClient isPaused]) {
+            uint64_t endTime = [ApigeeNetworkEntry machTime];
     
-        uint64_t endTime = [ApigeeNetworkEntry machTime];
+            ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+            [entry populateWithRequest:request];
+            [entry populateStartTime:startTime ended:endTime];
     
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-        [entry populateWithRequest:request];
-        [entry populateStartTime:startTime ended:endTime];
-    
-        if (response && *response) {
-            NSURLResponse *theResponse = *response;
-            [entry populateWithResponse:theResponse];
-        }
-    
-        [entry populateWithResponseData:responseData];
-    
-        if (nil == responseData) {
-            @try {
-                if ( error && *error) {
-                    NSError *theError = *error;
-                    [entry populateWithError:theError];
-                } else if (reportingError != nil) {
-                    [entry populateWithError:reportingError];
-                }
-            } @catch (NSException* exception) {
-                ApigeeLogWarn(@"MONITOR_CLIENT",
-                              @"unable to capture networking error: %@",
-                              [exception reason]);
+            if (response && *response) {
+                NSURLResponse *theResponse = *response;
+                [entry populateWithResponse:theResponse];
             }
+    
+            [entry populateWithResponseData:responseData];
+    
+            if (nil == responseData) {
+                @try {
+                    if ( error && *error) {
+                        NSError *theError = *error;
+                        [entry populateWithError:theError];
+                    } else if (reportingError != nil) {
+                        [entry populateWithError:reportingError];
+                    }
+                } @catch (NSException* exception) {
+                    ApigeeLogWarn(@"MONITOR_CLIENT",
+                                  @"unable to capture networking error: %@",
+                                  [exception reason]);
+                }
+            }
+    
+            [monitoringClient recordNetworkEntry:entry];
         }
-    
-        [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
-    
+        
         return responseData;
     } else {
         return nil;

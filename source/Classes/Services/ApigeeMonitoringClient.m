@@ -141,6 +141,7 @@ static bool AmIBeingDebugged(void)
 @property (assign) BOOL interceptNSURLSessionCalls;
 @property (assign) BOOL showDebuggingInfo;
 @property (assign) BOOL crashReporterInitialized;
+@property (assign) BOOL monitoringPaused;
 @property (copy, nonatomic) NSString* customUploadUrl;
 
 @property (assign, nonatomic) ApigeeNetworkStatus activeNetworkStatus;
@@ -186,6 +187,7 @@ static bool AmIBeingDebugged(void)
 @synthesize interceptNSURLSessionCalls;
 @synthesize showDebuggingInfo;
 @synthesize crashReporterInitialized;
+@synthesize monitoringPaused;
 @synthesize activeNetworkStatus;
 
 
@@ -362,6 +364,7 @@ static bool AmIBeingDebugged(void)
     
     self.isActive = NO;
     self.isInitialized = NO;
+    self.monitoringPaused = NO;
     self.crashReporterInitialized = NO;
     self.startupTimeMach = mach_absolute_time();
     self.startupTime = [NSDate date];
@@ -469,12 +472,14 @@ static bool AmIBeingDebugged(void)
 
 - (void)recordNetworkEntry:(ApigeeNetworkEntry*)entry
 {
-    if (self.showDebuggingInfo) {
-        [self printDebugMessage:@"recording network entry:"];
-        [entry debugPrint];
-    }
+    if (![self monitoringPaused]) {
+        if (self.showDebuggingInfo) {
+            [self printDebugMessage:@"recording network entry:"];
+            [entry debugPrint];
+        }
     
-    [ApigeeQueue recordNetworkEntry:entry];
+        [ApigeeQueue recordNetworkEntry:entry];
+    }
 }
 
 - (void) retrieveCachedConfig
@@ -681,16 +686,30 @@ static bool AmIBeingDebugged(void)
     }
 }
 
+- (void)cancelTimer
+{
+    if (self.timer) {
+        [self.timer cancel];
+        self.timer = nil;
+    }
+}
+
+- (void)establishTimer
+{
+    self.timer = [[ApigeeIntervalTimer alloc] init];
+    [self.timer fireOnInterval:self.activeSettings.agentUploadIntervalInSeconds
+                        target:self
+                      selector:@selector(timerFired)
+                       repeats:NO];
+}
+
 - (void)startMonitoring
 {
     @synchronized (self) {
         
         // clean up any existing stuff that may be left over from
         // earlier monitoring
-        if (self.timer) {
-            [self.timer cancel];
-            self.timer = nil;
-        }
+        [self cancelTimer];
         
 #if !(TARGET_IPHONE_SIMULATOR)
         [[ApigeeLocationService defaultService] stopScan];
@@ -748,11 +767,7 @@ static bool AmIBeingDebugged(void)
                     [self enableInterceptedNetworkingCalls];
                 }
             } else {
-                self.timer = [[ApigeeIntervalTimer alloc] init];
-                [self.timer fireOnInterval:self.activeSettings.agentUploadIntervalInSeconds
-                                    target:self
-                                  selector:@selector(timerFired)
-                                   repeats:NO];
+                [self establishTimer];
             }
         }
         
@@ -845,15 +860,15 @@ static bool AmIBeingDebugged(void)
 
 - (void)timerFired
 {
+    if (self.monitoringPaused) {
+        return;
+    }
+    
     if (!self.isPartOfSample) {
         return;
     }
     
-    self.timer = [[ApigeeIntervalTimer alloc] init];
-    [self.timer fireOnInterval:self.activeSettings.agentUploadIntervalInSeconds
-                        target:self
-                      selector:@selector(timerFired)
-                       repeats:NO];
+    [self establishTimer];
 
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
@@ -1405,10 +1420,7 @@ static bool AmIBeingDebugged(void)
 - (void)applicationDidEnterBackground:(NSNotification *)notification
 {
     // turn off our timer if we have one
-    if (self.timer) {
-        [self.timer cancel];
-        self.timer = nil;
-    }
+    [self cancelTimer];
 }
 
 - (void)applicationDidReceiveMemoryWarning:(NSNotification *)notification
@@ -1433,11 +1445,7 @@ static bool AmIBeingDebugged(void)
         // is monitoring not disabled?
         if (!self.activeSettings.monitoringDisabled) {
             // re-establish our timer
-            self.timer = [[ApigeeIntervalTimer alloc] init];
-            [self.timer fireOnInterval:self.activeSettings.agentUploadIntervalInSeconds
-                                target:self
-                              selector:@selector(timerFired)
-                               repeats:NO];
+            [self establishTimer];
         }
     }
 }
@@ -1445,19 +1453,13 @@ static bool AmIBeingDebugged(void)
 - (void)applicationWillResignActive:(NSNotification *)notification
 {
     // turn off our timer if we have one
-    if (self.timer) {
-        [self.timer cancel];
-        self.timer = nil;
-    }
+    [self cancelTimer];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
     // turn off our timer if we have one
-    if (self.timer) {
-        [self.timer cancel];
-        self.timer = nil;
-    }
+    [self cancelTimer];
 }
 
 - (BOOL)isDeviceNetworkConnected
@@ -1583,13 +1585,15 @@ static bool AmIBeingDebugged(void)
     
     if(self.isInitialized && self.isActive)
     {
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-        [entry populateWithURLString:url];
-        [entry populateStartTime:startTime ended:endTime];
+        if (![self isPaused]) {
+            ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+            [entry populateWithURLString:url];
+            [entry populateStartTime:startTime ended:endTime];
     
-        [self recordNetworkEntry:entry];
+            [self recordNetworkEntry:entry];
         
-        metricsRecorded = YES;
+            metricsRecorded = YES;
+        }
     } else {
         ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Unable to record network metrics. Agent not initialized or active");
     }
@@ -1606,17 +1610,19 @@ static bool AmIBeingDebugged(void)
     
     if(self.isInitialized && self.isActive)
     {
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-        [entry populateWithURLString:url];
-        [entry populateStartTime:startTime ended:endTime];
+        if (![self isPaused]) {
+            ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+            [entry populateWithURLString:url];
+            [entry populateStartTime:startTime ended:endTime];
     
-        // error occurred
-        entry.numErrors = @"1";
-        entry.transactionDetails = errorDescription;
+            // error occurred
+            entry.numErrors = @"1";
+            entry.transactionDetails = errorDescription;
     
-        [self recordNetworkEntry:entry];
+            [self recordNetworkEntry:entry];
         
-        metricsRecorded = YES;
+            metricsRecorded = YES;
+        }
     } else {
         ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Unable to record network metrics. Agent not initialized or active");
     }
@@ -1681,6 +1687,38 @@ static bool AmIBeingDebugged(void)
     }
     
     return listenerRemoved;
+}
+
+#pragma mark Pause - Resume
+
+- (BOOL)isPaused
+{
+    return self.monitoringPaused;
+}
+
+- (void)pause
+{
+    if (![self isPaused]) {
+        ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"PAUSE_AGENT");
+        self.monitoringPaused = YES;
+        [self cancelTimer];
+        
+        // discard all outstanding network metrics?
+        [[ApigeeQueue networkMetricsQueue] dequeueAll];
+    } else {
+        ApigeeLogVerboseMessage(kApigeeMonitoringClientTag,@"Pause called when monitoring is already paused");
+    }
+}
+
+- (void)resume
+{
+    if ([self isPaused]) {
+        self.monitoringPaused = NO;
+        ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"RESUME_AGENT");
+        [self establishTimer];
+    } else {
+        ApigeeLogVerboseMessage(kApigeeMonitoringClientTag,@"Resume called when monitoring is not paused");
+    }
 }
 
 #pragma mark Support for NSURLSession
