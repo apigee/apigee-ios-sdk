@@ -183,6 +183,26 @@
 - (void)asyncRefreshConfiguration:(void (^)(BOOL))completionHandler;
 
 /*!
+ @abstract Determine if monitoring is currently paused
+ @return boolean indicating whether monitoring is currently paused
+ */
+- (BOOL)isPaused;
+
+/*!
+ @abstract Pauses monitoring
+ @discussion If monitoring is already paused when pause is called, there is no
+            change to monitoring functionality, but a log message is generated.
+ */
+- (void)pause;
+
+/*!
+ @abstract Resumes monitoring after being paused.
+ @discussion If monitoring is not paused when resume is called, there is no
+            change to monitoring functionality, but a log message is generated.
+ */
+- (void)resume;
+
+/*!
  @abstract Adds an upload listener (observer) that will be notified when uploads
     are sent to server
  @param uploadListener the listener to add (and be called) when uploads occur

@@ -18,16 +18,19 @@
     NSString *data = [NSString stringWithContentsOfURL:url encoding:enc error:error];
     uint64_t end = [ApigeeNetworkEntry machTime];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithURL:url];
-    [entry populateStartTime:start ended:end];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if (![monitoringClient isPaused]) {
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateWithURL:url];
+        [entry populateStartTime:start ended:end];
     
-    if (error && *error) {
-        NSError *theError = *error;
-        [entry populateWithError:theError];
+        if (error && *error) {
+            NSError *theError = *error;
+            [entry populateWithError:theError];
+        }
+    
+        [monitoringClient recordNetworkEntry:entry];
     }
-    
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return data;
 }
@@ -38,16 +41,19 @@
     NSString *data = [NSString stringWithContentsOfURL:url usedEncoding:enc error:error];
     uint64_t end = [ApigeeNetworkEntry machTime];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithURL:url];
-    [entry populateStartTime:start ended:end];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if (![monitoringClient isPaused]) {
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateWithURL:url];
+        [entry populateStartTime:start ended:end];
     
-    if (error && *error) {
-        NSError *theError = *error;
-        [entry populateWithError:theError];
+        if (error && *error) {
+            NSError *theError = *error;
+            [entry populateWithError:theError];
+        }
+    
+        [monitoringClient recordNetworkEntry:entry];
     }
-    
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return data;
 }
@@ -58,16 +64,19 @@
     NSString *data = [[NSString alloc] initWithContentsOfURL:url encoding:enc error:error];
     uint64_t end = [ApigeeNetworkEntry machTime];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithURL:url];
-    [entry populateStartTime:start ended:end];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if (![monitoringClient isPaused]) {
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateWithURL:url];
+        [entry populateStartTime:start ended:end];
     
-    if (error && *error) {
-        NSError *theError = *error;
-        [entry populateWithError:theError];
+        if (error && *error) {
+            NSError *theError = *error;
+            [entry populateWithError:theError];
+        }
+    
+        [monitoringClient recordNetworkEntry:entry];
     }
-    
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return data;
 }
@@ -78,16 +87,19 @@
     NSString *data = [[NSString alloc] initWithContentsOfURL:url usedEncoding:enc error:error];
     uint64_t end = [ApigeeNetworkEntry machTime];
 
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithURL:url];
-    [entry populateStartTime:start ended:end];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if (![monitoringClient isPaused]) {
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateWithURL:url];
+        [entry populateStartTime:start ended:end];
     
-    if (error && *error) {
-        NSError *theError = *error;
-        [entry populateWithError:theError];
+        if (error && *error) {
+            NSError *theError = *error;
+            [entry populateWithError:theError];
+        }
+    
+        [monitoringClient recordNetworkEntry:entry];
     }
-    
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return data;
 }

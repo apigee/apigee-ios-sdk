@@ -19,6 +19,7 @@ static NSString* kLoggingTag = @"Sample App";
 @property (strong, nonatomic) ApigeeMonitoringClient* monitoringClient;
 @property (strong, nonatomic) IBOutlet UISegmentedControl* logLevelControl;
 @property (strong, nonatomic) IBOutlet UISegmentedControl* errorLevelControl;
+@property (strong, nonatomic) IBOutlet UISwitch* pauseSwitch;
 @property (strong, nonatomic) NSArray* listLoggingMessages;
 @property (strong, nonatomic) NSArray* listErrorMessages;
 @property (strong, nonatomic) NSArray* listUrls;
@@ -190,11 +191,11 @@ static NSString* kLoggingTag = @"Sample App";
 
 - (NSString*)randomStringFromList:(NSArray*)list
 {
-    const int numItems = [list count];
+    const NSUInteger numItems = [list count];
     
     if( numItems > 0 )
     {
-        const u_int32_t randomIndex = arc4random_uniform(numItems);
+        const NSUInteger randomIndex = (NSUInteger) arc4random_uniform(numItems);
         return [list objectAtIndex:randomIndex];
     }
     
@@ -214,19 +215,19 @@ static NSString* kLoggingTag = @"Sample App";
     
     if( self.loggingLevelIndex == 0 )
     {
-        ApigeeLogVerbose(kLoggingTag, logMessage);
+        ApigeeLogVerboseMessage(kLoggingTag, logMessage);
     }
     else if( self.loggingLevelIndex == 1 )
     {
-        NSLog(logMessage);
+        NSLog(@"%@", logMessage);
     }
     else if( self.loggingLevelIndex == 2 )
     {
-        ApigeeLogInfo(kLoggingTag, logMessage);
+        ApigeeLogInfoMessage(kLoggingTag, logMessage);
     }
     else if( self.loggingLevelIndex == 3 )
     {
-        ApigeeLogWarn(kLoggingTag, logMessage);
+        ApigeeLogWarnMessage(kLoggingTag, logMessage);
     }
 }
 
@@ -236,11 +237,11 @@ static NSString* kLoggingTag = @"Sample App";
     
     if( self.errorLevelIndex == 0 )
     {
-        ApigeeLogError(kLoggingTag, errorMessage);
+        ApigeeLogErrorMessage(kLoggingTag, errorMessage);
     }
     else if( self.errorLevelIndex == 1 )
     {
-        ApigeeLogAssert(kLoggingTag, errorMessage);
+        ApigeeLogAssertMessage(kLoggingTag, errorMessage);
     }
 }
 
@@ -303,8 +304,8 @@ static NSString* kLoggingTag = @"Sample App";
                     {
                         [weakSelf logError:error forUrl:urlAsString];
                     } else {
-                        NSLog(@"NSURLSession (blocks): size data received = %d bytes (%@)",
-                              [data length],
+                        NSLog(@"NSURLSession (blocks): size data received = %lu bytes (%@)",
+                              (unsigned long)[data length],
                               urlAsString);
                     }
                 }];
@@ -393,8 +394,8 @@ static NSString* kLoggingTag = @"Sample App";
 {
     NSString* urlAsString = [self urlAsStringForConnection:connection];
     NSMutableData* dataForUrl = [self dataForUrl:urlAsString];
-    NSLog(@"NSURLConnection: data received = %d bytes (%@)",
-          [dataForUrl length],
+    NSLog(@"NSURLConnection: data received = %lu bytes (%@)",
+          (unsigned long)[dataForUrl length],
           urlAsString);
     self.connection = nil;
 }
@@ -426,11 +427,20 @@ didCompleteWithError:(NSError *)error
 {
     NSString* urlAsString = [self urlAsStringForTask:task];
     NSMutableData* dataForUrl = [self dataForUrl:urlAsString];
-    NSLog(@"NSURLSession (delegate): size data received = %d bytes (%@)",
-          [dataForUrl length],
+    NSLog(@"NSURLSession (delegate): size data received = %lu bytes (%@)",
+          (unsigned long)[dataForUrl length],
           urlAsString);
     [self removeDataObjectForUrl:urlAsString];
 }
 #endif
+
+- (IBAction)pauseSwitchToggled:(id)sender
+{
+    if (self.pauseSwitch.on) {
+        [monitoringClient pause];
+    } else {
+        [monitoringClient resume];
+    }
+}
 
 @end

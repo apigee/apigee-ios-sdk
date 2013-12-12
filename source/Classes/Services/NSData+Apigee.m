@@ -18,17 +18,20 @@
     NSData *data = [NSData dataWithContentsOfURL:url options:readOptionsMask error:errorPtr];
     uint64_t end = [ApigeeNetworkEntry machTime];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithURL:url];
-    [entry populateStartTime:start ended:end];
-    [entry populateWithResponseData:data];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if (![monitoringClient isPaused]) {
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateWithURL:url];
+        [entry populateStartTime:start ended:end];
+        [entry populateWithResponseData:data];
     
-    if (errorPtr && *errorPtr) {
-        NSError *theError = *errorPtr;
-        [entry populateWithError:theError];
+        if (errorPtr && *errorPtr) {
+            NSError *theError = *errorPtr;
+            [entry populateWithError:theError];
+        }
+    
+        [monitoringClient recordNetworkEntry:entry];
     }
-    
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return data;
 }
@@ -39,12 +42,15 @@
     NSData *data = [NSData dataWithContentsOfURL:url];
     uint64_t end = [ApigeeNetworkEntry machTime];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithURL:url];
-    [entry populateStartTime:start ended:end];
-    [entry populateWithResponseData:data];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if (![monitoringClient isPaused]) {
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateWithURL:url];
+        [entry populateStartTime:start ended:end];
+        [entry populateWithResponseData:data];
     
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
+        [monitoringClient recordNetworkEntry:entry];
+    }
     
     return data;
 }
@@ -55,17 +61,20 @@
     NSData *data = [[NSData alloc] initWithContentsOfURL:url options:readOptionsMask error:errorPtr];
     uint64_t end = [ApigeeNetworkEntry machTime];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithURL:url];
-    [entry populateStartTime:start ended:end];
-    [entry populateWithResponseData:data];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if (![monitoringClient isPaused]) {
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateWithURL:url];
+        [entry populateStartTime:start ended:end];
+        [entry populateWithResponseData:data];
     
-    if (errorPtr && *errorPtr) {
-        NSError *theError = *errorPtr;
-        [entry populateWithError:theError];
+        if (errorPtr && *errorPtr) {
+            NSError *theError = *errorPtr;
+            [entry populateWithError:theError];
+        }
+    
+        [monitoringClient recordNetworkEntry:entry];
     }
-    
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
     
     return data;
 }
@@ -76,13 +85,16 @@
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
     uint64_t end = [ApigeeNetworkEntry machTime];
     
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithURL:url];
-    [entry populateStartTime:start ended:end];
-    [entry populateWithResponseData:data];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if (![monitoringClient isPaused]) {
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateWithURL:url];
+        [entry populateStartTime:start ended:end];
+        [entry populateWithResponseData:data];
     
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
-   
+        [monitoringClient recordNetworkEntry:entry];
+    }
+    
     return data;
 }
 
@@ -92,19 +104,22 @@
     BOOL result = [self writeToURL:url options:writeOptionsMask error:errorPtr];
     uint64_t end = [ApigeeNetworkEntry machTime];
 
-    ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-    [entry populateWithURL:url];
-    [entry populateStartTime:start ended:end];
+    ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    if (![monitoringClient isPaused]) {
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry populateWithURL:url];
+        [entry populateStartTime:start ended:end];
     
-    if (!result) {
-        entry.numErrors = @"1";
-        if (errorPtr && *errorPtr) {
-            NSError *theError = *errorPtr;
-            [entry populateWithError:theError];
+        if (!result) {
+            entry.numErrors = @"1";
+            if (errorPtr && *errorPtr) {
+                NSError *theError = *errorPtr;
+                [entry populateWithError:theError];
+            }
         }
-    }
 
-    [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:entry];
+        [monitoringClient recordNetworkEntry:entry];
+    }
     
     return result;
 }
