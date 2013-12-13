@@ -239,6 +239,17 @@ static bool AmIBeingDebugged(void)
     }
 }
 
+- (BOOL)isAbleToSendDataToServer
+{
+    if (self.activeSettings) {
+        return (self.activeSettings.instaOpsApplicationId != nil) &&
+                ([self.activeSettings.orgName length] > 0) &&
+                ([self.activeSettings.appName length] > 0);
+    }
+    
+    return NO;
+}
+
 - (void) dealloc
 {
     singletonInstance = nil;
@@ -868,16 +879,27 @@ static bool AmIBeingDebugged(void)
         return;
     }
     
+    if (![self isAbleToSendDataToServer]) {
+        ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"missing app identification - unable to send data to server");
+        ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"attempting to retrieve configuration from server");
+        [self retrieveServerConfig];
+    }
+    
     [self establishTimer];
-
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(queue, ^{
-        if (self.showDebuggingInfo) {
-            [self printDebugMessage:@"attempting to upload data to server"];
-        }
+    
+    if ([self isAbleToSendDataToServer]) {
+        dispatch_queue_t queue =
+            dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(queue, ^{
+            if (self.showDebuggingInfo) {
+                [self printDebugMessage:@"attempting to upload data to server"];
+            }
         
-        [self uploadEvents];
-    });
+            [self uploadEvents];
+        });
+    } else {
+        ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"unable to send data to server - no app identification");
+    }
 }
 
 - (NSData*)postString:(NSString*)postBody toUrl:(NSString*)urlAsString contentType:(NSString*)contentType
@@ -1011,6 +1033,11 @@ static bool AmIBeingDebugged(void)
         return;
     }
     
+    if (![self isAbleToSendDataToServer]) {
+        ApigeeLogDebugMessage(kApigeeMonitoringClientTag, @"missing app identification - unable to send data to server");
+        return;
+    }
+    
     Apigee_PLCrashReporter* crashReporter = [Apigee_PLCrashReporter sharedReporter];
     NSError* error = nil;
     NSData* data = [crashReporter loadPendingCrashReportDataAndReturnError:&error];
@@ -1089,20 +1116,42 @@ static bool AmIBeingDebugged(void)
     }
 }
 
-- (void)populateClientMetricsEnvelope:(NSMutableDictionary*)clientMetricsEnvelope
+- (BOOL)populateClientMetricsEnvelope:(NSMutableDictionary*)clientMetricsEnvelope
 {
     if (self.activeSettings) {
         if (self.activeSettings.instaOpsApplicationId) {
             [clientMetricsEnvelope setObject:self.activeSettings.instaOpsApplicationId
                                       forKey:@"instaOpsApplicationId"];
+        } else {
+            ApigeeLogErrorMessage(kApigeeMonitoringClientTag, @"missing value for instaOpsApplicationId");
+            return NO;
         }
         
-        [clientMetricsEnvelope setObject:self.activeSettings.orgName forKey:@"orgName"];
-        [clientMetricsEnvelope setObject:self.activeSettings.appName forKey:@"appName"];
-        [clientMetricsEnvelope setObject:self.activeSettings.fullAppName forKey:@"fullAppName"];
+        if (self.activeSettings.orgName) {
+            [clientMetricsEnvelope setObject:self.activeSettings.orgName
+                                      forKey:@"orgName"];
+        } else {
+            ApigeeLogErrorMessage(kApigeeMonitoringClientTag, @"missing value for orgName");
+            return NO;
+        }
+        
+        if (self.activeSettings.appName) {
+            [clientMetricsEnvelope setObject:self.activeSettings.appName
+                                      forKey:@"appName"];
+        } else {
+            ApigeeLogErrorMessage(kApigeeMonitoringClientTag, @"missing value for appName");
+            return NO;
+        }
+        
+        if (self.activeSettings.fullAppName) {
+            [clientMetricsEnvelope setObject:self.activeSettings.fullAppName
+                                      forKey:@"fullAppName"];
+        }
     }
     
     [clientMetricsEnvelope setObject:[NSDate unixTimestampAsString] forKey:@"timeStamp"];
+    
+    return YES;
 }
 
 - (NSString*)metricsUploadURL
@@ -1116,7 +1165,12 @@ static bool AmIBeingDebugged(void)
     @autoreleasepool {
         
         if (!self.activeSettings) {
-            ApigeeLogVerboseMessage(kApigeeMonitoringClientTag,@"activeSettings is nil, abandoning upload");
+            ApigeeLogWarnMessage(kApigeeMonitoringClientTag,@"activeSettings is nil, abandoning upload");
+            return NO;
+        }
+        
+        if (![self isAbleToSendDataToServer]) {
+            ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"missing app identification fields needed to send data to server");
             return NO;
         }
         
@@ -1160,7 +1214,11 @@ static bool AmIBeingDebugged(void)
                                                                               isWiFi:isWiFi];
     
         NSMutableDictionary *clientMetricsEnvelope = [NSMutableDictionary dictionary];
-        [self populateClientMetricsEnvelope:clientMetricsEnvelope];
+        if (![self populateClientMetricsEnvelope:clientMetricsEnvelope]) {
+            ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Unable to populate client metrics envelope");
+            return NO;
+        }
+        
         [clientMetricsEnvelope setObject:[ApigeeLogEntry toDictionaries:logEntries] forKey:@"logs"];
         [clientMetricsEnvelope setObject:[ApigeeNetworkEntry toDictionaries:networkMetrics] forKey:@"metrics"];
         [clientMetricsEnvelope setObject:[sessionMetrics asDictionary] forKey:@"sessionMetrics"];
@@ -1237,6 +1295,11 @@ static bool AmIBeingDebugged(void)
 
 - (BOOL) sendCrashNotification:(NSString *) fileName
 {
+    if (![self isAbleToSendDataToServer]) {
+        ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"missing app identification fields needed to send data to server");
+        return NO;
+    }
+
     NSString* nowTimestamp = [NSDate unixTimestampAsString];
     
     ApigeeLogEntry *logEntry = [[ApigeeLogEntry alloc] init];
@@ -1255,7 +1318,12 @@ static bool AmIBeingDebugged(void)
     NSArray *logEntries = [NSArray arrayWithObject:logEntry];
 
     NSMutableDictionary *clientMetricsEnvelope = [NSMutableDictionary dictionary];
-    [self populateClientMetricsEnvelope:clientMetricsEnvelope];
+    
+    if (![self populateClientMetricsEnvelope:clientMetricsEnvelope]) {
+        ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Unable to populate client metrics envelope");
+        return NO;
+    }
+    
     [clientMetricsEnvelope setObject:[ApigeeLogEntry toDictionaries:logEntries] forKey:@"logs"];
     [clientMetricsEnvelope setObject:[sessionMetrics asDictionary] forKey:@"sessionMetrics"];
 
