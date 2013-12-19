@@ -1,4 +1,4 @@
-#Apigee JavaScript SDK Sample Apps
+#Apigee iOS SDK Sample Apps
 
 The sample apps in this directory are intended to show basic usage of some of the major features of App Services using the Apigee JavaScript SDK. By default, all of the sample apps are set up to use the unsecured 'sandbox' application that was created for you when you created your Apigee account.
 
