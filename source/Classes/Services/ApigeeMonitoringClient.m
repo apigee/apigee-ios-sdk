@@ -490,6 +490,8 @@ static bool AmIBeingDebugged(void)
         }
     
         [ApigeeQueue recordNetworkEntry:entry];
+    } else {
+        NSLog(@"Not recording network metrics -- paused");
     }
 }
 
@@ -1661,6 +1663,8 @@ static bool AmIBeingDebugged(void)
             [self recordNetworkEntry:entry];
         
             metricsRecorded = YES;
+        } else {
+            NSLog(@"Not recording network metrics -- paused");
         }
     } else {
         ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Unable to record network metrics. Agent not initialized or active");
@@ -1690,6 +1694,8 @@ static bool AmIBeingDebugged(void)
             [self recordNetworkEntry:entry];
         
             metricsRecorded = YES;
+        } else {
+            NSLog(@"Not recording network metrics -- paused");
         }
     } else {
         ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Unable to record network metrics. Agent not initialized or active");

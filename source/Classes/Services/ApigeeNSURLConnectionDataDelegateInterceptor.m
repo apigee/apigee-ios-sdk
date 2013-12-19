@@ -125,6 +125,8 @@
         [self.networkEntry populateStartTime:started ended:ended];
         [self.networkEntry populateWithError:error];
         [monitoringClient recordNetworkEntry:self.networkEntry];
+    } else {
+        NSLog(@"Not capturing network metrics -- paused");
     }
     
     self.networkEntry = nil;

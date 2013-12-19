@@ -146,7 +146,7 @@ static BOOL haveGidAndUid = NO;
             level:(ApigeeLogLevel) level
 {
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
-    if ([monitoringClient isPaused]) {
+    if ((level > kApigeeLogLevelVerbose) && [monitoringClient isPaused]) {
         return;
     }
     

@@ -102,6 +102,8 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithURLAndCompletionHa
                                                               ended:endTime];
             
                 [monitoringClient recordNetworkEntry:sessionDataTaskInfo.networkEntry];
+            } else {
+                NSLog(@"Not capturing network metrics -- paused");
             }
             
             // do we have a completion handler?
@@ -166,6 +168,8 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithRequestAndCompleti
                                                               ended:endTime];
             
                 [monitoringClient recordNetworkEntry:sessionDataTaskInfo.networkEntry];
+            } else {
+                NSLog(@"Not capturing network metrics -- paused");
             }
             
             // do we have a completion handler?

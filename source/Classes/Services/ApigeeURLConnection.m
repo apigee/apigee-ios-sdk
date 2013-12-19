@@ -72,6 +72,8 @@
         }
     
         [monitoringClient recordNetworkEntry:entry];
+    } else {
+        NSLog(@"Not capturing network metrics -- paused");
     }
     
     return responseData;
@@ -107,6 +109,8 @@
                                    }
                                
                                    [monitoringClient recordNetworkEntry:entry];
+                               } else {
+                                   NSLog(@"Not capturing network metrics -- paused");
                                }
                             }];
 }
