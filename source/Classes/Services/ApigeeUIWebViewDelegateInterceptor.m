@@ -68,6 +68,8 @@
     if (![monitoringClient isPaused]) {
         [self.networkEntry populateStartTime:self.started ended:ended];
         [monitoringClient recordNetworkEntry:self.networkEntry];
+    } else {
+        NSLog(@"Not capturing network metrics -- paused");
     }
     
     self.networkEntry = nil;
@@ -86,6 +88,8 @@
         [self.networkEntry populateWithError:error];
         [self.networkEntry populateStartTime:self.started ended:ended];
         [monitoringClient recordNetworkEntry:self.networkEntry];
+    } else {
+        NSLog(@"Not capturing network metrics -- paused");
     }
     
     self.networkEntry = nil;

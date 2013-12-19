@@ -170,6 +170,7 @@ void Apigee_record_server_response_metrics(const server_response_metrics *metric
     }
     
     if ([monitoringClient isPaused]) {
+        NSLog(@"Not capturing network metrics -- paused");
         return;
     }
     

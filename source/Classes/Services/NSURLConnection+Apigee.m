@@ -104,6 +104,8 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
             }
     
             [monitoringClient recordNetworkEntry:entry];
+        } else {
+            NSLog(@"Not capturing network metrics -- paused");
         }
         
         return responseData;
