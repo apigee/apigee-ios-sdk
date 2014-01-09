@@ -14,7 +14,6 @@
 @interface ApigeeUIWebViewDelegateInterceptor()
 
 @property (weak) id<UIWebViewDelegate> target;
-@property (assign) uint64_t started;
 @property (strong) ApigeeNetworkEntry *networkEntry;
 @end
 
@@ -49,7 +48,7 @@
 
 - (void) webViewDidStartLoad:(UIWebView *) webView
 {
-    self.started = [ApigeeNetworkEntry machTime];
+    [self.networkEntry recordStartTime];
     
     if (self.target && [self.target respondsToSelector:@selector(webViewDidStartLoad:)]) {
         [self.target webViewDidStartLoad:webView];
@@ -58,7 +57,7 @@
 
 - (void) webViewDidFinishLoad:(UIWebView *) webView
 {
-    uint64_t ended = [ApigeeNetworkEntry machTime];
+    [self.networkEntry recordEndTime];
     
     if (self.target && [self.target respondsToSelector:@selector(webViewDidFinishLoad:)]) {
         [self.target webViewDidFinishLoad:webView];
@@ -66,7 +65,6 @@
     
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     if (![monitoringClient isPaused]) {
-        [self.networkEntry populateStartTime:self.started ended:ended];
         [monitoringClient recordNetworkEntry:self.networkEntry];
     } else {
         NSLog(@"Not capturing network metrics -- paused");
@@ -77,7 +75,7 @@
 
 - (void) webView:(UIWebView *) webView didFailLoadWithError:(NSError *) error
 {
-    uint64_t ended = [ApigeeNetworkEntry machTime];
+    [self.networkEntry recordEndTime];
     
     if (self.target && [self.target respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
         [self.target webView:webView didFailLoadWithError:error];
@@ -86,7 +84,6 @@
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     if (![monitoringClient isPaused]) {
         [self.networkEntry populateWithError:error];
-        [self.networkEntry populateStartTime:self.started ended:ended];
         [monitoringClient recordNetworkEntry:self.networkEntry];
     } else {
         NSLog(@"Not capturing network metrics -- paused");

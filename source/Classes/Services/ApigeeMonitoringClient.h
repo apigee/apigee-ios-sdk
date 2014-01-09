@@ -264,34 +264,26 @@
 - (NSDate*)timeStartup;
 
 /*!
- @abstract Retrieves the Mach time that the mobile agent was initialized
+ @abstract Retrieves the time that the mobile agent was initialized
     (i.e., startup time)
- @return Mach time in billionths of a second representing mobile agent startup time
+ @return time in seconds representing mobile agent startup time
  */
-- (uint64_t)timeStartupMach;
+- (CFTimeInterval)timeStartupSeconds;
 
 /*!
- @abstract Retrieves the Mach time that the mobile agent last uploaded metrics
+ @abstract Retrieves the time that the mobile agent last uploaded metrics
     to portal
- @return Mach time in billionths of a second representing time of last metrics
+ @return Time in seconds since device was started representing time of last metrics
     upload (or 0 if no upload has occurred)
  */
-- (uint64_t)timeLastUpload;
+- (CFTimeInterval)timeLastUpload;
 
 /*!
- @abstract Retrieves the Mach time that the mobile agent last recognized a
+ @abstract Retrieves the time that the mobile agent last recognized a
     network transmission
- @return Mach time in billionths of a second representing time of last network
-    transmission (or 0 if none has occurred)
+ @return Time in seconds since device was started (or 0 if none has occurred)
  */
-- (uint64_t)timeLastNetworkTransmission;
-
-/*!
- @abstract Converts a Mach time to an NSDate object
- @param mach_time the Mach time (in billionths of a second) to convert
- @return the Mach time represented as an NSDate
- */
-- (NSDate*)machTimeToDate:(uint64_t)mach_time;
+- (CFTimeInterval)timeLastNetworkTransmission;
 
 /*
 - (void) updateLastNetworkTransmissionTime:(NSString*) networkTransmissionTime;
@@ -339,8 +331,7 @@
 /*!
  @internal
  */
-- (void)setStartTime:(uint64_t)startTime
-  forSessionDataTask:(NSURLSessionDataTask*)dataTask;
+- (void)recordStartTimeForSessionDataTask:(NSURLSessionDataTask*)dataTask;
 
 #endif
 

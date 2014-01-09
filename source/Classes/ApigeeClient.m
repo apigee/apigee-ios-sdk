@@ -13,9 +13,9 @@
 #import "ApigeeDefaultiOSLog.h"
 
 /*!
- @version 2.0.7
+ @version 2.0.8
  */
-static NSString* kSDKVersion = @"2.0.7";
+static NSString* kSDKVersion = @"2.0.8";
 
 
 @interface ApigeeClient ()

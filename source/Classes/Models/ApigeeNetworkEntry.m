@@ -5,8 +5,6 @@
 //  Copyright (c) 2012 Apigee. All rights reserved.
 //
 
-#import <mach/mach_time.h>
-
 #import "NSDate+Apigee.h"
 #import "ApigeeModelUtils.h"
 #import "ApigeeNetworkEntry.h"
@@ -18,9 +16,15 @@ static NSString *kHeaderResponseTime   = @"x-apigee-responsetime";
 static NSString *kHeaderProcessingTime = @"x-apigee-serverprocessingtime";
 static NSString *kHeaderServerId       = @"x-apigee-serverid";
 
-static mach_timebase_info_data_t mach_time_info;
-static uint64_t startupTimeMach;
-static NSDate* startupTime;
+static NSDate* startupTimeDate;
+static CFTimeInterval startupTimeSeconds;
+
+@interface ApigeeNetworkEntry ()
+
+@property (strong, nonatomic) NSDate* startNetTime;
+@property (strong, nonatomic) NSDate* endNetTime;
+
+@end
 
 
 @implementation ApigeeNetworkEntry
@@ -42,40 +46,27 @@ static NSDate* startupTime;
 @synthesize domain;
 //@synthesize allowsCellularAccess;
 
+@synthesize startNetTime;
+@synthesize endNetTime;
+
 + (void)load
 {
-    mach_timebase_info(&mach_time_info);
-    startupTimeMach = mach_absolute_time();
-    startupTime = [NSDate date];
+    startupTimeDate = [NSDate date];
+    startupTimeSeconds = CACurrentMediaTime();
 }
 
-+ (uint64_t)machTime
++ (NSDate*)secondsTimeToDate:(CFTimeInterval)secondsValue
 {
-    return mach_absolute_time();
+    CFTimeInterval secondsSinceAppStart = secondsValue - startupTimeSeconds;
+    return [startupTimeDate dateByAddingTimeInterval:secondsSinceAppStart];
 }
 
-+ (CGFloat)millisFromMachStartTime:(uint64_t)startTime endTime:(uint64_t)endTime
++ (CFTimeInterval)dateToSecondsTime:(NSDate*)date
 {
-    const uint64_t elapsedTime = endTime - startTime;
-    const uint64_t nanos = elapsedTime * mach_time_info.numer / mach_time_info.denom;
-    return ((CGFloat) nanos) / NSEC_PER_MSEC;
+    NSTimeInterval timeIntervalSecondsSinceStartup =
+        [date timeIntervalSinceDate:startupTimeDate];
+    return timeIntervalSecondsSinceStartup;
 }
-
-+ (CGFloat)secondsFromMachStartTime:(uint64_t)startTime endTime:(uint64_t)endTime
-{
-    const uint64_t elapsedTime = endTime - startTime;
-    const uint64_t nanos = elapsedTime * mach_time_info.numer / mach_time_info.denom;
-    return ((CGFloat) nanos) / NSEC_PER_SEC;
-}
-
-+ (NSDate*)machTimeToDate:(uint64_t)machTime
-{
-    NSTimeInterval timeSinceStartup =
-        [ApigeeNetworkEntry secondsFromMachStartTime:startupTimeMach
-                                             endTime:machTime];
-    return [startupTime dateByAddingTimeInterval:timeSinceStartup];
-}
-
 
 - (id)init
 {
@@ -88,9 +79,34 @@ static NSDate* startupTime;
     return self;
 }
 
+- (void)setValue:(id)value forKey:(NSString*)key inDict:(NSMutableDictionary*)dict
+{
+    if ((value != nil) && ([key length] > 0)) {
+        [dict setValue:value forKey:key];
+    }
+}
+
 - (NSDictionary*) asDictionary
 {
-    return [ApigeeModelUtils asDictionary:self];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    
+    [self setValue:self.url forKey:@"url" inDict:dict];
+    [self setValue:self.timeStamp forKey:@"timeStamp" inDict:dict];
+    [self setValue:self.startTime forKey:@"startTime" inDict:dict];
+    [self setValue:self.endTime forKey:@"endTime" inDict:dict];
+    [self setValue:self.latency forKey:@"latency" inDict:dict];
+    [self setValue:self.numSamples forKey:@"numSamples" inDict:dict];
+    [self setValue:self.numErrors forKey:@"numErrors" inDict:dict];
+    [self setValue:self.transactionDetails forKey:@"transactionDetails" inDict:dict];
+    [self setValue:self.httpStatusCode forKey:@"httpStatusCode" inDict:dict];
+    [self setValue:self.responseDataSize forKey:@"responseDataSize" inDict:dict];
+    [self setValue:self.serverProcessingTime forKey:@"serverProcessingTime" inDict:dict];
+    [self setValue:self.serverReceiptTime forKey:@"serverReceiptTime" inDict:dict];
+    [self setValue:self.serverResponseTime forKey:@"serverResponseTime" inDict:dict];
+    [self setValue:self.serverId forKey:@"serverId" inDict:dict];
+    [self setValue:self.domain forKey:@"domain" inDict:dict];
+    
+    return dict;
 }
 
 - (void)populateWithURLString:(NSString*)urlString
@@ -170,21 +186,53 @@ static NSDate* startupTime;
     }
 }
 
-- (void)populateStartTime:(uint64_t)started ended:(uint64_t)ended
+- (void)recordStartTime
 {
-    NSDate* start = [ApigeeNetworkEntry machTimeToDate:started];
-    NSDate* end = [ApigeeNetworkEntry machTimeToDate:ended];
+    self.startNetTime = [NSDate date];
+}
+
+- (void)recordEndTime
+{
+    self.endNetTime = [NSDate date];
+    [self populateStartTimeStamp:self.startNetTime
+                    endTimeStamp:self.endNetTime];
+}
+
+- (void)populateStartTime:(CFTimeInterval)started ended:(CFTimeInterval)ended
+{
+    NSDate* start = [ApigeeNetworkEntry secondsTimeToDate:started];
+    NSDate* end = [ApigeeNetworkEntry secondsTimeToDate:ended];
+    [self populateStartTimeStamp:start endTimeStamp:end];
+}
+
+- (void)populateStartTimeStamp:(NSDate*)started endTimeStamp:(NSDate*)ended
+{
+    if (started && ended) {
+        BOOL datesPassSanityCheck = NO;
+        
+        NSDate* earlier = [started earlierDate:ended];
+        if (earlier != started) {
+            if (NSOrderedSame == [started compare:ended]) {
+                datesPassSanityCheck = YES;
+            } else {
+                ApigeeLogError(@"NET_MONITOR",@"end time=%@ precedes start time=%@",ended,started);
+            }
+        } else {
+            datesPassSanityCheck = YES;
+        }
+        
+        if (datesPassSanityCheck) {
+            NSString* startedTimestampMillis =
+                [NSDate stringFromMilliseconds:[started dateAsMilliseconds]];
+            self.timeStamp = startedTimestampMillis;
+            self.startTime = startedTimestampMillis;
+            self.endTime = [NSDate stringFromMilliseconds:[ended dateAsMilliseconds]];
     
-    NSString* startedTimestampMillis = [NSDate stringFromMilliseconds:[start dateAsMilliseconds]];
-    self.timeStamp = startedTimestampMillis;
-    self.startTime = startedTimestampMillis;
-    self.endTime = [NSDate stringFromMilliseconds:[end dateAsMilliseconds]];
-    
-    const long latencyMillis =
-        [ApigeeNetworkEntry millisFromMachStartTime:started
-                                            endTime:ended];
-    
-    self.latency = [NSString stringWithFormat:@"%ld", latencyMillis ];
+            const NSTimeInterval latencySeconds = [ended timeIntervalSinceDate:started];
+            const long latencyMillis = latencySeconds * 1000;
+            self.latency = [NSString stringWithFormat:@"%ld", latencyMillis ];
+        }
+    }
 }
 
 - (void)debugPrint

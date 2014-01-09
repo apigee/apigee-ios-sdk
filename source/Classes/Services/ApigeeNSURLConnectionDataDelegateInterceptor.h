@@ -15,10 +15,10 @@
 }
 
 
-@property (assign) uint64_t createTime;
-
 - (id) initAndInterceptFor:(id) target withRequest:(NSURLRequest*)request;
 
 - (BOOL)isConnectionAlive;
+
+- (void)recordStartTime;
 
 @end

@@ -28,7 +28,8 @@
                        returningResponse:(NSURLResponse **)response
                                    error:(NSError **)error
 {
-    uint64_t startTime = [ApigeeNetworkEntry machTime];
+    ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
+    [entry recordStartTime];
     
     NSError *reportingError = nil;
     NSData *responseData;
@@ -45,10 +46,8 @@
     
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     if (![monitoringClient isPaused]) {
-        uint64_t endTime = [ApigeeNetworkEntry machTime];
+        [entry recordEndTime];
     
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-        [entry populateStartTime:startTime ended:endTime];
         [entry populateWithRequest:request];
     
         if (response && *response) {
@@ -81,16 +80,17 @@
 
 + (void)sendAsynchronousRequest:(NSURLRequest *)request queue:(NSOperationQueue *)queue completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler
 {
-    uint64_t startTime = [ApigeeNetworkEntry machTime];
+    ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
+    [entry recordStartTime];
     
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:queue
                            completionHandler:^(NSURLResponse *response,
                                                NSData *data,
                                                NSError *error) {
-                                                          
-                               uint64_t endTime = [ApigeeNetworkEntry machTime];
-                                                          
+                               
+                               [entry recordEndTime];
+                               
                                // invoke our caller's completion handler
                                if (handler) {
                                    handler(response,data,error);
@@ -98,8 +98,6 @@
                                
                                ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
                                if (![monitoringClient isPaused]) {
-                                   ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
-                                   [entry populateStartTime:startTime ended:endTime];
                                    [entry populateWithRequest:request];
                                    [entry populateWithResponse:response];
                                    [entry populateWithResponseData:data];
@@ -115,23 +113,30 @@
                             }];
 }
 
-- (id) initWithRequest:(NSURLRequest *)request delegate:(id < NSURLConnectionDelegate >)delegate
+- (id) initWithRequest:(NSURLRequest *)request
+              delegate:(id < NSURLConnectionDelegate >)delegate
 {
-    self.interceptor = [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
-                                                                                     withRequest:request];
+    self.interceptor =
+        [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
+                                                                      withRequest:request];
     return [super initWithRequest:request delegate:self.interceptor];
 }
 
-- (id) initWithRequest:(NSURLRequest *)request delegate:(id < NSURLConnectionDelegate >)delegate startImmediately:(BOOL)startImmediately
+- (id) initWithRequest:(NSURLRequest *)request
+              delegate:(id < NSURLConnectionDelegate >)delegate
+      startImmediately:(BOOL)startImmediately
 {
-    self.interceptor = [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
-                                                                                     withRequest:request];
-    return [super initWithRequest:request delegate:self.interceptor startImmediately:startImmediately];
+    self.interceptor =
+        [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
+                                                                      withRequest:request];
+    return [super initWithRequest:request
+                         delegate:self.interceptor
+                 startImmediately:startImmediately];
 }
 
 - (void) start
 {
-    _started = [ApigeeNetworkEntry machTime];
+    [self.interceptor recordStartTime];
     
     [super start];
 }

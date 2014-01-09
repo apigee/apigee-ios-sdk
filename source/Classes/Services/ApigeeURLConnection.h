@@ -12,8 +12,6 @@
  */
 @interface ApigeeURLConnection : NSURLConnection
 
-@property (assign) uint64_t started;
-
 + (NSURLConnection *) connectionWithRequest:(NSURLRequest *) request delegate:(id < NSURLConnectionDelegate >) delegate;
 + (NSData *) sendSynchronousRequest:(NSURLRequest *) request
                        returningResponse:(NSURLResponse **)response

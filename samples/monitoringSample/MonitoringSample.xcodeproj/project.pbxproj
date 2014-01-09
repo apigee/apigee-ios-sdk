@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		635C6E8017ECAADB004F9C9E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635C6E7F17ECAADB004F9C9E /* CoreTelephony.framework */; };
+		63ACC5CC187F091800C87C83 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ACC5CB187F091800C87C83 /* QuartzCore.framework */; };
 		63B68FA3180C85CB003424E1 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63B68FA2180C85CB003424E1 /* Settings.bundle */; };
 		63C7BC0E17D791EB00EBF365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC0D17D791EB00EBF365 /* Foundation.framework */; };
 		63C7BC1217D791EB00EBF365 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC1117D791EB00EBF365 /* UIKit.framework */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		635C6E7F17ECAADB004F9C9E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		63ACC5CB187F091800C87C83 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		63B68FA2180C85CB003424E1 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../Settings.bundle; sourceTree = "<group>"; };
 		63C7BC0A17D791EB00EBF365 /* MonitoringSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MonitoringSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63C7BC0D17D791EB00EBF365 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -51,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63ACC5CC187F091800C87C83 /* QuartzCore.framework in Frameworks */,
 				635C6E8017ECAADB004F9C9E /* CoreTelephony.framework in Frameworks */,
 				63C7BC4B17D7B7F500EBF365 /* SystemConfiguration.framework in Frameworks */,
 				63C7BC4917D7B7E900EBF365 /* Security.framework in Frameworks */,
@@ -84,6 +87,7 @@
 		63C7BC0C17D791EB00EBF365 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63ACC5CB187F091800C87C83 /* QuartzCore.framework */,
 				635C6E7F17ECAADB004F9C9E /* CoreTelephony.framework */,
 				63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */,
 				63C7BC4817D7B7E800EBF365 /* Security.framework */,

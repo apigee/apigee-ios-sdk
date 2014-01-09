@@ -23,7 +23,6 @@
     NSURLConnectionDownloadDelegate>
 
 @property (strong) id target;
-@property (strong) NSDate *start;
 @property (strong) ApigeeNetworkEntry *networkEntry;
 @property (assign, nonatomic) NSUInteger dataSize;
 
@@ -31,7 +30,6 @@
 
 @implementation ApigeeNSURLConnectionDataDelegateInterceptor
 
-@synthesize createTime;
 @synthesize dataSize;
 
 - (id) initAndInterceptFor:(id) target withRequest:(NSURLRequest*)request
@@ -42,11 +40,11 @@
     
     if (self) {
         self.target = target;
-        self.createTime = [ApigeeNetworkEntry machTime];
         self.dataSize = 0;
         _connectionAlive = YES;
         
         ApigeeNetworkEntry *theNetworkEntry = [[ApigeeNetworkEntry alloc] init];
+        [theNetworkEntry recordStartTime];
         [theNetworkEntry populateWithRequest:request];
         self.networkEntry = theNetworkEntry;
     }
@@ -109,20 +107,12 @@
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     
     if (![monitoringClient isPaused]) {
-        uint64_t ended = [ApigeeNetworkEntry machTime];
+        [self.networkEntry recordEndTime];
     
         if (self.target && [self.target respondsToSelector:@selector(connection:didFailWithError:)]) {
             [self.target connection:connection didFailWithError:error];
         }
     
-        uint64_t started = [connection startTime];
-    
-        if( ! started )
-        {
-            started = self.createTime;
-        }
-    
-        [self.networkEntry populateStartTime:started ended:ended];
         [self.networkEntry populateWithError:error];
         [monitoringClient recordNetworkEntry:self.networkEntry];
     } else {
@@ -280,20 +270,12 @@
 
     _connectionAlive = NO;
 
-    uint64_t ended = [ApigeeNetworkEntry machTime];
+    [self.networkEntry recordEndTime];
     
     if (self.target && [self.target respondsToSelector:@selector(connectionDidFinishLoading:)]) {
         [self.target connectionDidFinishLoading:connection];
     }
     
-    uint64_t started = [connection startTime];
-
-    if( ! started )
-    {
-        started = self.createTime;
-    }
-
-    [self.networkEntry populateStartTime:started ended:ended];
     [self.networkEntry populateWithResponseDataSize:self.dataSize];
     [[ApigeeMonitoringClient sharedInstance] recordNetworkEntry:self.networkEntry];
     self.networkEntry = nil;
@@ -338,5 +320,9 @@
     }
 }
 
+- (void)recordStartTime
+{
+    [self.networkEntry recordStartTime];
+}
 
 @end

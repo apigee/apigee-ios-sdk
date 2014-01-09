@@ -14,15 +14,14 @@
 
 + (NSData*) timedDataWithContentsOfURL:(NSURL *) url options:(NSDataReadingOptions) readOptionsMask error:(NSError **) errorPtr
 {
-    uint64_t start = [ApigeeNetworkEntry machTime];
+    ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
+    [entry recordStartTime];
     NSData *data = [NSData dataWithContentsOfURL:url options:readOptionsMask error:errorPtr];
-    uint64_t end = [ApigeeNetworkEntry machTime];
+    [entry recordEndTime];
     
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     if (![monitoringClient isPaused]) {
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
         [entry populateWithURL:url];
-        [entry populateStartTime:start ended:end];
         [entry populateWithResponseData:data];
     
         if (errorPtr && *errorPtr) {
@@ -40,15 +39,14 @@
 
 + (NSData*) timedDataWithContentsOfURL:(NSURL *) url
 {
-    uint64_t start = [ApigeeNetworkEntry machTime];
+    ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
+    [entry recordStartTime];
     NSData *data = [NSData dataWithContentsOfURL:url];
-    uint64_t end = [ApigeeNetworkEntry machTime];
+    [entry recordEndTime];
     
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     if (![monitoringClient isPaused]) {
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
         [entry populateWithURL:url];
-        [entry populateStartTime:start ended:end];
         [entry populateWithResponseData:data];
     
         [monitoringClient recordNetworkEntry:entry];
@@ -61,15 +59,14 @@
 
 - (id) initWithTimedContentsOfURL:(NSURL *) url options:(NSDataReadingOptions) readOptionsMask error:(NSError **) errorPtr
 {
-    uint64_t start = [ApigeeNetworkEntry machTime];
+    ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
+    [entry recordStartTime];
     NSData *data = [[NSData alloc] initWithContentsOfURL:url options:readOptionsMask error:errorPtr];
-    uint64_t end = [ApigeeNetworkEntry machTime];
+    [entry recordEndTime];
     
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     if (![monitoringClient isPaused]) {
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
         [entry populateWithURL:url];
-        [entry populateStartTime:start ended:end];
         [entry populateWithResponseData:data];
     
         if (errorPtr && *errorPtr) {
@@ -87,15 +84,14 @@
 
 - (id) initWithTimedContentsOfURL:(NSURL *) url
 {
-    uint64_t start = [ApigeeNetworkEntry machTime];
+    ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
+    [entry recordStartTime];
     NSData *data = [[NSData alloc] initWithContentsOfURL:url];
-    uint64_t end = [ApigeeNetworkEntry machTime];
+    [entry recordEndTime];
     
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     if (![monitoringClient isPaused]) {
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
         [entry populateWithURL:url];
-        [entry populateStartTime:start ended:end];
         [entry populateWithResponseData:data];
     
         [monitoringClient recordNetworkEntry:entry];
@@ -108,15 +104,14 @@
 
 - (BOOL) timedWriteToURL:(NSURL *)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError **)errorPtr
 {
-    uint64_t start = [ApigeeNetworkEntry machTime];
+    ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
+    [entry recordStartTime];
     BOOL result = [self writeToURL:url options:writeOptionsMask error:errorPtr];
-    uint64_t end = [ApigeeNetworkEntry machTime];
+    [entry recordEndTime];
 
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     if (![monitoringClient isPaused]) {
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
         [entry populateWithURL:url];
-        [entry populateStartTime:start ended:end];
     
         if (!result) {
             entry.numErrors = @"1";

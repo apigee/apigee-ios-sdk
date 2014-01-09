@@ -95,14 +95,5 @@
 
 + (BOOL)apigeeSwizzlingSetup;
 
-/*!
- @internal
- */
-- (uint64_t)startTime;
-
-/*!
- @internal
- */
-- (void)setStartTime:(uint64_t)theStartTime;
 
 @end
