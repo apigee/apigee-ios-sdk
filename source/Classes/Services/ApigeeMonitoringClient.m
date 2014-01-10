@@ -9,8 +9,6 @@
 
 #include <time.h>
 #include <objc/runtime.h>
-#include <mach/mach.h>
-#include <mach/mach_time.h>
 #include <stdbool.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -28,6 +26,7 @@
 #import "ApigeeIntervalTimer.h"
 
 #import "ApigeeLogEntry.h"
+#import "ApigeeNetworkEntry.h"
 #import "ApigeeSessionMetrics.h"
 #import "ApigeeCompositeConfiguration.h"
 
@@ -63,8 +62,6 @@
 #import "ApigeeUIEventSwitchToggled.h"
 #import "NSURLConnection+Apigee.h"
 
-static const int64_t kOneMillion = 1000 * 1000;
-static mach_timebase_info_data_t s_timebase_info;
 
 
 static ApigeeMonitoringClient *singletonInstance = nil;
@@ -119,9 +116,9 @@ static bool AmIBeingDebugged(void)
 @property (assign) BOOL isActive;
 
 @property (strong) NSDate *startupTime;
-@property (assign) uint64_t startupTimeMach;
-@property (assign) uint64_t lastUploadTime;
-@property (assign) uint64_t lastNetworkTransmissionTime;
+@property (assign) CFTimeInterval startupTimeSeconds;
+@property (assign) CFTimeInterval lastUploadTime;
+@property (assign) CFTimeInterval lastNetworkTransmissionTime;
 
 @property (strong) NSMutableDictionary *dictCustomConfigKeysByCategory;
 @property (strong) NSMutableDictionary *dictCustomConfigValuesByKey;
@@ -174,7 +171,7 @@ static bool AmIBeingDebugged(void)
 @synthesize isActive;
 
 @synthesize startupTime;
-@synthesize startupTimeMach;
+@synthesize startupTimeSeconds;
 @synthesize lastUploadTime;
 @synthesize lastNetworkTransmissionTime;
 
@@ -377,11 +374,8 @@ static bool AmIBeingDebugged(void)
     self.isInitialized = NO;
     self.monitoringPaused = NO;
     self.crashReporterInitialized = NO;
-    self.startupTimeMach = mach_absolute_time();
+    self.startupTimeSeconds = CACurrentMediaTime();
     self.startupTime = [NSDate date];
-    
-    // call to perform one-time initialization
-    [self machTimeToDate:self.startupTimeMach];
     
     singletonInstance = self;
     
@@ -1220,13 +1214,22 @@ static bool AmIBeingDebugged(void)
             ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Unable to populate client metrics envelope");
             return NO;
         }
+
+        NSError* error = nil;
+
+        NSArray* networkMetricsList = [ApigeeNetworkEntry toDictionaries:networkMetrics];
+        NSString* jsonNetworkMetrics = [ApigeeJsonUtils encode:networkMetricsList error:&error];
+        
+        ApigeeLogVerboseMessage(@"DEBUG", jsonNetworkMetrics);
+        
         
         [clientMetricsEnvelope setObject:[ApigeeLogEntry toDictionaries:logEntries] forKey:@"logs"];
-        [clientMetricsEnvelope setObject:[ApigeeNetworkEntry toDictionaries:networkMetrics] forKey:@"metrics"];
+        [clientMetricsEnvelope setObject:networkMetricsList forKey:@"metrics"];
         [clientMetricsEnvelope setObject:[sessionMetrics asDictionary] forKey:@"sessionMetrics"];
     
-        NSError* error = nil;
         NSString *json = [ApigeeJsonUtils encode:clientMetricsEnvelope error:&error];
+        
+        //ApigeeLogVerboseMessage(@"DEBUG",json);
         
         if( json != nil ) {
             BOOL reachedServerSuccessfully = NO;
@@ -1274,7 +1277,7 @@ static bool AmIBeingDebugged(void)
                     ApigeeLogVerboseMessage(kApigeeMonitoringClientTag,errorMessage);
                 }
             
-                self.lastUploadTime = mach_absolute_time();
+                self.lastUploadTime = CACurrentMediaTime();
             
                 //[ApigeeLogCompiler refreshUploadTimestamp];
             
@@ -1335,7 +1338,7 @@ static bool AmIBeingDebugged(void)
     if (json != nil) {
         if( nil != [self postString:json
                               toUrl:[self metricsUploadURL]] ) {
-            self.lastUploadTime = mach_absolute_time();
+            self.lastUploadTime = CACurrentMediaTime();
             SystemAssert(@"Crash Log", @"Crash notification sent for %@", fileName);
             return YES;
         }
@@ -1413,16 +1416,16 @@ static bool AmIBeingDebugged(void)
     }
 }
 
-- (uint64_t)timeStartupMach
+- (CFTimeInterval)timeStartupSeconds
 {
     if (self.isInitialized) {
-        return self.startupTimeMach;
+        return self.startupTimeSeconds;
     } else {
         return 0;
     }
 }
 
-- (uint64_t)timeLastUpload
+- (CFTimeInterval)timeLastUpload
 {
     if (self.isInitialized) {
         return self.lastUploadTime;
@@ -1431,48 +1434,10 @@ static bool AmIBeingDebugged(void)
     }
 }
 
-- (uint64_t)timeLastNetworkTransmission
+- (CFTimeInterval)timeLastNetworkTransmission
 {
     if (self.isInitialized) {
         return self.lastNetworkTransmissionTime;
-    } else {
-        return 0;
-    }
-}
-
-- (NSDate*)machTimeToDate:(uint64_t)mach_time
-{
-    if (self.isInitialized) {
-        const uint64_t startupMachTime = self.timeStartupMach;
-        const uint64_t elapsedMachTime = mach_time - startupMachTime;
-        
-        if (s_timebase_info.denom == 0) {
-            (void) mach_timebase_info(&s_timebase_info);
-        }
-        
-        // mach_absolute_time() returns billionth of seconds,
-        // so divide by one million to get milliseconds
-        const double elapsedMillis = (elapsedMachTime * s_timebase_info.numer) /
-                                        (kOneMillion * s_timebase_info.denom);
-        
-        const NSTimeInterval timeInterval = elapsedMillis / 1000;
-        
-        return [self.timeStartup dateByAddingTimeInterval:timeInterval];
-    } else {
-        return nil;
-    }
-}
-
-- (uint64_t)dateToMachTime:(NSDate*)date
-{
-    if (self.isInitialized) {
-        // calculate elapsed time (in seconds) from date argument from our startup time
-        NSTimeInterval intervalElapsedSeconds = [date timeIntervalSinceDate:self.timeStartup];
-        const double elapsedMillis = intervalElapsedSeconds * 1000;
-        const uint64_t elapsedMachTime = (elapsedMillis *
-                                          (kOneMillion * s_timebase_info.denom)) /
-                                            s_timebase_info.numer;
-        return self.timeStartupMach + elapsedMachTime;
     } else {
         return 0;
     }
@@ -1881,10 +1846,10 @@ static bool AmIBeingDebugged(void)
     }
 }
 
-- (void)setStartTime:(uint64_t)startTime forSessionDataTask:(NSURLSessionDataTask*)dataTask
+- (void)recordStartTimeForSessionDataTask:(NSURLSessionDataTask*)dataTask
 {
     if (self.isInitialized) {
-        if( startTime && dataTask )
+        if( dataTask )
         {
             [self.lockDataTasks lock];
             NSArray* listDataTaskInfoKeys = [self.dictRegisteredDataTasks allKeys];
@@ -1895,7 +1860,7 @@ static bool AmIBeingDebugged(void)
                     [self.dictRegisteredDataTasks objectForKey:date];
                 if( dataTaskInfo && (dataTaskInfo.sessionDataTask == dataTask) )
                 {
-                    dataTaskInfo.startTime = startTime;
+                    [dataTaskInfo.networkEntry recordStartTime];
                     [self.lockDataTasks unlock];
                     return;
                 }
@@ -1954,10 +1919,11 @@ static bool AmIBeingDebugged(void)
             // convert that to an NSDate
             NSDate *dateNetworkTransTime = [NSDate dateFromMilliseconds:msNetworkTransTime];
         
-            // convert date to mach time
-            uint64_t machTime = [self dateToMachTime:dateNetworkTransTime];
+            // convert date
+            CFTimeInterval secondsTime =
+                [ApigeeNetworkEntry dateToSecondsTime:dateNetworkTransTime];
         
-            self.lastNetworkTransmissionTime = machTime;
+            self.lastNetworkTransmissionTime = secondsTime;
         }
     }
 }

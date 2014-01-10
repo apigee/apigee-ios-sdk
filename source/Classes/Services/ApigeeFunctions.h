@@ -26,8 +26,8 @@
  */
 typedef struct
 {
-    uint64_t start_time;
-    uint64_t end_time;
+    CFTimeInterval start_time;
+    CFTimeInterval end_time;
     char *url;
     char *host;
     uint16_t port;
@@ -269,19 +269,19 @@ int Apigee_get_device_battery_level();
  @abstract Retrieves the time of the last known network transmission (of any kind) within the application
  @return time of last known network transmission
  */
-uint64_t Apigee_get_time_last_network_transmission();
+CFTimeInterval Apigee_get_time_last_network_transmission();
 
 /*!
  @abstract Retrieves the time of the last upload of metrics to server
  @return time of last metrics upload
  */
-uint64_t Apigee_get_time_last_upload();
+CFTimeInterval Apigee_get_time_last_upload();
 
 /*!
  @abstract Retrieves current system time
  @return current system time
  */
-uint64_t Apigee_get_current_system_time();
+CFTimeInterval Apigee_get_current_system_time();
 
 
 //******************************************************************************
