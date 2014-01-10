@@ -14,7 +14,6 @@
 #import "UIDevice+Apigee.h"
 #import "SSKeychain.h"
 #import "ApigeeJsonUtils.h"
-#import "ApigeeLocationService.h"
 #import "ApigeeAPSPayload.h"
 #import "ApigeeAPSDestination.h"
 
@@ -27,11 +26,6 @@ static id<ApigeeLogging> logger = nil;
 
 NSString *g_deviceUUID = nil;
 
-@interface ApigeeDataClient () <CLLocationManagerDelegate>
-
-@property CLLocationManager *locationManager;
-
-@end
 
 
 @implementation ApigeeDataClient
@@ -68,7 +62,6 @@ NSString *g_deviceUUID = nil;
     NSMutableDictionary *m_dictCustomHTTPHeaders;
 }
 
-@synthesize locationManager;
 
 /************************** ACCESSORS *******************************/
 /************************** ACCESSORS *******************************/
@@ -96,42 +89,6 @@ NSString *g_deviceUUID = nil;
 -(id<ApigeeClientDelegate>) getDelegate
 {
     return m_delegate;
-}
-
-- (void)notifyApplicationDidFinishLaunching:(id)sender
-{
-    //[self.locationManager startUpdatingLocation];
-}
-
-- (void)notifyApplicationWillEnterForeground:(id)sender
-{
-    //[self.locationManager startUpdatingLocation];
-}
-
-- (void)registerWithNotificationCenter
-{
-    NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
-    if( notifyCenter ) {
-        [notifyCenter addObserver:self
-                         selector:@selector(notifyApplicationDidFinishLaunching:)
-                             name:UIApplicationDidFinishLaunchingNotification
-                           object:nil];
-        [notifyCenter addObserver:self
-                         selector:@selector(notifyApplicationWillEnterForeground:)
-                             name:UIApplicationWillEnterForegroundNotification
-                           object:nil];
-    }
-}
-
-- (void)deregisterWithNotificationCenter
-{
-    NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
-    [notifyCenter removeObserver:self
-                            name:UIApplicationDidFinishLaunchingNotification
-                          object:nil];
-    [notifyCenter removeObserver:self
-                            name:UIApplicationWillEnterForegroundNotification
-                          object:nil];
 }
 
 /******************************* INIT *************************************/
@@ -178,23 +135,9 @@ NSString *g_deviceUUID = nil;
         if ([m_baseURL hasSuffix:@"/"]) {
             m_baseURL = [m_baseURL substringToIndex:[m_baseURL length]-1];
         }
-        
-        /*
-        self.locationManager = [[CLLocationManager alloc] init];
-        
-        if ([CLLocationManager locationServicesEnabled]) {
-            self.locationManager.delegate = self;
-        }
-         */
-        
-        [self registerWithNotificationCenter];
     }
+    
     return self;
-}
-
-- (void)dealloc
-{
-    [self deregisterWithNotificationCenter];
 }
 
 -(BOOL) setDelegate:(id<ApigeeClientDelegate>)delegate
@@ -2004,89 +1947,6 @@ NSString *g_deviceUUID = nil;
 {
     return [[ApigeeCollection alloc] init:self type:type query:query];
 }
-
-//**********************  LOCATION  ***************************
-/*
-- (void)updateLocation:(CLLocation*)location
-{
-    if (location != nil) {
-        [self.locationManager stopUpdatingLocation];
-        
-        NSString *deviceId = [ApigeeDataClient getUniqueDeviceID];
-        
-        NSMutableDictionary *entity = [[NSMutableDictionary alloc] init];
-        [entity setObject:@"device" forKey:@"type"];
-        [entity setObject:deviceId forKey:@"uuid"];
-        
-        // grab device meta-data
-        UIDevice *currentDevice = [UIDevice currentDevice];
-        [entity setValue:[UIDevice platformStringDescriptive] forKey:@"deviceModel"];
-        [entity setValue:[currentDevice systemName] forKey:@"devicePlatform"];
-        [entity setValue:[currentDevice systemVersion] forKey:@"deviceOSVersion"];
-
-
-        NSMutableDictionary *locationData = [[NSMutableDictionary alloc] init];
-        [locationData setValue:[NSNumber numberWithFloat:location.coordinate.latitude]
-                        forKey:@"latitude"];
-        [locationData setValue:[NSNumber numberWithFloat:location.coordinate.longitude]
-                        forKey:@"longitude"];
-
-        [entity setValue:locationData forKey:@"location"];
-
-        [self updateEntity:deviceId entity:entity];
-    }
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-     didUpdateLocations:(NSArray *)locations
-{
-    // iOS 6.0 and later
-    if ([locations count] > 0) {
-        [self updateLocation:[locations lastObject]];
-    }
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation
-{
-    // deprecated in iOS 6.0
-    [self updateLocation:newLocation];
-}
-
-- (void)locationManagerDidPauseLocationUpdates:(CLLocationManager *)manager
-{
-    // iOS 6.0 and later
-}
-
-- (void)locationManagerDidResumeLocationUpdates:(CLLocationManager *)manager
-{
-    // iOS 6.0 and later
-}
-
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-      didDetermineState:(CLRegionState)state
-              forRegion:(CLRegion *)region
-{
-    // iOS 7.0 and later
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-        didRangeBeacons:(NSArray *)beacons
-               inRegion:(CLBeaconRegion *)region
-{
-    // iOS 7.0 and later
-}
-
-- (void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error
-{
-    // iOS 7.0 and later
-}
-*/
 
 //**********************  HTTP HEADER FIELDS  ***************************
 
