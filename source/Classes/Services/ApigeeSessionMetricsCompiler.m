@@ -121,12 +121,16 @@
     
     if (settings.locationCaptureEnabled) {
 #if !(TARGET_IPHONE_SIMULATOR)
-        CLLocation *location = [ApigeeLocationService defaultService].location;
-        if (location) {
-            metrics.latitude = [NSString stringWithFormat:@"%f",  location.coordinate.latitude];
-            metrics.longitude = [NSString stringWithFormat:@"%f",  location.coordinate.longitude];
-            metrics.bearing = [NSString stringWithFormat:@"%f",  location.course];
-        }
+        //CLLocation *location = [ApigeeLocationService defaultService].location;
+        //if (location) {
+        //    metrics.latitude = [NSString stringWithFormat:@"%f",  location.coordinate.latitude];
+        //    metrics.longitude = [NSString stringWithFormat:@"%f",  location.coordinate.longitude];
+        //    metrics.bearing = [NSString stringWithFormat:@"%f",  location.course];
+        //} else {
+            metrics.latitude = @"0.0";
+            metrics.longitude = @"0.0";
+            metrics.bearing = @"0.0";
+        //}
 #else
         metrics.latitude = @"0.0";
         metrics.longitude = @"0.0";

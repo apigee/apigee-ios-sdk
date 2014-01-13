@@ -139,6 +139,7 @@ static bool AmIBeingDebugged(void)
 @property (assign) BOOL showDebuggingInfo;
 @property (assign) BOOL crashReporterInitialized;
 @property (assign) BOOL monitoringPaused;
+@property (assign) BOOL locationServicesStarted;
 @property (copy, nonatomic) NSString* customUploadUrl;
 
 @property (assign, nonatomic) ApigeeNetworkStatus activeNetworkStatus;
@@ -185,6 +186,7 @@ static bool AmIBeingDebugged(void)
 @synthesize showDebuggingInfo;
 @synthesize crashReporterInitialized;
 @synthesize monitoringPaused;
+@synthesize locationServicesStarted;
 @synthesize activeNetworkStatus;
 
 
@@ -373,6 +375,7 @@ static bool AmIBeingDebugged(void)
     self.isActive = NO;
     self.isInitialized = NO;
     self.monitoringPaused = NO;
+    self.locationServicesStarted = NO;
     self.crashReporterInitialized = NO;
     self.startupTimeSeconds = CACurrentMediaTime();
     self.startupTime = [NSDate date];
@@ -719,7 +722,10 @@ static bool AmIBeingDebugged(void)
         [self cancelTimer];
         
 #if !(TARGET_IPHONE_SIMULATOR)
-        [[ApigeeLocationService defaultService] stopScan];
+        if (self.activeSettings.locationCaptureEnabled && self.locationServicesStarted) {
+            //[[ApigeeLocationService defaultService] stopScan];
+            //self.locationServicesStarted = NO;
+        }
 #endif
         
         if ([self isMonitoringDisabled]) {
@@ -763,7 +769,9 @@ static bool AmIBeingDebugged(void)
 
 #if !(TARGET_IPHONE_SIMULATOR)
             if (self.activeSettings.locationCaptureEnabled) {
-                [[ApigeeLocationService defaultService] startScan];
+                //self.locationServicesStarted = YES;
+                //[[ApigeeLocationService defaultService] startScan];
+                ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Location capture not supported in this version of SDK");
             }
 #endif
         
@@ -1220,7 +1228,7 @@ static bool AmIBeingDebugged(void)
         NSArray* networkMetricsList = [ApigeeNetworkEntry toDictionaries:networkMetrics];
         NSString* jsonNetworkMetrics = [ApigeeJsonUtils encode:networkMetricsList error:&error];
         
-        ApigeeLogVerboseMessage(@"DEBUG", jsonNetworkMetrics);
+        //ApigeeLogVerboseMessage(@"DEBUG", jsonNetworkMetrics);
         
         
         [clientMetricsEnvelope setObject:[ApigeeLogEntry toDictionaries:logEntries] forKey:@"logs"];
