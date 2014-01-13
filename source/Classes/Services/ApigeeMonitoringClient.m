@@ -1226,8 +1226,8 @@ static bool AmIBeingDebugged(void)
         NSError* error = nil;
 
         NSArray* networkMetricsList = [ApigeeNetworkEntry toDictionaries:networkMetrics];
-        NSString* jsonNetworkMetrics = [ApigeeJsonUtils encode:networkMetricsList error:&error];
         
+        //NSString* jsonNetworkMetrics = [ApigeeJsonUtils encode:networkMetricsList error:&error];
         //ApigeeLogVerboseMessage(@"DEBUG", jsonNetworkMetrics);
         
         
