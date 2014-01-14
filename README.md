@@ -13,6 +13,7 @@ Installing the SDK
 CoreLocation.framework
 Security.framework
 CoreTelephony.framework
+QuartzCore.framework
 SystemConfiguration.framework
 UIKit.framework
 </pre>

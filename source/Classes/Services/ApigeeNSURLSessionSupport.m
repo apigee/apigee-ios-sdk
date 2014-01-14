@@ -55,9 +55,8 @@ static NSURLSession* NSURLSession_apigeeSessionWithConfigurationDelegateAndQueue
 static void NSCFLocalDataTask_apigeeResume(id self, SEL _cmd)
 {
     // set the starting time for this data task
-    uint64_t startTime = [ApigeeNetworkEntry machTime];
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
-    [monitoringClient setStartTime:startTime forSessionDataTask:self];
+    [monitoringClient recordStartTimeForSessionDataTask:self];
     
     // execute original implementation of 'resume' method
     gOrigNSCFLocalDataTask_resume(self,_cmd);
@@ -66,9 +65,8 @@ static void NSCFLocalDataTask_apigeeResume(id self, SEL _cmd)
 static void NSURLSessionTask_apigeeResume(id self, SEL _cmd)
 {
     // set the starting time for this data task
-    uint64_t startTime = [ApigeeNetworkEntry machTime];
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
-    [monitoringClient setStartTime:startTime forSessionDataTask:self];
+    [monitoringClient recordStartTimeForSessionDataTask:self];
     
     // execute original implementation of 'resume' method
     gOrigNSURLSessionTask_resume(self,_cmd);
@@ -93,13 +91,11 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithURLAndCompletionHa
             [monitoringClient dataTaskInfoForIdentifier:dataTaskIdentifier];
 
             if (!monitoringPaused) {
-                uint64_t endTime = [ApigeeNetworkEntry machTime];
+                [sessionDataTaskInfo.networkEntry recordEndTime];
             
                 [sessionDataTaskInfo.networkEntry populateWithResponseData:data];
                 [sessionDataTaskInfo.networkEntry populateWithResponse:response];
                 [sessionDataTaskInfo.networkEntry populateWithError:error];
-                [sessionDataTaskInfo.networkEntry populateStartTime:sessionDataTaskInfo.startTime
-                                                              ended:endTime];
             
                 [monitoringClient recordNetworkEntry:sessionDataTaskInfo.networkEntry];
             } else {
@@ -159,13 +155,11 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithRequestAndCompleti
             [monitoringClient dataTaskInfoForIdentifier:dataTaskIdentifier];
             
             if (!monitoringPaused) {
-                uint64_t endTime = [ApigeeNetworkEntry machTime];
+                [sessionDataTaskInfo.networkEntry recordEndTime];
 
                 [sessionDataTaskInfo.networkEntry populateWithResponseData:data];
                 [sessionDataTaskInfo.networkEntry populateWithResponse:response];
                 [sessionDataTaskInfo.networkEntry populateWithError:error];
-                [sessionDataTaskInfo.networkEntry populateStartTime:sessionDataTaskInfo.startTime
-                                                              ended:endTime];
             
                 [monitoringClient recordNetworkEntry:sessionDataTaskInfo.networkEntry];
             } else {

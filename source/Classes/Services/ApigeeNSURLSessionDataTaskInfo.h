@@ -14,7 +14,6 @@ typedef void (^DataTaskCompletionBlock)(NSData*,NSURLResponse*,NSError*);
 
 @interface ApigeeNSURLSessionDataTaskInfo : NSObject
 
-@property (assign, nonatomic) uint64_t startTime;
 @property (strong, nonatomic) NSURLSessionDataTask* sessionDataTask;
 @property (strong, nonatomic) ApigeeNetworkEntry* networkEntry;
 @property (copy, nonatomic) DataTaskCompletionBlock completionHandler;

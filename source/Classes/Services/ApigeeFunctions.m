@@ -7,8 +7,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <mach/mach.h>
-#include <mach/mach_time.h>
 
 #import "ApigeeFunctions.h"
 #import "ApigeeMonitoringClient.h"
@@ -25,7 +23,7 @@ ApigeeMonitoringClient* Apigee_monitoring_client();
 ApigeeActiveSettings* Apigee_active_settings();
 void Apigee_assign_server_metrics_string(char **metrics_variable,
                                        const char *metrics_value);
-int valid_mach_time(uint64_t mach_time);
+int valid_seconds_time(CFTimeInterval secondsTime);
 int have_string_value(const char *value);
 int have_non_empty_string_value(const char *value);
 
@@ -45,9 +43,9 @@ ApigeeActiveSettings* Apigee_active_settings()
     }
 }
 
-uint64_t Apigee_get_current_system_time()
+CFTimeInterval Apigee_get_current_system_time()
 {
-    return mach_absolute_time();
+    return CACurrentMediaTime();
 }
 
 /**************************  server metrics  **********************************/
@@ -134,14 +132,14 @@ void Apigee_assign_server_metrics_transaction_details(server_response_metrics *m
     Apigee_assign_server_metrics_string(&metrics->transactionDetails, details);
 }
 
-int valid_mach_time(uint64_t mach_time)
-{
-    return( mach_time > 0UL );
-}
-
 int have_string_value(const char *value)
 {
     return (value != NULL);
+}
+
+int valid_seconds_time(CFTimeInterval secondsTime)
+{
+    return secondsTime > 0;
 }
 
 int have_non_empty_string_value(const char *value)
@@ -156,8 +154,8 @@ int have_non_empty_string_value(const char *value)
 void Apigee_record_server_response_metrics(const server_response_metrics *metrics)
 {
     // first, verify that we have required fields
-    if ( !valid_mach_time(metrics->start_time) ||
-         !valid_mach_time(metrics->end_time) ||
+    if ( !valid_seconds_time(metrics->start_time) ||
+         !valid_seconds_time(metrics->end_time) ||
          (!have_non_empty_string_value(metrics->url) &&
          !have_non_empty_string_value(metrics->host)) ) {
         return;
@@ -435,7 +433,7 @@ int Apigee_get_device_battery_level()
     return (100 * [[UIDevice currentDevice] batteryLevel]);
 }
 
-uint64_t Apigee_get_time_last_network_transmission()
+CFTimeInterval Apigee_get_time_last_network_transmission()
 {
     ApigeeMonitoringClient *monitoringClient = Apigee_monitoring_client();
     if (monitoringClient) {
@@ -445,7 +443,7 @@ uint64_t Apigee_get_time_last_network_transmission()
     return 0;
 }
 
-uint64_t Apigee_get_time_last_upload()
+CFTimeInterval Apigee_get_time_last_upload()
 {
     ApigeeMonitoringClient *monitoringClient = Apigee_monitoring_client();
     if (monitoringClient) {

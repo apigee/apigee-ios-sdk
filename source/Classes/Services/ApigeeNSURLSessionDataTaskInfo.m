@@ -11,7 +11,6 @@
 
 @implementation ApigeeNSURLSessionDataTaskInfo
 
-@synthesize startTime;
 @synthesize sessionDataTask;
 @synthesize networkEntry;
 @synthesize completionHandler;
@@ -32,7 +31,6 @@
 - (void)debugPrint
 {
     NSLog(@"========= Start ApigeeNSURLSessionDataTaskInfo ======");
-    NSLog(@"startTime=%@", [ApigeeNetworkEntry machTimeToDate:self.startTime]);
     NSLog(@"sessionDataTask=%@", self.sessionDataTask);
     if( self.networkEntry )
     {

@@ -15,7 +15,7 @@
 #import "ApigeeQueue+NetworkMetrics.h"
 #import "ApigeeMonitoringClient.h"
 
-static void *KEY_START_TIME;
+static void *KEY_CONNECTION_INTERCEPTOR;
 
 
 // Declarations for swizzled methods
@@ -52,7 +52,8 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
     
     if (gOrigNSURLConnection_sendSynchronousRequestReturningResponseError != NULL) {
         
-        uint64_t startTime = [ApigeeNetworkEntry machTime];
+        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
+        [entry recordStartTime];
 
         NSData *responseData;
         NSError *reportingError = nil;
@@ -75,11 +76,9 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
         
         ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
         if (![monitoringClient isPaused]) {
-            uint64_t endTime = [ApigeeNetworkEntry machTime];
+            [entry recordEndTime];
     
-            ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
             [entry populateWithRequest:request];
-            [entry populateStartTime:startTime ended:endTime];
     
             if (response && *response) {
                 NSURLResponse *theResponse = *response;
@@ -114,6 +113,20 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
     }
 }
 
+static ApigeeNSURLConnectionDataDelegateInterceptor* GetConnectionInterceptor(NSURLConnection* connection)
+{
+    return (ApigeeNSURLConnectionDataDelegateInterceptor*)
+        objc_getAssociatedObject(connection, KEY_CONNECTION_INTERCEPTOR);
+}
+
+static void AttachConnectionInterceptor(NSURLConnection* connection,
+                                        ApigeeNSURLConnectionDataDelegateInterceptor* interceptor)
+{
+    objc_setAssociatedObject(connection,
+                             &KEY_CONNECTION_INTERCEPTOR,
+                             interceptor,
+                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
 
 static NSURLConnection* NSURLConnection_apigeeConnectionWithRequestDelegate(id self,SEL _cmd,NSURLRequest* request,id delegate)
 {
@@ -123,6 +136,12 @@ static NSURLConnection* NSURLConnection_apigeeConnectionWithRequestDelegate(id s
         ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
         [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
                                                                       withRequest:request];
+        
+        NSURLConnection* connection = (NSURLConnection*) self;
+        if (![connection isKindOfClass:[ApigeeURLConnection class]]) {
+            AttachConnectionInterceptor(connection, interceptor);
+        }
+        
         return gOrigNSURLConnection_connectionWithRequestDelegate(self,_cmd,request,interceptor);
     } else {
         return nil;
@@ -137,6 +156,11 @@ static id NSURLConnection_apigeeInitWithRequestDelegateStartImmediately(id self,
         ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
         [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
                                                                       withRequest:request];
+
+        NSURLConnection* connection = (NSURLConnection*) self;
+        if (![connection isKindOfClass:[ApigeeURLConnection class]]) {
+            AttachConnectionInterceptor(connection, interceptor);
+        }
 
         return gOrigNSURLConnection_initWithRequestDelegateStartImmediately(self,
                                                                             _cmd,
@@ -156,6 +180,11 @@ static id NSURLConnection_apigeeInitWithRequestDelegate(id self,SEL _cmd,NSURLRe
         ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
         [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
                                                                       withRequest:request];
+        
+        NSURLConnection* connection = (NSURLConnection*) self;
+        if (![connection isKindOfClass:[ApigeeURLConnection class]]) {
+            AttachConnectionInterceptor(connection, interceptor);
+        }
 
         return gOrigNSURLConnection_initWithRequestDelegate(self,
                                                             _cmd,
@@ -172,7 +201,13 @@ static void NSURLConnection_apigeeStart(id self,SEL _cmd)
     
     NSURLConnection* connection = (NSURLConnection*)self;
     
-    [connection setStartTime:[ApigeeNetworkEntry machTime]];
+    if (![connection isKindOfClass:[ApigeeURLConnection class]]) {
+        ApigeeNSURLConnectionDataDelegateInterceptor* interceptor =
+            GetConnectionInterceptor(connection);
+        if (interceptor) {
+            [interceptor recordStartTime];
+        }
+    }
     
     if (gOrigNSURLConnection_start != NULL) {
         gOrigNSURLConnection_start(self,_cmd);
@@ -327,39 +362,6 @@ static void NSURLConnection_apigeeStart(id self,SEL _cmd)
     }
     
     return (numSwizzledMethods == 5);
-}
-
-- (uint64_t)startTime
-{
-    if( [self isKindOfClass:[ApigeeURLConnection class]] ) {
-        return ((ApigeeURLConnection *)self).started;
-    } else {
-        NSNumber* startTimeAsNumber =
-            (NSNumber*) objc_getAssociatedObject(self, &KEY_START_TIME);
-        if (startTimeAsNumber) {
-            return [startTimeAsNumber unsignedLongLongValue];
-        }
-    }
-    
-    return 0;
-}
-
-- (void)setStartTime:(uint64_t)theStartTime
-{
-    if( [self isKindOfClass:[ApigeeURLConnection class]] )
-    {
-        ApigeeURLConnection* ioUrlConnection = (ApigeeURLConnection*) self;
-        ioUrlConnection.started = theStartTime;
-    }
-    else
-    {
-        NSNumber* startTimeAsNumber = [NSNumber numberWithUnsignedLongLong:theStartTime];
-        //attach the start time to ourselves
-        objc_setAssociatedObject(self,
-                                 &KEY_START_TIME,
-                                 startTimeAsNumber,
-                                 OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
 }
 
 @end

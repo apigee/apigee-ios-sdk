@@ -14,15 +14,14 @@
 
 + (NSString*) stringWithTimedContentsOfURL:(NSURL *) url encoding:(NSStringEncoding) enc error:(NSError **) error
 {
-    uint64_t start = [ApigeeNetworkEntry machTime];
+    ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
+    [entry recordStartTime];
     NSString *data = [NSString stringWithContentsOfURL:url encoding:enc error:error];
-    uint64_t end = [ApigeeNetworkEntry machTime];
+    [entry recordEndTime];
     
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     if (![monitoringClient isPaused]) {
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
         [entry populateWithURL:url];
-        [entry populateStartTime:start ended:end];
     
         if (error && *error) {
             NSError *theError = *error;
@@ -39,15 +38,14 @@
 
 + (NSString*) stringWithTimedContentsOfURL:(NSURL *) url usedEncoding:(NSStringEncoding *) enc error:(NSError **) error
 {
-    uint64_t start = [ApigeeNetworkEntry machTime];
+    ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
+    [entry recordStartTime];
     NSString *data = [NSString stringWithContentsOfURL:url usedEncoding:enc error:error];
-    uint64_t end = [ApigeeNetworkEntry machTime];
+    [entry recordEndTime];
     
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     if (![monitoringClient isPaused]) {
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
         [entry populateWithURL:url];
-        [entry populateStartTime:start ended:end];
     
         if (error && *error) {
             NSError *theError = *error;
@@ -64,15 +62,14 @@
 
 - (id) initWithTimedContentsOfURL:(NSURL *) url encoding:(NSStringEncoding) enc error:(NSError **) error
 {
-    uint64_t start = [ApigeeNetworkEntry machTime];
+    ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
+    [entry recordStartTime];
     NSString *data = [[NSString alloc] initWithContentsOfURL:url encoding:enc error:error];
-    uint64_t end = [ApigeeNetworkEntry machTime];
+    [entry recordEndTime];
     
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     if (![monitoringClient isPaused]) {
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
         [entry populateWithURL:url];
-        [entry populateStartTime:start ended:end];
     
         if (error && *error) {
             NSError *theError = *error;
@@ -89,15 +86,14 @@
 
 - (id) initWithTimedContentsOfURL:(NSURL *) url usedEncoding:(NSStringEncoding *) enc error:(NSError **) error
 {
-    uint64_t start = [ApigeeNetworkEntry machTime];
+    ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
+    [entry recordStartTime];
     NSString *data = [[NSString alloc] initWithContentsOfURL:url usedEncoding:enc error:error];
-    uint64_t end = [ApigeeNetworkEntry machTime];
+    [entry recordEndTime];
 
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     if (![monitoringClient isPaused]) {
-        ApigeeNetworkEntry *entry = [[ApigeeNetworkEntry alloc] init];
         [entry populateWithURL:url];
-        [entry populateStartTime:start ended:end];
     
         if (error && *error) {
             NSError *theError = *error;
