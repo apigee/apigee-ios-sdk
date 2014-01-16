@@ -16,6 +16,8 @@
 #import "ApigeeJsonUtils.h"
 #import "ApigeeAPSPayload.h"
 #import "ApigeeAPSDestination.h"
+#import "ApigeeCounterIncrement.h"
+#import "NSDate+Apigee.h"
 
 
 static NSString* kDefaultBaseURL = @"https://api.usergrid.com";
@@ -2017,6 +2019,126 @@ NSString *g_deviceUUID = nil;
     }
     
     return nil;
+}
+
+//**********************  EVENTS AND COUNTERS  **************************
+
+- (ApigeeClientResponse*)createEvent:(NSDictionary*)event
+{
+    // make the URL
+    NSString *url = [self createURL:@"events"];
+    
+    // get the json to send.
+    // we have to json-ify a dictionary that was sent
+    // in by the client. So naturally, we can't just trust it
+    // to work. Therefore we can't use our internal convenience
+    // function for making the json. We go straight to SBJson, so
+    // we can identify and report any errors.
+    NSError *jsonError = nil;
+    NSString *toPostStr = [ApigeeJsonUtils encode:event error:&jsonError];
+    
+    if ( !toPostStr )
+    {
+        // error during json assembly
+        return [self responseWithError:jsonError];
+    }
+    
+    // fire it off
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:toPostStr];
+}
+
+- (NSMutableDictionary*)mutableDictionaryForEvent:(NSDictionary*)dictEvent
+{
+    NSMutableDictionary* dictProps;
+    
+    if (dictEvent) {
+        dictProps = [[NSMutableDictionary alloc] initWithDictionary:dictEvent];
+    } else {
+        dictProps = [[NSMutableDictionary alloc] init];
+    }
+    
+    return dictProps;
+}
+
+- (void)populateTimestamp:(NSDate*)date event:(NSMutableDictionary*)dictEvent
+{
+    if (date) {
+        const int64_t timestampMillis = [date dateAsMilliseconds];
+        NSString* timestampValue = [NSDate stringFromMilliseconds:timestampMillis];
+        [dictEvent setValue:timestampValue forKey:@"timestamp"];
+    } else {
+        // let the server assign the timestamp
+        [dictEvent setValue:@"0" forKey:@"timestamp"];
+    }
+}
+
+- (void)populateCounter:(ApigeeCounterIncrement*)counterIncrement
+             dictionary:(NSMutableDictionary*)dict
+{
+    if (counterIncrement && ([counterIncrement.counterName length] > 0)) {
+        
+        NSMutableDictionary* dictCounters = nil;
+        
+        id existingCounters = [dict valueForKey:@"counters"];
+        
+        if (existingCounters != nil) {
+            if ([existingCounters isKindOfClass:[NSMutableDictionary class]]) {
+                dictCounters = (NSMutableDictionary*) existingCounters;
+            } else if ([existingCounters isKindOfClass:[NSDictionary class]]) {
+                NSDictionary* dict = (NSDictionary*) existingCounters;
+                dictCounters = [[NSMutableDictionary alloc] initWithDictionary:dict];
+            }
+        }
+        
+        if (!dictCounters) {
+            dictCounters = [[NSMutableDictionary alloc] init];
+        }
+        
+        [dictCounters setValue:[NSNumber numberWithUnsignedInteger:counterIncrement.counterIncrementValue]
+                        forKey:counterIncrement.counterName];
+        [dict setValue:dictCounters forKey:@"counters"];
+    }
+}
+
+- (ApigeeClientResponse*)createEvent:(NSDictionary*)dictEvent
+                           timestamp:(NSDate*)timestamp
+{
+    NSMutableDictionary* dictProps = [self mutableDictionaryForEvent:dictEvent];
+    [self populateTimestamp:timestamp event:dictProps];
+    return [self createEvent:dictProps];
+}
+
+- (ApigeeClientResponse*)createEvent:(NSDictionary*)dictEvent
+                    counterIncrement:(ApigeeCounterIncrement*)counterIncrement
+{
+    NSMutableDictionary* dictProps = [self mutableDictionaryForEvent:dictEvent];
+    [self populateTimestamp:nil event:dictProps];
+    [self populateCounter:counterIncrement dictionary:dictProps];
+    return [self createEvent:dictProps];
+}
+
+- (ApigeeClientResponse*)createEvent:(NSDictionary*)dictEvent
+                           timestamp:(NSDate*)timestamp
+                    counterIncrement:(ApigeeCounterIncrement*)counterIncrement
+{
+    NSMutableDictionary* dictProps = [self mutableDictionaryForEvent:dictEvent];
+    [self populateTimestamp:timestamp event:dictProps];
+    [self populateCounter:counterIncrement dictionary:dictProps];
+    return [self createEvent:dictProps];
+}
+
+- (ApigeeClientResponse*)createEvent:(NSDictionary*)dictEvent
+                           timestamp:(NSDate*)timestamp
+                   counterIncrements:(NSArray*)counterIncrements
+{
+    NSMutableDictionary* dictProps = [self mutableDictionaryForEvent:dictEvent];
+    [self populateTimestamp:timestamp event:dictProps];
+    
+    for (ApigeeCounterIncrement* counterIncrement in counterIncrements) {
+        [self populateCounter:counterIncrement dictionary:dictProps];
+    }
+    
+    return [self createEvent:dictProps];
 }
 
 @end

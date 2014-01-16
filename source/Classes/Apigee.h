@@ -34,4 +34,4 @@
 #import "ApigeeAPSPayload.h"
 #import "ApigeeAPSAlert.h"
 #import "ApigeeAPSDestination.h"
-
+#import "ApigeeCounterIncrement.h"
