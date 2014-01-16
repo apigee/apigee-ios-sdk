@@ -7,9 +7,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class ApigeeEntity;
+
 @interface APGDetailViewController : UIViewController <UISplitViewControllerDelegate>
 
-@property (strong, nonatomic) id detailItem;
+@property (strong, nonatomic) ApigeeEntity* detailItem;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *author;

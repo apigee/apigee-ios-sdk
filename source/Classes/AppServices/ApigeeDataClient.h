@@ -1437,6 +1437,18 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
 -(ApigeeCollection*)getCollection:(NSString*)type;
 
 /*!
+ @abstract Retrieves a collection by type name
+ @param type The type whose collection is to be retrieved
+ @param completionHandler the handler to call when population of the collection has occurred
+ @return Instance of ApigeeCollection that corresponds to the collection
+ @see ApigeeCollection ApigeeCollection
+ @discussion the returned collection instance is not ready to use (i.e., populated
+ with data) until the completion handler is called
+ */
+-(ApigeeCollection*)getCollection:(NSString*)type
+                completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+/*!
  @abstract Retrieves a collection by type name and query parameters
  @param type The type whose collection is to be retrieved
  @param qs The dictionary of query parameters to control the query
@@ -1444,6 +1456,20 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  @see ApigeeCollection ApigeeCollection
  */
 -(ApigeeCollection*)getCollection:(NSString*)type query:(NSDictionary*)qs;
+
+/*!
+ @abstract Retrieves a collection by type name and query parameters
+ @param type The type whose collection is to be retrieved
+ @param qs The dictionary of query parameters to control the query
+ @param completionHandler the handler to call when population of the collection has occurred
+ @return Instance of ApigeeCollection that corresponds to the collection
+ @see ApigeeCollection ApigeeCollection
+ @discussion the returned collection instance is not ready to use (i.e., populated
+ with data) until the completion handler is called
+ */
+-(ApigeeCollection*)getCollection:(NSString*)type
+                            query:(NSDictionary*)qs
+                completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 /*!
  @abstract Retrieves a collection by type name and query
@@ -1454,6 +1480,21 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  @see ApigeeQuery
  */
 -(ApigeeCollection*)getCollection:(NSString*)type usingQuery:(ApigeeQuery*)query;
+
+/*!
+ @abstract Retrieves a collection by type name and query
+ @param type The type whose collection is to be retrieved
+ @param query ApigeeQuery object to control the query
+ @param completionHandler the handler to call when population of the collection has occurred
+ @return Instance of ApigeeCollection that corresponds to the collection
+ @see ApigeeCollection
+ @see ApigeeQuery
+ @discussion the returned collection instance is not ready to use (i.e., populated
+ with data) until the completion handler is called
+ */
+-(ApigeeCollection*)getCollection:(NSString*)type usingQuery:(ApigeeQuery*)query
+                completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 
 
 //**********************  HTTP HEADERS  **************************

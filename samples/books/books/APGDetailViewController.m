@@ -7,6 +7,9 @@
 
 #import "APGDetailViewController.h"
 
+#import <ApigeeiOSSDK/Apigee.h>
+
+
 @interface APGDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
@@ -35,9 +38,9 @@
     // Update the user interface for the detail item.
 
     if (self.detailItem) {
-        self.titleLabel.text = self.detailItem[@"title"];
-        self.author.text = self.detailItem[@"author"];
-        self.uuid.text = self.detailItem[@"uuid"];
+        self.titleLabel.text = [self.detailItem getStringProperty:@"title"];
+        self.author.text = [self.detailItem getStringProperty:@"author"];
+        self.uuid.text = [self.detailItem getStringProperty:@"uuid"];
     }
 }
 

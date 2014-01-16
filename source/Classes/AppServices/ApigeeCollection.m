@@ -90,6 +90,73 @@
     return self;
 }
 
+- (id)init:(ApigeeDataClient*)theDataClient
+      type:(NSString*)type
+        qs:(NSDictionary*)qs
+completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    self = [super init];
+    if (self) {
+	    self.dataClient = theDataClient;
+	    self.type = type;
+	    
+	    if( qs == nil )
+	    {
+	    	self.qs = [[NSMutableDictionary alloc] init];
+	    }
+	    else
+	    {
+	    	self.qs = [[NSMutableDictionary alloc] initWithDictionary:qs];
+	    }
+        
+	    self.list = [[NSMutableArray alloc] init];
+	    _iterator = -1;
+        
+	    self.previous = [[NSMutableArray alloc] init];
+	    self.next = nil;
+	    self.cursor = nil;
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            ApigeeClientResponse* response = [self fetch];
+            if (completionHandler) {
+                completionHandler(response);
+            }
+        });
+    }
+    
+    return self;
+}
+
+- (id)init:(ApigeeDataClient*)theDataClient
+      type:(NSString*)type
+     query:(ApigeeQuery*)theQuery
+completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    self = [super init];
+    if (self) {
+	    self.dataClient = theDataClient;
+	    self.type = type;
+	    
+        self.query = theQuery;
+        
+	    self.list = [[NSMutableArray alloc] init];
+	    _iterator = -1;
+        
+	    self.previous = [[NSMutableArray alloc] init];
+	    self.next = nil;
+	    self.cursor = nil;
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            ApigeeClientResponse* response = [self fetch];
+            if (completionHandler) {
+                completionHandler(response);
+            }
+        });
+    }
+    
+    return self;
+}
+
 - (ApigeeClientResponse*)fetch
 {
     ApigeeQuery* theQuery = nil;
