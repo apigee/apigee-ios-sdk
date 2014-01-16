@@ -7,7 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class ApigeeDataClient;
+#import "ApigeeDataClient.h"
+
 @class ApigeeClientResponse;
 @class ApigeeEntity;
 @class ApigeeQuery;
@@ -43,6 +44,34 @@
  @param query The query to restrict which entities are returned
  */
 - (id)init:(ApigeeDataClient*)theDataClient type:(NSString*)type query:(ApigeeQuery*)query;
+
+/*!
+ @abstract Initializes and asynchronously populates a collection of the specified type using the given query parameters
+ @param theDataClient instance of ApigeeDataClient
+ @param type The collection type
+ @param qs The query parameters to restrict which entities are returned
+ @param completionHandler the handler to run with initialization is complete
+ @discussion Although this is an init method, the created instance will not be
+ ready for use (i.e., populated with data) until the completion handler is called.
+ */
+- (id)init:(ApigeeDataClient*)theDataClient
+      type:(NSString*)type
+        qs:(NSDictionary*)qs
+completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+/*!
+ @abstract Initializes and asynchronously populates a collection of the specified type using the given query
+ @param theDataClient instance of ApigeeDataClient
+ @param type The collection type
+ @param query The query to restrict which entities are returned
+ @param completionHandler the handler to run with initialization is complete
+ @discussion Although this is an init method, the created instance will not be
+ ready for use (i.e., populated with data) until the completion handler is called.
+ */
+- (id)init:(ApigeeDataClient*)theDataClient
+      type:(NSString*)type
+     query:(ApigeeQuery*)query
+completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 /*!
  @abstract

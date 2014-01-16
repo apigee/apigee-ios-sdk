@@ -1948,6 +1948,33 @@ NSString *g_deviceUUID = nil;
     return [[ApigeeCollection alloc] init:self type:type query:query];
 }
 
+-(ApigeeCollection*)getCollection:(NSString*)type
+                completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    return [self getCollection:type
+                         query:nil
+             completionHandler:completionHandler];
+}
+
+-(ApigeeCollection*)getCollection:(NSString*)type
+                            query:(NSDictionary*)qs
+                completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    return [[ApigeeCollection alloc] init:self
+                                     type:type
+                                       qs:qs
+                        completionHandler:completionHandler];
+}
+
+-(ApigeeCollection*)getCollection:(NSString*)type usingQuery:(ApigeeQuery*)query
+                completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    return [[ApigeeCollection alloc] init:self
+                                     type:type
+                                    query:query
+                        completionHandler:completionHandler];
+}
+
 //**********************  HTTP HEADER FIELDS  ***************************
 
 -(void)addHTTPHeaderField:(NSString*)field withValue:(NSString*)value

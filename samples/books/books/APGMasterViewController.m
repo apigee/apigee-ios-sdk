@@ -15,7 +15,12 @@
 @interface APGMasterViewController () {
     NSMutableArray *_objects;
 }
+
+@property (strong, nonatomic) UIActivityIndicatorView* activityIndicator;
+@property (strong, nonatomic) ApigeeCollection* bookCollection;
+
 @end
+
 
 @implementation APGMasterViewController
 
@@ -26,6 +31,89 @@
         self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
     }
     [super awakeFromNib];
+}
+
+- (void)showActivityIndicator
+{
+    if (!self.activityIndicator) {
+        self.activityIndicator = [[UIActivityIndicatorView alloc]
+                                            initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        CGRect frame = self.activityIndicator.frame;
+        frame.origin.x = self.view.frame.size.width / 2 - frame.size.width / 2;
+        frame.origin.y = self.view.frame.size.height / 2 - frame.size.height / 2;
+        self.activityIndicator.frame = frame;
+        [self.view addSubview:self.activityIndicator];
+    }
+    
+    self.activityIndicator.hidden = NO;
+    [self.activityIndicator startAnimating];
+}
+
+- (void)hideActivityIndicator
+{
+    [self.activityIndicator stopAnimating];
+    self.activityIndicator.hidden = YES;
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *) bar
+{
+    UITextField *searchBarTextField = nil;
+    
+    NSArray *views = ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0f) ? bar.subviews : [[bar.subviews objectAtIndex:0] subviews];
+    
+    for (UIView *subview in views)
+    {
+        if ([subview isKindOfClass:[UITextField class]])
+        {
+            searchBarTextField = (UITextField *)subview;
+            break;
+        }
+    }
+    searchBarTextField.enablesReturnKeyAutomatically = NO;
+}
+
+- (void)showAlertTitle:(NSString*)title message:(NSString*)message
+{
+    UIAlertView* alert =
+        [[UIAlertView alloc] initWithTitle:title
+                                   message:message
+                                  delegate:nil
+                         cancelButtonTitle:@"OK"
+                         otherButtonTitles:nil];
+    [alert show];
+}
+
+- (void)showBooksWithQuery:(ApigeeQuery*)query
+{
+    ApigeeDataClient* dataClient = [self.client dataClient];
+
+    __block ApigeeCollection* collection;
+    
+    [_objects removeAllObjects];
+    
+    collection = [dataClient getCollection:@"book"
+                                usingQuery:query
+                         completionHandler:^(ApigeeClientResponse *result){
+                             if ([result completedSuccessfully]) {
+                                 while([collection hasNextEntity]) {
+                                     ApigeeEntity* entity = [collection getNextEntity];
+                                     [_objects addObject:entity];
+                                 }
+                                 
+                                 if ([_objects count] > 0) {
+                                     self.bookCollection = collection;
+                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                         [self.tableView reloadData];
+                                     });
+                                 }
+                             }
+                             
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                                 [self hideActivityIndicator];
+                             });
+                         }];
+    
+    [self showActivityIndicator];
 }
 
 - (void)viewDidLoad
@@ -39,16 +127,11 @@
     
     self.client =  [[ApigeeClient alloc] initWithOrganizationId:orgName applicationId:appName];
 	// Do any additional setup after loading the view, typically from a nib.
-    [[self.client dataClient] getEntities:@"book" query:nil
-                        completionHandler:^(ApigeeClientResponse *result){
-                            if (result.transactionState == kApigeeClientResponseSuccess) {
-                                _objects = result.response[@"entities"];
-                            } else {
-                                _objects = [[NSMutableArray alloc] init];
-                            }
-                            [self.tableView reloadData];
-                        }];
-
+    
+    
+    _objects = [[NSMutableArray alloc] init];
+    
+    [self showBooksWithQuery:nil];
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
@@ -69,15 +152,26 @@
         _objects = [[NSMutableArray alloc] init];
     }
     
-    [[self.client dataClient] createEntity:@{@"type":@"book", @"title":book[@"title"], @"author":book[@"author"]}
-                         completionHandler:^(ApigeeClientResponse *response){
-        if (response.transactionState == kApigeeClientResponseSuccess) {
-            [_objects insertObject:response.response[@"entities"][0] atIndex:0];
-        } else {
-            [_objects insertObject:@{@"title":@"error"} atIndex:0];
+    NSMutableDictionary* entityProps = [[NSMutableDictionary alloc] init];
+    [entityProps setValue:@"book" forKey:@"type"];
+    [entityProps setValue:[book valueForKey:@"title"] forKey:@"title"];
+    [entityProps setValue:[book valueForKey:@"author"] forKey:@"author"];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        ApigeeEntity* bookEntity = [self.bookCollection addEntity:entityProps];
+    
+        if (bookEntity) {
+            [_objects insertObject:bookEntity atIndex:0];
         }
-        [self.tableView reloadData];
-    }];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (bookEntity) {
+                [self.tableView reloadData];
+            } else {
+                [self showAlertTitle:@"Error" message:@"Unable to add new book"];
+            }
+        });
+    });
 }
 
 #pragma mark - Table View
@@ -95,8 +189,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    NSString *title = _objects[indexPath.row][@"title"];
-    NSString *author = _objects[indexPath.row][@"author"];
+    ApigeeEntity* entity = [_objects objectAtIndex:indexPath.row];
+    NSString *title = [entity getStringProperty:@"title"];
+    NSString *author = [entity getStringProperty:@"author"];
     cell.textLabel.text = title;
     cell.detailTextLabel.text = author;
     
@@ -109,20 +204,30 @@
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+    forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         
-        NSDictionary *entity = [_objects objectAtIndex:indexPath.row];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            ApigeeEntity* entity = [_objects objectAtIndex:indexPath.row];
+            ApigeeClientResponse* response = [self.bookCollection destroyEntity:entity];
+            BOOL deletedBook = [response completedSuccessfully];
+            
+            if (deletedBook) {
+                [_objects removeObjectAtIndex:indexPath.row];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (deletedBook) {
+                    [tableView deleteRowsAtIndexPaths:@[indexPath]
+                                     withRowAnimation:UITableViewRowAnimationFade];
+                } else {
+                    [self showAlertTitle:@"Error" message:@"Unable to delete book"];
+                }
+            });
+        });
         
-        [[self.client dataClient] removeEntity:@"book"
-                                      entityID:entity[@"uuid"]
-                             completionHandler:^(ApigeeClientResponse *response){
-                                 if (response.transactionState == kApigeeClientResponseSuccess) {
-                                     [_objects removeObjectAtIndex:indexPath.row];
-                                     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                                 }
-                             }];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
@@ -131,8 +236,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        NSDate *object = _objects[indexPath.row];
-        self.detailViewController.detailItem = object;
+        //TODO: implement this functionality for iPad
+        //NSDate *object = _objects[indexPath.row];
+        //self.detailViewController.detailItem = object;
     }
 }
 
@@ -140,8 +246,8 @@
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
-        [[segue destinationViewController] setDetailItem:object];
+        ApigeeEntity* entity = _objects[indexPath.row];
+        [[segue destinationViewController] setDetailItem:entity];
     } else if ([[segue identifier] isEqualToString:@"newBook"]) {
         APGNewBookViewController * vc = [[APGNewBookViewController alloc] init];
         [(APGNewBookViewController *)[segue destinationViewController] setDelegate:self];
@@ -149,18 +255,18 @@
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    ApigeeQuery * query = [[ApigeeQuery alloc] init];
-    [query addRequirement:[NSString stringWithFormat:@"title='%@'", searchBar.text]];
-    [[self.client dataClient] getEntities:@"book"
-                                    query:query
-                        completionHandler:^(ApigeeClientResponse *result){
-                            if (result.transactionState == kApigeeClientResponseSuccess) {
-                                _objects = result.response[@"entities"];
-                            } else {
-                                _objects = [[NSMutableArray alloc] init];
-                            }
-                            [self.tableView reloadData];
-                        }];
+    ApigeeQuery* query = nil;
+    if ([searchBar.text length] > 0) {
+        query = [[ApigeeQuery alloc] init];
+        [query addRequirement:[NSString stringWithFormat:@"title='%@'",
+                               searchBar.text]];
+    } else {
+        // we just pass nil for the query (i.e., return all)
+    }
+    
+    [searchBar resignFirstResponder];
+    
+    [self showBooksWithQuery:query];
 }
 
 @end

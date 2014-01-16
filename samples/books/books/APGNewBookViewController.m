@@ -24,9 +24,32 @@
 }
 */
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.bookTitleText becomeFirstResponder];
+}
+
+-(IBAction)cancelBookCreate:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
 -(IBAction)createBook:(id)sender {
-    [[self delegate] addNewBook:@{@"title": bookTitleText.text, @"author": bookAuthorText.text}];
-    [self dismissViewControllerAnimated:YES completion:^(){}];
+    NSString* bookTitle = bookTitleText.text;
+    NSString* bookAuthor = bookAuthorText.text;
+    
+    if ([bookTitle length] > 0) {
+        [[self delegate] addNewBook:@{@"title":bookTitle, @"author":bookAuthor}];
+        [self dismissViewControllerAnimated:YES completion:^(){}];
+    } else {
+        UIAlertView* alert =
+            [[UIAlertView alloc] initWithTitle:@"Error"
+                                       message:@"Book title is required"
+                                      delegate:nil
+                             cancelButtonTitle:@"OK"
+                             otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 @end
