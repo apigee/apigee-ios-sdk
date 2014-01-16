@@ -111,7 +111,8 @@ completionHandler:(void (^)(BOOL userCreatedAndLoggedIn))completionBlock
 -(NSArray*)getFollowing {
         
     ApigeeQuery *query = [[ApigeeQuery alloc] init];
-    [query addURLTerm:@"limit" equals:@"30"];
+    [query addRequirement:@"order by created desc"];
+
     ApigeeClientResponse *response =
         [usergridClient getEntityConnections:@"users"
                                  connectorID:@"me"
@@ -123,7 +124,9 @@ completionHandler:(void (^)(BOOL userCreatedAndLoggedIn))completionBlock
 
 -(void)getFollowing:(void (^)(NSArray *following))completionBlock {
     ApigeeQuery *query = [[ApigeeQuery alloc] init];
-    [query addURLTerm:@"limit" equals:@"30"];
+    [query addRequirement:@"order by created desc"];
+
+    //[query addURLTerm:@"limit" equals:@"30"];
     [usergridClient getEntityConnections:@"users"
                              connectorID:@"me"
                           connectionType:@"following"
@@ -163,7 +166,8 @@ completionHandler:(void (^)(BOOL userCreatedAndLoggedIn))completionBlock
 -(NSArray*)getMessages {
     
     ApigeeQuery *query = [[ApigeeQuery alloc] init];
-    [query addURLTerm:@"limit" equals:@"30"];
+    [query addRequirement:@"order by created desc"];
+    
     ApigeeClientResponse *response =
         [usergridClient getActivityFeedForUser:[user username]
                                          query:query];
@@ -173,7 +177,8 @@ completionHandler:(void (^)(BOOL userCreatedAndLoggedIn))completionBlock
 
 -(void)getMessages:(void (^)(NSArray *messages))completionBlock {
     ApigeeQuery *query = [[ApigeeQuery alloc] init];
-    [query addURLTerm:@"limit" equals:@"30"];
+    [query addRequirement:@"order by created desc"];
+
     [usergridClient getActivityFeedForUser:[user username]
                                      query:query
      completionHandler:^(ApigeeClientResponse *response) {
