@@ -2,7 +2,6 @@
 //  UsersListUsersViewController.h
 //  UsersAndGroups
 //
-//  Created by Steve Traut on 1/4/14.
 //  Copyright (c) 2014 Apigee. All rights reserved.
 //
 

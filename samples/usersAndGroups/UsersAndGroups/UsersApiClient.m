@@ -2,7 +2,6 @@
 //  UsersApiClient.m
 //  UsersAndGroups
 //
-//  Created by Steve Traut on 1/16/14.
 //  Copyright (c) 2014 Apigee. All rights reserved.
 //
 
