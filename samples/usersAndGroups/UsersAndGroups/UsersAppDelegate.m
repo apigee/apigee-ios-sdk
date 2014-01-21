@@ -14,8 +14,8 @@
     //Replace 'AppDelegate' with the name of your app delegate class to instantiate it
     UsersAppDelegate *appDelegate = (UsersAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    NSString *orgName = @"steventraut";
-    NSString *appName = @"mynewapp";
+    NSString *orgName = @"YOUR_ORG";
+    NSString *appName = @"YOUR_APP";
     
     //Instantiate ApigeeClient to initialize the SDK
     appDelegate.apigeeClient = [[ApigeeClient alloc]
