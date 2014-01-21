@@ -31,24 +31,9 @@
 		63852F761878787400A2A49E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63852F751878787400A2A49E /* CoreLocation.framework */; };
 		63852F781878787E00A2A49E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63852F771878787E00A2A49E /* SystemConfiguration.framework */; };
 		63BCF44E187B7402003D8137 /* UsersAddUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BCF44D187B7402003D8137 /* UsersAddUserViewController.m */; };
-		63F58679188DA79800595AAC /* libApigeeiOSSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F58678188DA79800595AAC /* libApigeeiOSSDK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		63066753188D9D7B00FD3571 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6306674F188D9D7B00FD3571 /* ApigeeiOSSDK.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 63F522BB1778C2B200FCA013;
-			remoteInfo = ApigeeiOSSDK;
-		};
-		63066755188D9FEB00FD3571 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6306674F188D9D7B00FD3571 /* ApigeeiOSSDK.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 63F522BA1778C2B200FCA013;
-			remoteInfo = ApigeeiOSSDK;
-		};
 		63490AAC186DFAD9007DF275 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 63490A7E186DFAD9007DF275 /* Project object */;
@@ -61,7 +46,6 @@
 /* Begin PBXFileReference section */
 		6306674B1889CF0300FD3571 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		6306674D188D99BA00FD3571 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = "../../../workfiles/AppServicesCode/SDKs/iOS/apigee-ios-sdk-2.0.8/lib/ApigeeiOSSDK.framework"; sourceTree = "<group>"; };
-		6306674F188D9D7B00FD3571 /* ApigeeiOSSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ApigeeiOSSDK.xcodeproj; path = "../../../workfiles/AppServicesCode/SDKs/iOS/apigee-ios-sdk-2.0.8/source/ApigeeiOSSDK.xcodeproj"; sourceTree = "<group>"; };
 		63136E671878F26100147CB3 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = "../../../workfiles/AppServicesCode/SDKs/iOS/apigee-ios-sdk-2.0.6/lib/ApigeeiOSSDK.framework"; sourceTree = "<group>"; };
 		63490A86186DFAD9007DF275 /* UsersAndGroups.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UsersAndGroups.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63490A89186DFAD9007DF275 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -98,7 +82,7 @@
 		63852F771878787E00A2A49E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		63BCF44C187B7402003D8137 /* UsersAddUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersAddUserViewController.h; sourceTree = "<group>"; };
 		63BCF44D187B7402003D8137 /* UsersAddUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersAddUserViewController.m; sourceTree = "<group>"; };
-		63F58678188DA79800595AAC /* libApigeeiOSSDK.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libApigeeiOSSDK.a; path = "../../../workfiles/AppServicesCode/SDKs/iOS/apigee-ios-sdk-2.0.7/source/build/Debug-iphoneos/libApigeeiOSSDK.a"; sourceTree = "<group>"; };
+		63F58678188DA79800595AAC /* libApigeeiOSSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libApigeeiOSSDK.a; path = "../../../workfiles/AppServicesCode/SDKs/iOS/apigee-ios-sdk-2.0.7/source/build/Debug-iphoneos/libApigeeiOSSDK.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +90,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63F58679188DA79800595AAC /* libApigeeiOSSDK.a in Frameworks */,
 				6306674C1889CF0300FD3571 /* QuartzCore.framework in Frameworks */,
 				63852F781878787E00A2A49E /* SystemConfiguration.framework in Frameworks */,
 				63852F761878787400A2A49E /* CoreLocation.framework in Frameworks */,
@@ -131,18 +114,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		63066750188D9D7B00FD3571 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				63066754188D9D7B00FD3571 /* libApigeeiOSSDK.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		63490A7D186DFAD9007DF275 = {
 			isa = PBXGroup;
 			children = (
-				6306674F188D9D7B00FD3571 /* ApigeeiOSSDK.xcodeproj */,
 				63490A8F186DFAD9007DF275 /* UsersAndGroups */,
 				63490AAE186DFAD9007DF275 /* UsersAndGroupsTests */,
 				63490A88186DFAD9007DF275 /* Frameworks */,
@@ -247,7 +221,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				63066756188D9FEB00FD3571 /* PBXTargetDependency */,
 			);
 			name = UsersAndGroups;
 			productName = UsersAndGroups;
@@ -298,12 +271,6 @@
 			mainGroup = 63490A7D186DFAD9007DF275;
 			productRefGroup = 63490A87186DFAD9007DF275 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 63066750188D9D7B00FD3571 /* Products */;
-					ProjectRef = 6306674F188D9D7B00FD3571 /* ApigeeiOSSDK.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				63490A85186DFAD9007DF275 /* UsersAndGroups */,
@@ -311,16 +278,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		63066754188D9D7B00FD3571 /* libApigeeiOSSDK.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libApigeeiOSSDK.a;
-			remoteRef = 63066753188D9D7B00FD3571 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		63490A84186DFAD9007DF275 /* Resources */ = {
@@ -370,11 +327,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		63066756188D9FEB00FD3571 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ApigeeiOSSDK;
-			targetProxy = 63066755188D9FEB00FD3571 /* PBXContainerItemProxy */;
-		};
 		63490AAD186DFAD9007DF275 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 63490A85186DFAD9007DF275 /* UsersAndGroups */;
