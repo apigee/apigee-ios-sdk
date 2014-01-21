@@ -55,6 +55,14 @@
     self.activityIndicator.hidden = YES;
 }
 
+- (void)incrementCount:(NSString*)counterName
+{
+    ApigeeCounterIncrement* counterIncrement =
+        [[ApigeeCounterIncrement alloc] init];
+    counterIncrement.counterName = counterName;
+    [[self.client dataClient] createEvent:nil counterIncrement:counterIncrement];
+}
+
 - (void)searchBarTextDidBeginEditing:(UISearchBar *) bar
 {
     UITextField *searchBarTextField = nil;
@@ -86,6 +94,7 @@
 - (void)showBooksWithQuery:(ApigeeQuery*)query
 {
     ApigeeDataClient* dataClient = [self.client dataClient];
+    
 
     __block ApigeeCollection* collection;
     
@@ -106,6 +115,11 @@
                                          [self.tableView reloadData];
                                      });
                                  }
+
+                                 // count it
+                                 if (query != nil) {
+                                     [self incrementCount:@"book_search"];
+                                 }
                              }
                              
                              dispatch_async(dispatch_get_main_queue(), ^{
@@ -120,12 +134,15 @@
 {
     [super viewDidLoad];
     
-#error configure your org name and app name here
-    NSString* orgName = @"<YOUR_ORG_NAME>";
-    NSString* appName = @"<YOUR_APP_NAME>";
+//#error configure your org name and app name here
+    NSString* orgName = @"pauldardeau";
+    NSString* appName = @"sandbox";
 
     
     self.client =  [[ApigeeClient alloc] initWithOrganizationId:orgName applicationId:appName];
+    ApigeeDataClient* dataClient = [self.client dataClient];
+    [dataClient setLogging:YES];
+
 	// Do any additional setup after loading the view, typically from a nib.
     
     
@@ -162,6 +179,7 @@
     
         if (bookEntity) {
             [_objects insertObject:bookEntity atIndex:0];
+            [self incrementCount:@"book_add"];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -216,6 +234,7 @@
             
             if (deletedBook) {
                 [_objects removeObjectAtIndex:indexPath.row];
+                [self incrementCount:@"book_delete"];
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{

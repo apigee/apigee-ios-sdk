@@ -29,6 +29,8 @@
 		638C625A179F304E0066DC15 /* ApigeeHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C6259179F30470066DC15 /* ApigeeHTTPClient.m */; };
 		638C625C179F30790066DC15 /* ApigeeHTTPClient.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 638C625B179F305E0066DC15 /* ApigeeHTTPClient.h */; };
 		638C629117A71BFA0066DC15 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C629017A71BFA0066DC15 /* SSKeychain.m */; };
+		63ACC61718884EA100C87C83 /* ApigeeCounterIncrement.m in Sources */ = {isa = PBXBuildFile; fileRef = 63ACC61618884EA000C87C83 /* ApigeeCounterIncrement.m */; };
+		63ACC61A1888675F00C87C83 /* ApigeeCounterIncrement.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63ACC61518884EA000C87C83 /* ApigeeCounterIncrement.h */; };
 		63B68EC517FF6A6A003424E1 /* ApigeeNSURLSessionDataDelegateInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B68EC417FF6A6A003424E1 /* ApigeeNSURLSessionDataDelegateInterceptor.m */; };
 		63B68EFE18035433003424E1 /* ApigeeNSURLSessionDataTaskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B68EFD18035433003424E1 /* ApigeeNSURLSessionDataTaskInfo.m */; };
 		63B68F8118076294003424E1 /* ApigeeNSURLSessionSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B68F8018076294003424E1 /* ApigeeNSURLSessionSupport.m */; };
@@ -186,6 +188,7 @@
 				637BC9DC181F02DD00F54D95 /* ApigeeLogging.h in CopyFiles */,
 				63F5255F177A39BC00FCA013 /* ApigeeEntity.h in CopyFiles */,
 				63F5255E177A39AC00FCA013 /* ApigeeMonitoringOptions.h in CopyFiles */,
+				63ACC61A1888675F00C87C83 /* ApigeeCounterIncrement.h in CopyFiles */,
 				63F52588178B6ECF00FCA013 /* ApigeeClientDelegate.h in CopyFiles */,
 				63F5255D177A39A300FCA013 /* ApigeeClient.h in CopyFiles */,
 				63F5255C177A398E00FCA013 /* ApigeeJsonUtils.h in CopyFiles */,
@@ -253,6 +256,8 @@
 		638C625B179F305E0066DC15 /* ApigeeHTTPClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ApigeeHTTPClient.h; path = Classes/AppServices/ApigeeHTTPClient.h; sourceTree = SOURCE_ROOT; };
 		638C628F17A71BEE0066DC15 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSKeychain.h; path = ThirdParty/SSKeychain/SSKeychain.h; sourceTree = "<group>"; };
 		638C629017A71BFA0066DC15 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSKeychain.m; path = ThirdParty/SSKeychain/SSKeychain.m; sourceTree = "<group>"; };
+		63ACC61518884EA000C87C83 /* ApigeeCounterIncrement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeCounterIncrement.h; path = Classes/AppServices/ApigeeCounterIncrement.h; sourceTree = SOURCE_ROOT; };
+		63ACC61618884EA000C87C83 /* ApigeeCounterIncrement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeCounterIncrement.m; path = Classes/AppServices/ApigeeCounterIncrement.m; sourceTree = SOURCE_ROOT; };
 		63B68EC317FF6A6A003424E1 /* ApigeeNSURLSessionDataDelegateInterceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeNSURLSessionDataDelegateInterceptor.h; path = Classes/Services/ApigeeNSURLSessionDataDelegateInterceptor.h; sourceTree = SOURCE_ROOT; };
 		63B68EC417FF6A6A003424E1 /* ApigeeNSURLSessionDataDelegateInterceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeNSURLSessionDataDelegateInterceptor.m; path = Classes/Services/ApigeeNSURLSessionDataDelegateInterceptor.m; sourceTree = SOURCE_ROOT; };
 		63B68EFC18035433003424E1 /* ApigeeNSURLSessionDataTaskInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeNSURLSessionDataTaskInfo.h; path = Classes/Services/ApigeeNSURLSessionDataTaskInfo.h; sourceTree = SOURCE_ROOT; };
@@ -615,6 +620,8 @@
 				63F5241E1778D31A00FCA013 /* ApigeeCollection.m */,
 				63F5256A1781DC5E00FCA013 /* ApigeeConnection.h */,
 				63F5256B1781DC6100FCA013 /* ApigeeConnection.m */,
+				63ACC61518884EA000C87C83 /* ApigeeCounterIncrement.h */,
+				63ACC61618884EA000C87C83 /* ApigeeCounterIncrement.m */,
 				63F5241F1778D31A00FCA013 /* ApigeeDataClient.h */,
 				63F524201778D31A00FCA013 /* ApigeeDataClient.m */,
 				637BC9ED182148F200F54D95 /* ApigeeAPSPayload.h */,
@@ -1049,6 +1056,7 @@
 				637BCAAC1829457400F54D95 /* ApigeeUIEventSegmentSelected.m in Sources */,
 				63F524311778D31A00FCA013 /* ApigeeActivity.m in Sources */,
 				63F524321778D31A00FCA013 /* ApigeeClientResponse.m in Sources */,
+				63ACC61718884EA100C87C83 /* ApigeeCounterIncrement.m in Sources */,
 				63F524331778D31A00FCA013 /* ApigeeCollection.m in Sources */,
 				63F524341778D31A00FCA013 /* ApigeeDataClient.m in Sources */,
 				63F524351778D31A00FCA013 /* ApigeeDevice.m in Sources */,

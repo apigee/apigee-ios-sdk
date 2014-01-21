@@ -39,6 +39,7 @@ set the response limit in ApigeeQuery as well.
 @class ApigeeCollection;
 @class ApigeeAPSPayload;
 @class ApigeeAPSDestination;
+@class ApigeeCounterIncrement;
 
 typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response);
 
@@ -1527,6 +1528,22 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  @return array of custom HTTP header fields that have been configured
  */
 -(NSArray*)HTTPHeaderFields;
+
+
+
+//**********************  EVENTS AND COUNTERS  **************************
+- (ApigeeClientResponse*)createEvent:(NSDictionary*)dictEvent;
+- (ApigeeClientResponse*)createEvent:(NSDictionary*)dictEvent
+                           timestamp:(NSDate*)timestamp;
+- (ApigeeClientResponse*)createEvent:(NSDictionary*)dictEvent
+                    counterIncrement:(ApigeeCounterIncrement*)counterIncrement;
+- (ApigeeClientResponse*)createEvent:(NSDictionary*)dictEvent
+                           timestamp:(NSDate*)timestamp
+                    counterIncrement:(ApigeeCounterIncrement*)counterIncrement;
+- (ApigeeClientResponse*)createEvent:(NSDictionary*)dictEvent
+                           timestamp:(NSDate*)timestamp
+                   counterIncrements:(NSArray*)counterIncrements;
+
 
 
 /*********************** VERSION CHECKING ************************/
