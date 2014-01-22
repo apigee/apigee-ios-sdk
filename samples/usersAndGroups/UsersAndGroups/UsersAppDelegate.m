@@ -14,6 +14,7 @@
     //Replace 'AppDelegate' with the name of your app delegate class to instantiate it
     UsersAppDelegate *appDelegate = (UsersAppDelegate *)[[UIApplication sharedApplication] delegate];
     
+#warning Change orgName and appName before running
     NSString *orgName = @"YOUR_ORG";
     NSString *appName = @"YOUR_APP";
     
