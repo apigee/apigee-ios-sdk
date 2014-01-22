@@ -45,8 +45,6 @@
 
 /* Begin PBXFileReference section */
 		6306674B1889CF0300FD3571 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		6306674D188D99BA00FD3571 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = "../../../workfiles/AppServicesCode/SDKs/iOS/apigee-ios-sdk-2.0.8/lib/ApigeeiOSSDK.framework"; sourceTree = "<group>"; };
-		63136E671878F26100147CB3 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = "../../../workfiles/AppServicesCode/SDKs/iOS/apigee-ios-sdk-2.0.6/lib/ApigeeiOSSDK.framework"; sourceTree = "<group>"; };
 		63490A86186DFAD9007DF275 /* UsersAndGroups.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UsersAndGroups.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63490A89186DFAD9007DF275 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		63490A8B186DFAD9007DF275 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -70,8 +68,6 @@
 		635960A6187F42FE00201DFA /* UsersAddGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersAddGroupViewController.m; sourceTree = "<group>"; };
 		638099CB188064F300771EB0 /* UsersAddUserToGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersAddUserToGroupViewController.h; sourceTree = "<group>"; };
 		638099CC188064F300771EB0 /* UsersAddUserToGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersAddUserToGroupViewController.m; sourceTree = "<group>"; };
-		63852F6418785E4800A2A49E /* apigee-ios-sdk-2.0.7 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "apigee-ios-sdk-2.0.7"; path = "../../../workfiles/AppServicesCode/SDKs/iOS/apigee-ios-sdk-2.0.7"; sourceTree = "<group>"; };
-		63852F6618785E6000A2A49E /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = "../../../workfiles/AppServicesCode/SDKs/iOS/apigee-ios-sdk-2.0.7/lib/ApigeeiOSSDK.framework"; sourceTree = "<group>"; };
 		63852F681878611700A2A49E /* UsersHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersHomeViewController.h; sourceTree = "<group>"; };
 		63852F691878611700A2A49E /* UsersHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersHomeViewController.m; sourceTree = "<group>"; };
 		63852F6B1878615C00A2A49E /* UsersListUsersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersListUsersViewController.h; sourceTree = "<group>"; };
@@ -82,7 +78,6 @@
 		63852F771878787E00A2A49E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		63BCF44C187B7402003D8137 /* UsersAddUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersAddUserViewController.h; sourceTree = "<group>"; };
 		63BCF44D187B7402003D8137 /* UsersAddUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersAddUserViewController.m; sourceTree = "<group>"; };
-		63F58678188DA79800595AAC /* libApigeeiOSSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libApigeeiOSSDK.a; path = "../../../workfiles/AppServicesCode/SDKs/iOS/apigee-ios-sdk-2.0.7/source/build/Debug-iphoneos/libApigeeiOSSDK.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,16 +131,11 @@
 		63490A88186DFAD9007DF275 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				63F58678188DA79800595AAC /* libApigeeiOSSDK.a */,
-				6306674D188D99BA00FD3571 /* ApigeeiOSSDK.framework */,
 				6306674B1889CF0300FD3571 /* QuartzCore.framework */,
-				63136E671878F26100147CB3 /* ApigeeiOSSDK.framework */,
 				63852F771878787E00A2A49E /* SystemConfiguration.framework */,
 				63852F751878787400A2A49E /* CoreLocation.framework */,
 				63852F731878786B00A2A49E /* Security.framework */,
 				63852F711878784A00A2A49E /* CoreTelephony.framework */,
-				63852F6618785E6000A2A49E /* ApigeeiOSSDK.framework */,
-				63852F6418785E4800A2A49E /* apigee-ios-sdk-2.0.7 */,
 				63490A89186DFAD9007DF275 /* Foundation.framework */,
 				63490A8B186DFAD9007DF275 /* CoreGraphics.framework */,
 				63490A8D186DFAD9007DF275 /* UIKit.framework */,
