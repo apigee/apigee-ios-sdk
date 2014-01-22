@@ -9,6 +9,15 @@
 #import "UsersAppDelegate.h"
 #import "UsersAddGroupViewController.h"
 
+
+@interface UsersListGroupsViewController ()
+
+// An array to hold the retrieved group list.
+@property (strong, nonatomic) NSMutableArray* groups;
+
+@end
+
+
 /**
  * Code behind the view that lists groups in the application.
  */
@@ -16,9 +25,6 @@
 
 // An Apigee client to make requests of the application.
 ApigeeClient *apigeeClient;
-
-// An array to hold the retrieved group list.
-NSMutableArray *groups;
 
 /**
  * Called after the view loads.
@@ -56,13 +62,13 @@ NSMutableArray *groups;
         [[apigeeClient dataClient] getEntities:@"groups" query:nil];
 
     // Get the group data as an array.
-    groups = result.response[@"entities"];
+    self.groups = result.response[@"entities"];
 
     // If there weren't any groups retrieved, create an empty
     // array for the UI to use.
-    if (groups.count == 0)
+    if (self.groups.count == 0)
     {
-        groups = [[NSMutableArray alloc] init];
+        self.groups = [[NSMutableArray alloc] init];
     }
 
     // Refresh the table that lists the groups.
@@ -82,7 +88,7 @@ NSMutableArray *groups;
                                 groupTitle:name
     completionHandler:^(ApigeeClientResponse *response)
     {
-        if (response.transactionState == kApigeeClientResponseSuccess)
+        if ([response completedSuccessfully])
         {
             // Refresh the UI with the new data.
             [self loadGroupData];
@@ -144,7 +150,7 @@ NSMutableArray *groups;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return groups.count;
+    return self.groups.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -155,7 +161,7 @@ NSMutableArray *groups;
         cell = [[UITableViewCell alloc] init];
     }
     
-    NSString *groupPath = groups[indexPath.row][@"path"];
+    NSString *groupPath = self.groups[indexPath.row][@"path"];
     cell.textLabel.text = groupPath;
     cell.textLabel.textAlignment = 1;
     cell.textLabel.font = [UIFont systemFontOfSize:14];

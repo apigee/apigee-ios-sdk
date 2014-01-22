@@ -8,22 +8,29 @@
 #import "UsersAddUserToGroupViewController.h"
 #import "UsersAppDelegate.h"
 
+@interface UsersAddUserToGroupViewController ()
+
+// A client instance for access to Apigee features.
+@property (strong, nonatomic) ApigeeClient *apigeeClient;
+
+// The group to which the current user should be
+// added, set by selected the group in the UI.
+@property (strong, nonatomic) NSString *selectedGroup;
+
+@end
+
+
 /**
  * A view controller behind the view for 
  * adding a user to a group.
  */
 @implementation UsersAddUserToGroupViewController
 
-@synthesize userName, allGroupsArray, groupsForUserArray, groupsForUser, allGroups;
-
-// The current user, set from the preceding view.
-NSString *userName;
-// The group to which the current user should be
-// added, set by selected the group in the UI.
-NSString *selectedGroup;
-
-// A client instance for access to Apigee features.
-ApigeeClient *apigeeClient;
+@synthesize userName;  // The current user, set from the preceding view
+@synthesize allGroupsArray;
+@synthesize groupsForUserArray;
+@synthesize groupsForUser;
+@synthesize allGroups;
 
 /**
  * Called after the view loads.
@@ -35,7 +42,7 @@ ApigeeClient *apigeeClient;
     // Set an instance of the apigeeClient for us in this class.
     UsersAppDelegate *appDelegate =
         (UsersAppDelegate *)[[UIApplication sharedApplication]delegate];
-    apigeeClient = appDelegate.apigeeClient;
+    self.apigeeClient = appDelegate.apigeeClient;
     
     // Call functions that get lists of groups (those for the current
     // user and a full list) for display in the UI.
@@ -50,10 +57,10 @@ ApigeeClient *apigeeClient;
 {
 
     // Add the user through a call to an SDK method.
-    [[apigeeClient dataClient] addUserToGroup:userName group:selectedGroup
+    [[self.apigeeClient dataClient] addUserToGroup:userName group:self.selectedGroup
         completionHandler:^(ApigeeClientResponse *response)
     {
-        if (response.transactionState == kApigeeClientResponseSuccess) {
+        if ([response completedSuccessfully]) {
             // If the attempt was successfull refresh the list of groups
             // this user is in.
             [self loadGroupsForUser];
@@ -71,18 +78,18 @@ ApigeeClient *apigeeClient;
 - (void)loadGroupsForUser
 {
     // Get the group list by calling an SDK method.
-    [[apigeeClient dataClient] getGroupsForUser:userName
+    [[self.apigeeClient dataClient] getGroupsForUser:userName
                               completionHandler:^(ApigeeClientResponse *result){
-        if (result.transactionState == kApigeeClientResponseSuccess) {
+        if ([result completedSuccessfully]) {
             // If request was successful, load the group list
             // into an array for display in the UI.
-            groupsForUserArray = result.response[@"entities"];
+            self.groupsForUserArray = result.response[@"entities"];
         } else {
-            groupsForUserArray = [[NSMutableArray alloc] init];
+            self.groupsForUserArray = [[NSMutableArray alloc] init];
         }
-        groupsForUser.rowHeight = 20.f;
+        self.groupsForUser.rowHeight = 20.f;
         // Reload the UI that lists the groups.
-        [groupsForUser reloadData];
+        [self.groupsForUser reloadData];
     }];
 }
 
@@ -93,18 +100,18 @@ ApigeeClient *apigeeClient;
 {
     // Get the collection of groups by calling an SDK method.
     ApigeeCollection *groupsCollection =
-        [[apigeeClient dataClient] getCollection:@"groups"];
+        [[self.apigeeClient dataClient] getCollection:@"groups"];
     if ([groupsCollection hasNextEntity])
     {
         // If there are groups in the return value,
         // load the list into an array for display in the UI.
         ApigeeClientResponse *result = [groupsCollection fetch];
-        allGroupsArray = result.response[@"entities"];
+        self.allGroupsArray = result.response[@"entities"];
     } else {
-        allGroupsArray = [[NSMutableArray alloc] init];
+        self.allGroupsArray = [[NSMutableArray alloc] init];
     }
     // Reload the UI that displays the groups.
-    [allGroups reloadAllComponents];
+    [self.allGroups reloadAllComponents];
 }
 
 /**
@@ -154,12 +161,12 @@ ApigeeClient *apigeeClient;
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return [allGroupsArray count];
+    return [self.allGroupsArray count];
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return [allGroupsArray objectAtIndex:row][@"path"];
+    return [self.allGroupsArray objectAtIndex:row][@"path"];
 }
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row
@@ -169,7 +176,7 @@ ApigeeClient *apigeeClient;
     label.font = [UIFont fontWithName:nil size:12];
     label.textAlignment = 1;
     
-    NSString *groupPath = allGroupsArray[row][@"path"];
+    NSString *groupPath = self.allGroupsArray[row][@"path"];
     label.text = [NSString stringWithFormat:@" %@", groupPath];
     return label;
 }
@@ -178,7 +185,7 @@ ApigeeClient *apigeeClient;
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    selectedGroup = [allGroupsArray objectAtIndex:row][@"path"];
+    self.selectedGroup = [self.allGroupsArray objectAtIndex:row][@"path"];
 }
 
 #pragma mark - Table view data source
@@ -190,7 +197,7 @@ ApigeeClient *apigeeClient;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return groupsForUserArray.count;
+    return self.groupsForUserArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -201,7 +208,7 @@ ApigeeClient *apigeeClient;
         cell = [[UITableViewCell alloc] init];
     }
     
-    NSString *groupPath = groupsForUserArray[indexPath.row][@"path"];
+    NSString *groupPath = self.groupsForUserArray[indexPath.row][@"path"];
     cell.textLabel.text = groupPath;
     cell.textLabel.textAlignment = 1;
     cell.textLabel.font = [UIFont systemFontOfSize:12];

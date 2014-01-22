@@ -9,12 +9,18 @@
 #import "UsersAppDelegate.h"
 #import "UsersAddUserViewController.h"
 
+@interface UsersListUsersViewController ()
+
+@property (strong, nonatomic) NSMutableArray* users;
+
+@end
+
+
 /**
  * Code behind the view that lists users in the application.
  */
 @implementation UsersListUsersViewController
 
-NSMutableArray *users;
 ApigeeClient *apigeeClient;
 
 /**
@@ -57,10 +63,10 @@ ApigeeClient *apigeeClient;
      nil completionHandler:^(ApigeeClientResponse *result){
          // If the request was successful, assign the resulting list
          // to an array that will be used to display in the UI.
-         if (result.transactionState == kApigeeClientResponseSuccess) {
-             users = result.response[@"entities"];
+         if ([result completedSuccessfully]) {
+             self.users = result.response[@"entities"];
          } else {
-             users = [[NSMutableArray alloc] init];
+             self.users = [[NSMutableArray alloc] init];
          }
          // Reload the display with the retrieved user list.
          [self.tableView reloadData];
@@ -83,7 +89,7 @@ ApigeeClient *apigeeClient;
                               password:password
                      completionHandler:^(ApigeeClientResponse *response)
     {
-        if (response.transactionState == kApigeeClientResponseSuccess)
+        if ([response completedSuccessfully])
         {
             // Refresh the UI with the new data.
             [self loadUserData];
@@ -144,7 +150,7 @@ ApigeeClient *apigeeClient;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return users.count;
+    return self.users.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -155,7 +161,7 @@ ApigeeClient *apigeeClient;
         cell = [[UITableViewCell alloc] init];
     }
     
-    NSString *userName = users[indexPath.row][@"username"];
+    NSString *userName = self.users[indexPath.row][@"username"];
     cell.textLabel.text = userName;
     cell.textLabel.textAlignment = 1;
     cell.textLabel.font = [UIFont systemFontOfSize:14];
