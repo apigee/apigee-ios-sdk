@@ -1296,6 +1296,16 @@ NSString *g_deviceUUID = nil;
                completionHandler:completionHandler];
 }
 
+-(ApigeeClientResponse *)getEntities: (NSString *)type uuids:(NSArray *)uuidArray
+{
+    NSMutableString *url = [self createURL:type];
+    [url appendString:@"?ql=uuid="];
+    NSString *queryString = [uuidArray componentsJoinedByString:@" OR uuid="];
+    NSString* escapedQueryString = [ApigeeHTTPManager escapeSpecials:queryString];
+    [url appendString:escapedQueryString];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];
+}
+
 -(ApigeeClientResponse *)getEntities: (NSString *)type query:(ApigeeQuery *)query
 {
     NSMutableString *url = [self createURL:type];

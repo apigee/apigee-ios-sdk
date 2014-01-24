@@ -733,6 +733,15 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
 -(ApigeeClientResponse *)createEntity:(NSDictionary *)newEntity
                     completionHandler:(ApigeeDataClientCompletionHandler) completionHandler;
 
+/*!
+ @abstract Get a list of entities by UUID
+ @param type The collection (type) of the entities to retrieve
+ @param uuids An array of uuids of the entities to be returned
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)getEntities:(NSString *)type
+                               uuids:(NSArray *)uuidArray;
 
 /*!
  @abstract Get a list of entities that meet the specified query
