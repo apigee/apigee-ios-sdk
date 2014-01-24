@@ -734,6 +734,16 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
                     completionHandler:(ApigeeDataClientCompletionHandler) completionHandler;
 
 /*!
+ @abstract Get a single entity by UUID
+ @param type The collection (type) of the entity to retrieve
+ @param uuid The UUID of the entity to be returned
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)getEntity:(NSString *)type
+                               uuid:(NSString *)entityUuid;
+
+/*!
  @abstract Get a list of entities by UUID
  @param type The collection (type) of the entities to retrieve
  @param uuids An array of uuids of the entities to be returned
