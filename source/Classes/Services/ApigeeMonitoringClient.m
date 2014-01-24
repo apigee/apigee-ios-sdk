@@ -723,8 +723,8 @@ static bool AmIBeingDebugged(void)
         
 #if !(TARGET_IPHONE_SIMULATOR)
         if (self.activeSettings.locationCaptureEnabled && self.locationServicesStarted) {
-            [[ApigeeLocationService defaultService] stopScan];
-            self.locationServicesStarted = NO;
+            //[[ApigeeLocationService defaultService] stopScan];
+            //self.locationServicesStarted = NO;
         }
 #endif
         
@@ -767,6 +767,14 @@ static bool AmIBeingDebugged(void)
         if (isActive && self.isPartOfSample) {
             [self setUpCrashReporting];
 
+#if !(TARGET_IPHONE_SIMULATOR)
+            if (self.activeSettings.locationCaptureEnabled) {
+                //self.locationServicesStarted = YES;
+                //[[ApigeeLocationService defaultService] startScan];
+                ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Location capture not supported in this version of SDK");
+            }
+#endif
+        
             // if we've never sent any data to server, do so now
             if (!self.sentStartingSessionData) {
                 [self timerFired];
@@ -776,14 +784,6 @@ static bool AmIBeingDebugged(void)
             } else {
                 [self establishTimer];
             }
-
-#if !(TARGET_IPHONE_SIMULATOR)
-            if (self.activeSettings.locationCaptureEnabled) {
-                self.locationServicesStarted = YES;
-                [[ApigeeLocationService defaultService] startScan];
-            }
-#endif
-        
         }
         
         self.isInitialized = YES;
@@ -1495,14 +1495,8 @@ static bool AmIBeingDebugged(void)
 
 - (void)applicationWillResignActive:(NSNotification *)notification
 {
-    // Having location services (capture location) on somehow causes
-    // this method to be called and shuts down our uploads to the
-    // server. Canceling of our timer is being commented out -- we
-    // still have other lifecycle methods that are called when app
-    // is put in background.
-    
     // turn off our timer if we have one
-    //[self cancelTimer];
+    [self cancelTimer];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
