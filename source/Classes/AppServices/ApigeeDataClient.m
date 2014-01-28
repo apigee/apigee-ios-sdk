@@ -681,19 +681,19 @@ NSString *g_deviceUUID = nil;
 -(ApigeeClientResponse *)logInUserWithFacebook: (NSString *)facebookToken
 {
     NSMutableString *url = [self createURL:@"auth/facebook"];
-    ApigeeQuery *query = [[ApigeeQuery alloc] init];
-    [query addURLTerm:@"fb_access_token" equals:facebookToken];
-    [self appendQueryToURL:url query:query];
+    [url appendFormat:@"?fb_access_token=%@", facebookToken];
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];
 }
 
--(ApigeeClientResponse *)logInUserWithFacebook: (NSString *)facebookToken completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+-(ApigeeClientResponse *)logInUserWithFacebook: (NSString *)facebookToken
+                             completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
 {
     NSMutableString *url = [self createURL:@"auth/facebook"];
-    ApigeeQuery *query = [[ApigeeQuery alloc] init];
-    [query addURLTerm:@"fb_access_token" equals:facebookToken];
-    [self appendQueryToURL:url query:query];
-    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
+    [url appendFormat:@"?fb_access_token=%@", facebookToken];
+    return [self httpTransaction:url
+                              op:kApigeeHTTPGet
+                          opData:nil
+               completionHandler:completionHandler];
 }
 
 -(ApigeeClientResponse *)logInAdmin: (NSString *)adminUserName secret:(NSString *)adminSecret
