@@ -134,9 +134,9 @@
 {
     [super viewDidLoad];
     
-//#error configure your org name and app name here
-    NSString* orgName = @"pauldardeau";
-    NSString* appName = @"sandbox";
+#warning configure your org name and app name here
+    NSString* orgName = @"<YOUR_ORG_NAME>";
+    NSString* appName = @"<YOUR_APP_NAME>";
 
     
     self.client =  [[ApigeeClient alloc] initWithOrganizationId:orgName applicationId:appName];
