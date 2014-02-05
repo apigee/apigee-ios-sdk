@@ -647,12 +647,12 @@ static bool AmIBeingDebugged(void)
 
 - (void)setUpCrashReporting
 {
-#ifdef __arm64__
-    if (self.crashReportingEnabled) {
-        self.crashReportingEnabled = NO;
-        ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Disabling crash reporting on arm64 (not supported yet)");
-    }
-#endif
+//#ifdef __arm64__
+//    if (self.crashReportingEnabled) {
+//        self.crashReportingEnabled = NO;
+//        ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Disabling crash reporting on arm64 (not supported yet)");
+//    }
+//#endif
     
     if (AmIBeingDebugged()) {
         self.crashReportingEnabled = NO;
@@ -1015,7 +1015,7 @@ static bool AmIBeingDebugged(void)
 
 - (BOOL) hasPendingCrashReports
 {
-    BOOL haveCrashReport = [[Apigee_PLCrashReporter sharedReporter] hasPendingCrashReport];
+    BOOL haveCrashReport = [[ApigeePLCrashReporter sharedReporter] hasPendingCrashReport];
     
     if (self.showDebuggingInfo) {
         [self printDebugMessage:@"crash report found from prior session"];
@@ -1042,18 +1042,18 @@ static bool AmIBeingDebugged(void)
         return;
     }
     
-    Apigee_PLCrashReporter* crashReporter = [Apigee_PLCrashReporter sharedReporter];
+    ApigeePLCrashReporter* crashReporter = [ApigeePLCrashReporter sharedReporter];
     NSError* error = nil;
     NSData* data = [crashReporter loadPendingCrashReportDataAndReturnError:&error];
-    Apigee_PLCrashReport *report = [[Apigee_PLCrashReport alloc] initWithData:data error:&error];
+    ApigeePLCrashReport *report = [[ApigeePLCrashReport alloc] initWithData:data error:&error];
     
     if (error) {
         SystemError(@"CrashReporter", @"Error loading crash report: %@", [error localizedDescription]);
         return;
     }
     
-    NSString *log = [Apigee_PLCrashReportTextFormatter stringValueForCrashReport:report
-                                                                  withTextFormat:Apigee_PLCrashReportTextFormatiOS];
+    NSString *log = [ApigeePLCrashReportTextFormatter stringValueForCrashReport:report
+                                                                  withTextFormat:ApigeePLCrashReportTextFormatiOS];
     
     NSString* uuid = [NSString uuid];
     NSString* fileName = [NSString stringWithFormat:@"%@.crash", uuid];
@@ -1087,7 +1087,7 @@ static bool AmIBeingDebugged(void)
 
 - (BOOL) enableCrashReporter:(NSError**) error
 {
-    return [[Apigee_PLCrashReporter sharedReporter] enableCrashReporterAndReturnError:error];
+    return [[ApigeePLCrashReporter sharedReporter] enableCrashReporterAndReturnError:error];
 }
 
 #pragma mark - Internal implementations
