@@ -6,6 +6,9 @@ The sample apps in this directory are intended to show basic usage of some of th
 
 * **books** - A 'list' app that lets the user create, retrieve and perform geolocation queries on a list of books. This sample also makes use of jQuery and jQuery mobile.
 * **messagee** - A Twitter-like app that uses data store, social and user management features.
+* **collections** - An app that shows you how to perform basic CRUD operations on collections in your account.
+* **entities** - An app that shows you how to perform basic CRUD operations on entities in your account.
+* **geolocation** - An app that shows you how to creates entities with location data, and perform geolocation queries to retrieve them.
 * **monitoringSample** - An app that lets you test the App Monitoring feature by sending logging, crash and error reports to your account.
 * **push** - An app that sends push notifications to mobile devices using APNS or GCM.
 * **usersAndGroups** - An app that shows you how to create and manage user and group entities.
