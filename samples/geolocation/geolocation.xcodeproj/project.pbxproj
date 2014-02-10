@@ -33,7 +33,6 @@
 		63CCE29A18A46B220067893F /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63CCE29818A46A540067893F /* ApigeeiOSSDK.framework */; };
 		63CCE29B18A46BFD0067893F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4FF8A18A4659000C33DB5 /* CoreTelephony.framework */; };
 		63CCE29C18A46C030067893F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4FF8C18A465A600C33DB5 /* Security.framework */; };
-		63CCE29D18A46C0F0067893F /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63CCE29818A46A540067893F /* ApigeeiOSSDK.framework */; };
 		63CCE29E18A46C160067893F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4FF8618A4657C00C33DB5 /* QuartzCore.framework */; };
 		63CCE29F18A46C260067893F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4FF8818A4658700C33DB5 /* CoreLocation.framework */; };
 		63CCE2A018A46C340067893F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4FF8E18A465B100C33DB5 /* SystemConfiguration.framework */; };
@@ -92,7 +91,6 @@
 				63CCE2A018A46C340067893F /* SystemConfiguration.framework in Frameworks */,
 				63CCE29F18A46C260067893F /* CoreLocation.framework in Frameworks */,
 				63CCE29E18A46C160067893F /* QuartzCore.framework in Frameworks */,
-				63CCE29D18A46C0F0067893F /* ApigeeiOSSDK.framework in Frameworks */,
 				63CCE29C18A46C030067893F /* Security.framework in Frameworks */,
 				63CCE29B18A46BFD0067893F /* CoreTelephony.framework in Frameworks */,
 				63C4FF4218A42ACF00C33DB5 /* CoreGraphics.framework in Frameworks */,
