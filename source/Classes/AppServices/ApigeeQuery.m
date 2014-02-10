@@ -41,7 +41,7 @@ static NSString* kEntityTypeKey = @"type";
             }
         }
     }
-    
+
     return query;
 }
 
@@ -134,14 +134,17 @@ static NSString* kEntityTypeKey = @"type";
     NSString *escapedEquals = [ApigeeHTTPManager escapeSpecials:equals];
 
     // add it in
-    if ( ([m_urlTerms length] > 0) || [urlTerm isEqualToString:@"ql"] ) {
+    if ( [m_urlTerms length] > 0 ) {
         // we already have some terms. Append an & before continuing
         [m_urlTerms appendFormat:@"&"];
-    } else {
-        // append ql= to start the query string
-        [m_urlTerms appendFormat:@"ql="];
+        [m_urlTerms appendFormat:@"%@=%@", escapedUrlTerm, escapedEquals];
+    } else if ( [urlTerm isEqualToString:@"ql"] ) {
+        // this is a ql, so add it to m_requirements instead
+        [self addRequirement: equals];
+    } else  {
+        // start the urlTerms string
+        [m_urlTerms appendFormat:@"%@=%@", escapedUrlTerm, escapedEquals];
     }
-    [m_urlTerms appendFormat:@"%@=%@", escapedUrlTerm, escapedEquals];
 }
 
 -(void)addRequiredOperation: (NSString *)term op:(int)op valueStr:(NSString *)valueStr
@@ -153,12 +156,19 @@ static NSString* kEntityTypeKey = @"type";
     NSString *opStr = [self getOpStr: op];
     if ( !opStr ) return; // nil opStr means they sent in an invalid op code
     
-    // assemble the requirement string
-    NSMutableString *assembled = [NSMutableString new];
-    [assembled appendFormat:@"%@ %@ '%@'", term, opStr, valueStr];
-    
-    // add it as a req
-    [self addRequirement:assembled];
+    // If the term belongs in the 'ql' param add it as a req. If it is 'limit'
+    // or 'cursor' add it as a urlTerm
+    if ([term isEqualToString:@"cursor"] || [term isEqualToString:@"limit"]) {
+        [self addURLTerm:term equals:valueStr];
+    } else if ([term isEqualToString:@"ql"]) {
+        // If valueStr is a ql string, add it the m_requirements string
+        [self addRequirement:valueStr];
+    } else {
+        // Add anything else to the requirement string
+        NSMutableString *assembled = [NSMutableString new];
+        [assembled appendFormat:@"%@%@'%@'", term, opStr, valueStr];
+        [self addRequirement:assembled];
+    }
 }
 
 -(void)addRequiredOperation: (NSString *)term op:(int)op valueInt:(int) valueInt
