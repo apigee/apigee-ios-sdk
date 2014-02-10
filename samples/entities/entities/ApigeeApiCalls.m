@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Apigee. All rights reserved.
 //
 
-/* APIGEE iOS SDK Entity EXAMPLE APP
+/* APIGEE iOS SDK ENTITY EXAMPLE APP
  
  This class handles our API requests. See the code comments
  for detailed info on how each request type works. */
@@ -33,24 +33,7 @@ NSString *currentEntity;
     dataClient = appDelegate.dataClient;
 }
 
-
-/* Calls the API request based on what button the user tapped in ApigeeMenuViewController. */
--(NSDictionary*)startRequest:(NSString*)requestType {
-    NSDictionary *response;
-    if ([requestType isEqualToString:@"create"]) {
-        response = [self createEntity];
-    } else if ([requestType isEqualToString:@"retrieve"]) {
-        response = [self retrieveEntity];
-    } else if ([requestType isEqualToString:@"update"]) {
-        response = [self updateEntity];
-    } else if ([requestType isEqualToString:@"delete"]) {
-        response = [self deleteEntity];
-    }
-    return response;
-}
-
-    
-/* These are the methods for the actual API calls */
+/*** These are the methods for the actual API calls ***/
 
 /* 1. Create a new entity
  To start, let's create a function to create an entity and save it on Apigee. */
@@ -202,6 +185,21 @@ NSString *currentEntity;
         return [NSDictionary dictionaryWithObjectsAndKeys:nil, @"uuid", @"Error! Did you enter the correct organization name?", @"fullResponse", @"", nil];
 	}
     
+}
+
+/* Calls the API request based on what button the user tapped in ApigeeMenuViewController. */
+-(NSDictionary*)startRequest:(NSString*)requestType {
+    NSDictionary *response;
+    if ([requestType isEqualToString:@"create"]) {
+        response = [self createEntity];
+    } else if ([requestType isEqualToString:@"retrieve"]) {
+        response = [self retrieveEntity];
+    } else if ([requestType isEqualToString:@"update"]) {
+        response = [self updateEntity];
+    } else if ([requestType isEqualToString:@"delete"]) {
+        response = [self deleteEntity];
+    }
+    return response;
 }
     
 /* Just a little something to turn our API responses into pretty printed JSON */
