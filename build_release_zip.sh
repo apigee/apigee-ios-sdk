@@ -25,8 +25,10 @@ SDK_VERSION="$1"
 SDK_SOURCE_VERSION=`grep "kSDKVersion =" source/Classes/ApigeeClient.m | awk '{print $5}' | cut -d'"' -f2`
 
 if [ "${SDK_VERSION}" != "${SDK_SOURCE_VERSION}" ]; then
-	echo "Error: sdk source version (${SDK_SOURCE_VERSION}) does not match specified version (${SDK_VERSION})"
-	exit 1
+	if [ "${SDK_VERSION}" != "--build_server" ]; then
+		echo "Error: sdk source version (${SDK_SOURCE_VERSION}) does not match specified version (${SDK_VERSION})"
+		exit 1
+	fi
 fi
 
 
