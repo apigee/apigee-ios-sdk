@@ -76,4 +76,6 @@ echo ""
 echo "The framework was built at: $FRAMEWORK_DIR"
 echo ""
 
-open "$FRAMEWORK_BUILD_PATH"
+# opening a folder causes build failure under Jenkins
+#open "$FRAMEWORK_BUILD_PATH"
+
