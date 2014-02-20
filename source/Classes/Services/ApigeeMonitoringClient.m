@@ -141,6 +141,7 @@ static bool AmIBeingDebugged(void)
 @property (assign) BOOL monitoringPaused;
 @property (assign) BOOL locationServicesStarted;
 @property (copy, nonatomic) NSString* customUploadUrl;
+@property (assign, nonatomic) BOOL alwaysUploadCrashReports;
 
 @property (assign, nonatomic) ApigeeNetworkStatus activeNetworkStatus;
 
@@ -188,7 +189,7 @@ static bool AmIBeingDebugged(void)
 @synthesize monitoringPaused;
 @synthesize locationServicesStarted;
 @synthesize activeNetworkStatus;
-
+@synthesize alwaysUploadCrashReports;
 
 // this method is sometimes handy for debugging
 - (void)log:(NSString*)data toFile:(NSString*)fileName
@@ -364,9 +365,11 @@ static bool AmIBeingDebugged(void)
         self.showDebuggingInfo = monitoringOptions.showDebuggingInfo;
         self.customUploadUrl = monitoringOptions.customUploadUrl;
         performAutomaticUIEventTracking = monitoringOptions.performAutomaticUIEventTracking;
+        self.alwaysUploadCrashReports = monitoringOptions.alwaysUploadCrashReports;
     } else {
         self.autoPromoteLoggedErrors = YES;
         self.interceptNSURLSessionCalls = NO;
+        self.alwaysUploadCrashReports = YES;
     }
     
     self.appIdentification = theAppIdentification;
@@ -647,13 +650,6 @@ static bool AmIBeingDebugged(void)
 
 - (void)setUpCrashReporting
 {
-//#ifdef __arm64__
-//    if (self.crashReportingEnabled) {
-//        self.crashReportingEnabled = NO;
-//        ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Disabling crash reporting on arm64 (not supported yet)");
-//    }
-//#endif
-    
     if (AmIBeingDebugged()) {
         self.crashReportingEnabled = NO;
         ApigeeLogWarnMessage(kApigeeMonitoringClientTag, @"Disabling crash reporting under debugger");
@@ -764,26 +760,30 @@ static bool AmIBeingDebugged(void)
         }
 
         
-        if (isActive && self.isPartOfSample) {
+        if ((isActive && self.isPartOfSample) || self.alwaysUploadCrashReports) {
             [self setUpCrashReporting];
 
-            // if we've never sent any data to server, do so now
-            if (!self.sentStartingSessionData) {
-                [self timerFired];
-                if (autoInterceptNetworkCalls) {
-                    [self enableInterceptedNetworkingCalls];
+            if (isActive && self.isPartOfSample) {
+                // if we've never sent any data to server, do so now
+                if (!self.sentStartingSessionData) {
+                    [self timerFired];
+                
+                    if (autoInterceptNetworkCalls) {
+                        [self enableInterceptedNetworkingCalls];
+                    }
+                } else {
+                    [self establishTimer];
                 }
-            } else {
-                [self establishTimer];
-            }
 
+// location capture is only available on real device
 #if !(TARGET_IPHONE_SIMULATOR)
-            if (self.activeSettings.locationCaptureEnabled) {
-                self.locationServicesStarted = YES;
-                [[ApigeeLocationService defaultService] startScan];
-            }
+                if (self.activeSettings.locationCaptureEnabled) {
+                    self.locationServicesStarted = YES;
+                    [[ApigeeLocationService defaultService] startScan];
+                }
 #endif
-        
+                
+            }
         }
         
         self.isInitialized = YES;
@@ -1081,8 +1081,6 @@ static bool AmIBeingDebugged(void)
         ApigeeLogAssertMessage(kApigeeMonitoringClientTag,
                         @"There was an error with the request to upload the crash report");
     }
-    
-    [self uploadEvents];
 }
 
 - (BOOL) enableCrashReporter:(NSError**) error
@@ -1094,8 +1092,6 @@ static bool AmIBeingDebugged(void)
 
 - (void) networkChanged:(NSNotification *) notice
 {
-    NSLog(@"networkChanged:");
-    
     if (self.showDebuggingInfo) {
         [self printDebugMessage:@"network status changed"];
     }
