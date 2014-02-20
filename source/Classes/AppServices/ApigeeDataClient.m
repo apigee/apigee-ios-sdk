@@ -715,6 +715,10 @@ NSString *g_deviceUUID = nil;
 {
     // clear out auth
     [self setAuth: nil];
+    NSString *username = [[self getLoggedInUser] username];
+    // create the URL
+    NSString *url = [self createURL:@"users" append2:username append3:@"revoketokens"];
+    [self httpTransaction:url op:kApigeeHTTPPut opData:nil];
 }
 
 // general workhorse for auth logins
