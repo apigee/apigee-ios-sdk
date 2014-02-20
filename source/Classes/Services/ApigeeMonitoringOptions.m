@@ -18,6 +18,7 @@
 @synthesize uploadListener;
 @synthesize customUploadUrl;
 @synthesize performAutomaticUIEventTracking;
+@synthesize alwaysUploadCrashReports;
 
 - (id)init
 {
@@ -33,6 +34,7 @@
         self.uploadListener = nil;
         self.customUploadUrl = nil;
         self.performAutomaticUIEventTracking = NO;
+        self.alwaysUploadCrashReports = YES;
     }
     
     return self;

@@ -99,5 +99,14 @@
  */
 @property(assign, nonatomic) BOOL performAutomaticUIEventTracking;
 
+/*!
+ @property alwaysUploadCrashReports
+ @abstract Determines whether crash reports should be uploaded to Apigee server
+    even if device is not part of sample (i.e., not uploading network, logging,
+    and error data).
+ @discussion By default, this parameter is turned on.
+ */
+@property(assign, nonatomic) BOOL alwaysUploadCrashReports;
+
 
 @end
