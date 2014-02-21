@@ -213,16 +213,34 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
                   completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 /*!
- @abstract Log out the current user
+ @abstract Log out a user and destroy the token in ApigeeDataClient on the server.
+ @param username The name identifier for the user being logged out
  @discussion The ApigeeDataClient only supports one user logged in at a time.
     You can have multiple instances of ApigeeDataClient if you want multiple
-    users doing transactions simultaneously. This does not require network
-    communication, so it has no return. It doesn't actually "log out" from the
-    server. It simply clears the locally stored auth information.
+    users doing transactions simultaneously.
  */
--(void)logOut;
+-(void)logOut:(NSString*)username;
 
+/*!
+ @abstract Log out a user and destroy a specific token on the server.
+ @param username The name identifier for the user being logged out
+ @param forToken The access token to be destroyed on the server
+ @discussion If the token matches the token in ApigeeDataClient, the token is 
+    cleared from the ApigeeDataClient instance. This is useful if you're using 
+    tokens to authorize different clients. For example, a user is logged in on
+    their mobile device but their web client token needs to be invalidated.
+ */
+-(void)logOut:(NSString*)username forToken:(NSString*)token;
 
+/*!
+ @abstract Log out a user and destroy all tokens associated with the user on the server.
+ @param username The name identifier for the user being logged out
+ @discussion Also clears out the token in the ApigeeDataClient instance. This is useful 
+    if you're using tokens to authorize the user on different clients. For example, 
+    a different token for a web client session, mobile client session, etc. This method
+    is the equivalent of logging out all clients.
+ */
+-(void)logOutAllTokens:(NSString*)username;
 
 /********************* USER MANAGEMENT *********************/
 /*!

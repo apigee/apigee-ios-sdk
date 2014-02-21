@@ -711,12 +711,27 @@ NSString *g_deviceUUID = nil;
      completionHandler:completionHandler];
 }
 
--(void)logOut
+-(void)logOut: (NSString*)username
 {
     // clear out auth
     [self setAuth: nil];
-    NSString *username = [[self getLoggedInUser] username];
     // create the URL
+    NSString *url = [self createURL:@"users" append2:username append3:@"revoketoken?token=\"" append4:[self getAccessToken] append5:@"\""];
+    [self httpTransaction:url op:kApigeeHTTPPut opData:nil];
+}
+
+-(void)logOut: (NSString*)username forToken:(NSString*)token
+{
+    if ([token isEqualToString: [self getAccessToken]]) {
+        [self setAuth: nil];
+    }
+    NSString *url = [self createURL:@"users" append2:username append3:@"revoketoken?token=\"" append4:token append5:@"\""];
+    [self httpTransaction:url op:kApigeeHTTPPut opData:nil];
+}
+
+-(void)logOutAllTokens: (NSString*)username
+{
+    [self setAuth: nil];
     NSString *url = [self createURL:@"users" append2:username append3:@"revoketokens"];
     [self httpTransaction:url op:kApigeeHTTPPut opData:nil];
 }
