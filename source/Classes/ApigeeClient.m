@@ -13,7 +13,7 @@
 #import "ApigeeDefaultiOSLog.h"
 
 /*!
- @version 2.0.10-SNAPSHOT
+ @version 2.0.10
  */
 static NSString* kSDKVersion = @"2.0.10";
 
