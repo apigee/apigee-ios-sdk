@@ -14,6 +14,7 @@
 		638C629917A728F20066DC15 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C629817A728F20066DC15 /* CoreTelephony.framework */; };
 		638C629B17A7290A0066DC15 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C629A17A729090066DC15 /* Security.framework */; };
 		63ACC5FA1884A1B500C87C83 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ACC5F91884A1B500C87C83 /* QuartzCore.framework */; };
+		63D4593418C7A4E000FE1433 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D4593318C7A4E000FE1433 /* ApigeeiOSSDK.framework */; };
 		C913B26616E6D46A007A526E /* sisyphus-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C913B26516E6D46A007A526E /* sisyphus-icon.png */; };
 		C913B26816E6D49A007A526E /* sisyphus-smicon.png in Resources */ = {isa = PBXBuildFile; fileRef = C913B26716E6D49A007A526E /* sisyphus-smicon.png */; };
 		C913B2AB16E7CC54007A526E /* sisyphus-i5-back.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C913B2AA16E7CC54007A526E /* sisyphus-i5-back.jpg */; };
@@ -53,6 +54,7 @@
 		638C629817A728F20066DC15 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		638C629A17A729090066DC15 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		63ACC5F91884A1B500C87C83 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		63D4593318C7A4E000FE1433 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = ../../source/build/framework/ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 		C913B26516E6D46A007A526E /* sisyphus-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sisyphus-icon.png"; sourceTree = "<group>"; };
 		C913B26716E6D49A007A526E /* sisyphus-smicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sisyphus-smicon.png"; sourceTree = "<group>"; };
 		C913B2AA16E7CC54007A526E /* sisyphus-i5-back.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "sisyphus-i5-back.jpg"; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63ACC5FA1884A1B500C87C83 /* QuartzCore.framework in Frameworks */,
+				63D4593418C7A4E000FE1433 /* ApigeeiOSSDK.framework in Frameworks */,
 				637BC9E0181F036900F54D95 /* AudioToolbox.framework in Frameworks */,
 				638C629B17A7290A0066DC15 /* Security.framework in Frameworks */,
 				638C629917A728F20066DC15 /* CoreTelephony.framework in Frameworks */,
@@ -134,6 +137,7 @@
 		C9AFBD1A16B71BD700D67DA3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63D4593318C7A4E000FE1433 /* ApigeeiOSSDK.framework */,
 				63ACC5F91884A1B500C87C83 /* QuartzCore.framework */,
 				637BC9DF181F036900F54D95 /* AudioToolbox.framework */,
 				638C629417A728D80066DC15 /* SystemConfiguration.framework */,
@@ -244,8 +248,14 @@
 		C9AFBD0E16B71BD700D67DA3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastTestingUpgradeCheck = 0510;
 				LastUpgradeCheck = 0450;
-				ORGANIZATIONNAME = "Scott Ganyo";
+				ORGANIZATIONNAME = "Shawn Feldman";
+				TargetAttributes = {
+					C9AFBD1616B71BD700D67DA3 = {
+						DevelopmentTeam = E64XD6RD7Y;
+					};
+				};
 			};
 			buildConfigurationList = C9AFBD1116B71BD700D67DA3 /* Build configuration list for PBXProject "Push Test" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -383,8 +393,8 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Scott Ganyo (W44KY52329)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Scott Ganyo (W44KY52329)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Shawn Feldman (574EC3YB2N)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Shawn Feldman (574EC3YB2N)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -397,8 +407,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				ONLY_ACTIVE_ARCH = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PROVISIONING_PROFILE = "8E6BD048-B289-4E48-B00F-54F57B28E78A";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8E6BD048-B289-4E48-B00F-54F57B28E78A";
 				SDKROOT = iphoneos;
@@ -422,7 +432,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -435,23 +446,26 @@
 		C9AFBD5416B71BD700D67DA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Paul Dardeau (6M48CEAR89)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"\\\"$(SRCROOT)/../../source/build/framework\\\"",
+					"\\\\\\\"$(SRCROOT)/../../source/build/framework\\\\\\\"",
 					"/Users/ApigeeCorporation/github-master/apigee-ios-sdk/samples/push",
+					/Users/ApigeeCorporation/Dev/apigee/ios/source/build/framework,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pushtest/Push Test-Prefix.pch";
 				INFOPLIST_FILE = "pushtest/Push Test-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "Push Test";
-				PROVISIONING_PROFILE = "DAA80F2A-4FE8-4B25-A292-F8D92C2A3B9F";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
@@ -460,23 +474,26 @@
 		C9AFBD5516B71BD700D67DA3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Paul Dardeau (6M48CEAR89)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"\\\"$(SRCROOT)/../../source/build/framework\\\"",
+					"\\\\\\\"$(SRCROOT)/../../source/build/framework\\\\\\\"",
 					"/Users/ApigeeCorporation/github-master/apigee-ios-sdk/samples/push",
+					/Users/ApigeeCorporation/Dev/apigee/ios/source/build/framework,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pushtest/Push Test-Prefix.pch";
 				INFOPLIST_FILE = "pushtest/Push Test-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "Push Test";
-				PROVISIONING_PROFILE = "DAA80F2A-4FE8-4B25-A292-F8D92C2A3B9F";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
@@ -486,6 +503,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/pushtest.app/pushtest";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Shawn Feldman (574EC3YB2N)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",

@@ -37,10 +37,10 @@ NSString * baseURL = @"https://api.usergrid.com";
             NSString* soundFilePath =
                 [[NSBundle mainBundle] pathForResource:kBundledSoundName
                                                 ofType:kBundledSongFileType];
-            
+
             if (soundFilePath) {
                 NSURL* soundURL = [NSURL fileURLWithPath:soundFilePath];
-        
+
                 if (soundURL) {
                     AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL,
                                                      &soundId);
@@ -50,7 +50,7 @@ NSString * baseURL = @"https://api.usergrid.com";
                 }
             }
         }
-        
+
         if (soundId != nullSoundId) {
             AudioServicesPlaySystemSound(soundId);
         }
@@ -73,7 +73,7 @@ NSString * baseURL = @"https://api.usergrid.com";
         [application enabledRemoteNotificationTypes];
 
     NSString* alertText = [payloadAPS valueForKey:@"alert"];
-    
+
     // enabled for sound?
     if (enabledTypes & UIRemoteNotificationTypeSound) {
         NSString* sound = [payloadAPS valueForKey:@"sound"];
@@ -82,7 +82,7 @@ NSString * baseURL = @"https://api.usergrid.com";
         if ([sound length] == 0) {
             sound = kBundledSoundName;
         }
-    
+
         if ([sound length] > 0) {
             [self playSound:sound];
         }
@@ -104,16 +104,21 @@ NSString * baseURL = @"https://api.usergrid.com";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    // Find out what notification types the user has enabled.
     UIRemoteNotificationType enabledTypes =
-        [application enabledRemoteNotificationTypes];
-    
+    [application enabledRemoteNotificationTypes];
+
+    // If the user has enabled alert or sound notifications, then
+    // register for those notification types from Apple.
     if (enabledTypes & (UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound)) {
+
         // Register for push notifications with Apple
         NSLog(@"registering for remote notifications");
         [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert |
          UIRemoteNotificationTypeSound];
     }
 }
+
 
 // Invoked as a callback after the application launches.
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -136,7 +141,9 @@ NSString * baseURL = @"https://api.usergrid.com";
                           forApplication:application];
         }
     }
-    
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+
     // It's not necessary to explicitly login to App Services if the Guest role allows access
 //    NSLog(@"Logging in user");
 //    [usergridClient logInUser: userName password: password];
@@ -145,7 +152,7 @@ NSString * baseURL = @"https://api.usergrid.com";
     return YES;
 }
 
-// Invoked as a callback from calling registerForRemoteNotificationTypes. 
+// Invoked as a callback from calling registerForRemoteNotificationTypes.
 // newDeviceToken is a token received from registering with Apple APNs.
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken
 {
@@ -153,18 +160,18 @@ NSString * baseURL = @"https://api.usergrid.com";
     NSLog(@"registering token with app services");
     ApigeeClientResponse *response = [dataClient setDevicePushToken: newDeviceToken
                                                         forNotifier: notifier];
-    
+
     // You could use this if you log in as an app services user to associate the Device to your User
 //    if (response.transactionState == kUGClientResponseSuccess) {
 //        response = [self connectEntities: @"users" connectorID: @"me" type: @"devices" connecteeID: deviceId];
 //    }
-    
+
     if ( ! [response completedSuccessfully]) {
         [self alert: response.rawResponse title: @"Error"];
     }
 }
 
-// Invoked as a callback from calling registerForRemoteNotificationTypes if registration 
+// Invoked as a callback from calling registerForRemoteNotificationTypes if registration
 // failed.
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
@@ -178,21 +185,21 @@ completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
     NSString *deviceId = [ApigeeDataClient getUniqueDeviceID];
     ApigeeAPSDestination* destination =
         [ApigeeAPSDestination destinationSingleDevice:deviceId];
-    
+
     // set our APS payload
     ApigeeAPSPayload* apsPayload = [[ApigeeAPSPayload alloc] init];
     apsPayload.sound = kBundledSoundNameWithExt;
     apsPayload.alertText = message;
-    
+
     // Example of what a custom payload might look like -- remember that
     // APNS payloads are limited to a maximum of 256 bytes (for the entire
     // payload -- including the 'aps' part)
     NSMutableDictionary* customPayload = [[NSMutableDictionary alloc] init];
     [customPayload setValue:@"72" forKey:@"degrees"];
     [customPayload setValue:@"3" forKey:@"newOrders"];
-    
+
     __weak AppDelegate* weakSelf = self;
-    
+
     // send the push notification
     [dataClient pushAlert:apsPayload
             customPayload:customPayload
@@ -203,7 +210,7 @@ completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
                 [weakSelf alert:response.rawResponse
                           title: @"Error"];
             }
-            
+
             if (completionHandler) {
                 completionHandler(response);
             }
@@ -216,13 +223,13 @@ completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
     // send to all devices
     ApigeeAPSDestination* destination =
         [ApigeeAPSDestination destinationAllDevices];
-    
+
     // set our APS payload
     ApigeeAPSPayload* apsPayload = [[ApigeeAPSPayload alloc] init];
     apsPayload.sound = kBundledSoundNameWithExt;
     apsPayload.alertText = message;
     apsPayload.badgeValue = [NSNumber numberWithInt:3];
-    
+
     __weak AppDelegate* weakSelf = self;
 
     // send the push notification
@@ -234,7 +241,7 @@ completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
                 [weakSelf alert:response.rawResponse
                           title: @"Error"];
             }
-            
+
             if (completionHandler) {
                 completionHandler(response);
             }
