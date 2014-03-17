@@ -39,6 +39,7 @@ static NSString* kSDKVersion = @"2.0.10";
     return [self initWithOrganizationId:organizationId
                           applicationId:applicationId
                                 baseURL:nil
+                               urlTerms:nil
                                 options:nil];
 }
 
@@ -49,6 +50,19 @@ static NSString* kSDKVersion = @"2.0.10";
     return [self initWithOrganizationId:organizationId
                           applicationId:applicationId
                                 baseURL:baseURL
+                               urlTerms:nil
+                                options:nil];
+}
+
+- (id)initWithOrganizationId:(NSString*)organizationId
+               applicationId:(NSString*)applicationId
+                     baseURL:(NSString*)baseURL
+                     urlTerms:(NSString*)urlTerms
+{
+    return [self initWithOrganizationId:organizationId
+                          applicationId:applicationId
+                                baseURL:baseURL
+                               urlTerms:urlTerms
                                 options:nil];
 }
 
@@ -59,12 +73,14 @@ static NSString* kSDKVersion = @"2.0.10";
     return [self initWithOrganizationId:organizationId
                           applicationId:applicationId
                                 baseURL:nil
+                                urlTerms:nil
                                 options:monitoringOptions];
 }
 
 - (id)initWithOrganizationId:(NSString*)organizationId
                applicationId:(NSString*)applicationId
                      baseURL:(NSString*)baseURL
+                     urlTerms:(NSString*)urlTerms
                      options:(ApigeeMonitoringOptions*)monitoringOptions
 {
     self = [super init];
@@ -80,9 +96,11 @@ static NSString* kSDKVersion = @"2.0.10";
             self.appIdentification.baseURL = [ApigeeDataClient defaultBaseURL];
         }
         
+
         self.dataClient = [[ApigeeDataClient alloc] initWithOrganizationId:organizationId
-                                                     withApplicationID:applicationId
-                                                               baseURL:baseURL];
+                                                             withApplicationID:applicationId
+                                                                       baseURL:baseURL
+                                                                       urlTerms:urlTerms];
         
         if( self.dataClient ) {
             NSLog( @"apigee: dataClient created" );

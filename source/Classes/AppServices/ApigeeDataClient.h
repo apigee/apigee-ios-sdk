@@ -85,6 +85,7 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  @param organizationID the org name associated with the app
  @param applicationID the app name associated with the app
  @param baseURL the base Usergrid URL to use for server communications
+ @param urlTerms default string of URL params to append to all API calls
  @discussion This is useful if you are running a local Apigee server or your
     company has its own public Apigee server. The default URL is https://api.usergrid.com.
     The base URL must be a fully formatted http link, including the "http://"
@@ -92,7 +93,8 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  */
 -(id) initWithOrganizationId:(NSString *)organizationID
            withApplicationID:(NSString *)applicationID
-                     baseURL:(NSString *)baseURL;
+                     baseURL:(NSString *)baseURL
+                     urlTerms:(NSString*)urlTerms;
 
 // set the delegate. See "A WORD ON NETWORK COMMUNICATION CALLS"
 // at the top of the file for a detailed explanation.
@@ -847,12 +849,39 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
 /*!
  @abstract Updates an entity
  @param entityID The identifier for the entity to update
- @param updatedEntity Dictionary of new properties for the entity
+ @param entity Dictionary of new properties for the entity
  @return ApigeeClientResponse instance
  @see ApigeeClientResponse ApigeeClientResponse
  */
 -(ApigeeClientResponse *)updateEntity:(NSString *)entityID
                                entity:(NSDictionary *)updatedEntity;
+
+// updates an entity (it knows the type from the entity data)
+/*!
+ @abstract Updates an entity
+ @param entityID The identifier for the entity to update
+ @param entity Dictionary of new properties for the entity
+ @param query Dictionary of query params to attach to the update request
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)updateEntity:(NSString *)entityID
+                               entity:(NSDictionary *)updatedEntity
+                                query:(ApigeeQuery *)query;
+
+/*!
+ @abstract Asynchronously updates an entity
+ @param entityID The identifier for the entity to update
+ @param updatedEntity Dictionary of new properties for the entity
+ @param query Dictionary of query params to attach to the update request
+ @param completionHandler The callback to call when the request completes
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)updateEntity:(NSString *)entityID
+                               entity:(NSDictionary *)updatedEntity
+                                query:(ApigeeQuery *)query
+                    completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 /*!
  @abstract Asynchronously updates an entity
