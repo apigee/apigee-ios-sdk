@@ -51,6 +51,9 @@ NSString *g_deviceUUID = nil;
     // the orgID for the specific app
     NSString *m_orgID;
     
+    // default url param to append to all calls
+    NSString *m_urlTerm;
+    
     // the cached auth token
     ApigeeUser *m_loggedInUser;
     
@@ -109,10 +112,11 @@ NSString *g_deviceUUID = nil;
 {
     return [self initWithOrganizationId:organizationID
                       withApplicationID:applicationID
-                                baseURL:nil];
+                                baseURL:nil
+                                urlTerm:nil];
 }
 
--(id) initWithOrganizationId: (NSString *)organizationID withApplicationID:(NSString *)applicationID baseURL:(NSString *)baseURL
+-(id) initWithOrganizationId: (NSString *)organizationID withApplicationID:(NSString *)applicationID baseURL:(NSString *)baseURL urlTerm:(NSString *)urlTerm
 {
     self = [super init];
     if ( self )
@@ -122,7 +126,8 @@ NSString *g_deviceUUID = nil;
         m_delegateLock = [NSRecursiveLock new];
         m_appID = applicationID;
         m_orgID = organizationID;
-        
+        m_urlTerm = urlTerm;
+
         if ([baseURL length] > 0) {
             m_baseURL = [NSString stringWithString:baseURL];
         } else {
@@ -505,6 +510,7 @@ NSString *g_deviceUUID = nil;
 {
     NSMutableString *ret = [NSMutableString new];
     [ret appendFormat:@"%@/%@/%@/%@", m_baseURL, m_orgID, m_appID, append1];
+    ret = [self appendDefaultUrlTerm:ret];
     return ret;
 }
 
@@ -512,6 +518,7 @@ NSString *g_deviceUUID = nil;
 {
     NSMutableString *ret = [NSMutableString new];
     [ret appendFormat:@"%@/%@/%@/%@/%@", m_baseURL, m_orgID, m_appID, append1, append2];
+    ret = [self appendDefaultUrlTerm:ret];
     return ret;
 }
 
@@ -519,6 +526,7 @@ NSString *g_deviceUUID = nil;
 {
     NSMutableString *ret = [NSMutableString new];
     [ret appendFormat:@"%@/%@/%@/%@/%@/%@", m_baseURL, m_orgID, m_appID, append1, append2, append3];
+    ret = [self appendDefaultUrlTerm:ret];
     return ret;
 }
 
@@ -526,6 +534,7 @@ NSString *g_deviceUUID = nil;
 {
     NSMutableString *ret = [NSMutableString new];
     [ret appendFormat:@"%@/%@/%@/%@/%@/%@/%@", m_baseURL, m_orgID, m_appID, append1, append2, append3, append4];
+    ret = [self appendDefaultUrlTerm:ret];
     return ret;
 }
 
@@ -533,6 +542,7 @@ NSString *g_deviceUUID = nil;
 {
     NSMutableString *ret = [NSMutableString new];
     [ret appendFormat:@"%@/%@/%@/%@/%@/%@/%@/%@", m_baseURL, m_orgID, m_appID, append1, append2, append3, append4, append5];
+    ret = [self appendDefaultUrlTerm:ret];
     return ret;
 }
 
@@ -540,6 +550,7 @@ NSString *g_deviceUUID = nil;
 {
     NSMutableString *ret = [NSMutableString new];
     [ret appendFormat:@"%@/%@/%@/%@/%@/%@/%@/%@/%@", m_baseURL, m_orgID, m_appID, append1, append2, append3, append4, append5, append6];
+    ret = [self appendDefaultUrlTerm:ret];
     return ret;
 }
 
@@ -547,8 +558,10 @@ NSString *g_deviceUUID = nil;
 {
     if ( [url rangeOfString:@"?"].location != NSNotFound )
     {
-        [url appendFormat:@"%@", [query getURLAppend]];
+        // we already have url params, so append
+        [url appendFormat:@"&%@", [query getURLAppend]];
     } else {
+        // no url params yet, so delimit the query in the url
         [url appendFormat:@"?%@", [query getURLAppend]];
     }
 }
@@ -576,6 +589,13 @@ NSString *g_deviceUUID = nil;
     return jsonStr;
 }
 
+-(NSMutableString *)appendDefaultUrlTerm:(NSMutableString*)url
+{
+    if([m_urlTerm length] > 0) {
+        [url appendFormat:@"?%@", m_urlTerm];
+    }
+    return url;
+}
 /************************** ApigeeHTTPMANAGER DELEGATES *******************************/
 /************************** ApigeeHTTPMANAGER DELEGATES *******************************/
 /************************** ApigeeHTTPMANAGER DELEGATES *******************************/

@@ -42,6 +42,21 @@
                      baseURL:(NSString*)baseURL;
 
 /*!
+ @abstract Initializes Apigee client object using org name, app name, base URL, urlTerm
+ @param organizationId Identifier for your organization
+ @param applicationId Identifier for your application
+ @param baseURL URL for server
+ @param urlTerm Default URI param to append to all API calls
+ @return initialized instance of ApigeeClient
+ @discussion The baseURL parameter should not be specified (can be nil) unless
+ directed to do so by Apigee
+ */
+- (id)initWithOrganizationId:(NSString*)organizationId
+               applicationId:(NSString*)applicationId
+                     baseURL:(NSString*)baseURL
+                     urlTerm:(NSString*)urlTerm;
+
+/*!
  @abstract Initializes Apigee client object using org name, app name, and
     ApigeeMonitoringOptions
  @param organizationId Identifier for your organization
