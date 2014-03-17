@@ -52,7 +52,7 @@ NSString *g_deviceUUID = nil;
     NSString *m_orgID;
     
     // default url param to append to all calls
-    NSString *m_urlTerm;
+    NSString *m_urlTerms;
     
     // the cached auth token
     ApigeeUser *m_loggedInUser;
@@ -113,10 +113,10 @@ NSString *g_deviceUUID = nil;
     return [self initWithOrganizationId:organizationID
                       withApplicationID:applicationID
                                 baseURL:nil
-                                urlTerm:nil];
+                                urlTerms:nil];
 }
 
--(id) initWithOrganizationId: (NSString *)organizationID withApplicationID:(NSString *)applicationID baseURL:(NSString *)baseURL urlTerm:(NSString *)urlTerm
+-(id) initWithOrganizationId: (NSString *)organizationID withApplicationID:(NSString *)applicationID baseURL:(NSString *)baseURL urlTerms:(NSString *)urlTerms
 {
     self = [super init];
     if ( self )
@@ -126,7 +126,7 @@ NSString *g_deviceUUID = nil;
         m_delegateLock = [NSRecursiveLock new];
         m_appID = applicationID;
         m_orgID = organizationID;
-        m_urlTerm = urlTerm;
+        m_urlTerms = urlTerms;
 
         if ([baseURL length] > 0) {
             m_baseURL = [NSString stringWithString:baseURL];
@@ -591,8 +591,8 @@ NSString *g_deviceUUID = nil;
 
 -(NSMutableString *)appendDefaultUrlTerm:(NSMutableString*)url
 {
-    if([m_urlTerm length] > 0) {
-        [url appendFormat:@"?%@", m_urlTerm];
+    if([m_urlTerms length] > 0) {
+        [url appendFormat:@"?%@", m_urlTerms];
     }
     return url;
 }
