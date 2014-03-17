@@ -73,7 +73,7 @@ static NSString* kSDKVersion = @"2.0.10";
     return [self initWithOrganizationId:organizationId
                           applicationId:applicationId
                                 baseURL:nil
-                                urlTerm:nil
+                                urlTerms:nil
                                 options:monitoringOptions];
 }
 

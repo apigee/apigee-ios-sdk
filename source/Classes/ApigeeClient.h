@@ -42,7 +42,7 @@
                      baseURL:(NSString*)baseURL;
 
 /*!
- @abstract Initializes Apigee client object using org name, app name, base URL, urlTerm
+ @abstract Initializes Apigee client object using org name, app name, base URL, urlTerms
  @param organizationId Identifier for your organization
  @param applicationId Identifier for your application
  @param baseURL URL for server

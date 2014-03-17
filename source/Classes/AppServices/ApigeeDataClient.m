@@ -510,7 +510,7 @@ NSString *g_deviceUUID = nil;
 {
     NSMutableString *ret = [NSMutableString new];
     [ret appendFormat:@"%@/%@/%@/%@", m_baseURL, m_orgID, m_appID, append1];
-    ret = [self appendDefaultUrlTerm:ret];
+    ret = [self appendDefaultUrlTerms:ret];
     return ret;
 }
 
@@ -518,7 +518,7 @@ NSString *g_deviceUUID = nil;
 {
     NSMutableString *ret = [NSMutableString new];
     [ret appendFormat:@"%@/%@/%@/%@/%@", m_baseURL, m_orgID, m_appID, append1, append2];
-    ret = [self appendDefaultUrlTerm:ret];
+    ret = [self appendDefaultUrlTerms:ret];
     return ret;
 }
 
@@ -526,7 +526,7 @@ NSString *g_deviceUUID = nil;
 {
     NSMutableString *ret = [NSMutableString new];
     [ret appendFormat:@"%@/%@/%@/%@/%@/%@", m_baseURL, m_orgID, m_appID, append1, append2, append3];
-    ret = [self appendDefaultUrlTerm:ret];
+    ret = [self appendDefaultUrlTerms:ret];
     return ret;
 }
 
@@ -534,7 +534,7 @@ NSString *g_deviceUUID = nil;
 {
     NSMutableString *ret = [NSMutableString new];
     [ret appendFormat:@"%@/%@/%@/%@/%@/%@/%@", m_baseURL, m_orgID, m_appID, append1, append2, append3, append4];
-    ret = [self appendDefaultUrlTerm:ret];
+    ret = [self appendDefaultUrlTerms:ret];
     return ret;
 }
 
@@ -542,7 +542,7 @@ NSString *g_deviceUUID = nil;
 {
     NSMutableString *ret = [NSMutableString new];
     [ret appendFormat:@"%@/%@/%@/%@/%@/%@/%@/%@", m_baseURL, m_orgID, m_appID, append1, append2, append3, append4, append5];
-    ret = [self appendDefaultUrlTerm:ret];
+    ret = [self appendDefaultUrlTerms:ret];
     return ret;
 }
 
@@ -550,7 +550,7 @@ NSString *g_deviceUUID = nil;
 {
     NSMutableString *ret = [NSMutableString new];
     [ret appendFormat:@"%@/%@/%@/%@/%@/%@/%@/%@/%@", m_baseURL, m_orgID, m_appID, append1, append2, append3, append4, append5, append6];
-    ret = [self appendDefaultUrlTerm:ret];
+    ret = [self appendDefaultUrlTerms:ret];
     return ret;
 }
 
@@ -589,7 +589,7 @@ NSString *g_deviceUUID = nil;
     return jsonStr;
 }
 
--(NSMutableString *)appendDefaultUrlTerm:(NSMutableString*)url
+-(NSMutableString *)appendDefaultUrlTerms:(NSMutableString*)url
 {
     if([m_urlTerms length] > 0) {
         [url appendFormat:@"?%@", m_urlTerms];
