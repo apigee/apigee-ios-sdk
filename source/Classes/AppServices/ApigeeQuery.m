@@ -243,7 +243,6 @@ static NSString* kEntityTypeKey = @"type";
     // assemble a url append for all the requirements
     // prep a mutable string
     NSMutableString *ret = [NSMutableString new];
-    [ret setString:@"?"];
   
     // true if we've put anything in the string yet.
     BOOL bHasContent = NO;

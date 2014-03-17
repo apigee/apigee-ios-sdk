@@ -847,12 +847,39 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
 /*!
  @abstract Updates an entity
  @param entityID The identifier for the entity to update
- @param updatedEntity Dictionary of new properties for the entity
+ @param entity Dictionary of new properties for the entity
  @return ApigeeClientResponse instance
  @see ApigeeClientResponse ApigeeClientResponse
  */
 -(ApigeeClientResponse *)updateEntity:(NSString *)entityID
                                entity:(NSDictionary *)updatedEntity;
+
+// updates an entity (it knows the type from the entity data)
+/*!
+ @abstract Updates an entity
+ @param entityID The identifier for the entity to update
+ @param entity Dictionary of new properties for the entity
+ @param query Dictionary of query params to attach to the update request
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)updateEntity:(NSString *)entityID
+                               entity:(NSDictionary *)updatedEntity
+                                query:(ApigeeQuery *)query;
+
+/*!
+ @abstract Asynchronously updates an entity
+ @param entityID The identifier for the entity to update
+ @param updatedEntity Dictionary of new properties for the entity
+ @param query Dictionary of query params to attach to the update request
+ @param completionHandler The callback to call when the request completes
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)updateEntity:(NSString *)entityID
+                               entity:(NSDictionary *)updatedEntity
+                                query:(ApigeeQuery *)query
+                    completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 /*!
  @abstract Asynchronously updates an entity

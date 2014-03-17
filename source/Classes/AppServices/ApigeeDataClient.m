@@ -545,9 +545,11 @@ NSString *g_deviceUUID = nil;
 
 -(void)appendQueryToURL:(NSMutableString *)url query:(ApigeeQuery *)query
 {
-    if ( query )
+    if ( [url rangeOfString:@"?"].location != NSNotFound )
     {
         [url appendFormat:@"%@", [query getURLAppend]];
+    } else {
+        [url appendFormat:@"?%@", [query getURLAppend]];
     }
 }
 
@@ -1424,6 +1426,41 @@ NSString *g_deviceUUID = nil;
     
     // we have a valid entity, ready to post. Make the URL
     NSString *url = [self createURL:type append2:entityID];
+    
+    // post it
+    return [self httpTransaction:url op:kApigeeHTTPPut opData:jsonStr completionHandler:completionHandler];
+}
+
+-(ApigeeClientResponse *)updateEntity:(NSString *)entityID
+                               entity:(NSDictionary *)updatedEntity
+                                query:(ApigeeQuery *) query
+{
+    NSString *jsonStr;
+    NSString *type;
+    ApigeeClientResponse *errorRet = [self validateEntity:updatedEntity outJson:&jsonStr outType:&type];
+    if ( errorRet ) return errorRet;
+    
+    // we have a valid entity, ready to post. Make the URL
+    NSString *url = [self createURL:type append2:entityID];
+    [self appendQueryToURL:url query:query];
+    
+    // post it
+    return [self httpTransaction:url op:kApigeeHTTPPut opData:jsonStr];
+}
+
+-(ApigeeClientResponse *)updateEntity:(NSString *)entityID
+                               entity:(NSDictionary *)updatedEntity
+                                query:(ApigeeQuery *) query
+                    completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSString *jsonStr;
+    NSString *type;
+    ApigeeClientResponse *errorRet = [self validateEntity:updatedEntity outJson:&jsonStr outType:&type];
+    if ( errorRet ) return errorRet;
+    
+    // we have a valid entity, ready to post. Make the URL
+    NSString *url = [self createURL:type append2:entityID];
+    [self appendQueryToURL:url query:query];
     
     // post it
     return [self httpTransaction:url op:kApigeeHTTPPut opData:jsonStr completionHandler:completionHandler];
