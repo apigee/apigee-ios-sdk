@@ -2031,7 +2031,7 @@ NSString *g_deviceUUID = nil;
 //**********************  COLLECTION  ************************
 -(ApigeeCollection*)getCollection:(NSString*)type
 {
-    return [self getCollection:type query:nil];
+    return [self getCollection:type usingQuery:[[ApigeeQuery alloc] init]];
 }
 
 -(ApigeeCollection*)getCollection:(NSString*)type query:(NSDictionary*)qs

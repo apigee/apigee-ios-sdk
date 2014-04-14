@@ -129,10 +129,11 @@ Now that we have data in our collection, let's declare a function to retrieve it
     /* To retrieve our collection we specify the 'type' of the collection we want to retrieve,
        then pass it to the getCollection method. */
     
-    NSString *type = @"book";
+    NSString *type = @"books";
     
     // initiates the API GET request and returns an ApigeeCollection object
-	currentCollection = [dataClient getCollection:type];
+    ApigeeQuery *query = [[ApigeeQuery alloc] init];
+	currentCollection = [dataClient getCollection:type usingQuery:query];
     
     // extract the entities from the collection to display in-app
     NSArray *entities = [self getCollectionEntities:currentCollection];
