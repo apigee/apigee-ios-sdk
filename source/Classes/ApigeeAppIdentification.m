@@ -58,4 +58,11 @@
     return uniqueIdentifier;
 }
 
+- (NSString*) organizationId {
+    return _organizationId;
+}
+
+- (NSString*) applicationId {
+    return _applicationId;
+}
 @end

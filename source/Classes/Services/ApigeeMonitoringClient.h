@@ -248,6 +248,14 @@
 - (NSString*)uniqueIdentifierForApp;
 
 /*!
+ @abstract Retrieves the ApigeeAppIdentification object
+ @return ApigeeAppIdentification object
+ */
+- (NSString*) applicationId;
+
+- (NSString*) organizationId;
+
+/*!
  @abstract Retrieves the base URL path used by monitoring
  @return string indicating base URL path used by monitoring
  */
