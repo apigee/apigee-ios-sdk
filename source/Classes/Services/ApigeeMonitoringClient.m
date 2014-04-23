@@ -1684,6 +1684,16 @@ static bool AmIBeingDebugged(void)
     return [self.appIdentification uniqueIdentifier];
 }
 
+- (NSString*)organizationId
+{
+    return [self.appIdentification organizationId];
+}
+
+- (NSString*)applicationId
+{
+    return [self.appIdentification applicationId];
+}
+
 - (NSString*)baseURLPath
 {
     return [NSString stringWithFormat:@"%@/apm/",
