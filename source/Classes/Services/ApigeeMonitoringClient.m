@@ -1684,6 +1684,11 @@ static bool AmIBeingDebugged(void)
     return [self.appIdentification uniqueIdentifier];
 }
 
+- (ApigeeAppIdentification*)appIdentification
+{
+    return appIdentification;
+}
+
 - (NSString*)baseURLPath
 {
     return [NSString stringWithFormat:@"%@/apm/",

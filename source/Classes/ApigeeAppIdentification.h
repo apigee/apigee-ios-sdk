@@ -76,4 +76,34 @@
  */
 - (NSString*)uniqueIdentifier;
 
+/*!
+ @abstract Retrieves organization ID for current application
+ @return organization Id
+ */
+- (NSString*) organizationId;
+
+/*!
+ @abstract Retrieves application ID within org
+ @return application Id
+ */
+- (NSString*) applicationId;
+
+/*!
+ @abstract Retrieves application UUID within org
+ @return application UUID
+ */
+- (NSString*) applicationUUID;
+
+/*!
+ @abstract Retrieves organization UUID for current application
+ @return organization UUID
+ */
+- (NSString*) organizationUUID;
+
+/*!
+ @abstract Retrieves base URL for monitoring client calls
+ @return the base url, usually https://api.usergrid.com
+ */
+- (NSString*) baseURL;
+
 @end

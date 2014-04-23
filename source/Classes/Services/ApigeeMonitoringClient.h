@@ -247,6 +247,9 @@
  */
 - (NSString*)uniqueIdentifierForApp;
 
+
+- (ApigeeAppIdentification*) appIdentification;
+
 /*!
  @abstract Retrieves the base URL path used by monitoring
  @return string indicating base URL path used by monitoring
