@@ -1684,14 +1684,9 @@ static bool AmIBeingDebugged(void)
     return [self.appIdentification uniqueIdentifier];
 }
 
-- (NSString*)organizationId
+- (ApigeeAppIdentification*)appIdentification
 {
-    return [self.appIdentification organizationId];
-}
-
-- (NSString*)applicationId
-{
-    return [self.appIdentification applicationId];
+    return appIdentification;
 }
 
 - (NSString*)baseURLPath

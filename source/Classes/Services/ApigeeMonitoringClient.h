@@ -247,17 +247,8 @@
  */
 - (NSString*)uniqueIdentifierForApp;
 
-/*!
- @abstract Retrieves the application ID of the current app
- @return the Apigee application ID
- */
-- (NSString*) applicationId;
 
-/*!
- @abstract Retrieves the organization ID of the current app
- @return the Apigee organization ID
- */
-- (NSString*) organizationId;
+- (ApigeeAppIdentification*) appIdentification;
 
 /*!
  @abstract Retrieves the base URL path used by monitoring
