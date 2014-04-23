@@ -248,11 +248,15 @@
 - (NSString*)uniqueIdentifierForApp;
 
 /*!
- @abstract Retrieves the ApigeeAppIdentification object
- @return ApigeeAppIdentification object
+ @abstract Retrieves the application ID of the current app
+ @return the Apigee application ID
  */
 - (NSString*) applicationId;
 
+/*!
+ @abstract Retrieves the organization ID of the current app
+ @return the Apigee organization ID
+ */
 - (NSString*) organizationId;
 
 /*!
