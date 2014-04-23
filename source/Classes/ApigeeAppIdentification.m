@@ -65,4 +65,17 @@
 - (NSString*) applicationId {
     return _applicationId;
 }
+
+- (NSString*) baseURL {
+    return _baseURL;
+}
+
+- (NSString*) applicationUUID {
+    return _applicationUUID;
+}
+
+- (NSString*) organizationUUID {
+    return _organizationUUID;
+}
+
 @end
