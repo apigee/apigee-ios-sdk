@@ -14,6 +14,7 @@
 #import "ApigeeNetworkEntry.h"
 #import "ApigeeQueue+NetworkMetrics.h"
 #import "ApigeeMonitoringClient.h"
+#import "ApigeeSessionMetricsCompiler.h"
 
 static void *KEY_CONNECTION_INTERCEPTOR;
 
@@ -49,6 +50,10 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
     
     //TODO: pass in non-null response object even if caller hasn't (so that
     // we can relay the HTTP status code information to the server)
+   
+    NSLog(@"Prabhat - NSURLConnection_apigeeSendSynchronousRequestReturningResponseError ");
+
+    
     
     if (gOrigNSURLConnection_sendSynchronousRequestReturningResponseError != NULL) {
         
@@ -58,6 +63,16 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
         NSData *responseData;
         NSError *reportingError = nil;
         
+        ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+        
+        NSMutableURLRequest *mutableRequest = [request mutableCopy];
+        
+        [mutableRequest addValue: [monitoringClient apigeeDeviceId ] forHTTPHeaderField:@"X-Apigee-DeviceId"];
+        [mutableRequest addValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"kApigeeSessionIdKey"]
+                   forHTTPHeaderField:@"X-Apigee-SessionId"];
+        //request = [mutableRequest copy];
+        
+       
         if (error != nil) {
             responseData =
                 gOrigNSURLConnection_sendSynchronousRequestReturningResponseError(self,
@@ -74,7 +89,7 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
                                                                               &reportingError);
         }
         
-        ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+       
         if (![monitoringClient isPaused]) {
             [entry recordEndTime];
     
@@ -131,6 +146,7 @@ static void AttachConnectionInterceptor(NSURLConnection* connection,
 static NSURLConnection* NSURLConnection_apigeeConnectionWithRequestDelegate(id self,SEL _cmd,NSURLRequest* request,id delegate)
 {
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeConnectionWithRequestDelegate");
+      NSLog(@"Prabhat - NSURLConnection_apigeeConnectionWithRequestDelegate ");
 
     if (gOrigNSURLConnection_connectionWithRequestDelegate != NULL) {
         ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
@@ -152,10 +168,24 @@ static id NSURLConnection_apigeeInitWithRequestDelegateStartImmediately(id self,
 {
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeInitWithRequestDelegateStartImmediately");
     
+    
     if (gOrigNSURLConnection_initWithRequestDelegateStartImmediately) {
         ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
         [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
                                                                       withRequest:request];
+    
+        NSLog(@"Prabhat - NSURLConnection_apigeeInitWithRequestDelegateStartImmediately ");
+        ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+        
+        NSMutableURLRequest *mutableRequest = [request mutableCopy];
+        //[monitoringClient c]
+        //ApigeeAppIdentification *appIdentity = [monitoringClient appIdentification];
+              //[mutableRequest addValue: [[monitoringClient appIdentification]  ]    forHTTPHeaderField:@"X-Apigee-Client-Org-Name"]
+        [mutableRequest addValue: [monitoringClient apigeeDeviceId ] forHTTPHeaderField:@"X-Apigee-DeviceId"];
+        [mutableRequest addValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"kApigeeSessionIdKey"]
+              forHTTPHeaderField:@"X-Apigee-SessionId"];
+        request = [mutableRequest copy];
+
 
         NSURLConnection* connection = (NSURLConnection*) self;
         if (![connection isKindOfClass:[ApigeeURLConnection class]]) {
@@ -180,6 +210,17 @@ static id NSURLConnection_apigeeInitWithRequestDelegate(id self,SEL _cmd,NSURLRe
         ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
         [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
                                                                       withRequest:request];
+        
+         NSLog(@"Prabhat - NSURLConnection_apigeeInitWithRequestDelegate ");
+        
+        ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+        
+        NSMutableURLRequest *mutableRequest = [request mutableCopy];
+        [mutableRequest addValue: [monitoringClient apigeeDeviceId ] forHTTPHeaderField:@"X-Apigee-DeviceId"];
+        [mutableRequest addValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"kApigeeSessionIdKey"]
+              forHTTPHeaderField:@"X-Apigee-SessionId"];
+        request = [mutableRequest copy];
+
         
         NSURLConnection* connection = (NSURLConnection*) self;
         if (![connection isKindOfClass:[ApigeeURLConnection class]]) {

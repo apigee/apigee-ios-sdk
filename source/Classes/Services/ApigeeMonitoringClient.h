@@ -28,6 +28,8 @@
 
 @property (strong, nonatomic) ApigeeActiveSettings *activeSettings;
 
+@property (strong) ApigeeAppIdentification *appIdentification;
+
 
 /*!
  @abstract Retrieves the SDK version
@@ -46,6 +48,8 @@
  @return instance of ApigeeMonitoringClient
  */
 + (id)sharedInstance;
+
+
 
 /*!
  @abstract Initializes ApigeeMonitoringClient which controls the Apigee mobile agent.

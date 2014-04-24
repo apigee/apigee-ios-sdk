@@ -126,7 +126,7 @@ static bool AmIBeingDebugged(void)
 
 @property (strong) NSMutableArray *listListeners;
 
-@property (strong) ApigeeAppIdentification *appIdentification;
+
 @property (strong) ApigeeDataClient *dataClient;
 
 @property (strong) NSMutableDictionary *dictRegisteredDataTasks;

@@ -108,8 +108,8 @@ static NSString* kLoggingTag = @"Sample App";
         (ApigeeAppDelegate*) [[UIApplication sharedApplication] delegate];
 
 #warning configure your org name and app name here
-    NSString* orgName = @"<YOUR_ORG_NAME>";
-    NSString* appName = @"<YOUR_APP_NAME>";
+    NSString* orgName = @"prabhat";
+    NSString* appName = @"prodoct17";
     NSString* baseURL = nil;
     
     ApigeeMonitoringOptions* monitoringOptions = [[ApigeeMonitoringOptions alloc] init];
@@ -266,6 +266,14 @@ static NSString* kLoggingTag = @"Sample App";
     {
         NSString* urlAsString = [self randomStringFromList:self.listUrls];
         NSURL* url = [NSURL URLWithString:urlAsString];
+        
+        NSLog(@"Jha Start");
+        
+        NSURL* url1 = [NSURL URLWithString:@"http://instaops-apigee-mobile-app-prod.apigee.net/status"];
+        NSURLRequest* request = [NSURLRequest requestWithURL:url1];
+        self.connection = [[NSURLConnection alloc] initWithRequest:request                                                        delegate:self];
+        NSLog(@"Jha End");
+
         
         if( self.isIOS7OrHigher )
         {
