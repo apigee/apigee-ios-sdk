@@ -265,11 +265,11 @@ static NSString* kLoggingTag = @"Sample App";
     if( self.connection == nil )
     {
         NSString* urlAsString = [self randomStringFromList:self.listUrls];
-        NSURL* url = [NSURL URLWithString:urlAsString];        
+        NSURL* url = [NSURL URLWithString: urlAsString];
         
-        NSURL* url1 = [NSURL URLWithString:@"http://instaops-apigee-mobile-app-prod.apigee.net/status"];
-        NSURLRequest* request = [NSURLRequest requestWithURL:url1];
-        self.connection = [[NSURLConnection alloc] initWithRequest:request                                                        delegate:self];
+        //NSURL* url1 = [NSURL URLWithString:@"http://instaops-apigee-mobile-app-prod.apigee.net/status"];
+        //NSURLRequest* request = [NSURLRequest requestWithURL:url1];
+        //self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         
         
         if( self.isIOS7OrHigher )
@@ -316,6 +316,7 @@ static NSString* kLoggingTag = @"Sample App";
                 }];
             } else {
                 // not using blocks -- use delegate approach
+                //Prabhat TODO: Not able to figure out how to add custom headers to these calls yet.
                 self.urlSessionTask = [self.urlSession dataTaskWithURL:url];
             }
 
