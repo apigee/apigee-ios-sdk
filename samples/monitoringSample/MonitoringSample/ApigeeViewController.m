@@ -184,7 +184,7 @@ static NSString* kLoggingTag = @"Sample App";
     appDelegate.apigeeClient = [[ApigeeClient alloc]
                                 initWithOrganizationId:orgName
                                 applicationId:appName
-                                baseURL:baseURL
+                                //baseURL:baseURL
                                 options:monitoringOptions];
     self.monitoringClient = [appDelegate.apigeeClient monitoringClient];
 }
@@ -265,15 +265,12 @@ static NSString* kLoggingTag = @"Sample App";
     if( self.connection == nil )
     {
         NSString* urlAsString = [self randomStringFromList:self.listUrls];
-        NSURL* url = [NSURL URLWithString:urlAsString];
-        
-        NSLog(@"Jha Start");
+        NSURL* url = [NSURL URLWithString:urlAsString];        
         
         NSURL* url1 = [NSURL URLWithString:@"http://instaops-apigee-mobile-app-prod.apigee.net/status"];
         NSURLRequest* request = [NSURLRequest requestWithURL:url1];
         self.connection = [[NSURLConnection alloc] initWithRequest:request                                                        delegate:self];
-        NSLog(@"Jha End");
-
+        
         
         if( self.isIOS7OrHigher )
         {

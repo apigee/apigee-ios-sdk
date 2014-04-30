@@ -49,8 +49,6 @@
  */
 + (id)sharedInstance;
 
-
-
 /*!
  @abstract Initializes ApigeeMonitoringClient which controls the Apigee mobile agent.
  @param appIdentification the identification attributes for your application
@@ -300,6 +298,14 @@
  @internal
  */
 - (void)recordNetworkEntry:(ApigeeNetworkEntry*)entry;
+
+/*!
+ @internal
+ */
+
+- (void) injectApigeeHttpHeaders :(NSMutableURLRequest*) mutableRequest;
+
+
 
 // the following methods are used for auto-capture of network performance
 // with NSURLSession. they are for internal use within the framework only.
