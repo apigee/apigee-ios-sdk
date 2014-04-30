@@ -1,0 +1,75 @@
+body, p {
+    font-family: 'Lucida Sans', Verdana, Geneva, sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+    color: #484848;
+    text-rendering: optimize legibility;
+    line-height: 1.5em;
+    padding-top: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-family: inherit;
+    font-weight: normal;
+    color: #484848;
+}
+
+h2 {
+    font-size: 26px;
+    line-height: 36px;
+}
+
+h3 {
+    display: block;
+    font-family: 'Lucida Sans', Verdana, Geneva, sans-serif;
+    font-size: 19px;
+    height: 24px;
+    line-height: 24px;
+    margin-bottom: 18.719999313354492px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 18.719999313354492px;
+    width: 889px;
+}
+
+code, pre {
+
+    border-collapse: separate;
+    cursor: auto;
+    display: inline;
+    font-family: Menlo, Monaco, 'Courier New', monospace;
+    font-weight: normal;
+    font-size: 14px;
+    height: auto;
+    line-height: 18px;
+    text-decoration: none solid rgb(0, 148, 216);
+    white-space: pre-wrap;
+    width: auto;
+
+}
+
+table {
+    color: #686868;
+}
+
+/*#hd_outermost_table {
+    top: 45px;
+}
+*/
+#tocMenu, #bodyContents {
+    top: 35px;
+}
+
+th {
+    font-weight: normal;
+}
+
+a {
+    color: #0094d8;
+    text-decoration: none;
+}
+
+div.toc-body {
+    margin-top: 60px;
+}

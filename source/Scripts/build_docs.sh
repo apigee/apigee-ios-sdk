@@ -38,7 +38,7 @@ mkdir -p ${DOCUMENT_DIR}
  
 # generate html code document for source code.  -j will recognize java comment tag ex. /** */
 # https://developer.apple.com/library/mac/documentation/DeveloperTools/Conceptual/HeaderDoc/usage/usage.html#//apple_ref/doc/uid/TP40001215-CH337-SW2
-headerdoc2html -o ${DOCUMENT_DIR} ${SOURCE_DIR}
+headerdoc2html -o ${DOCUMENT_DIR} -H ${SOURCE_DIR}
  
 # generate main index file. -d will generate Tokens.xml for us.
 #
