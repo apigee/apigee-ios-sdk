@@ -108,8 +108,8 @@ static NSString* kLoggingTag = @"Sample App";
         (ApigeeAppDelegate*) [[UIApplication sharedApplication] delegate];
 
 #warning configure your org name and app name here
-    NSString* orgName = @"prabhat";
-    NSString* appName = @"prodoct17";
+    NSString* orgName = @"<YOUR_ORG_NAME>";
+    NSString* appName = @"<YOUR_APP_NAME>";
     NSString* baseURL = nil;
     
     ApigeeMonitoringOptions* monitoringOptions = [[ApigeeMonitoringOptions alloc] init];
