@@ -1539,15 +1539,19 @@ NSString *g_deviceUUID = nil;
 -(ApigeeClientResponse *)getEntityConnections: (NSString *)connectorType connectorID:(NSString *)connectorID connectionType:(NSString *)connectionType query:(ApigeeQuery *)query
 {
     NSMutableString *url = [self createURL:connectorType append2:connectorID append3:connectionType];
-    [self appendQueryToURL:url query:query];
-    return [self httpTransaction:url op:kApigeeHTTPPost opData:nil];
+    if (query) {
+        [self appendQueryToURL:url query:query];
+    }
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];
 }
 
 -(ApigeeClientResponse *)getEntityConnections: (NSString *)connectorType connectorID:(NSString *)connectorID connectionType:(NSString *)connectionType query:(ApigeeQuery *)query completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
 {
     NSMutableString *url = [self createURL:connectorType append2:connectorID append3:connectionType];
-    [self appendQueryToURL:url query:query];
-    return [self httpTransaction:url op:kApigeeHTTPPost opData:nil completionHandler:completionHandler];
+    if (query) {
+        [self appendQueryToURL:url query:query];
+    }
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil completionHandler:completionHandler];
 }
 
 -(ApigeeClientResponse *)buildErrorClientResponse:(NSString*)error
