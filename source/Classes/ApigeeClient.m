@@ -57,6 +57,20 @@ static NSString* kSDKVersion = @"2.0.10";
 - (id)initWithOrganizationId:(NSString*)organizationId
                applicationId:(NSString*)applicationId
                      baseURL:(NSString*)baseURL
+                     options:(ApigeeMonitoringOptions*)monitoringOptions
+{
+    return [self initWithOrganizationId:organizationId
+                          applicationId:applicationId
+                                baseURL:baseURL
+                               urlTerms:nil
+                                options:monitoringOptions];
+    
+}
+
+
+- (id)initWithOrganizationId:(NSString*)organizationId
+               applicationId:(NSString*)applicationId
+                     baseURL:(NSString*)baseURL
                      urlTerms:(NSString*)urlTerms
 {
     return [self initWithOrganizationId:organizationId
