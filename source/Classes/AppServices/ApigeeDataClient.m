@@ -1524,6 +1524,18 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPPost opData:nil completionHandler:completionHandler];
 }
 
+-(ApigeeClientResponse *)disconnectEntitiesByName: (NSString *)connectorType connectorID:(NSString *)connectorID type:(NSString *)connectionType connecteeType:(NSString *)connecteeType connecteeID:(NSString *)connecteeID
+{
+    NSString *url = [self createURL:connectorType append2:connectorID append3:connectionType append4:connecteeType append5:connecteeID];
+    return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil];
+}
+
+-(ApigeeClientResponse *)disconnectEntitiesByName: (NSString *)connectorType connectorID:(NSString *)connectorID type:(NSString *)connectionType connecteeType:(NSString *)connecteeType connecteeID:(NSString *)connecteeID completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSString *url = [self createURL:connectorType append2:connectorID append3:connectionType append4:connecteeType append5:connecteeID];
+    return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil completionHandler:completionHandler];
+}
+
 -(ApigeeClientResponse *)disconnectEntities: (NSString *)connectorType connectorID:(NSString *)connectorID type:(NSString *)connectionType connecteeID:(NSString *)connecteeID
 {
     NSString *url = [self createURL:connectorType append2:connectorID append3:connectionType append4:connecteeID];
