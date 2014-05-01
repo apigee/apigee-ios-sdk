@@ -1024,6 +1024,42 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  @param connectorType The collection type for the "from" connecting entity
  @param connectorID The identifier of the "from" connecting entity
  @param connectionType The type of the connection (e.g., "like")
+ @param connecteeType The collection type for the "to" connecting entity
+ @param connecteeID The identifier of the "to" connecting entity
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ @discussion It uses the same parameters and calling rules as connectEntities
+ */
+-(ApigeeClientResponse *)disconnectEntitiesByName:(NSString *)connectorType
+                                connectorID:(NSString *)connectorID
+                                       type:(NSString *)connectionType
+                                connecteeType:(NSString *)connecteeType
+                                connecteeID:(NSString *)connecteeID;
+
+/*!
+ @abstract Asynchronously disconnect two entities
+ @param connectorType The collection type for the "from" connecting entity
+ @param connectorID The identifier of the "from" connecting entity
+ @param connectionType The type of the connection (e.g., "like")
+ @param connecteeType The collection type for the "to" connecting entity
+ @param connecteeID The identifier of the "to" connecting entity
+ @param completionHandler The callback to call when request completes
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ @discussion It uses the same parameters and calling rules as connectEntities
+ */
+-(ApigeeClientResponse *)disconnectEntitiesByName:(NSString *)connectorType
+                                connectorID:(NSString *)connectorID
+                                       type:(NSString *)connectionType
+                                connecteeType:(NSString *)connecteeType
+                                connecteeID:(NSString *)connecteeID
+                          completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+/*!
+ @abstract Disconnect two entities
+ @param connectorType The collection type for the "from" connecting entity
+ @param connectorID The identifier of the "from" connecting entity
+ @param connectionType The type of the connection (e.g., "like")
  @param connecteeID The identifier of the "to" connecting entity
  @return ApigeeClientResponse instance
  @see ApigeeClientResponse ApigeeClientResponse
