@@ -184,7 +184,7 @@ static NSString* kLoggingTag = @"Sample App";
     appDelegate.apigeeClient = [[ApigeeClient alloc]
                                 initWithOrganizationId:orgName
                                 applicationId:appName
-                                //baseURL:baseURL
+                                baseURL:baseURL
                                 options:monitoringOptions];
     self.monitoringClient = [appDelegate.apigeeClient monitoringClient];
 }
