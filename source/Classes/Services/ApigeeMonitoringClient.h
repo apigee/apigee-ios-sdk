@@ -28,6 +28,8 @@
 
 @property (strong, nonatomic) ApigeeActiveSettings *activeSettings;
 
+@property (strong) ApigeeAppIdentification *appIdentification;
+
 
 /*!
  @abstract Retrieves the SDK version
@@ -296,6 +298,14 @@
  @internal
  */
 - (void)recordNetworkEntry:(ApigeeNetworkEntry*)entry;
+
+/*!
+ @internal
+ */
+
+- (void) injectApigeeHttpHeaders :(NSMutableURLRequest*) mutableRequest;
+
+
 
 // the following methods are used for auto-capture of network performance
 // with NSURLSession. they are for internal use within the framework only.

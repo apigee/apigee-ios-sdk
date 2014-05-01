@@ -14,6 +14,9 @@
 #import "ApigeeNetworkEntry.h"
 #import "ApigeeQueue+NetworkMetrics.h"
 #import "ApigeeMonitoringClient.h"
+#import "ApigeeSessionMetricsCompiler.h"
+#import "ApigeeAppIdentification.h"
+#import "NSString+UUID.h"
 
 static void *KEY_CONNECTION_INTERCEPTOR;
 
@@ -58,6 +61,12 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
         NSData *responseData;
         NSError *reportingError = nil;
         
+        ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+        NSMutableURLRequest *mutableRequest = [request mutableCopy];
+        [monitoringClient injectApigeeHttpHeaders: mutableRequest];
+        request = [mutableRequest copy];
+       
+       
         if (error != nil) {
             responseData =
                 gOrigNSURLConnection_sendSynchronousRequestReturningResponseError(self,
@@ -73,8 +82,7 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
                                                                               response,
                                                                               &reportingError);
         }
-        
-        ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+       
         if (![monitoringClient isPaused]) {
             [entry recordEndTime];
     
@@ -131,7 +139,7 @@ static void AttachConnectionInterceptor(NSURLConnection* connection,
 static NSURLConnection* NSURLConnection_apigeeConnectionWithRequestDelegate(id self,SEL _cmd,NSURLRequest* request,id delegate)
 {
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeConnectionWithRequestDelegate");
-
+    
     if (gOrigNSURLConnection_connectionWithRequestDelegate != NULL) {
         ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
         [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
@@ -152,10 +160,17 @@ static id NSURLConnection_apigeeInitWithRequestDelegateStartImmediately(id self,
 {
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeInitWithRequestDelegateStartImmediately");
     
+    
     if (gOrigNSURLConnection_initWithRequestDelegateStartImmediately) {
         ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
         [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
                                                                       withRequest:request];
+       
+        ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+        NSMutableURLRequest *mutableRequest = [request mutableCopy];
+        [monitoringClient injectApigeeHttpHeaders: mutableRequest];
+        request = [mutableRequest copy];
+        
 
         NSURLConnection* connection = (NSURLConnection*) self;
         if (![connection isKindOfClass:[ApigeeURLConnection class]]) {
@@ -180,6 +195,14 @@ static id NSURLConnection_apigeeInitWithRequestDelegate(id self,SEL _cmd,NSURLRe
         ApigeeNSURLConnectionDataDelegateInterceptor *interceptor =
         [[ApigeeNSURLConnectionDataDelegateInterceptor alloc] initAndInterceptFor:delegate
                                                                       withRequest:request];
+        
+        ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+        NSMutableURLRequest *mutableRequest = [request mutableCopy];
+        [monitoringClient injectApigeeHttpHeaders: mutableRequest];
+        request = [mutableRequest copy];
+        
+       // NSLog (@"Printing all http headers");
+        //NSLog(@"%@", [request allHTTPHeaderFields]);
         
         NSURLConnection* connection = (NSURLConnection*) self;
         if (![connection isKindOfClass:[ApigeeURLConnection class]]) {
@@ -213,7 +236,6 @@ static void NSURLConnection_apigeeStart(id self,SEL _cmd)
         gOrigNSURLConnection_start(self,_cmd);
     }
 }
-
 
 
 @implementation NSURLConnection (Apigee)
@@ -268,6 +290,7 @@ static void NSURLConnection_apigeeStart(id self,SEL _cmd)
                                                  delegate:delegate
                                          startImmediately:startImmediately];
 }
+
 
 
 //******************************************************************************

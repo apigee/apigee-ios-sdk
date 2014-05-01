@@ -14,6 +14,7 @@
 #import "ApigeeNetworkEntry.h"
 #import "ApigeeNSURLSessionDataTaskInfo.h"
 #import "ApigeeNSURLSessionDataDelegateInterceptor.h"
+#import "ApigeeAppIdentification.h"
 
 
 NSURLSession* (*gOrigNSURLSession_sessionWithConfigurationDelegateAndQueue)(id,SEL,NSURLSessionConfiguration*,id,NSOperationQueue*) = NULL;
@@ -27,6 +28,16 @@ NSURLSessionDataTask* (*gOrigDataTaskWithRequestAndCompletionHandler)(id, SEL, N
 static NSURLSession* NSURLSession_apigeeSessionWithConfigurationDelegateAndQueue(id self, SEL _cmd,NSURLSessionConfiguration* configuration,id delegate,NSOperationQueue* queue)
 {
     NSURLSession* session = nil;
+   
+    if (configuration != nil) {
+        ApigeeMonitoringClient *monitoringClient = [ApigeeMonitoringClient sharedInstance];
+        [configuration setHTTPAdditionalHeaders:@{
+            @"X-Apigee-Client-Device-Id" : [monitoringClient apigeeDeviceId],
+            @"X-Apigee-Client-Sessiond-Id":[[NSUserDefaults standardUserDefaults] objectForKey:@"kApigeeSessionIdKey"],
+            @"X-Apigee-Client-Org-Name" : [[monitoringClient appIdentification] organizationId],
+            @"X-Apigee-Client-App-Name" : [[monitoringClient appIdentification] applicationId]
+        }];
+    }
     
     if( delegate != nil )
     {
@@ -138,10 +149,18 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithURLAndCompletionHa
 
 static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithRequestAndCompletionHandler(id self, SEL _cmd, NSURLRequest* request, DataTaskCompletionBlock completionHandler)
 {
+    
+
     NSURLSessionDataTask* sessionDataTask = nil;
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     const BOOL monitoringPaused = [monitoringClient isPaused];
     id dataTaskIdentifier = [monitoringClient generateIdentifierForDataTask];
+    
+    if (request != nil) {
+        NSMutableURLRequest *mutableRequest = [request mutableCopy];
+        [monitoringClient injectApigeeHttpHeaders: mutableRequest];
+        request = [mutableRequest copy];
+    }
     
     if( completionHandler ) {
         

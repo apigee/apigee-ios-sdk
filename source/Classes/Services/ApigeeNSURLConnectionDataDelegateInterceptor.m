@@ -108,6 +108,7 @@
     
     if (![monitoringClient isPaused]) {
         [self.networkEntry recordEndTime];
+       
     
         if (self.target && [self.target respondsToSelector:@selector(connection:didFailWithError:)]) {
             [self.target connection:connection didFailWithError:error];

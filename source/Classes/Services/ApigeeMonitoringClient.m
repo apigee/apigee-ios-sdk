@@ -126,7 +126,7 @@ static bool AmIBeingDebugged(void)
 
 @property (strong) NSMutableArray *listListeners;
 
-@property (strong) ApigeeAppIdentification *appIdentification;
+
 @property (strong) ApigeeDataClient *dataClient;
 
 @property (strong) NSMutableDictionary *dictRegisteredDataTasks;
@@ -494,6 +494,17 @@ static bool AmIBeingDebugged(void)
         NSLog(@"Not recording network metrics -- paused");
     }
 }
+
+- (void) injectApigeeHttpHeaders :(NSMutableURLRequest*) mutableRequest;
+{
+     //ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
+    [mutableRequest addValue: [[self appIdentification] organizationId] forHTTPHeaderField:@"X-Apigee-Client-Org-Name"];
+    [mutableRequest addValue: [[self appIdentification] applicationId] forHTTPHeaderField:@"X-Apigee-Client-App-Name"];
+    [mutableRequest addValue: [self apigeeDeviceId ] forHTTPHeaderField:@"X-Apigee-DeviceId"];
+    [mutableRequest addValue: [[NSUserDefaults standardUserDefaults] objectForKey:@"kApigeeSessionIdKey"] forHTTPHeaderField:@"X-Apigee-SessionId"];
+    [mutableRequest addValue: [NSString  uuid] forHTTPHeaderField:@"X-Apigee-Client-Request-Id"];
+}
+
 
 - (void) retrieveCachedConfig
 {
