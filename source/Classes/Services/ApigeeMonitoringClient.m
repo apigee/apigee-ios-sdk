@@ -500,8 +500,8 @@ static bool AmIBeingDebugged(void)
      //ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     [mutableRequest addValue: [[self appIdentification] organizationId] forHTTPHeaderField:@"X-Apigee-Client-Org-Name"];
     [mutableRequest addValue: [[self appIdentification] applicationId] forHTTPHeaderField:@"X-Apigee-Client-App-Name"];
-    [mutableRequest addValue: [self apigeeDeviceId ] forHTTPHeaderField:@"X-Apigee-DeviceId"];
-    [mutableRequest addValue: [[NSUserDefaults standardUserDefaults] objectForKey:@"kApigeeSessionIdKey"] forHTTPHeaderField:@"X-Apigee-SessionId"];
+    [mutableRequest addValue: [self apigeeDeviceId ] forHTTPHeaderField:@"X-Apigee-Device-Id"];
+    [mutableRequest addValue: [[NSUserDefaults standardUserDefaults] objectForKey:@"kApigeeSessionIdKey"] forHTTPHeaderField:@"X-Apigee-Session-Id"];
     [mutableRequest addValue: [NSString  uuid] forHTTPHeaderField:@"X-Apigee-Client-Request-Id"];
 }
 
