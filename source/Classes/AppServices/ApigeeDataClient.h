@@ -1645,6 +1645,11 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
 - (ApigeeClientResponse*)createEvent:(NSDictionary*)dictEvent
                            timestamp:(NSDate*)timestamp
                    counterIncrements:(NSArray*)counterIncrements;
+- (ApigeeClientResponse*)getCounters:(NSArray*)counterArray;
+- (ApigeeClientResponse*)getCountersByInterval:(NSArray*)counterArray
+                                      startTime:(NSDate*)start_time
+                                        endTime:(NSDate*)end_time
+                                     resolution:(NSString*)interval;
 
 
 
