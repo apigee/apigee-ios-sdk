@@ -2251,6 +2251,32 @@ NSString *g_deviceUUID = nil;
     return [self createEvent:dictProps];
 }
 
+- (ApigeeClientResponse*) getCounters:(NSArray*)counterArray
+{
+    NSMutableString *url = [self createURL:@"counters"];
+    [url appendString:@"?counter="];    
+    [url appendString:[counterArray componentsJoinedByString:@"&counter="]];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];
+}
+
+- (ApigeeClientResponse*) getCountersByInterval:(NSArray*)counterArray
+                                      startTime:(NSDate*)start_time
+                                       endTime:(NSDate*)end_time
+                                     resolution:(NSString*)interval
+{
+    NSMutableString *url = [self createURL:@"counters"];
+    [url appendString:@"?counter="];    
+    [url appendString:[counterArray componentsJoinedByString:@"&counter="]];
+
+    const int64_t startTimestampMillis = [start_time dateAsMilliseconds];
+    NSString* startTimestampValue = [NSDate stringFromMilliseconds:startTimestampMillis];
+    const int64_t endTimestampMillis = [end_time dateAsMilliseconds];
+    NSString* endTimestampValue = [NSDate stringFromMilliseconds:endTimestampMillis];
+    
+    [url appendFormat:@"&start_time=%@&end_time=%@&resolution=%@",startTimestampValue,endTimestampValue,interval];
+    return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];    
+}
+
 @end
 
 
