@@ -215,9 +215,7 @@ static NSString* PROPERTY_TYPE = @"type";
         return response;
     }
 
-    if ([ApigeeDataClient isUuidValid:uuid]) {
-        type = [type stringByAppendingString:@"/$uuid"];
-    } else {
+    if (![ApigeeDataClient isUuidValid:uuid]) {        
         NSString* error = @"Error trying to delete object: No UUID specified.";
         [self.dataClient writeLog:error];
         [response setError:error];
