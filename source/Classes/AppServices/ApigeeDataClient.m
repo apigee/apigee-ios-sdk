@@ -2020,7 +2020,7 @@ NSString *g_deviceUUID = nil;
 +(BOOL)isUuidValid:(NSString*)uuid
 {
     //TODO: how to properly validate uuid?
-    return [uuid length] > 0;
+    return [[NSUUID alloc] initWithUUIDString:uuid];
 }
 
 - (ApigeeEntity*)createTypedEntity:(NSString*)type
