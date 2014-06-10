@@ -15,7 +15,7 @@
 /*!
  @version 2.0.10
  */
-static NSString* kSDKVersion = @"2.0.10";
+static NSString* kSDKVersion = @"2.0.11";
 
 
 @interface ApigeeClient ()

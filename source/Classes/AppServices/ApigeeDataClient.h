@@ -119,6 +119,53 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  */
 -(BOOL) setDelegate:(id<ApigeeClientDelegate>)delegate;
 
+/********************* PERMISSIONS / ROLES *********************/
+/*!
+ @methodgroup Permissions/Roles Methods
+ */
+/*!
+ @abstract Assign the specified permissions to a user or group
+ @param permissions The permissions to assign in the format <operation>:<resource_path>, e.g. post:/users
+ @param entityID The UUID of the group or user the permissions are being assigned to
+ @param entityType Either 'group' or 'user'
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)assignPermissions: (NSString *)permissions forEntity: (NSString *)entityID ofType: (NSString *)entityType;
+
+/*!
+ @abstract Assign the specified permissions to a user or group
+ @param permissions The permissions to assign in the format <operation>:<resource_path>, e.g. post:/users
+ @param entityID The UUID of the group or user the permissions are being assigned to
+ @param entityType Either 'group' or 'user'
+ @param completionHandler The completion handler to call when complete
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)assignPermissions: (NSString *)permissions forEntity: (NSString *)entityID ofType: (NSString *)entityType
+                             completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+/*!
+ @abstract Remove the specified permissions from a user or group
+ @param permissions The permissions to remove in the format <operation>:<resource_path>, e.g. post:/users
+ @param entityID The UUID of the group or user the permissions are being removed from
+ @param entityType Either 'group' or 'user'
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)removePermissions: (NSString *)permissions forEntity: (NSString *)entityID ofType: (NSString *)entityType;
+
+/*!
+ @abstract Remove the specified permissions from a user or group
+ @param permissions The permissions to remove in the format <operation>:<resource_path>, e.g. post:/users
+ @param entityID The UUID of the group or user the permissions are being removed from
+ @param entityType Either 'group' or 'user'
+ @param completionHandler The completion handler to call when complete
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)removePermissions: (NSString *)permissions forEntity: (NSString *)entityID ofType: (NSString *)entityType
+                             completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;                             
 
 /********************* LOGIN / LOGOUT *********************/
 /*!
