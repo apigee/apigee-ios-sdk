@@ -131,7 +131,7 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  @return ApigeeClientResponse instance
  @see ApigeeClientResponse ApigeeClientResponse
  */
--(ApigeeClientResponse *)assignPermissions: (NSString *)permissions forEntity: (NSString *)entityID ofType: (NSString *)entityType;
+-(ApigeeClientResponse *)assignPermissions: (NSString *)permissions toEntity: (NSString *)entityID ofType: (NSString *)entityType;
 
 /*!
  @abstract Assign the specified permissions to a user or group
@@ -142,7 +142,7 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  @return ApigeeClientResponse instance
  @see ApigeeClientResponse ApigeeClientResponse
  */
--(ApigeeClientResponse *)assignPermissions: (NSString *)permissions forEntity: (NSString *)entityID ofType: (NSString *)entityType
+-(ApigeeClientResponse *)assignPermissions: (NSString *)permissions toEntity: (NSString *)entityID ofType: (NSString *)entityType
                              completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 /*!
@@ -153,7 +153,7 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  @return ApigeeClientResponse instance
  @see ApigeeClientResponse ApigeeClientResponse
  */
--(ApigeeClientResponse *)removePermissions: (NSString *)permissions forEntity: (NSString *)entityID ofType: (NSString *)entityType;
+-(ApigeeClientResponse *)removePermissions: (NSString *)permissions fromEntity: (NSString *)entityID ofType: (NSString *)entityType;
 
 /*!
  @abstract Remove the specified permissions from a user or group
@@ -164,9 +164,29 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  @return ApigeeClientResponse instance
  @see ApigeeClientResponse ApigeeClientResponse
  */
--(ApigeeClientResponse *)removePermissions: (NSString *)permissions forEntity: (NSString *)entityID ofType: (NSString *)entityType
+-(ApigeeClientResponse *)removePermissions: (NSString *)permissions fromEntity: (NSString *)entityID ofType: (NSString *)entityType
                              completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;                             
 
+/*!
+ @abstract Creates a new role and assigns permissions to it
+ @param roleName The name of the new role
+ @param permissions The permissions to remove in the format <operation>:<resource_path>, e.g. post:/users 
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)createRole: (NSString *)roleName withPermissions: (NSString *)permissions;
+
+/*!
+ @abstract Creates a new role and assigns permissions to it
+ @param roleName The name of the new role
+ @param permissions The permissions to remove in the format <operation>:<resource_path>, e.g. post:/users
+ @param completionHandler The completion handler to call when complete
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)createRole: (NSString *)roleName withPermissions: (NSString *)permissions;
+                             completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;                             
+                             
 /********************* LOGIN / LOGOUT *********************/
 /*!
  @methodgroup Login/Logout Methods
