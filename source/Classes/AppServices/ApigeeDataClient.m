@@ -659,7 +659,7 @@ NSString *g_deviceUUID = nil;
 /*************************** PERMISSIONS / ROLES ****************************/
 /*************************** PERMISSIONS / ROLES ****************************/
 
--(ApigeeClientResponse *)assignPermissions: (NSString *)permissions forEntity: (NSString *)entityID ofType: (NSString *)entityType
+-(ApigeeClientResponse *)assignPermissions: (NSString *)permissions toEntity: (NSString *)entityID ofType: (NSString *)entityType
 {
     NSMutableString *url = [self createURL:entityType append2:entityID append3:@"permissions"];
     
@@ -676,7 +676,7 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPPost opData:jsonStr];
 }
 
--(ApigeeClientResponse *)assignPermissions: (NSString *)permissions forEntity: (NSString *)entityID 
+-(ApigeeClientResponse *)assignPermissions: (NSString *)permissions toEntity: (NSString *)entityID 
                             ofType: (NSString *)entityType completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
 {
     NSMutableString *url = [self createURL:entityType append2:entityID append3:@"permissions"];
@@ -697,7 +697,7 @@ NSString *g_deviceUUID = nil;
                completionHandler:completionHandler];
 }
 
--(ApigeeClientResponse *)removePermissions: (NSString *)permissions forEntity: (NSString *)entityID ofType: (NSString *)entityType
+-(ApigeeClientResponse *)removePermissions: (NSString *)permissions fromEntity: (NSString *)entityID ofType: (NSString *)entityType
 {
     NSString *urlParams = [NSString stringWithFormat: @"?permission=%@", permissions];
     NSMutableString *url = [self createURL:entityType append2:entityID append3:@"permissions" append4: urlParams];
@@ -705,7 +705,7 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil];
 }
 
--(ApigeeClientResponse *)removePermissions: (NSString *)permissions forEntity: (NSString *)entityID 
+-(ApigeeClientResponse *)removePermissions: (NSString *)permissions fromEntity: (NSString *)entityID 
                             ofType: (NSString *)entityType completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
 {
     NSString *urlParams = [NSString stringWithFormat: @"?permission=%@", permissions];
@@ -715,6 +715,35 @@ NSString *g_deviceUUID = nil;
                               op:kApigeeHTTPDelete
                           opData:nil
                completionHandler:completionHandler];
+}
+
+-(ApigeeClientResponse *)createRole: (NSString *)roleName withPermissions: (NSString *)permissions
+{
+    NSDictionary *newRole = [[NSDictionary alloc] initWithObjectsAndKeys:@"role", @"type", roleName, @"name", nil];
+    ApigeeClientResponse *response = [self createEntity:newRole];
+
+    NSMutableString *uuid = nil;
+
+    //if ([response entityCount] == 1) {
+        uuid = [[response firstEntity] uuid];
+    //}
+
+    return [self assignPermissions: permissions toEntity: uuid ofType: @"role"];
+}
+
+-(ApigeeClientResponse *)createRole: (NSString *)roleName withPermissions: (NSString *)permissions
+                            completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    NSDictionary *newRole = [[NSDictionary alloc] initWithObjectsAndKeys:@"role", @"type", roleName, @"name", nil];
+    ApigeeClientResponse *response = [self createEntity:newRole completionHandler: completionHandler];
+
+    NSMutableString *uuid = nil;
+
+    //if ([response entityCount] == 1) {
+        uuid = [[response firstEntity] uuid];
+    //}
+
+    return [self assignPermissions: permissions toEntity: uuid ofType: @"role" completionHandler: completionHandler];
 }
 
 /*************************** LOGIN / LOGOUT ****************************/
