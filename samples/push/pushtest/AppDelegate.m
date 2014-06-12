@@ -17,7 +17,11 @@ ApigeeDataClient * dataClient;
 
 // The following values must be changed to the organization, application, and notifier
 // to match the names that you've created on the App Services platform. Be sure that
+<<<<<<< HEAD
 // the application you use allows Guest access (e.g., sandbox) - or that you have the device
+=======
+// the application you use allows Guest access (e.g., sandbox) - or that have the device
+>>>>>>> 84e24df741f4572a687b07dd0e97e0a6432a279b
 // log in to App Services.
 // Also ensure that you update the Bundle Identifier and Provisioning Profile in the project Build Settings.
 // You will need to set the "Code Signing Identity" options for "Debug" to your Provisioning Profile.
