@@ -406,13 +406,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pushtest/Push Test-Prefix.pch";
 				INFOPLIST_FILE = "pushtest/Push Test-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "Push Test";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "FDDA8545-DB84-493E-BE65-9D558EFE670A";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -435,13 +435,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pushtest/Push Test-Prefix.pch";
 				INFOPLIST_FILE = "pushtest/Push Test-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "Push Test";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "FDDA8545-DB84-493E-BE65-9D558EFE670A";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
