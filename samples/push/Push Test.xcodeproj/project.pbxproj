@@ -7,33 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		637BC9DB181EFEC900F54D95 /* Aooga.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 637BC9DA181EFEC900F54D95 /* Aooga.aiff */; };
+		132084F2194A40F40014135D /* Bulletin.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 132084F1194A40F40014135D /* Bulletin.m4a */; };
+		132084F4194A48310014135D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 132084F3194A48310014135D /* Images.xcassets */; };
+		137686A01947DC6B00924326 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1376869F1947DC6B00924326 /* ApigeeiOSSDK.framework */; };
+		137EEF7E194A3544007FDC32 /* logo_apigee_210x210.png in Resources */ = {isa = PBXBuildFile; fileRef = 137EEF7D194A3544007FDC32 /* logo_apigee_210x210.png */; };
 		637BC9E0181F036900F54D95 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 637BC9DF181F036900F54D95 /* AudioToolbox.framework */; };
 		638C629517A728D80066DC15 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C629417A728D80066DC15 /* SystemConfiguration.framework */; };
 		638C629717A728E90066DC15 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C629617A728E90066DC15 /* CoreLocation.framework */; };
 		638C629917A728F20066DC15 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C629817A728F20066DC15 /* CoreTelephony.framework */; };
 		638C629B17A7290A0066DC15 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638C629A17A729090066DC15 /* Security.framework */; };
 		63ACC5FA1884A1B500C87C83 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ACC5F91884A1B500C87C83 /* QuartzCore.framework */; };
-		63D4593418C7A4E000FE1433 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D4593318C7A4E000FE1433 /* ApigeeiOSSDK.framework */; };
-		C913B26616E6D46A007A526E /* sisyphus-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C913B26516E6D46A007A526E /* sisyphus-icon.png */; };
-		C913B26816E6D49A007A526E /* sisyphus-smicon.png in Resources */ = {isa = PBXBuildFile; fileRef = C913B26716E6D49A007A526E /* sisyphus-smicon.png */; };
-		C913B2AB16E7CC54007A526E /* sisyphus-i5-back.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C913B2AA16E7CC54007A526E /* sisyphus-i5-back.jpg */; };
 		C9AFBD1C16B71BD700D67DA3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AFBD1B16B71BD700D67DA3 /* UIKit.framework */; };
 		C9AFBD1E16B71BD700D67DA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AFBD1D16B71BD700D67DA3 /* Foundation.framework */; };
 		C9AFBD2616B71BD700D67DA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9AFBD2416B71BD700D67DA3 /* InfoPlist.strings */; };
 		C9AFBD2816B71BD700D67DA3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9AFBD2716B71BD700D67DA3 /* main.m */; };
 		C9AFBD2C16B71BD700D67DA3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9AFBD2B16B71BD700D67DA3 /* AppDelegate.m */; };
-		C9AFBD2E16B71BD700D67DA3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C9AFBD2D16B71BD700D67DA3 /* Default.png */; };
-		C9AFBD3016B71BD700D67DA3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9AFBD2F16B71BD700D67DA3 /* Default@2x.png */; };
-		C9AFBD3216B71BD700D67DA3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C9AFBD3116B71BD700D67DA3 /* Default-568h@2x.png */; };
 		C9AFBD3516B71BD700D67DA3 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9AFBD3316B71BD700D67DA3 /* MainStoryboard_iPhone.storyboard */; };
 		C9AFBD3816B71BD700D67DA3 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9AFBD3616B71BD700D67DA3 /* MainStoryboard_iPad.storyboard */; };
 		C9AFBD3B16B71BD700D67DA3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9AFBD3A16B71BD700D67DA3 /* ViewController.m */; };
 		C9AFBD4316B71BD700D67DA3 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AFBD4216B71BD700D67DA3 /* SenTestingKit.framework */; };
 		C9AFBD4416B71BD700D67DA3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AFBD1B16B71BD700D67DA3 /* UIKit.framework */; };
 		C9AFBD4516B71BD700D67DA3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9AFBD1D16B71BD700D67DA3 /* Foundation.framework */; };
-		C9AFBD4D16B71BD700D67DA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9AFBD4B16B71BD700D67DA3 /* InfoPlist.strings */; };
-		C9AFBD5016B71BD700D67DA3 /* pushtestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9AFBD4F16B71BD700D67DA3 /* pushtestTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,17 +41,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		637BC9DA181EFEC900F54D95 /* Aooga.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Aooga.aiff; sourceTree = "<group>"; };
+		132084F1194A40F40014135D /* Bulletin.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bulletin.m4a; sourceTree = "<group>"; };
+		132084F3194A48310014135D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		1376869F1947DC6B00924326 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ApigeeiOSSDK.framework; sourceTree = "<group>"; };
+		137EEF7D194A3544007FDC32 /* logo_apigee_210x210.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_apigee_210x210.png; sourceTree = "<group>"; };
 		637BC9DF181F036900F54D95 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		638C629417A728D80066DC15 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		638C629617A728E90066DC15 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		638C629817A728F20066DC15 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		638C629A17A729090066DC15 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		63ACC5F91884A1B500C87C83 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		63D4593318C7A4E000FE1433 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = ../../source/build/framework/ApigeeiOSSDK.framework; sourceTree = "<group>"; };
-		C913B26516E6D46A007A526E /* sisyphus-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sisyphus-icon.png"; sourceTree = "<group>"; };
-		C913B26716E6D49A007A526E /* sisyphus-smicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sisyphus-smicon.png"; sourceTree = "<group>"; };
-		C913B2AA16E7CC54007A526E /* sisyphus-i5-back.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "sisyphus-i5-back.jpg"; sourceTree = "<group>"; };
 		C9AFBD1716B71BD700D67DA3 /* Push Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Push Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AFBD1B16B71BD700D67DA3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C9AFBD1D16B71BD700D67DA3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -68,19 +61,12 @@
 		C9AFBD2916B71BD700D67DA3 /* Push Test-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Push Test-Prefix.pch"; sourceTree = "<group>"; };
 		C9AFBD2A16B71BD700D67DA3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C9AFBD2B16B71BD700D67DA3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C9AFBD2D16B71BD700D67DA3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		C9AFBD2F16B71BD700D67DA3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		C9AFBD3116B71BD700D67DA3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C9AFBD3416B71BD700D67DA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		C9AFBD3716B71BD700D67DA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		C9AFBD3916B71BD700D67DA3 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		C9AFBD3A16B71BD700D67DA3 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		C9AFBD4116B71BD700D67DA3 /* Push TestTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Push TestTests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9AFBD4216B71BD700D67DA3 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		C9AFBD4A16B71BD700D67DA3 /* Push TestTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Push TestTests-Info.plist"; sourceTree = "<group>"; };
-		C9AFBD4C16B71BD700D67DA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C9AFBD4E16B71BD700D67DA3 /* pushtestTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pushtestTests.h; sourceTree = "<group>"; };
-		C9AFBD4F16B71BD700D67DA3 /* pushtestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = pushtestTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,13 +75,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				63ACC5FA1884A1B500C87C83 /* QuartzCore.framework in Frameworks */,
-				63D4593418C7A4E000FE1433 /* ApigeeiOSSDK.framework in Frameworks */,
 				637BC9E0181F036900F54D95 /* AudioToolbox.framework in Frameworks */,
 				638C629B17A7290A0066DC15 /* Security.framework in Frameworks */,
 				638C629917A728F20066DC15 /* CoreTelephony.framework in Frameworks */,
 				638C629717A728E90066DC15 /* CoreLocation.framework in Frameworks */,
 				638C629517A728D80066DC15 /* SystemConfiguration.framework in Frameworks */,
 				C9AFBD1C16B71BD700D67DA3 /* UIKit.framework in Frameworks */,
+				137686A01947DC6B00924326 /* ApigeeiOSSDK.framework in Frameworks */,
 				C9AFBD1E16B71BD700D67DA3 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -116,10 +102,7 @@
 		C9AFBD0C16B71BD700D67DA3 = {
 			isa = PBXGroup;
 			children = (
-				C913B26716E6D49A007A526E /* sisyphus-smicon.png */,
-				C913B26516E6D46A007A526E /* sisyphus-icon.png */,
 				C9AFBD2116B71BD700D67DA3 /* Push Test */,
-				C9AFBD4816B71BD700D67DA3 /* Push Test Tests */,
 				C9AFBD1A16B71BD700D67DA3 /* Frameworks */,
 				C9AFBD1816B71BD700D67DA3 /* Products */,
 			);
@@ -137,7 +120,7 @@
 		C9AFBD1A16B71BD700D67DA3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				63D4593318C7A4E000FE1433 /* ApigeeiOSSDK.framework */,
+				1376869F1947DC6B00924326 /* ApigeeiOSSDK.framework */,
 				63ACC5F91884A1B500C87C83 /* QuartzCore.framework */,
 				637BC9DF181F036900F54D95 /* AudioToolbox.framework */,
 				638C629417A728D80066DC15 /* SystemConfiguration.framework */,
@@ -155,6 +138,7 @@
 		C9AFBD2116B71BD700D67DA3 /* Push Test */ = {
 			isa = PBXGroup;
 			children = (
+				132084F3194A48310014135D /* Images.xcassets */,
 				C9AFBD2A16B71BD700D67DA3 /* AppDelegate.h */,
 				C9AFBD2B16B71BD700D67DA3 /* AppDelegate.m */,
 				C9AFBD3316B71BD700D67DA3 /* MainStoryboard_iPhone.storyboard */,
@@ -170,35 +154,12 @@
 		C9AFBD2216B71BD700D67DA3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C913B2AA16E7CC54007A526E /* sisyphus-i5-back.jpg */,
-				637BC9DA181EFEC900F54D95 /* Aooga.aiff */,
+				132084F1194A40F40014135D /* Bulletin.m4a */,
+				137EEF7D194A3544007FDC32 /* logo_apigee_210x210.png */,
 				C9AFBD2316B71BD700D67DA3 /* Push Test-Info.plist */,
 				C9AFBD2416B71BD700D67DA3 /* InfoPlist.strings */,
 				C9AFBD2716B71BD700D67DA3 /* main.m */,
 				C9AFBD2916B71BD700D67DA3 /* Push Test-Prefix.pch */,
-				C9AFBD2D16B71BD700D67DA3 /* Default.png */,
-				C9AFBD2F16B71BD700D67DA3 /* Default@2x.png */,
-				C9AFBD3116B71BD700D67DA3 /* Default-568h@2x.png */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		C9AFBD4816B71BD700D67DA3 /* Push Test Tests */ = {
-			isa = PBXGroup;
-			children = (
-				C9AFBD4E16B71BD700D67DA3 /* pushtestTests.h */,
-				C9AFBD4F16B71BD700D67DA3 /* pushtestTests.m */,
-				C9AFBD4916B71BD700D67DA3 /* Supporting Files */,
-			);
-			name = "Push Test Tests";
-			path = pushtestTests;
-			sourceTree = "<group>";
-		};
-		C9AFBD4916B71BD700D67DA3 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C9AFBD4A16B71BD700D67DA3 /* Push TestTests-Info.plist */,
-				C9AFBD4B16B71BD700D67DA3 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -249,7 +210,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Shawn Feldman";
 				TargetAttributes = {
 					C9AFBD1616B71BD700D67DA3 = {
@@ -281,15 +242,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9AFBD2616B71BD700D67DA3 /* InfoPlist.strings in Resources */,
-				C9AFBD2E16B71BD700D67DA3 /* Default.png in Resources */,
-				C9AFBD3016B71BD700D67DA3 /* Default@2x.png in Resources */,
-				637BC9DB181EFEC900F54D95 /* Aooga.aiff in Resources */,
-				C9AFBD3216B71BD700D67DA3 /* Default-568h@2x.png in Resources */,
+				137EEF7E194A3544007FDC32 /* logo_apigee_210x210.png in Resources */,
 				C9AFBD3516B71BD700D67DA3 /* MainStoryboard_iPhone.storyboard in Resources */,
+				132084F4194A48310014135D /* Images.xcassets in Resources */,
 				C9AFBD3816B71BD700D67DA3 /* MainStoryboard_iPad.storyboard in Resources */,
-				C913B26616E6D46A007A526E /* sisyphus-icon.png in Resources */,
-				C913B26816E6D49A007A526E /* sisyphus-smicon.png in Resources */,
-				C913B2AB16E7CC54007A526E /* sisyphus-i5-back.jpg in Resources */,
+				132084F2194A40F40014135D /* Bulletin.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +254,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9AFBD4D16B71BD700D67DA3 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,7 +290,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9AFBD5016B71BD700D67DA3 /* pushtestTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,14 +328,6 @@
 			name = MainStoryboard_iPad.storyboard;
 			sourceTree = "<group>";
 		};
-		C9AFBD4B16B71BD700D67DA3 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C9AFBD4C16B71BD700D67DA3 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -408,7 +355,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "8E6BD048-B289-4E48-B00F-54F57B28E78A";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8E6BD048-B289-4E48-B00F-54F57B28E78A";
 				SDKROOT = iphoneos;
@@ -446,25 +393,26 @@
 		C9AFBD5416B71BD700D67DA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
 					"\\\\\\\"$(SRCROOT)/../../source/build/framework\\\\\\\"",
-					"/Users/ApigeeCorporation/github-master/apigee-ios-sdk/samples/push",
-					/Users/ApigeeCorporation/Dev/apigee/ios/source/build/framework,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pushtest/Push Test-Prefix.pch";
 				INFOPLIST_FILE = "pushtest/Push Test-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "Push Test";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "FDDA8545-DB84-493E-BE65-9D558EFE670A";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -474,25 +422,26 @@
 		C9AFBD5516B71BD700D67DA3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
 					"\\\\\\\"$(SRCROOT)/../../source/build/framework\\\\\\\"",
-					"/Users/ApigeeCorporation/github-master/apigee-ios-sdk/samples/push",
-					/Users/ApigeeCorporation/Dev/apigee/ios/source/build/framework,
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pushtest/Push Test-Prefix.pch";
 				INFOPLIST_FILE = "pushtest/Push Test-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "Push Test";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "FDDA8545-DB84-493E-BE65-9D558EFE670A";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;

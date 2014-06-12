@@ -23,7 +23,7 @@
     [self enableButtons:NO];
     __weak ViewController* weakSelf = self;
 
-    [appDelegate sendMyselfAPushNotification:@"You pushed the button!"
+    [appDelegate sendMyselfAPushNotification:@"Push sent to this device!"
      completionHandler:^(ApigeeClientResponse *response) {
          if ([response completedSuccessfully]) {
              NSLog(@"notification sent through app services");
@@ -41,7 +41,7 @@
     [self enableButtons:NO];
     __weak ViewController* weakSelf = self;
     
-    [appDelegate sendPushNotificationToAllDevices:@"You pushed the button!"
+    [appDelegate sendPushNotificationToAllDevices:@"Push sent to all devices!"
      completionHandler:^(ApigeeClientResponse *response) {
          if ([response completedSuccessfully]) {
              NSLog(@"notification sent through app services");

@@ -3,9 +3,9 @@
 #import <AudioToolbox/AudioToolbox.h>
 
 
-static NSString *kBundledSoundName = @"Aooga";
-static NSString *kBundledSongFileType = @"aiff";
-static NSString *kBundledSoundNameWithExt = @"Aooga.aiff";
+static NSString *kBundledSoundName = @"Bulletin";
+static NSString *kBundledSongFileType = @"m4a";
+static NSString *kBundledSoundNameWithExt = @"Bulletin.m4a";
 
 static SystemSoundID nullSoundId = (SystemSoundID) NULL;
 static SystemSoundID soundId = (SystemSoundID) NULL;
