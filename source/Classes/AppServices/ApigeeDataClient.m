@@ -724,9 +724,7 @@ NSString *g_deviceUUID = nil;
 
     NSMutableString *uuid = nil;
 
-    //if ([response entityCount] == 1) {
-        uuid = [[response firstEntity] uuid];
-    //}
+    uuid = [[response firstEntity] uuid];
 
     return [self assignPermissions: permissions toEntity: uuid ofType: @"role"];
 }
@@ -739,11 +737,61 @@ NSString *g_deviceUUID = nil;
 
     NSMutableString *uuid = nil;
 
-    //if ([response entityCount] == 1) {
-        uuid = [[response firstEntity] uuid];
-    //}
-
+    uuid = [[response firstEntity] uuid];
+    
     return [self assignPermissions: permissions toEntity: uuid ofType: @"role" completionHandler: completionHandler];
+}
+
+-(ApigeeClientResponse *)assignRole: (NSString *)roleName toEntity: (NSString *)entityID ofType: (NSString *)entityType
+{    
+    NSMutableString *type = [[NSMutableString alloc] initWithFormat: @"%@", entityType];
+    if (![[type substringFromIndex: [type length] - 1] isEqualToString:@"s"]) {
+        [type appendString:@"s"];
+    }
+
+    NSMutableString *url = [self createURL:@"roles" append2:roleName append3: type append4: entityID];
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:nil];
+}
+
+-(ApigeeClientResponse *)assignRole: (NSString *)roleName 
+                           toEntity: (NSString *)entityID 
+                             ofType: (NSString *)entityType
+                  completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{   
+    NSMutableString *type = [[NSMutableString alloc] initWithFormat: @"%@", entityType];
+    if (![[type substringFromIndex: [type length] - 1] isEqualToString:@"s"]) {
+        [type appendString:@"s"];
+    }
+
+    NSMutableString *url = [self createURL:@"roles" append2:roleName append3: type append4: entityID];
+    
+    return [self httpTransaction:url op:kApigeeHTTPPost opData:nil completionHandler:completionHandler];
+}
+
+-(ApigeeClientResponse *)removeRole: (NSString *)roleName fromEntity: (NSString *)entityID ofType: (NSString *)entityType
+{    
+    NSMutableString *type = [[NSMutableString alloc] initWithFormat: @"%@", entityType];
+    if (![[type substringFromIndex: [type length] - 1] isEqualToString:@"s"]) {
+        [type appendString:@"s"];
+    }
+
+    NSMutableString *url = [self createURL:@"roles" append2:roleName append3: type append4: entityID];
+    
+    return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil];
+}
+
+-(ApigeeClientResponse *)removeRole: (NSString *)roleName 
+                           fromEntity: (NSString *)entityID 
+                             ofType: (NSString *)entityType
+                  completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{    
+    NSMutableString *type = [[NSMutableString alloc] initWithFormat: @"%@", entityType];
+    if (![[type substringFromIndex: [type length] - 1] isEqualToString:@"s"]) {
+        [type appendString:@"s"];
+    }
+    NSMutableString *url = [self createURL:@"roles" append2:roleName append3: type append4: entityID];
+    
+    return [self httpTransaction:url op:kApigeeHTTPDelete opData:nil completionHandler:completionHandler];
 }
 
 /*************************** LOGIN / LOGOUT ****************************/

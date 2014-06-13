@@ -184,9 +184,54 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  @return ApigeeClientResponse instance
  @see ApigeeClientResponse ApigeeClientResponse
  */
--(ApigeeClientResponse *)createRole: (NSString *)roleName withPermissions: (NSString *)permissions;
+-(ApigeeClientResponse *)createRole: (NSString *)roleName withPermissions: (NSString *)permissions
                              completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;                             
-                             
+
+/*!
+ @abstract Assigns a role to a user or group
+ @param roleName The name of the new role
+ @param entityID The UUID of the group or user the role is being assigned to
+ @param entityType Either 'group' or 'user'
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)assignRole: (NSString *)roleName toEntity: (NSString *)entityID ofType: (NSString *)entityType;
+
+/*!
+ @abstract Assigns a role to a user or group
+ @param roleName The name of the role to be assigned
+ @param entityID The UUID of the group or user the role is being assigned to
+ @param entityType Either 'group' or 'user'
+ @param completionHandler The completion handler to call when complete
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)assignRole: (NSString *)roleName toEntity: (NSString *)entityID ofType: (NSString *)entityType
+                             completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+/*!
+ @abstract Removes a role from a user or group
+ @param roleName The name of the role to be removed
+ @param entityID The UUID of the group or user the role is being removed from
+ @param entityType Either 'group' or 'user'
+ @param completionHandler The completion handler to call when complete
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)removeRole: (NSString *)roleName fromEntity: (NSString *)entityID ofType: (NSString *)entityType;
+
+/*!
+ @abstract Removes a role from a user or group
+ @param roleName The name of the role to be removed
+ @param entityID The UUID of the group or user the role is being removed from
+ @param entityType Either 'group' or 'user'
+ @param completionHandler The completion handler to call when complete
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)removeRole: (NSString *)roleName fromEntity: (NSString *)entityID ofType: (NSString *)entityType
+                             completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
 /********************* LOGIN / LOGOUT *********************/
 /*!
  @methodgroup Login/Logout Methods
