@@ -7,42 +7,56 @@ There are 2 main areas of functionality provided: (1) App Services (Usergrid), a
 Installing the SDK
 ------------------
 
-1. Add 'ApigeeiOSSDK.framework' to your project.
+1. Add `ApigeeiOSSDK.framework` to your project.
+
 2. Add the following iOS frameworks to your project:
-<pre>
-CoreLocation.framework
-Security.framework
-CoreTelephony.framework
-QuartzCore.framework
-SystemConfiguration.framework
-UIKit.framework
-</pre>
+
+	```objective-c
+	CoreLocation.framework
+	Security.framework
+	CoreTelephony.framework
+	QuartzCore.framework
+	SystemConfiguration.framework
+	UIKit.framework
+	```
+
 3. Add the following flags to 'Other Linker Flags' in 'Build Settings':
-<pre>-ObjC -all_load</pre>
-Confirm that flags are set for both 'DEBUG' and 'RELEASE'.
+
+	```objective-c
+	-ObjC -all_load
+	```
+	Confirm that flags are set for both 'DEBUG' and 'RELEASE'.
+
 4. Import the SDK in your code:
-<pre>#import &lt;ApigeeiOSSDK/Apigee.h&gt;</pre>
-5. Declare the following properties in 'AppDelegate.h':
-<pre>
-@property (strong, nonatomic) ApigeeClient *apigeeClient; //object for initializing the App Services SDK
-@property (strong, nonatomic) ApigeeMonitoringClient *monitoringClient; //client object for Apigee App Monitoring methods
-@property (strong, nonatomic) ApigeeDataClient *dataClient;	//client object for App Services data methods
-</pre>
+
+	```objective-c
+	#import <ApigeeiOSSDK/Apigee.h>
+	```
+
+5. Declare the following properties in `AppDelegate.h`:
+
+	```objective-c
+	@property (strong, nonatomic) ApigeeClient *apigeeClient; //object for initializing the App Services SDK
+	@property (strong, nonatomic) ApigeeMonitoringClient *monitoringClient; //client object for Apigee App Monitoring methods
+	@property (strong, nonatomic) ApigeeDataClient *dataClient;	//client object for App Services data methods
+	```
+
 6. Instantiate the 'ApigeeClient' class inside the 'didFinishLaunching' method of 'AppDelegate.m':
-<pre>
-//Instantiate the AppDelegate
-AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//Sepcify your App Services organization and application names
-NSString *orgName = @"YOUR-ORG";
-NSString *appName = @"YOUR-APP";
-//Instantiate ApigeeClient to initialize the SDK
-appDelegate.apigeeClient = [[ApigeeClient alloc]
-                            initWithOrganizationId:orgName
-                            applicationId:appName];
-//Retrieve instances of ApigeeClient.monitoringClient and ApigeeClient.dataClient
-self.monitoringClient = [appDelegate.apigeeClient monitoringClient]; //used to call App Monitoring methods
-self.dataClient = [appDelegate.apigeeClient dataClient]; //used to call data methods
-</pre>
+
+	```objective-c
+	//Instantiate the AppDelegate
+	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	//Sepcify your App Services organization and application names
+	NSString *orgName = @"YOUR-ORG";
+	NSString *appName = @"YOUR-APP";
+	//Instantiate ApigeeClient to initialize the SDK
+	appDelegate.apigeeClient = [[ApigeeClient alloc]
+	                            initWithOrganizationId:orgName
+	                            applicationId:appName];
+	//Retrieve instances of ApigeeClient.monitoringClient and ApigeeClient.dataClient
+	self.monitoringClient = [appDelegate.apigeeClient monitoringClient]; //used to call App Monitoring methods
+	self.dataClient = [appDelegate.apigeeClient dataClient]; //used to call data methods
+	```
 
 Technical Details
 -----------------
@@ -53,11 +67,11 @@ Technical Details
 
 Building From Source
 --------------------
-To build from source, issue this command from the /source directory of your repository:
+To build from source, issue this command from the `/source` directory of your repository:
 
-<pre>
+```bash
 	./Scripts/framework.sh
-</pre>
+```
 
 
 Compatibility with iOS 7
@@ -74,10 +88,10 @@ different version of Xcode, please uncomment the code that assigns the path for 
 
 New Functionality for Usergrid
 ------------------------------
-New classes (ApigeeCollection, ApigeeEntity, ApigeeDevice, ApigeeGroup) to make working with entities and collections easier. The functionality has been modeled after our JavaScript and PHP SDKs.
+New classes (`ApigeeCollection`, `ApigeeEntity`, `ApigeeDevice`, `ApigeeGroup`) to make working with entities and collections easier. The functionality has been modeled after our JavaScript and PHP SDKs.
 
 Migrating from Usergrid
 -----------------------
-1. All classes named with 'UG' prefix are now named with 'Apigee' prefix (UGClassName becomes ApigeeClassName)
-2. UGClient is now named ApigeeDataClient
-3. Initialization is performed with ApigeeClient (new class)
+1. All classes named with '`UG`' prefix are now named with '`Apigee`' prefix (`UGClassName` becomes `ApigeeClassName`)
+2. `UGClient` is now named `ApigeeDataClient`
+3. Initialization is performed with `ApigeeClient` (new class)
