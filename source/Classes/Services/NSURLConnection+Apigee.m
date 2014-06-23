@@ -124,7 +124,7 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
 static ApigeeNSURLConnectionDataDelegateInterceptor* GetConnectionInterceptor(NSURLConnection* connection)
 {
     return (ApigeeNSURLConnectionDataDelegateInterceptor*)
-        objc_getAssociatedObject(connection, KEY_CONNECTION_INTERCEPTOR);
+        objc_getAssociatedObject(connection, &KEY_CONNECTION_INTERCEPTOR);
 }
 
 static void AttachConnectionInterceptor(NSURLConnection* connection,
