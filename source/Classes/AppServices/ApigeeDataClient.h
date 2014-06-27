@@ -1231,6 +1231,37 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
                                         query:(ApigeeQuery *)query
                             completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
+/*!
+ @abstract Get entities connected to the specified entity with the specified connection
+ @param connectorType
+ @param connectorID
+ @param connectionType
+ @param query
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ @see ApigeeQuery ApigeeQuery
+ */
+-(ApigeeClientResponse *)getConnectedEntities:(NSString *)connectorType
+                                  connectorID:(NSString *)connectorID
+                               connectionType:(NSString *)connectionType
+                                        query:(ApigeeQuery *)query;
+
+/*!
+ @abstract Asynchronously get entities connected to the specified entity with the specified connection
+ @param connectorType
+ @param connectorID
+ @param connectionType
+ @param query
+ @param completionHandler The callback to call when the request completes
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ @see ApigeeQuery ApigeeQuery
+ */
+-(ApigeeClientResponse *)getConnectedEntities:(NSString *)connectorType
+                                  connectorID:(NSString *)connectorID
+                               connectionType:(NSString *)connectionType
+                                        query:(ApigeeQuery *)query
+                            completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
 
 /********************* MESSAGE MANAGEMENT *********************/
 /*!
