@@ -16,8 +16,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
         // Override point for customization after application launch.
+        APIClient.sharedClient();
+
+        var types: UIUserNotificationType = UIUserNotificationType.Badge |
+            UIUserNotificationType.Alert |
+            UIUserNotificationType.Sound
+
+        var settings: UIUserNotificationSettings = UIUserNotificationSettings( forTypes: types, categories: nil )
+
+        application.registerUserNotificationSettings( settings )
+        application.registerForRemoteNotifications()
         return true
     }
+
+    func application(application: UIApplication!, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData!) {
+        NSLog("DID REGISTER","");
+        APIClient.sharedClient().dataClient.setDevicePushToken(deviceToken, forNotifier: "eventManageriOSNotifier");
+    }
+
+    func application(application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError!) {
+        NSLog("FAILED TO REGISTER","");
+
+    }
+
+//    func application(application: UIApplication!, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]!) {
+//        NSLog("","");
+//
+//    }
+
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

@@ -40,7 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6374DD47196204AD007A10EB /* Events.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Events.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6374DD47196204AD007A10EB /* eventmanager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eventmanager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6374DD4B196204AD007A10EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6374DD51196204AD007A10EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6374DD53196204AD007A10EB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		6374DD48196204AD007A10EB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6374DD47196204AD007A10EB /* Events.app */,
+				6374DD47196204AD007A10EB /* eventmanager.app */,
 				6374DD59196204AD007A10EB /* EventsTests.xctest */,
 			);
 			name = Products;
@@ -221,7 +221,7 @@
 			);
 			name = Events;
 			productName = Events;
-			productReference = 6374DD47196204AD007A10EB /* Events.app */;
+			productReference = 6374DD47196204AD007A10EB /* eventmanager.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6374DD58196204AD007A10EB /* EventsTests */ = {
@@ -253,6 +253,7 @@
 				TargetAttributes = {
 					6374DD46196204AD007A10EB = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = SJ9WETNHK6;
 					};
 					6374DD58196204AD007A10EB = {
 						CreatedOnToolsVersion = 6.0;
@@ -427,19 +428,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Events",
 					/Users/ApigeeCorporation/Developer/Apigee/Apigee_iOS_SDK_Demo/Apigee_iOS_SDK/source/build/framework,
 				);
 				INFOPLIST_FILE = Events/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = eventmanager;
+				PROVISIONING_PROFILE = "63274D0D-5CEA-46C3-914A-BD574F2A12B2";
 				SWIFT_OBJC_BRIDGING_HEADER = "Events/Events-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -448,19 +453,23 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Events",
 					/Users/ApigeeCorporation/Developer/Apigee/Apigee_iOS_SDK_Demo/Apigee_iOS_SDK/source/build/framework,
 				);
 				INFOPLIST_FILE = Events/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = eventmanager;
+				PROVISIONING_PROFILE = "63274D0D-5CEA-46C3-914A-BD574F2A12B2";
 				SWIFT_OBJC_BRIDGING_HEADER = "Events/Events-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

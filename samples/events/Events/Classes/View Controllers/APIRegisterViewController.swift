@@ -36,7 +36,7 @@ class APIRegisterViewController: UIViewController,UITextFieldDelegate {
         if !username.isEmpty && !fullName.isEmpty && !email.isEmpty && !password.isEmpty {
             APIClient.sharedClient().createUser(username, fullName:fullName, email:email, password:password, completion:{ didSucceed,errorString in
                 if didSucceed {
-                    self.dismissModalViewControllerAnimated(true)
+                    self.dismissViewControllerAnimated(true, completion: nil);
                 } else {
                     UIAlertController.presentAlertController(errorString, message: nil, presentingController: self)
                 }
@@ -47,6 +47,6 @@ class APIRegisterViewController: UIViewController,UITextFieldDelegate {
     }
 
     @IBAction func cancelButtonPressed(sender: AnyObject!) {
-        self.dismissModalViewControllerAnimated(true)
+        self.dismissViewControllerAnimated(true, completion: nil);
     }
 }
