@@ -13,37 +13,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
-        // Override point for customization after application launch.
-        APIClient.sharedClient();
 
-        var types: UIUserNotificationType = UIUserNotificationType.Badge |
-            UIUserNotificationType.Alert |
-            UIUserNotificationType.Sound
-
-        var settings: UIUserNotificationSettings = UIUserNotificationSettings( forTypes: types, categories: nil )
-
+        // Attempt to register for push notifications.
+        let types: UIUserNotificationType = UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound
+        let settings: UIUserNotificationSettings = UIUserNotificationSettings( forTypes: types, categories: nil )
         application.registerUserNotificationSettings( settings )
         application.registerForRemoteNotifications()
+
         return true
     }
 
+    /**
+     *  WARNING: In order to utilize the push notification services you will need to use a valid provisioning profile set up for push as well as create a notifier.
+     *  For more information to do this please consult the documentation located at:
+     *  http://apigee.com/docs/api-baas/content/introducing-push-notifications
+     **/
     func application(application: UIApplication!, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData!) {
-        NSLog("DID REGISTER","");
-        APIClient.sharedClient().dataClient.setDevicePushToken(deviceToken, forNotifier: "eventManageriOSNotifier");
+        APIClient.sharedClient().didRegisterForRemoteNotificationsWithDeviceToken(deviceToken);
     }
 
     func application(application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError!) {
-        NSLog("FAILED TO REGISTER","");
-
+        NSLog("Application failed to register for remote notifications","");
     }
-
-//    func application(application: UIApplication!, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]!) {
-//        NSLog("","");
-//
-//    }
-
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -66,7 +58,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 

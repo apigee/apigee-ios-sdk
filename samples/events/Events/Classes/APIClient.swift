@@ -8,9 +8,10 @@
 
 import Foundation
 
+// ERROR: You will need to input your own application you will need to set the organizationID and applicationID.
 struct ApigeeClientOrgAndAppID {
-    static let organizationID = "rwalsh"
-    static let applicationID = "sdk.demo"
+    static let organizationID = "<Your organization ID>"
+    static let applicationID = "<Your application ID or 'sandbox'>"
 }
 
 struct APIClientStaticStrings {
@@ -21,6 +22,7 @@ struct APIClientStaticStrings {
     static let usersConnectorType = "users"
     static let meConnectorID = "me"
     static let entitiesCollectionKey = "entities"
+    static let pushNotificationNotifierName = "eventManageriOSNotifier"
 }
 
 class APIClient : NSObject {
@@ -51,6 +53,11 @@ class APIClient : NSObject {
             Static.instance = APIClient()
         }
         return Static.instance!
+    }
+
+    // MARK: Push Notificaiton Registration
+    func didRegisterForRemoteNotificationsWithDeviceToken(deviceToken: NSData) {
+        APIClient.sharedClient().dataClient.setDevicePushToken(deviceToken, forNotifier: APIClientStaticStrings.pushNotificationNotifierName);
     }
 
     // MARK: Login/Logout user.
