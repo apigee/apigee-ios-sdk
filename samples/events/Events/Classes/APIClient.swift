@@ -8,10 +8,11 @@
 
 import Foundation
 
-// ERROR: You will need to input your own application you will need to set the organizationID and applicationID.
-struct ApigeeClientOrgAndAppID {
+// ERROR: You will need to input your own application you will need to set the organizationID, applicationID and notifier name.
+struct AppServicesStaticStrings {
     static let organizationID = "<Your organization ID>"
     static let applicationID = "<Your application ID or 'sandbox'>"
+    static let pushNotificationNotifierName = "<Your push notification notifiers name>"
 }
 
 struct APIClientStaticStrings {
@@ -22,7 +23,6 @@ struct APIClientStaticStrings {
     static let usersConnectorType = "users"
     static let meConnectorID = "me"
     static let entitiesCollectionKey = "entities"
-    static let pushNotificationNotifierName = "eventManageriOSNotifier"
 }
 
 class APIClient : NSObject {
@@ -40,7 +40,7 @@ class APIClient : NSObject {
     }
 
     init() {
-        apigeeClient = ApigeeClient(organizationId: ApigeeClientOrgAndAppID.organizationID, applicationId: ApigeeClientOrgAndAppID.applicationID)
+        apigeeClient = ApigeeClient(organizationId: AppServicesStaticStrings.organizationID, applicationId: AppServicesStaticStrings.applicationID)
         super.init()
     }
 
@@ -57,7 +57,7 @@ class APIClient : NSObject {
 
     // MARK: Push Notificaiton Registration
     func didRegisterForRemoteNotificationsWithDeviceToken(deviceToken: NSData) {
-        APIClient.sharedClient().dataClient.setDevicePushToken(deviceToken, forNotifier: APIClientStaticStrings.pushNotificationNotifierName);
+        APIClient.sharedClient().dataClient.setDevicePushToken(deviceToken, forNotifier: AppServicesStaticStrings.pushNotificationNotifierName);
     }
 
     // MARK: Login/Logout user.

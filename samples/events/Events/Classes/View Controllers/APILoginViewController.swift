@@ -18,6 +18,13 @@ class APILoginViewController: UIViewController,UITextFieldDelegate,UIAlertViewDe
         static let eventsViewSequeIdentifier = "EventsView"
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated);
+        if( AppServicesStaticStrings.organizationID.bridgeToObjectiveC().isEqualToString("<Your organization ID>") || AppServicesStaticStrings.organizationID.bridgeToObjectiveC().isEqualToString("<Your application ID or 'sandbox'>") ) {
+            UIAlertController.presentAlertController("Please input your application ID and/or organization name before using application!", message: nil, presentingController: self);
+        }
+    }
+
     // MARK: UITextFieldDelegate Functions
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
         textField.resignFirstResponder()
