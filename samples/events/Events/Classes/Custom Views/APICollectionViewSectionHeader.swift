@@ -10,5 +10,5 @@ import Foundation
 import UIKit
 
 class APICollectionViewSectionHeader: UICollectionReusableView {
-    @IBOutlet var headerNameLabel: UILabel
+    @IBOutlet weak var headerNameLabel: UILabel!
 }

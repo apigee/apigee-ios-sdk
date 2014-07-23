@@ -11,8 +11,8 @@ import UIKit
 
 class APILoginViewController: UIViewController,UITextFieldDelegate,UIAlertViewDelegate {
 
-    @IBOutlet var usernameTextField: UITextField
-    @IBOutlet var passwordTextField: UITextField
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
 
     struct LoginViewControllerStaticStrings {
         static let eventsViewSequeIdentifier = "EventsView"

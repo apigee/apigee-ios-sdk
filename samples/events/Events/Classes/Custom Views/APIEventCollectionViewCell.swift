@@ -10,6 +10,6 @@ import Foundation
 import UIKit
 
 class APIEventCollectionViewCell : UICollectionViewCell {
-    @IBOutlet var eventNameLabel: UILabel
-    @IBOutlet var locationLabel: UILabel
+    @IBOutlet weak var eventNameLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
 }
