@@ -26,9 +26,9 @@ struct EventsViewControllerStaticStrings {
 
 class APIEventsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate {
 
-    @IBOutlet var locationBasedSearchSwitch: UISwitch
-    @IBOutlet var eventSearchBar: UISearchBar
-    @IBOutlet var collectionView: UICollectionView
+    @IBOutlet weak var locationBasedSearchSwitch: UISwitch!
+    @IBOutlet weak var eventSearchBar: UISearchBar!
+    @IBOutlet weak var collectionView: UICollectionView!
 
     var publicEvents: NSArray?
     var privateEvents: NSArray?
@@ -117,13 +117,13 @@ class APIEventsViewController: UIViewController, UICollectionViewDelegate, UICol
 
     func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
-            if self.publicEvents? {
-                return self.publicEvents!.count
+            if let publicEvents = self.publicEvents {
+                return publicEvents.count
             } else {
                 return 0
             }
-        } else if self.privateEvents != nil {
-            return self.privateEvents!.count
+        } else if let privateEvents = self.privateEvents {
+            return privateEvents.count
         } else {
             return 0
         }

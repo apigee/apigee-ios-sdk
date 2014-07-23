@@ -11,13 +11,13 @@ import UIKit
 
 class APIRegisterViewController: UIViewController,UITextFieldDelegate {
 
-    @IBOutlet var cancelButton: UIButton
-    @IBOutlet var registerButton: UIButton
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var registerButton: UIButton!
 
-    @IBOutlet var usernameTextField: UITextField
-    @IBOutlet var fullNameTextField: UITextField
-    @IBOutlet var emailTextField: UITextField
-    @IBOutlet var passwordTextField: UITextField
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var fullNameTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
 
     // MARK: UITextFieldDelegate Functions
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
