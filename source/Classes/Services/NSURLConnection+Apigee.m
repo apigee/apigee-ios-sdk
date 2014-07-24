@@ -320,80 +320,92 @@ static void NSURLConnection_apigeeStart(id self,SEL _cmd)
     selMethod = @selector(sendSynchronousRequest:returningResponse:error:);
     impOverrideMethod = (IMP) NSURLConnection_apigeeSendSynchronousRequestReturningResponseError;
     origMethod = class_getClassMethod(c,selMethod);
-    gOrigNSURLConnection_sendSynchronousRequestReturningResponseError = (void *)method_getImplementation(origMethod);
-    
-    if( gOrigNSURLConnection_sendSynchronousRequestReturningResponseError != NULL )
+    if( impOverrideMethod != method_getImplementation(origMethod) )
     {
-        method_setImplementation(origMethod, impOverrideMethod);
-        ++numSwizzledMethods;
-    } else {
-        NSLog(@"error: unable to swizzle +sendSynchronousRequest:returningResponse:error:");
+        gOrigNSURLConnection_sendSynchronousRequestReturningResponseError = (void *)method_getImplementation(origMethod);
+
+        if( gOrigNSURLConnection_sendSynchronousRequestReturningResponseError != NULL )
+        {
+            method_setImplementation(origMethod, impOverrideMethod);
+            ++numSwizzledMethods;
+        } else {
+            NSLog(@"error: unable to swizzle +sendSynchronousRequest:returningResponse:error:");
+        }
     }
 
-    
     //***********************************
     // NSURLConnection +connectionWithRequest:delegate:
     selMethod = @selector(connectionWithRequest:delegate:);
     impOverrideMethod = (IMP) NSURLConnection_apigeeConnectionWithRequestDelegate;
     origMethod = class_getClassMethod(c,selMethod);
-    gOrigNSURLConnection_connectionWithRequestDelegate = (void *)method_getImplementation(origMethod);
-    
-    if( gOrigNSURLConnection_connectionWithRequestDelegate != NULL )
+    if( impOverrideMethod != method_getImplementation(origMethod) )
     {
-        method_setImplementation(origMethod, impOverrideMethod);
-        ++numSwizzledMethods;
-    } else {
-        NSLog(@"error: unable to swizzle +connectionWithRequest:delegate:");
-    }
+        gOrigNSURLConnection_connectionWithRequestDelegate = (void *)method_getImplementation(origMethod);
 
+        if( gOrigNSURLConnection_connectionWithRequestDelegate != NULL )
+        {
+            method_setImplementation(origMethod, impOverrideMethod);
+            ++numSwizzledMethods;
+        } else {
+            NSLog(@"error: unable to swizzle +connectionWithRequest:delegate:");
+        }
+    }
 
     //***********************************
     // NSURLConnection -initWithRequest:delegate:startImmediately:
     selMethod = @selector(initWithRequest:delegate:startImmediately:);
     impOverrideMethod = (IMP) NSURLConnection_apigeeInitWithRequestDelegateStartImmediately;
     origMethod = class_getInstanceMethod(c,selMethod);
-    gOrigNSURLConnection_initWithRequestDelegateStartImmediately = (void *)method_getImplementation(origMethod);
-    
-    if( gOrigNSURLConnection_initWithRequestDelegateStartImmediately != NULL )
+    if( impOverrideMethod != method_getImplementation(origMethod) )
     {
-        method_setImplementation(origMethod, impOverrideMethod);
-        ++numSwizzledMethods;
-    } else {
-        NSLog(@"error: unable to swizzle -initWithRequest:delegate:startImmediately:");
+        gOrigNSURLConnection_initWithRequestDelegateStartImmediately = (void *)method_getImplementation(origMethod);
+
+        if( gOrigNSURLConnection_initWithRequestDelegateStartImmediately != NULL )
+        {
+            method_setImplementation(origMethod, impOverrideMethod);
+            ++numSwizzledMethods;
+        } else {
+            NSLog(@"error: unable to swizzle -initWithRequest:delegate:startImmediately:");
+        }
     }
 
-    
     //***********************************
     // NSURLConnection -initWithRequest:delegate:
     selMethod = @selector(initWithRequest:delegate:);
     impOverrideMethod = (IMP) NSURLConnection_apigeeInitWithRequestDelegate;
     origMethod = class_getInstanceMethod(c,selMethod);
-    gOrigNSURLConnection_initWithRequestDelegate = (void *)method_getImplementation(origMethod);
-    
-    if( gOrigNSURLConnection_initWithRequestDelegate != NULL )
+    if( impOverrideMethod != method_getImplementation(origMethod) )
     {
-        method_setImplementation(origMethod, impOverrideMethod);
-        ++numSwizzledMethods;
-    } else {
-        NSLog(@"error: unable to swizzle -initWithRequest:delegate:");
+        gOrigNSURLConnection_initWithRequestDelegate = (void *)method_getImplementation(origMethod);
+
+        if( gOrigNSURLConnection_initWithRequestDelegate != NULL )
+        {
+            method_setImplementation(origMethod, impOverrideMethod);
+            ++numSwizzledMethods;
+        } else {
+            NSLog(@"error: unable to swizzle -initWithRequest:delegate:");
+        }
     }
 
-    
+
     //***********************************
     // NSURLConnection -start
     selMethod = @selector(start);
     impOverrideMethod = (IMP) NSURLConnection_apigeeStart;
     origMethod = class_getInstanceMethod(c,selMethod);
-    gOrigNSURLConnection_start = (void *)method_getImplementation(origMethod);
-    
-    if( gOrigNSURLConnection_start != NULL )
+    if( impOverrideMethod != method_getImplementation(origMethod) )
     {
-        method_setImplementation(origMethod, impOverrideMethod);
-        ++numSwizzledMethods;
-    } else {
-        NSLog(@"error: unable to swizzle -start");
+        gOrigNSURLConnection_start = (void *)method_getImplementation(origMethod);
+
+        if( gOrigNSURLConnection_start != NULL )
+        {
+            method_setImplementation(origMethod, impOverrideMethod);
+            ++numSwizzledMethods;
+        } else {
+            NSLog(@"error: unable to swizzle -start");
+        }
     }
-    
+
     return (numSwizzledMethods == 5);
 }
 
