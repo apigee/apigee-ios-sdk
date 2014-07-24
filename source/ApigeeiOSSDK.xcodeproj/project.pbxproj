@@ -98,6 +98,7 @@
 		63BCC1AF1980384D00EF815B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253A177A36E600FCA013 /* CoreLocation.framework */; };
 		63BCC1B01980385000EF815B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253C177A36F100FCA013 /* SystemConfiguration.framework */; };
 		63BCC1B11980385200EF815B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253E177A36FB00FCA013 /* CoreTelephony.framework */; };
+		63BCC1B319804A5500EF815B /* ApigeeUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BCC1B219804A5500EF815B /* ApigeeUserTests.m */; };
 		63BFFD67197F267D00017F6F /* libApigeeiOSSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F522BB1778C2B200FCA013 /* libApigeeiOSSDK.a */; };
 		63BFFD72197F269400017F6F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F522BE1778C2B200FCA013 /* Foundation.framework */; };
 		63BFFD75197F26E500017F6F /* ApigeeClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFD73197F26E500017F6F /* ApigeeClientTests.m */; };
@@ -442,6 +443,7 @@
 		63B68EFD18035433003424E1 /* ApigeeNSURLSessionDataTaskInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeNSURLSessionDataTaskInfo.m; path = Classes/Services/ApigeeNSURLSessionDataTaskInfo.m; sourceTree = SOURCE_ROOT; };
 		63B68F7F18076294003424E1 /* ApigeeNSURLSessionSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeNSURLSessionSupport.h; path = Classes/Services/ApigeeNSURLSessionSupport.h; sourceTree = SOURCE_ROOT; };
 		63B68F8018076294003424E1 /* ApigeeNSURLSessionSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeNSURLSessionSupport.m; path = Classes/Services/ApigeeNSURLSessionSupport.m; sourceTree = SOURCE_ROOT; };
+		63BCC1B219804A5500EF815B /* ApigeeUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeUserTests.m; sourceTree = "<group>"; };
 		63BFFD61197F267D00017F6F /* ApigeeiOSSDK Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ApigeeiOSSDK Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		63BFFD64197F267D00017F6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63BFFD73197F26E500017F6F /* ApigeeClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeClientTests.m; sourceTree = "<group>"; };
@@ -657,6 +659,7 @@
 			isa = PBXGroup;
 			children = (
 				63BFFD73197F26E500017F6F /* ApigeeClientTests.m */,
+				63BCC1B219804A5500EF815B /* ApigeeUserTests.m */,
 				63BFFD63197F267D00017F6F /* Supporting Files */,
 			);
 			path = "ApigeeiOSSDK Tests";
@@ -1311,6 +1314,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63BCC1B319804A5500EF815B /* ApigeeUserTests.m in Sources */,
 				63BFFD75197F26E500017F6F /* ApigeeClientTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

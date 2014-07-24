@@ -31,25 +31,17 @@ static NSString* const kAPI_Test_AppID = @"sandbox";
 -(void)tearDown
 {
     [super tearDown];
-
-    NSString *orgName = @"YOUR-ORG";
-    NSString *appName = @"YOUR-APP";
-
-    //Instantiate ApigeeClient to initialize the SDK
-    _apigeeClient = [[ApigeeClient alloc] initWithOrganizationId:orgName
-                                                   applicationId:appName];
-
 }
 
-- (void)test_ApigeeClientCreation_OnlyOrgAndAppIDs {
+- (void)test_ApigeeClientCreation {
     ApigeeClient* apigeeClient = [[ApigeeClient alloc] initWithOrganizationId:kAPI_Test_OrgName
                                                        applicationId:kAPI_Test_AppID];
 
     // Assert the client and all its available properties are non-nil.
-    XCTAssertNotNil(apigeeClient, @"apigeeClient should not be nil.");
-    XCTAssertNotNil([apigeeClient dataClient], @"apigeeClient's dataClient should not be nil.");
-    XCTAssertNotNil([apigeeClient monitoringClient], @"apigeeClient's monitoringClient should not be nil.");
-    XCTAssertNotNil([apigeeClient appIdentification], @"apigeeClient's monitoringClient should not be nil.");
+    XCTAssertNotNil(apigeeClient, @"ApigeeClient should not be nil.");
+    XCTAssertNotNil([apigeeClient dataClient], @"ApigeeClient's dataClient should not be nil.");
+    XCTAssertNotNil([apigeeClient monitoringClient], @"ApigeeClient's monitoringClient should not be nil.");
+    XCTAssertNotNil([apigeeClient appIdentification], @"ApigeeClient's monitoringClient should not be nil.");
 }
 
 - (void)test_ApigeeAppIdentification {
