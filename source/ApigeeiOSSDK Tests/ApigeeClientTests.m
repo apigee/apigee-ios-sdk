@@ -41,7 +41,7 @@ static NSString* const kAPI_Test_AppID = @"sandbox";
     XCTAssertNotNil(apigeeClient, @"ApigeeClient should not be nil.");
     XCTAssertNotNil([apigeeClient dataClient], @"ApigeeClient's dataClient should not be nil.");
     XCTAssertNotNil([apigeeClient monitoringClient], @"ApigeeClient's monitoringClient should not be nil.");
-    XCTAssertNotNil([apigeeClient appIdentification], @"ApigeeClient's monitoringClient should not be nil.");
+    XCTAssertNotNil([apigeeClient appIdentification], @"ApigeeClient's appIdentification should not be nil.");
 }
 
 - (void)test_ApigeeAppIdentification {
@@ -51,9 +51,9 @@ static NSString* const kAPI_Test_AppID = @"sandbox";
     ApigeeAppIdentification* appIdentification = [apigeeClient appIdentification];
 
     // Assert the ApigeeAppIdentification and all its available properties are are set correctly.
-    XCTAssertEqual(kAPI_Test_OrgName, appIdentification.organizationId, @"ApigeeAppIdentification organization id are not equal.");
-    XCTAssertEqual(kAPI_Test_AppID, appIdentification.applicationId, @"ApigeeAppIdentification application id are not equal.");
-    XCTAssertEqual([ApigeeDataClient defaultBaseURL], [appIdentification baseURL], @"ApigeeAppIdentification baseURL are not equal.");
+    XCTAssertEqualObjects(kAPI_Test_OrgName, [appIdentification organizationId], @"ApigeeAppIdentification organization id are not equal.");
+    XCTAssertEqualObjects(kAPI_Test_AppID, [appIdentification applicationId], @"ApigeeAppIdentification application id are not equal.");
+    XCTAssertEqualObjects([ApigeeDataClient defaultBaseURL], [appIdentification baseURL], @"ApigeeAppIdentification baseURL are not equal.");
 }
 
 @end
