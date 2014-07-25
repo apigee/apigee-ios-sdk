@@ -24,7 +24,7 @@
     return NO;
 }
 
-- (void)test_apigeeMobileConfigSample {
+- (void)test_sample {
 
     NSString* configPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SampleTestData/apigeeMobileConfigSample.json" ofType:nil];
 

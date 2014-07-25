@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		636228FB1981EA5D00EF4ED4 /* ApigeeMonitorSettingsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 636228FA1981EA5D00EF4ED4 /* ApigeeMonitorSettingsTests.m */; };
 		637BC9DC181F02DD00F54D95 /* ApigeeLogging.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5250C1778F19200FCA013 /* ApigeeLogging.h */; };
 		637BC9EF182148F200F54D95 /* ApigeeAPSPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BC9EE182148F200F54D95 /* ApigeeAPSPayload.m */; };
 		637BC9F21821498D00F54D95 /* ApigeeAPSAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BC9F11821498D00F54D95 /* ApigeeAPSAlert.m */; };
@@ -279,6 +280,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		636228FA1981EA5D00EF4ED4 /* ApigeeMonitorSettingsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeMonitorSettingsTests.m; sourceTree = "<group>"; };
 		637BC9ED182148F200F54D95 /* ApigeeAPSPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeAPSPayload.h; path = Classes/AppServices/ApigeeAPSPayload.h; sourceTree = SOURCE_ROOT; };
 		637BC9EE182148F200F54D95 /* ApigeeAPSPayload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeAPSPayload.m; path = Classes/AppServices/ApigeeAPSPayload.m; sourceTree = SOURCE_ROOT; };
 		637BC9F01821498D00F54D95 /* ApigeeAPSAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeAPSAlert.h; path = Classes/AppServices/ApigeeAPSAlert.h; sourceTree = SOURCE_ROOT; };
@@ -664,6 +666,7 @@
 			children = (
 				63BFFD73197F26E500017F6F /* ApigeeClientTests.m */,
 				63BCC1B219804A5500EF815B /* ApigeeUserTests.m */,
+				636228FA1981EA5D00EF4ED4 /* ApigeeMonitorSettingsTests.m */,
 				63D24CAC19818A2500EA0246 /* ApigeeCompositeConfigurationTest.m */,
 				63D24CAE19818B0F00EA0246 /* SampleTestData */,
 				63BFFD63197F267D00017F6F /* Supporting Files */,
@@ -1323,6 +1326,7 @@
 			files = (
 				63BCC1B319804A5500EF815B /* ApigeeUserTests.m in Sources */,
 				63D24CAD19818A2500EA0246 /* ApigeeCompositeConfigurationTest.m in Sources */,
+				636228FB1981EA5D00EF4ED4 /* ApigeeMonitorSettingsTests.m in Sources */,
 				63BFFD75197F26E500017F6F /* ApigeeClientTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
