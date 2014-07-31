@@ -26,7 +26,7 @@
 
 - (void)test_sample {
 
-    NSString* configPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SampleTestData/apigeeMobileConfigSample.json" ofType:nil];
+    NSString* configPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SampleData/apigeeMobileConfigSample.json" ofType:nil];
 
     XCTAssertTrue([configPath length] > 0, @"config path should not have 0 length.");
 
@@ -63,7 +63,6 @@
     XCTAssertFalse([compositeConfiguration deviceTypeOverrideEnabled], @"deviceTypeOverrideEnabled should be false.");
     XCTAssertFalse([compositeConfiguration ABTestingOverrideEnabled], @"ABTestingOverrideEnabled should be false.");
 
-    // TODO: Assert these settings contents are correct.
     XCTAssertNotNil([compositeConfiguration defaultSettings], @"defaultSettings should not be nil");
     XCTAssertNotNil([compositeConfiguration deviceTypeSettings], @"deviceTypeSettings should not be nil");
     XCTAssertNotNil([compositeConfiguration deviceLevelSettings], @"deviceLevelSettings should not be nil");

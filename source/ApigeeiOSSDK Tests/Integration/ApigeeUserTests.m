@@ -28,6 +28,10 @@ static NSString* const kAPITestPassword = @"password";
 
 @implementation ApigeeUserTests
 
+-(BOOL)continueAfterFailure {
+    return NO;
+}
+
 - (void)setUp {
 
     [super setUp];

@@ -21,10 +21,14 @@
 
 @implementation ApigeeMonitorSettingsTests
 
+-(BOOL)continueAfterFailure {
+    return NO;
+}
+
 - (void)setUp {
     [super setUp];
 
-    NSString* configPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SampleTestData/apigeeMobileConfigSample.json" ofType:nil];
+    NSString* configPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SampleData/apigeeMobileConfigSample.json" ofType:nil];
 
     NSData* configData = [NSData dataWithContentsOfFile:configPath];
     NSString* configJSONString = [[NSString alloc] initWithData:configData
@@ -73,7 +77,7 @@
     XCTAssertEqual([defaultSettings logLevelToMonitor], 3, @"logLevelToMonitor should be 3");
     XCTAssertEqual([defaultSettings samplingRate], 100, @"samplingRate should be 100");
 
-    XCTAssertEqual([[defaultSettings urlRegex] count], 0, @"deviceLevelSettings should have 0 count.");
+    XCTAssertEqual([[defaultSettings urlRegex] count], 0, @"urlRegex should have 0 count.");
     XCTAssertEqual([[defaultSettings customConfigParams] count], 0, @"customConfigParams should have 0 count.");
 }
 
