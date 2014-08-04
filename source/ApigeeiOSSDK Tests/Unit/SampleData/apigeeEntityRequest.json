@@ -1,0 +1,84 @@
+{
+    "action" : "get",
+    "application" : "c42bdc10-fb24-11e3-8452-25d3fc2d5ac5",
+    "params" : {},
+    "path" : "/publicevents",
+    "uri" : "https://api.usergrid.com/rwalsh/sdk.demo/publicevents",
+    "entities" : [
+                  {
+                  "uuid" : "fa015eaa-fe1c-11e3-b94b-63b29addea01",
+                  "type" : "publicevent",
+                  "created" : 1403888615818,
+                  "modified" : 1403888615818,
+                  "eventName" : "public event 1",
+                  "location" : {
+                  "longitude" : -84.387982,
+                  "latitude" : 33.748995
+                  },
+                  "metadata" : {
+                  "path" : "/publicevents/fa015eaa-fe1c-11e3-b94b-63b29addea01"
+                  }
+                  },
+                  {
+                  "uuid" : "0df35c5a-fe23-11e3-b027-bbe24cc41804",
+                  "type" : "publicevent",
+                  "created" : 1403891226261,
+                  "modified" : 1403891226261,
+                  "eventName" : "public event 2",
+                  "location" : {
+                  "longitude" : -87.63243,
+                  "latitude" : 41.88322
+                  },
+                  "metadata" : {
+                  "path" : "/publicevents/0df35c5a-fe23-11e3-b027-bbe24cc41804"
+                  }
+                  },
+                  {
+                  "uuid" : "cdfe3244-06d0-11e4-a02e-abda9dc194c3",
+                  "type" : "publicevent",
+                  "created" : 1404845460691,
+                  "modified" : 1404845460691,
+                  "eventName" : "public event 3",
+                  "location" : {
+                  "longitude" : -74.0059413,
+                  "latitude" : 40.7127837
+                  },
+                  "metadata" : {
+                  "path" : "/publicevents/cdfe3244-06d0-11e4-a02e-abda9dc194c3"
+                  }
+                  },
+                  {
+                  "uuid" : "621d5aea-06d1-11e4-a2a1-dd0f744625db",
+                  "type" : "publicevent",
+                  "created" : 1404845709198,
+                  "modified" : 1404845709198,
+                  "eventName" : "public event 4",
+                  "location" : {
+                  "longitude" : -121.8949555,
+                  "latitude" : 37.3393857
+                  },
+                  "metadata" : {
+                  "path" : "/publicevents/621d5aea-06d1-11e4-a2a1-dd0f744625db"
+                  }
+                  },
+                  {
+                  "uuid" : "5dc742ea-0860-11e4-b380-c3e8d577258e",
+                  "type" : "publicevent",
+                  "created" : 1405017071118,
+                  "modified" : 1405017071118,
+                  "eventName" : "public event 5",
+                  "location" : {
+                  "longitude" : -74.0059413,
+                  "latitude" : 40.7127837
+                  },
+                  "metadata" : {
+                  "path" : "/publicevents/5dc742ea-0860-11e4-b380-c3e8d577258e"
+                  }
+                  }
+                  ],
+    "timestamp" : 1405539157157,
+    "duration" : 55,
+    "organization" : "rwalsh",
+    "applicationName" : "sdk.demo",
+    "count" : 5
+}
