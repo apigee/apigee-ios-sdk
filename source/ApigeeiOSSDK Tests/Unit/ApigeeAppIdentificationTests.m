@@ -17,6 +17,10 @@ static NSString* const kAPIAppID = @"testAppID";
 static NSString* const kAPIOrgUUID = @"4c735c7a-fb24-11e3-9064-b71444e51454";
 static NSString* const kAPIAppUUID = @"c42bdc10-fb24-11e3-8452-25d3fc2d5ac5";
 
+/*!
+ @class ApigeeAppIdentificationTests
+ @abstract The ApigeeAppIdentificationTests test case is used to validate the various ways of creating the ApigeeAppIdentification object.
+ */
 @interface ApigeeAppIdentificationTests : XCTestCase
 
 @property (nonatomic,strong) ApigeeAppIdentification* apigeeAppIdentification;
@@ -25,6 +29,9 @@ static NSString* const kAPIAppUUID = @"c42bdc10-fb24-11e3-8452-25d3fc2d5ac5";
 
 @implementation ApigeeAppIdentificationTests
 
+/*!
+ @abstract Tests the creation of the ApigeeAppIdentification object using the - (id)initWithOrganizationId:(NSString*)theOrganizationId applicationId:(NSString*)theApplicationId initializer method.
+ */
 - (void)test_CreationWithIDs {
 
     ApigeeAppIdentification* appIdentification = [[ApigeeAppIdentification alloc] initWithOrganizationId:kAPIOrgName
@@ -41,6 +48,9 @@ static NSString* const kAPIAppUUID = @"c42bdc10-fb24-11e3-8452-25d3fc2d5ac5";
     XCTAssertEqualObjects([appIdentification baseURL], [ApigeeDataClient defaultBaseURL], @"baseURL should be equal to %@", [ApigeeDataClient defaultBaseURL]);
 }
 
+/*!
+ @abstract Tests the creation of the ApigeeAppIdentification object using the - (id)initWithOrganizationUUID:(NSString*)theOrganizationId applicationUUID:(NSString*)theApplicationId initializer method.
+ */
 - (void)test_CreationWithUUIDs {
 
     ApigeeAppIdentification* appIdentification = [[ApigeeAppIdentification alloc] initWithOrganizationUUID:kAPIOrgUUID

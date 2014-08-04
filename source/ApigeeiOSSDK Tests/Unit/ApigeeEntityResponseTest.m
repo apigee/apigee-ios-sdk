@@ -12,6 +12,10 @@
 #import "Apigee.h"
 #import "ApigeeClientResponse.h"
 
+/*!
+ @class ApigeeEntityRequestTest
+ @abstract The ApigeeEntityRequestTest test case is used to test the validity of various parts of a sample entity request operation.
+ */
 @interface ApigeeEntityRequestTest : XCTestCase
 
 @property (nonatomic,strong) ApigeeDataClient* dummyDataClient;
@@ -44,6 +48,9 @@
     [super tearDown];
 }
 
+/*!
+ @abstract Tests the top level properties of the sample data (everything but the entites) for validity.
+ */
 - (void)test_sampleTopLevelProperties {
 
     // Missing properties: applicationName/application, duration, count
@@ -63,6 +70,10 @@
     XCTAssertEqualObjects(response.uri, @"https://api.usergrid.com/rwalsh/sdk.demo/publicevents", @"application should be \"https://api.usergrid.com/rwalsh/sdk.demo/publicevents\"");
 }
 
+
+/*!
+ @abstract Tests the first entity of the sample data for validity.
+ */
 - (void)test_sampleFirstEntityData {
 
     ApigeeClientResponse* response = self.clientResponse;
