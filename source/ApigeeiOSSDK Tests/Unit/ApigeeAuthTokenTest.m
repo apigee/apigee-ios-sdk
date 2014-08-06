@@ -12,6 +12,10 @@
 #import "Apigee.h"
 #import "ApigeeJsonUtils.h"
 
+/*!
+ @class ApigeeAuthTokenTest
+ @abstract The ApigeeAuthTokenTest test case is used to validate the creation and validity of a token requests response.  This comes into play when, for example, you login a user with the ApigeeDataClient.
+ */
 @interface ApigeeAuthTokenTest : XCTestCase
 
 @property (nonatomic,strong) NSDictionary* tokenDictionary;
@@ -45,12 +49,18 @@
     [super tearDown];
 }
 
+/*!
+ @abstract Tests the validity of the top level access_token and expires_in properties.
+ */
 - (void)test_AuthProperties {
 
     XCTAssertEqualObjects([[self tokenDictionary] valueForKey:@"access_token"], @"YWMt7J72Zg0fEeShX-l2bfgeBwAAAUdktenuCX-b_zZ_TvaOMAfcnBKgOFHJJ9U", @"access_token is not equal.");
     XCTAssertEqualObjects([[self tokenDictionary] objectForKey:@"expires_in"], [NSNumber numberWithFloat:604800], @"expires_in is not equal.");
 }
 
+/*!
+ @abstract Tests the validity of the ApigeeUser created through the use of the sample data.
+ */
 - (void)test_UserProperties {
 
     ApigeeUser* user = [[ApigeeUser alloc] initWithDataClient:nil];

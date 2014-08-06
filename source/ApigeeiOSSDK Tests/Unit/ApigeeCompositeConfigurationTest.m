@@ -14,6 +14,10 @@
 #import "ApigeeCompositeConfiguration+JSON.h"
 #import "NSDate+Apigee.h"
 
+/*!
+ @class ApigeeCompositeConfigurationTest
+ @abstract The ApigeeCompositeConfigurationTest test case is used to test the validity of the creation of the ApigeeCompositeConfiguration object.  This data comes in as part of the config request and tests all aspects of the request except for the monitoring settings creation, which is tested in the ApigeeMonitorSettingsTests test case.
+ */
 @interface ApigeeCompositeConfigurationTest : XCTestCase
 
 @end
@@ -24,6 +28,9 @@
     return NO;
 }
 
+/*!
+ @abstract Tests the creation of the ApigeeCompositeConfiguration object and validates the objects various properties.
+ */
 - (void)test_sample {
 
     NSString* configPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SampleData/apigeeMobileConfigSample.json" ofType:nil];

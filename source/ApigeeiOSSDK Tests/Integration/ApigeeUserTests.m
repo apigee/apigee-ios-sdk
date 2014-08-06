@@ -20,6 +20,10 @@ static NSString* const kAPITestEmail = @"testUser@apigee.com";
 static NSString* const kAPITestName = @"Test User";
 static NSString* const kAPITestPassword = @"password";
 
+/*!
+ @class ApigeeUserTests
+ @abstract The ApigeeUserTests test case is used to test the flow of adding and manipulating a new/existing user.
+ */
 @interface ApigeeUserTests : XCTestCase
 
 @property (nonatomic,strong) ApigeeClient* apigeeClient;
@@ -47,6 +51,9 @@ static NSString* const kAPITestPassword = @"password";
     [super tearDown];
 }
 
+/*!
+ @abstract Tests creating a new ApigeeUser, the validity of that new users properties, logging that new user into the ApigeeDataClient, validating that the logged in user is correct, logging them out of the ApigeeDataClient, and then deleting the user.
+ */
 - (void)test_UserRegistrationLoginLogout {
 
     ApigeeDataClient* dataClient = [[self apigeeClient] dataClient];

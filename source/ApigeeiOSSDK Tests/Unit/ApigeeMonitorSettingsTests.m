@@ -13,6 +13,10 @@
 #import "ApigeeCachedConfigUtil.h"
 #import "ApigeeCompositeConfiguration+JSON.h"
 
+/*!
+ @class ApigeeMonitorSettingsTests
+ @abstract The ApigeeMonitorSettingsTests test case is used to test the validity of the creation of the various ApigeeMonitorSettings objects that are read from the ApigeeCompositeConfiguration top level object.
+ */
 @interface ApigeeMonitorSettingsTests : XCTestCase
 
 @property (nonatomic,strong) ApigeeCompositeConfiguration* compositeConfiguration;
@@ -43,6 +47,9 @@
     [super tearDown];
 }
 
+/*!
+ @abstract Tests the validity of the ApigeeCompositeConfiguration defaultSettings property.
+ */
 - (void)test_sampleDefaultLevelSettings {
 
     XCTAssertNotNil([self compositeConfiguration], @"compositeConfiguration should not be nil.");
@@ -81,6 +88,9 @@
     XCTAssertEqual([[defaultSettings customConfigParams] count], 0, @"customConfigParams should have 0 count.");
 }
 
+/*!
+ @abstract Tests the validity of the ApigeeCompositeConfiguration deviceLevelSettings property.
+ */
 - (void)test_sampleDeviceLevelSettings {
 
     XCTAssertNotNil([self compositeConfiguration], @"compositeConfiguration should not be nil.");
@@ -119,6 +129,9 @@
     XCTAssertEqual([[deviceLevelSettings customConfigParams] count], 0, @"customConfigParams should have 0 count.");
 }
 
+/*!
+ @abstract Tests the validity of the ApigeeCompositeConfiguration deviceTypeSettings property.
+ */
 - (void)test_sampleDeviceTypeSettings {
 
     XCTAssertNotNil([self compositeConfiguration], @"compositeConfiguration should not be nil.");
@@ -157,6 +170,9 @@
     XCTAssertEqual([[deviceTypeSettings customConfigParams] count], 0, @"customConfigParams should have 0 count.");
 }
 
+/*!
+ @abstract Tests the validity of the ApigeeCompositeConfiguration abTestingSettings property.
+ */
 - (void)test_sampleABTestingSettings {
 
     XCTAssertNotNil([self compositeConfiguration], @"compositeConfiguration should not be nil.");
