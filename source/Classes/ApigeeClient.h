@@ -112,7 +112,7 @@
                applicationId:(NSString*)applicationId
                      baseURL:(NSString*)baseURL
                     urlTerms:(NSString*)urlTerms
-                     options:(ApigeeMonitoringOptions*)monitoringOptions
+                     options:(ApigeeMonitoringOptions*)monitoringOptions;
 
 /*!
  @abstract Retrieves the Apigee data client (Usergrid)
