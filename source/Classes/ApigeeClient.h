@@ -95,6 +95,24 @@
                      baseURL:(NSString*)baseURL
                      options:(ApigeeMonitoringOptions*)monitoringOptions;
 
+/*!
+ @abstract Initializes Apigee client object using org name, app name, base URL,
+ urlTerms, and ApigeeMonitoringOptions
+ @param organizationId Identifier for your organization
+ @param applicationId Identifier for your application
+ @param baseURL URL for server
+ @param urlTerms Default string og URL params to append to all API calls
+ @param monitoringOptions The options to use for app monitoring
+ @see ApigeeMonitoringOptions ApigeeMonitoringOptions
+ @return initialized instance of ApigeeClient
+ @discussion The baseURL parameter should not be specified (can be nil) unless
+ directed to do so by Apigee
+ */
+- (id)initWithOrganizationId:(NSString*)organizationId
+               applicationId:(NSString*)applicationId
+                     baseURL:(NSString*)baseURL
+                    urlTerms:(NSString*)urlTerms
+                     options:(ApigeeMonitoringOptions*)monitoringOptions;
 
 /*!
  @abstract Retrieves the Apigee data client (Usergrid)
