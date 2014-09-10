@@ -44,7 +44,7 @@ class APIAddEventViewController: UIViewController {
                         let latitude = NSNumber(double: placemark.location.coordinate.latitude)
                         let longitude = NSNumber(double: placemark.location.coordinate.longitude)
 
-                        var eventEntityDict = NSMutableDictionary()
+                        var eventEntityDict = Dictionary<String,AnyObject>()
                         if isPublicEvent {
                             eventEntityDict[APIClientStaticStrings.type] = APIClientStaticStrings.publicEventsCollection
                         } else {
@@ -60,7 +60,7 @@ class APIAddEventViewController: UIViewController {
                                 APIClient.sharedClient().dataClient.connectEntities(APIClientStaticStrings.usersConnectorType, connectorID: APIClient.sharedClient().currentUser!.uuid, type: APIClientStaticStrings.privateConnectionType, connecteeID: responseEntity.uuid)
                             }
                         }
-                        self.navigationController.popViewControllerAnimated(true)
+                        self.navigationController!.popViewControllerAnimated(true)
                     }
                 } else {
                     UIAlertController.presentAlertController("Location Invalid!", message: error.description, presentingController: self)
@@ -80,6 +80,6 @@ class APIAddEventViewController: UIViewController {
     }
 
     @IBAction func cancelPressed(sender: AnyObject!) {
-        self.navigationController.popViewControllerAnimated(true)
+        self.navigationController!.popViewControllerAnimated(true)
     }
 }
