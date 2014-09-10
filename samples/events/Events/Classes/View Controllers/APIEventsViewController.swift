@@ -43,7 +43,7 @@ class APIEventsViewController: UIViewController, UICollectionViewDelegate, UICol
     // MARK: Handling @IBOutlet touch events
     @IBAction func logoutButtonPressed(sender: AnyObject!) {
         APIClient.sharedClient().logoutCurrentUser()
-        self.navigationController.popViewControllerAnimated(true)
+        self.navigationController!.popViewControllerAnimated(true)
     }
 
     func searchBarCancelButtonClicked(searchBar: UISearchBar!) {
@@ -53,7 +53,7 @@ class APIEventsViewController: UIViewController, UICollectionViewDelegate, UICol
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar!) -> Bool {
-        if locationBasedSearchSwitch.on.getLogicValue() {
+        if locationBasedSearchSwitch.on {
             self.performLocationBasedSearch(searchBar.text)
         } else {
             self.performEventNameBasedSearch(searchBar.text)
@@ -115,7 +115,7 @@ class APIEventsViewController: UIViewController, UICollectionViewDelegate, UICol
         return sectionHeader
     }
 
-    func collectionView(collectionView: UICollectionView!, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
             if let publicEvents = self.publicEvents {
                 return publicEvents.count
@@ -129,7 +129,7 @@ class APIEventsViewController: UIViewController, UICollectionViewDelegate, UICol
         }
     }
 
-    func collectionView(collectionView: UICollectionView!, cellForItemAtIndexPath indexPath: NSIndexPath!) -> UICollectionViewCell! {
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(EventsViewControllerStaticStrings.cellIdentifier, forIndexPath: indexPath) as APIEventCollectionViewCell
 
@@ -157,9 +157,9 @@ class APIEventsViewController: UIViewController, UICollectionViewDelegate, UICol
                 cell.locationLabel.text = nil
                 
                 if let locationDict = eventLocationDictionary {
-                    let lat = locationDict[EventAttributeNames.latitude] as? NSNumber
-                    let long = locationDict[EventAttributeNames.longitude] as? NSNumber
-                    if lat && long {
+                    var lat = locationDict[EventAttributeNames.latitude] as? NSNumber
+                    var long = locationDict[EventAttributeNames.longitude] as? NSNumber
+                    if lat != nil && long != nil {
                         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: lat!.doubleValue, longitude: long!.doubleValue), completionHandler: {placemarks,error in
                             if error == nil && placemarks.count > 0 {
                                 if let placemark = placemarks[0] as? CLPlacemark {

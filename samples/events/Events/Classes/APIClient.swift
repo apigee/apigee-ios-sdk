@@ -39,7 +39,7 @@ class APIClient : NSObject {
         return self.dataClient.getLoggedInUser()
     }
 
-    init() {
+    override init() {
         apigeeClient = ApigeeClient(organizationId: AppServicesStaticStrings.organizationID, applicationId: AppServicesStaticStrings.applicationID)
         super.init()
     }

@@ -20,7 +20,7 @@ class APILoginViewController: UIViewController,UITextFieldDelegate,UIAlertViewDe
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated);
-        if( AppServicesStaticStrings.organizationID.bridgeToObjectiveC().isEqualToString("<Your organization ID>") || AppServicesStaticStrings.organizationID.bridgeToObjectiveC().isEqualToString("<Your application ID or 'sandbox'>") ) {
+        if( AppServicesStaticStrings.organizationID == "<Your organization ID>" || AppServicesStaticStrings.organizationID == "<Your application ID or 'sandbox'>" ) {
             UIAlertController.presentAlertController("Please input your application ID and/or organization name before using application!", message: nil, presentingController: self);
         }
     }
@@ -38,7 +38,7 @@ class APILoginViewController: UIViewController,UITextFieldDelegate,UIAlertViewDe
         if !usernameText.isEmpty && !passwordText.isEmpty {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                 APIClient.sharedClient().login(usernameText, password: passwordText, completion: { loginSucceeded,errorMessage in
-                    if loginSucceeded.getLogicValue() {
+                    if loginSucceeded {
                         self.performSegueWithIdentifier(APILoginViewController.LoginViewControllerStaticStrings.eventsViewSequeIdentifier, sender: nil)
                     } else {
                         var alertTitle = "Failed"
