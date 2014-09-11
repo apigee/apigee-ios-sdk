@@ -73,6 +73,16 @@ To build from source, issue this command from the `/source` directory of your re
 	./Scripts/framework.sh
 ```
 
+Running Unit Tests
+--------------------
+To run unit tests you can either use the Xcode IDE or Xcode's command line tools:
+
+    - From within the Xcode IDE, under the Product menu select Test.
+
+    - Using the command line issue the following command from the `\source` directory of your repository:
+
+    ```xcodebuild -project ApigeeiOSSDK.xcodeproj -scheme “ApigeeiOSSDK Tests” -configuration Debug -sdk iphonesimulator clean build test```
+
 
 Compatibility with iOS 7
 ------------------------
