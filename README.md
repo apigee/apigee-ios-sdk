@@ -1,6 +1,8 @@
 Apigee iOS SDK Overview
 =======================
 
+[![Build Status](https://travis-ci.org/apigee/apigee-ios-sdk.svg)](https://travis-ci.org/apigee/apigee-ios-sdk)
+
 There are 2 main areas of functionality provided: (1) App Services (Usergrid), and (2) App Monitoring.  App Services provides server-side storage functionality.  App Monitoring provides crash reporting, error tracking, application configuration management, and network performance monitoring.  You may use both of these areas or decide to just use one of them.
 
 
