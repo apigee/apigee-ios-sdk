@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		63772CCA198AF342002C9B45 /* ApigeeUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63772CBF198AF342002C9B45 /* ApigeeUserTests.m */; };
 		63772CCB198AF342002C9B45 /* ApigeeAppIdentificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63772CC1198AF342002C9B45 /* ApigeeAppIdentificationTests.m */; };
 		63772CCC198AF342002C9B45 /* ApigeeAuthTokenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63772CC2198AF342002C9B45 /* ApigeeAuthTokenTest.m */; };
 		63772CCD198AF342002C9B45 /* ApigeeClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63772CC3198AF342002C9B45 /* ApigeeClientTests.m */; };
@@ -1352,7 +1351,6 @@
 				63772CCC198AF342002C9B45 /* ApigeeAuthTokenTest.m in Sources */,
 				63772CCB198AF342002C9B45 /* ApigeeAppIdentificationTests.m in Sources */,
 				63772CD6198B0C90002C9B45 /* ApigeeEntityResponseTest.m in Sources */,
-				63772CCA198AF342002C9B45 /* ApigeeUserTests.m in Sources */,
 				63772CCE198AF342002C9B45 /* ApigeeCompositeConfigurationTest.m in Sources */,
 				63772CCF198AF342002C9B45 /* ApigeeMonitorSettingsTests.m in Sources */,
 				63772CCD198AF342002C9B45 /* ApigeeClientTests.m in Sources */,
