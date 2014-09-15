@@ -70,7 +70,7 @@ static void OverrideUIApplicationSendAction(UIApplication* self, SEL _cmd, SEL a
             
             if( barButtonItem.tag > 0 )
             {
-                buttonPressEvent.tag = barButtonItem.tag;
+                buttonPressEvent.tag = (int) barButtonItem.tag;
             }
             
             [[ApigeeUIEventManager sharedInstance] notifyButtonPress:buttonPressEvent];

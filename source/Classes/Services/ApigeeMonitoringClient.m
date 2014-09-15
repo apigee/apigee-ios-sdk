@@ -378,7 +378,7 @@ static bool AmIBeingDebugged(void)
     } else {
         self.autoPromoteLoggedErrors = YES;
         self.interceptNSURLSessionCalls = NO;
-        self.alwaysUploadCrashReports = YES;
+        self.alwaysUploadCrashReports = kDefaultUploadCrashReports;
     }
     
     self.appIdentification = theAppIdentification;

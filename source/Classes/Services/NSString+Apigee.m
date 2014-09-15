@@ -74,7 +74,7 @@
 {
     ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
     [entry recordStartTime];
-    NSString *data = [[NSString alloc] initWithContentsOfURL:url encoding:enc error:error];
+    NSString *data = [self initWithContentsOfURL:url encoding:enc error:error];
     [entry recordEndTime];
     
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
@@ -98,7 +98,7 @@
 {
     ApigeeNetworkEntry* entry = [[ApigeeNetworkEntry alloc] init];
     [entry recordStartTime];
-    NSString *data = [[NSString alloc] initWithContentsOfURL:url usedEncoding:enc error:error];
+    NSString *data = [self initWithContentsOfURL:url usedEncoding:enc error:error];
     [entry recordEndTime];
 
     ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
