@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-#import "ApigeeCompositeConfiguration.h"
+#import "ApigeeApp.h"
 
 
-@interface ApigeeCompositeConfiguration (JSON)
+@interface ApigeeApp (JSON)
 
-+ (ApigeeCompositeConfiguration *) fromDictionary:(NSDictionary *) jsonObjects;
++ (ApigeeApp *) fromDictionary:(NSDictionary *) jsonObjects;
 
 @end

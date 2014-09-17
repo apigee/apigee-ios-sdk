@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@class ApigeeCompositeConfiguration;
+@class ApigeeApp;
 
 #define kApigeeGetConfiguationFailed 100
 #define kApigeeUpdateConfiguationFailed 101
@@ -24,9 +24,9 @@
 
 + (NSString*)configFileName;
 + (BOOL) isCached;
-+ (ApigeeCompositeConfiguration *) parseConfiguration:(NSString*)jsonConfigAsString
++ (ApigeeApp *) parseConfiguration:(NSString*)jsonConfigAsString
                                                 error:(NSError **)error;
-+ (ApigeeCompositeConfiguration *) getConfiguration:(NSError **) error;
++ (ApigeeApp *) getConfiguration:(NSError **) error;
 + (BOOL) updateConfiguration:(NSData *) fileData error: (NSError **) error;
 
 @end

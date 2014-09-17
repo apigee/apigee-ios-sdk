@@ -15,10 +15,10 @@
  */
 
 
-#import "ApigeeMonitorSettings.h"
+#import "ApigeeMonitoringSettings.h"
 
 
-@interface ApigeeCompositeConfiguration : NSObject
+@interface ApigeeApp : NSObject
 
 @property (strong, nonatomic) NSNumber *instaOpsApplicationId;
 @property (strong, nonatomic) NSString *applicationUUID;
@@ -43,10 +43,10 @@
 @property (assign, nonatomic) BOOL deviceTypeOverrideEnabled;
 @property (assign, nonatomic) BOOL ABTestingOverrideEnabled;
 
-@property (strong, nonatomic) ApigeeMonitorSettings *defaultSettings;
-@property (strong, nonatomic) ApigeeMonitorSettings *deviceLevelSettings;
-@property (strong, nonatomic) ApigeeMonitorSettings *deviceTypeSettings;
-@property (strong, nonatomic) ApigeeMonitorSettings *abTestingSettings;
+@property (strong, nonatomic) ApigeeMonitoringSettings *defaultSettings;
+@property (strong, nonatomic) ApigeeMonitoringSettings *deviceLevelSettings;
+@property (strong, nonatomic) ApigeeMonitoringSettings *deviceTypeSettings;
+@property (strong, nonatomic) ApigeeMonitoringSettings *abTestingSettings;
 
 @property (strong, nonatomic) NSNumber *abtestingPercentage;
 

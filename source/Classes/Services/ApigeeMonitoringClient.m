@@ -37,11 +37,11 @@
 #import "ApigeeLogEntry.h"
 #import "ApigeeNetworkEntry.h"
 #import "ApigeeSessionMetrics.h"
-#import "ApigeeCompositeConfiguration.h"
+#import "ApigeeApp.h"
 
 #import "ApigeeLogEntry+JSON.h"
 #import "ApigeeNetworkEntry+JSON.h"
-#import "ApigeeCompositeConfiguration+JSON.h"
+#import "ApigeeApp+JSON.h"
 
 #import "ApigeeQueue+NetworkMetrics.h"
 #import "ApigeeCachedConfigUtil.h"
@@ -518,7 +518,7 @@ static bool AmIBeingDebugged(void)
 - (void) retrieveCachedConfig
 {
     NSError *error;
-    ApigeeCompositeConfiguration* config =
+    ApigeeApp* config =
         [ApigeeCachedConfigUtil getConfiguration:&error];
         
     if (config) {
@@ -611,7 +611,7 @@ static bool AmIBeingDebugged(void)
         if( willUpdateCacheFromServer ) {
             [self saveConfig:jsonConfig];
             NSError* error = nil;
-            ApigeeCompositeConfiguration* config =
+            ApigeeApp* config =
                 [ApigeeCachedConfigUtil parseConfiguration:jsonConfig
                                                      error:&error];
             if (config) {

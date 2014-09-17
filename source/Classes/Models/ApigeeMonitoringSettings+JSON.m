@@ -21,13 +21,13 @@
 #import "ApigeeNetworkConfig.h"
 #import "ApigeeCustomConfigParam+JSON.h"
 #import "ApigeeNetworkConfig+JSON.h"
-#import "ApigeeMonitorSettings+JSON.h"
+#import "ApigeeMonitoringSettings+JSON.h"
 
-@implementation ApigeeMonitorSettings (JSON)
+@implementation ApigeeMonitoringSettings (JSON)
 
-+ (ApigeeMonitorSettings *) fromDictionary:(NSDictionary *) jsonObjects
++ (ApigeeMonitoringSettings *) fromDictionary:(NSDictionary *) jsonObjects
 {
-    ApigeeMonitorSettings *settings = [[ApigeeMonitorSettings alloc] init];    
+    ApigeeMonitoringSettings *settings = [[ApigeeMonitoringSettings alloc] init];    
     
     settings.appConfigId = [[jsonObjects objectForKey:kAppConfigOverrideAppConfigId] integerValue];
     settings.appConfigType = [jsonObjects objectForKey:kAppConfigOverrideConfigType];

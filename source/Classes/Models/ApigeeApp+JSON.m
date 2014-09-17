@@ -18,23 +18,23 @@
 #import "ApigeeSystemLogger.h"
 #import "NSDate+Apigee.h"
 #import "ApigeeJSONConfigKeys.h"
-#import "ApigeeMonitorSettings.h"
+#import "ApigeeMonitoringSettings.h"
 #import "ApigeeConfigFilter.h"
 #import "ApigeeConfigFilter+JSON.h"
-#import "ApigeeMonitorSettings+JSON.h"
-#import "ApigeeCompositeConfiguration+JSON.h"
+#import "ApigeeMonitoringSettings+JSON.h"
+#import "ApigeeApp+JSON.h"
 
 
-@implementation ApigeeCompositeConfiguration (JSON)
+@implementation ApigeeApp (JSON)
 
-+ (ApigeeCompositeConfiguration *) fromDictionary:(NSDictionary *) jsonObjects
++ (ApigeeApp *) fromDictionary:(NSDictionary *) jsonObjects
 {
     if (!jsonObjects) {
         SystemError(@"JSON", @"There were no json objects");
         return nil;
     }
         
-    ApigeeCompositeConfiguration *appConfig = [[ApigeeCompositeConfiguration alloc] init];
+    ApigeeApp *appConfig = [[ApigeeApp alloc] init];
 
     appConfig.instaOpsApplicationId = [jsonObjects objectForKey:kAppConfigAppId];
     appConfig.orgName = [jsonObjects objectForKey:kAppConfigOrgName];
@@ -63,10 +63,10 @@
     appConfig.deviceTypeOverrideEnabled = [[jsonObjects objectForKey:kAppConfigEnableDeviceTypeOverride] boolValue];
     appConfig.ABTestingOverrideEnabled = [[jsonObjects objectForKey:kAppConfigEnableABTesting] boolValue];
     
-    appConfig.deviceLevelSettings = [ApigeeMonitorSettings fromDictionary:[jsonObjects objectForKey:kAppConfigDeviceLevel]];
-    appConfig.deviceTypeSettings = [ApigeeMonitorSettings fromDictionary:[jsonObjects objectForKey:kAppConfigDeviceType]];
-    appConfig.abTestingSettings = [ApigeeMonitorSettings fromDictionary:[jsonObjects objectForKey:kAppConfigABTesting]];
-    appConfig.defaultSettings = [ApigeeMonitorSettings fromDictionary:[jsonObjects objectForKey:kAppConfigDefault]];
+    appConfig.deviceLevelSettings = [ApigeeMonitoringSettings fromDictionary:[jsonObjects objectForKey:kAppConfigDeviceLevel]];
+    appConfig.deviceTypeSettings = [ApigeeMonitoringSettings fromDictionary:[jsonObjects objectForKey:kAppConfigDeviceType]];
+    appConfig.abTestingSettings = [ApigeeMonitoringSettings fromDictionary:[jsonObjects objectForKey:kAppConfigABTesting]];
+    appConfig.defaultSettings = [ApigeeMonitoringSettings fromDictionary:[jsonObjects objectForKey:kAppConfigDefault]];
     
     appConfig.abtestingPercentage = [jsonObjects objectForKey:kAppConfigABTestingPercentage];
 

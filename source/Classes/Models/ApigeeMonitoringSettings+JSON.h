@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-#import "ApigeeMonitorSettings.h"
+#import "ApigeeMonitoringSettings.h"
 
 
-@interface ApigeeMonitorSettings (JSON)
+@interface ApigeeMonitoringSettings (JSON)
 
-+ (ApigeeMonitorSettings *) fromDictionary:(NSDictionary *) jsonObjects;
++ (ApigeeMonitoringSettings *) fromDictionary:(NSDictionary *) jsonObjects;
 
 @end

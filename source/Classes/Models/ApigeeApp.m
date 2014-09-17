@@ -15,9 +15,9 @@
  */
 
 
-#import "ApigeeCompositeConfiguration.h"
+#import "ApigeeApp.h"
 
-@implementation ApigeeCompositeConfiguration
+@implementation ApigeeApp
 
 @synthesize instaOpsApplicationId;
 @synthesize applicationUUID;
@@ -66,10 +66,10 @@
         return nil;
     }
     
-    self.defaultSettings = [[ApigeeMonitorSettings alloc] init];
-    self.deviceLevelSettings = [[ApigeeMonitorSettings alloc] init];
-    self.deviceTypeSettings = [[ApigeeMonitorSettings alloc] init];
-    self.abTestingSettings = [[ApigeeMonitorSettings alloc] init];
+    self.defaultSettings = [[ApigeeMonitoringSettings alloc] init];
+    self.deviceLevelSettings = [[ApigeeMonitoringSettings alloc] init];
+    self.deviceTypeSettings = [[ApigeeMonitoringSettings alloc] init];
+    self.abTestingSettings = [[ApigeeMonitoringSettings alloc] init];
     
     self.appConfigOverrideFilters = [NSArray array];
     self.deviceNumberFilters = [NSArray array];
