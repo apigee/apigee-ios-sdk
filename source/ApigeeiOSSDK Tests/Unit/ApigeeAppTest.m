@@ -1,5 +1,5 @@
 //
-//  ApigeeCompositeConfigurationTest.m
+//  ApigeeAppTest.m
 //  ApigeeiOSSDK
 //
 //  Created by Robert Walsh on 7/24/14.
@@ -9,27 +9,27 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-#import "ApigeeCompositeConfiguration.h"
+#import "ApigeeApp.h"
 #import "ApigeeCachedConfigUtil.h"
-#import "ApigeeCompositeConfiguration+JSON.h"
+#import "ApigeeApp+JSON.h"
 #import "NSDate+Apigee.h"
 
 /*!
- @class ApigeeCompositeConfigurationTest
- @abstract The ApigeeCompositeConfigurationTest test case is used to test the validity of the creation of the ApigeeCompositeConfiguration object.  This data comes in as part of the config request and tests all aspects of the request except for the monitoring settings creation, which is tested in the ApigeeMonitorSettingsTests test case.
+ @class ApigeeAppTest
+ @abstract The ApigeeAppTest test case is used to test the validity of the creation of the ApigeeApp object.  This data comes in as part of the config request and tests all aspects of the request except for the monitoring settings creation, which is tested in the ApigeeMonitoringSettingsTests test case.
  */
-@interface ApigeeCompositeConfigurationTest : XCTestCase
+@interface ApigeeAppTest : XCTestCase
 
 @end
 
-@implementation ApigeeCompositeConfigurationTest
+@implementation ApigeeAppTest
 
 -(BOOL)continueAfterFailure {
     return NO;
 }
 
 /*!
- @abstract Tests the creation of the ApigeeCompositeConfiguration object and validates the objects various properties.
+ @abstract Tests the creation of the ApigeeAppTest object and validates the objects various properties.
  */
 - (void)test_sample {
 
@@ -44,7 +44,7 @@
     XCTAssertTrue([configJSONString length] > 0, @"config path should not have 0 length.");
 
     NSError* error = nil;
-    ApigeeCompositeConfiguration* compositeConfiguration = [ApigeeCachedConfigUtil parseConfiguration:configJSONString error:&error];
+    ApigeeApp* compositeConfiguration = [ApigeeCachedConfigUtil parseConfiguration:configJSONString error:&error];
 
     XCTAssertNil(error, @"Error creating compositeConfiguration should be nil.  Description: %@.", [error description]);
     XCTAssertNotNil(compositeConfiguration, @"compositeConfiguration should not be nil.");

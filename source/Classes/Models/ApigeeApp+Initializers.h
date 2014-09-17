@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#import "ApigeeCompositeConfiguration.h"
+#import "ApigeeApp.h"
 
 
-@interface ApigeeCompositeConfiguration (Initializers)
+@interface ApigeeApp (Initializers)
 
-+ (ApigeeCompositeConfiguration *) defaultConfiguration;
++ (ApigeeApp *) defaultConfiguration;
 
 @end

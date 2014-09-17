@@ -57,7 +57,7 @@
     
     if( control.tag > 0 )
     {
-        self.tag = control.tag;
+        self.tag = (int)control.tag;
     }
 }
 

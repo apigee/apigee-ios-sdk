@@ -31,6 +31,7 @@
 		63852F761878787400A2A49E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63852F751878787400A2A49E /* CoreLocation.framework */; };
 		63852F781878787E00A2A49E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63852F771878787E00A2A49E /* SystemConfiguration.framework */; };
 		63BCF44E187B7402003D8137 /* UsersAddUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BCF44D187B7402003D8137 /* UsersAddUserViewController.m */; };
+		63D4191019CA381000C32802 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D4190F19CA381000C32802 /* ApigeeiOSSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		63852F771878787E00A2A49E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		63BCF44C187B7402003D8137 /* UsersAddUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersAddUserViewController.h; sourceTree = "<group>"; };
 		63BCF44D187B7402003D8137 /* UsersAddUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersAddUserViewController.m; sourceTree = "<group>"; };
+		63D4190F19CA381000C32802 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = ../../source/build/framework/ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D4191019CA381000C32802 /* ApigeeiOSSDK.framework in Frameworks */,
 				6306674C1889CF0300FD3571 /* QuartzCore.framework in Frameworks */,
 				63852F781878787E00A2A49E /* SystemConfiguration.framework in Frameworks */,
 				63852F761878787400A2A49E /* CoreLocation.framework in Frameworks */,
@@ -131,6 +134,7 @@
 		63490A88186DFAD9007DF275 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63D4190F19CA381000C32802 /* ApigeeiOSSDK.framework */,
 				6306674B1889CF0300FD3571 /* QuartzCore.framework */,
 				63852F771878787E00A2A49E /* SystemConfiguration.framework */,
 				63852F751878787400A2A49E /* CoreLocation.framework */,
@@ -430,6 +434,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/ApigeeCorporation/Documents/workfiles/AppServicesCode/SDKs/iOS/apigee-ios-sdk-2.0.8/lib",
+					/Users/ApigeeCorporation/Developer/ApigeeSDKs/iOS/My_fork/source/build/framework,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UsersAndGroups/UsersAndGroups-Prefix.pch";
@@ -453,6 +458,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/ApigeeCorporation/Documents/workfiles/AppServicesCode/SDKs/iOS/apigee-ios-sdk-2.0.8/lib",
+					/Users/ApigeeCorporation/Developer/ApigeeSDKs/iOS/My_fork/source/build/framework,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UsersAndGroups/UsersAndGroups-Prefix.pch";

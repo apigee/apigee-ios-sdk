@@ -53,7 +53,7 @@ static void OverrideUISegmentedControlSendAction(UISegmentedControl* self, SEL _
             
             [segmentSelectedEvent populateWithControl:self];
             segmentSelectedEvent.eventTime = [NSDate date];
-            segmentSelectedEvent.selectedSegmentIndex = self.selectedSegmentIndex;
+            segmentSelectedEvent.selectedSegmentIndex = (int)self.selectedSegmentIndex;
             
             NSString* segmentTitle = [self titleForSegmentAtIndex:self.selectedSegmentIndex];
             if( [segmentTitle length] > 0 )

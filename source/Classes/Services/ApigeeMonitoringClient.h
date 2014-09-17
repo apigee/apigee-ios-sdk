@@ -38,7 +38,7 @@
 
 @property (strong, nonatomic) ApigeeActiveSettings *activeSettings;
 
-@property (strong) ApigeeAppIdentification *appIdentification;
+@property (strong,nonatomic) ApigeeAppIdentification *appIdentification;
 
 
 /*!

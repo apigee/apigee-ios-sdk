@@ -15,7 +15,7 @@
  */
 
 #import "ApigeeReachability.h"
-#import "ApigeeCompositeConfiguration.h"
+#import "ApigeeApp.h"
 
 /*!
  @abstract Categorizes the active configuration
@@ -99,6 +99,6 @@ typedef enum {
 @property (readonly, nonatomic) NSInteger agentUploadIntervalInSeconds;
 @property (readonly, nonatomic) NSInteger samplingRate;
 
-- (id) initWithConfig:(ApigeeCompositeConfiguration *) compositeConfig;
+- (id) initWithConfig:(ApigeeApp *) compositeConfig;
 
 @end

@@ -16,19 +16,19 @@
 
 #import "ApigeeLogger.h"
 #import "ApigeeNetworkConfig.h"
-#import "ApigeeMonitorSettings.h"
-#import "ApigeeCompositeConfiguration+Initializers.h"
+#import "ApigeeMonitoringSettings.h"
+#import "ApigeeApp+Initializers.h"
 
 #define kApigeeDefaultUploadInterval 60 
 #define kApigeeDefaultSampleRate 100 
 
-@implementation ApigeeCompositeConfiguration (Initializers)
+@implementation ApigeeApp (Initializers)
 
-+ (ApigeeCompositeConfiguration *) defaultConfiguration
++ (ApigeeApp *) defaultConfiguration
 {
-    ApigeeCompositeConfiguration *configuration = [[ApigeeCompositeConfiguration alloc] init];
+    ApigeeApp *configuration = [[ApigeeApp alloc] init];
     
-    configuration.defaultSettings = [[ApigeeMonitorSettings alloc] init];
+    configuration.defaultSettings = [[ApigeeMonitoringSettings alloc] init];
     configuration.defaultSettings.networkConfig = [[ApigeeNetworkConfig alloc] init];
     
     configuration.defaultSettings.agentUploadInterval = kApigeeDefaultUploadInterval * 1000;

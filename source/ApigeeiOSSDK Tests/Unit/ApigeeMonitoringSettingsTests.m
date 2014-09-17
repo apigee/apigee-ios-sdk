@@ -1,5 +1,5 @@
 //
-//  ApigeeMonitorSettingsTests.m
+//  ApigeeMonitoringSettingsTests.m
 //  ApigeeiOSSDK
 //
 //  Created by Robert Walsh on 7/24/14.
@@ -9,21 +9,21 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-#import "ApigeeCompositeConfiguration.h"
+#import "ApigeeApp.h"
 #import "ApigeeCachedConfigUtil.h"
-#import "ApigeeCompositeConfiguration+JSON.h"
+#import "ApigeeApp+JSON.h"
 
 /*!
- @class ApigeeMonitorSettingsTests
- @abstract The ApigeeMonitorSettingsTests test case is used to test the validity of the creation of the various ApigeeMonitorSettings objects that are read from the ApigeeCompositeConfiguration top level object.
+ @class ApigeeMonitoringSettingsTests
+ @abstract The ApigeeMonitoringSettingsTests test case is used to test the validity of the creation of the various ApigeeMonitoringSettings objects that are read from the ApigeeAppTest top level object.
  */
-@interface ApigeeMonitorSettingsTests : XCTestCase
+@interface ApigeeMonitoringSettingsTests : XCTestCase
 
-@property (nonatomic,strong) ApigeeCompositeConfiguration* compositeConfiguration;
+@property (nonatomic,strong) ApigeeApp* compositeConfiguration;
 
 @end
 
-@implementation ApigeeMonitorSettingsTests
+@implementation ApigeeMonitoringSettingsTests
 
 -(BOOL)continueAfterFailure {
     return NO;
@@ -48,13 +48,13 @@
 }
 
 /*!
- @abstract Tests the validity of the ApigeeCompositeConfiguration defaultSettings property.
+ @abstract Tests the validity of the ApigeeAppTest defaultSettings property.
  */
 - (void)test_sampleDefaultLevelSettings {
 
     XCTAssertNotNil([self compositeConfiguration], @"compositeConfiguration should not be nil.");
 
-    ApigeeMonitorSettings* defaultSettings = [[self compositeConfiguration] defaultSettings];
+    ApigeeMonitoringSettings* defaultSettings = [[self compositeConfiguration] defaultSettings];
     XCTAssertNotNil(defaultSettings, @"defaultSettings should not be nil.");
     XCTAssertEqualObjects([defaultSettings appConfigType], @"Default", @"appConfigType should be Default.");
 
@@ -89,13 +89,13 @@
 }
 
 /*!
- @abstract Tests the validity of the ApigeeCompositeConfiguration deviceLevelSettings property.
+ @abstract Tests the validity of the ApigeeAppTest deviceLevelSettings property.
  */
 - (void)test_sampleDeviceLevelSettings {
 
     XCTAssertNotNil([self compositeConfiguration], @"compositeConfiguration should not be nil.");
 
-    ApigeeMonitorSettings* deviceLevelSettings = [[self compositeConfiguration] deviceLevelSettings];
+    ApigeeMonitoringSettings* deviceLevelSettings = [[self compositeConfiguration] deviceLevelSettings];
     XCTAssertNotNil(deviceLevelSettings, @"deviceLevelSettings should not be nil.");
     XCTAssertEqualObjects([deviceLevelSettings appConfigType], @"Beta", @"appConfigType should be Beta.");
 
@@ -130,13 +130,13 @@
 }
 
 /*!
- @abstract Tests the validity of the ApigeeCompositeConfiguration deviceTypeSettings property.
+ @abstract Tests the validity of the ApigeeAppTest deviceTypeSettings property.
  */
 - (void)test_sampleDeviceTypeSettings {
 
     XCTAssertNotNil([self compositeConfiguration], @"compositeConfiguration should not be nil.");
 
-    ApigeeMonitorSettings* deviceTypeSettings = [[self compositeConfiguration] deviceTypeSettings];
+    ApigeeMonitoringSettings* deviceTypeSettings = [[self compositeConfiguration] deviceTypeSettings];
     XCTAssertNotNil(deviceTypeSettings, @"deviceTypeSettings should not be nil.");
     XCTAssertEqualObjects([deviceTypeSettings appConfigType], @"Device", @"appConfigType should be Device.");
 
@@ -171,13 +171,13 @@
 }
 
 /*!
- @abstract Tests the validity of the ApigeeCompositeConfiguration abTestingSettings property.
+ @abstract Tests the validity of the ApigeeAppTest abTestingSettings property.
  */
 - (void)test_sampleABTestingSettings {
 
     XCTAssertNotNil([self compositeConfiguration], @"compositeConfiguration should not be nil.");
 
-    ApigeeMonitorSettings* abTestingSettings = [[self compositeConfiguration] abTestingSettings];
+    ApigeeMonitoringSettings* abTestingSettings = [[self compositeConfiguration] abTestingSettings];
     XCTAssertNotNil(abTestingSettings, @"abTestingSettings should not be nil.");
     XCTAssertEqualObjects([abTestingSettings appConfigType], @"A/B", @"appConfigType should be A/B.");
 

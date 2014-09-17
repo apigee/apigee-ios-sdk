@@ -738,9 +738,7 @@ NSString *g_deviceUUID = nil;
     NSDictionary *newRole = [[NSDictionary alloc] initWithObjectsAndKeys:@"role", @"type", roleName, @"name", nil];
     ApigeeClientResponse *response = [self createEntity:newRole];
 
-    NSMutableString *uuid = nil;
-
-    uuid = [[response firstEntity] uuid];
+    NSString* uuid = [[response firstEntity] uuid];
 
     return [self assignPermissions: permissions toEntity: uuid ofType: @"role"];
 }
@@ -751,9 +749,7 @@ NSString *g_deviceUUID = nil;
     NSDictionary *newRole = [[NSDictionary alloc] initWithObjectsAndKeys:@"role", @"type", roleName, @"name", nil];
     ApigeeClientResponse *response = [self createEntity:newRole completionHandler: completionHandler];
 
-    NSMutableString *uuid = nil;
-
-    uuid = [[response firstEntity] uuid];
+    NSString* uuid = [[response firstEntity] uuid];
     
     return [self assignPermissions: permissions toEntity: uuid ofType: @"role" completionHandler: completionHandler];
 }
@@ -1616,7 +1612,7 @@ NSString *g_deviceUUID = nil;
     if ( errorRet ) return errorRet;
     
     // we have a valid entity, ready to post. Make the URL
-    NSString *url = [self createURL:type append2:entityID];
+    NSMutableString *url = [self createURL:type append2:entityID];
     [self appendQueryToURL:url query:query];
     
     // post it
@@ -1634,7 +1630,7 @@ NSString *g_deviceUUID = nil;
     if ( errorRet ) return errorRet;
     
     // we have a valid entity, ready to post. Make the URL
-    NSString *url = [self createURL:type append2:entityID];
+    NSMutableString *url = [self createURL:type append2:entityID];
     [self appendQueryToURL:url query:query];
     
     // post it

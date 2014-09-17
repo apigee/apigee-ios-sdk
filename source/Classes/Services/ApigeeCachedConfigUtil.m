@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#import "ApigeeCompositeConfiguration.h"
-#import "ApigeeCompositeConfiguration+JSON.h"
-#import "ApigeeCompositeConfiguration+Initializers.h"
+#import "ApigeeApp.h"
+#import "ApigeeApp+JSON.h"
+#import "ApigeeApp+Initializers.h"
 #import "ApigeeCachedConfigUtil.h"
 #import "ApigeeJsonUtils.h"
 #import "ApigeeMonitoringClient.h"
@@ -60,7 +60,7 @@ static NSString* kApigeeConfigFileName = @"config.json";
 
 #pragma mark - Public implementations
 
-+ (ApigeeCompositeConfiguration *) parseConfiguration:(NSString*)jsonConfigAsString
++ (ApigeeApp *) parseConfiguration:(NSString*)jsonConfigAsString
                                                 error:(NSError**)error
 {
     id objects = [ApigeeJsonUtils decode:jsonConfigAsString error:error];
@@ -70,16 +70,16 @@ static NSString* kApigeeConfigFileName = @"config.json";
         return nil;
     }
     
-    return [ApigeeCompositeConfiguration fromDictionary:objects];
+    return [ApigeeApp fromDictionary:objects];
 }
 
 /**
  * note: we must always return a configuration, even if there is no available entry in the cache
  */
-+ (ApigeeCompositeConfiguration *) getConfiguration:(NSError **) error
++ (ApigeeApp *) getConfiguration:(NSError **) error
 {
     if (![self isCached]) {
-        return [ApigeeCompositeConfiguration defaultConfiguration];
+        return [ApigeeApp defaultConfiguration];
     }
     
     NSData* contents = [[NSFileManager defaultManager] contentsAtPath:[self configFilePath]];

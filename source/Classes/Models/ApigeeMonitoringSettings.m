@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-#import "ApigeeMonitorSettings.h"
+#import "ApigeeMonitoringSettings.h"
+#import "ApigeeNetworkConfig.h"
 
-@implementation ApigeeMonitorSettings
+@implementation ApigeeMonitoringSettings
 
 @synthesize description;
 @synthesize lastModifiedDate;

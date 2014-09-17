@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-#import "ApigeeNetworkConfig.h"
+@class ApigeeNetworkConfig;
 
-
-@interface ApigeeMonitorSettings : NSObject
+@interface ApigeeMonitoringSettings : NSObject
 
 @property (strong, nonatomic) NSString *description;
 @property (strong, nonatomic) NSDate *lastModifiedDate;

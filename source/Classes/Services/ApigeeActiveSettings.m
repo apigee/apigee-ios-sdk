@@ -20,7 +20,7 @@
 #import "NSArray+ApigeeConfigFilters.h"
 #import "ApigeeOpenUDID.h"
 #import "ApigeeNetworkConfig.h"
-#import "ApigeeMonitorSettings.h"
+#import "ApigeeMonitoringSettings.h"
 #import "ApigeeActiveSettings.h"
 
 #define kApigeeActiveConfigNameDeviceLevel @"DEVICE_LEVEL"
@@ -30,9 +30,9 @@
 
 @interface ApigeeActiveSettings ()
 
-@property (strong, nonatomic) ApigeeCompositeConfiguration *config;
+@property (strong, nonatomic) ApigeeApp *config;
 
-- (ApigeeMonitorSettings *) activeSettings;
+- (ApigeeMonitoringSettings *) activeSettings;
 
 @end
 
@@ -48,7 +48,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (id) initWithConfig:(ApigeeCompositeConfiguration *) compositeConfig
+- (id) initWithConfig:(ApigeeApp *) compositeConfig
 {
     self = [super init];
     
@@ -62,7 +62,7 @@
 
 #pragma mark - Internal implementation
 
-- (ApigeeMonitorSettings *) activeSettings
+- (ApigeeMonitoringSettings *) activeSettings
 {
     ApigeeActiveConfiguration active = [self activeConfiguration];
     
