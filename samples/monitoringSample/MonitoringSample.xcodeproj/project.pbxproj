@@ -21,6 +21,7 @@
 		63C7BC4517D7B7D900EBF365 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4417D7B7D900EBF365 /* CoreLocation.framework */; };
 		63C7BC4917D7B7E900EBF365 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4817D7B7E800EBF365 /* Security.framework */; };
 		63C7BC4B17D7B7F500EBF365 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */; };
+		63D4190E19CA358800C32802 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D4190D19CA358800C32802 /* ApigeeiOSSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		63C7BC4417D7B7D900EBF365 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		63C7BC4817D7B7E800EBF365 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		63D4190D19CA358800C32802 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = ../../source/build/framework/ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D4190E19CA358800C32802 /* ApigeeiOSSDK.framework in Frameworks */,
 				63ACC5CC187F091800C87C83 /* QuartzCore.framework in Frameworks */,
 				635C6E8017ECAADB004F9C9E /* CoreTelephony.framework in Frameworks */,
 				63C7BC4B17D7B7F500EBF365 /* SystemConfiguration.framework in Frameworks */,
@@ -87,6 +90,7 @@
 		63C7BC0C17D791EB00EBF365 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63D4190D19CA358800C32802 /* ApigeeiOSSDK.framework */,
 				63ACC5CB187F091800C87C83 /* QuartzCore.framework */,
 				635C6E7F17ECAADB004F9C9E /* CoreTelephony.framework */,
 				63C7BC4A17D7B7F500EBF365 /* SystemConfiguration.framework */,
@@ -321,9 +325,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/ApigeeCorporation/github/apigee-ios-sdk/samples/monitoring/MonitoringSample",
 					"$(SRCROOT)",
-					"/Users/ApigeeCorporation/github-master/apigee-ios-sdk/samples/monitoringSample",
+					../../source/build/framework/,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MonitoringSample/MonitoringSample-Prefix.pch";
@@ -347,9 +350,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/ApigeeCorporation/github/apigee-ios-sdk/samples/monitoring/MonitoringSample",
 					"$(SRCROOT)",
-					"/Users/ApigeeCorporation/github-master/apigee-ios-sdk/samples/monitoringSample",
+					../../source/build/framework/,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MonitoringSample/MonitoringSample-Prefix.pch";

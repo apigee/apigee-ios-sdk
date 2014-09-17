@@ -30,6 +30,7 @@
 		6340FFBB179ED2D100700CB1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6340FFB8179ED2D100700CB1 /* SystemConfiguration.framework */; };
 		6346D9A417CF715A00B5AF67 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6346D9A317CF715A00B5AF67 /* Security.framework */; };
 		63ACC5F81884A17100C87C83 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63ACC5F71884A17100C87C83 /* QuartzCore.framework */; };
+		63D4190519CA279400C32802 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D4190419CA279400C32802 /* ApigeeiOSSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		6340FFB8179ED2D100700CB1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6346D9A317CF715A00B5AF67 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		63ACC5F71884A17100C87C83 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		63D4190419CA279400C32802 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = ../../source/build/framework/ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D4190519CA279400C32802 /* ApigeeiOSSDK.framework in Frameworks */,
 				63ACC5F81884A17100C87C83 /* QuartzCore.framework in Frameworks */,
 				6346D9A417CF715A00B5AF67 /* Security.framework in Frameworks */,
 				6340FFB9179ED2D100700CB1 /* CoreLocation.framework in Frameworks */,
@@ -126,6 +129,7 @@
 		6326DFD0176A6BD40016932F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63D4190419CA279400C32802 /* ApigeeiOSSDK.framework */,
 				63ACC5F71884A17100C87C83 /* QuartzCore.framework */,
 				6346D9A317CF715A00B5AF67 /* Security.framework */,
 				6340FFB6179ED2D100700CB1 /* CoreLocation.framework */,
@@ -226,7 +230,7 @@
 			name = BooksTests;
 			productName = BooksTests;
 			productReference = 6326DFFA176A6BD40016932F /* BooksTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -235,10 +239,11 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = APG;
+				LastTestingUpgradeCheck = 0600;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Matthew Dobson";
 			};
-			buildConfigurationList = 6326DFC9176A6BD40016932F /* Build configuration list for PBXProject "Books" */;
+			buildConfigurationList = 6326DFC9176A6BD40016932F /* Build configuration list for PBXProject "books" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -426,9 +431,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\\\"$(SRCROOT)/../../sdks/apigee-ios-sdk/build/framework\\\"",
-					"$(SRCROOT)",
-					"/Users/ApigeeCorporation/github-master/apigee-ios-sdk/samples/books",
+					../../source/build/framework/,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Books/Books-Prefix.pch";
@@ -449,9 +452,7 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\\\"$(SRCROOT)/../../sdks/apigee-ios-sdk/build/framework\\\"",
-					"$(SRCROOT)",
-					"/Users/ApigeeCorporation/github-master/apigee-ios-sdk/samples/books",
+					../../source/build/framework/,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Books/Books-Prefix.pch";
@@ -504,7 +505,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6326DFC9176A6BD40016932F /* Build configuration list for PBXProject "Books" */ = {
+		6326DFC9176A6BD40016932F /* Build configuration list for PBXProject "books" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6326E00A176A6BD40016932F /* Debug */,

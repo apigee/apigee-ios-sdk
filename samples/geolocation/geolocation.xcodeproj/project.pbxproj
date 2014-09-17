@@ -36,6 +36,7 @@
 		63CCE29E18A46C160067893F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4FF8618A4657C00C33DB5 /* QuartzCore.framework */; };
 		63CCE29F18A46C260067893F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4FF8818A4658700C33DB5 /* CoreLocation.framework */; };
 		63CCE2A018A46C340067893F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C4FF8E18A465B100C33DB5 /* SystemConfiguration.framework */; };
+		63D4190A19CA337F00C32802 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63CCE29818A46A540067893F /* ApigeeiOSSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63CCE2A018A46C340067893F /* SystemConfiguration.framework in Frameworks */,
+				63D4190A19CA337F00C32802 /* ApigeeiOSSDK.framework in Frameworks */,
 				63CCE29F18A46C260067893F /* CoreLocation.framework in Frameworks */,
 				63CCE29E18A46C160067893F /* QuartzCore.framework in Frameworks */,
 				63CCE29C18A46C030067893F /* Security.framework in Frameworks */,
@@ -443,11 +445,12 @@
 		63C4FF7218A42ACF00C33DB5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/ApigeeCorporation/Desktop/git/apigee-ios-sdk/source/build/framework",
+					../../source/build/framework/,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "geolocation/geolocation-Prefix.pch";
@@ -464,11 +467,12 @@
 		63C4FF7318A42ACF00C33DB5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/ApigeeCorporation/Desktop/git/apigee-ios-sdk/source/build/framework",
+					../../source/build/framework/,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "geolocation/geolocation-Prefix.pch";
@@ -491,7 +495,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"/Users/ApigeeCorporation/Desktop/git/apigee-ios-sdk/source/build/framework",
+					../../source/build/framework/,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "geolocation/geolocation-Prefix.pch";
@@ -519,7 +523,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"/Users/ApigeeCorporation/Desktop/git/apigee-ios-sdk/source/build/framework",
+					../../source/build/framework/,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "geolocation/geolocation-Prefix.pch";

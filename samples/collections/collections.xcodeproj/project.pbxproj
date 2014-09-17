@@ -27,7 +27,7 @@
 		631D940318973D62003706ED /* ApigeeMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631D940218973D62003706ED /* ApigeeMenuViewController.m */; };
 		631D940618973D69003706ED /* ApigeeResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631D940518973D69003706ED /* ApigeeResultViewController.m */; };
 		631D940818973E2D003706ED /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 631D940718973E2D003706ED /* CoreTelephony.framework */; };
-		63C4FF3218A2C37F00C33DB5 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 631D93FC18973710003706ED /* ApigeeiOSSDK.framework */; };
+		63D4190919CA2D5900C32802 /* ApigeeiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63D4190819CA2D5900C32802 /* ApigeeiOSSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +62,6 @@
 		631D93F7189736C0003706ED /* ApigeeApiCalls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApigeeApiCalls.h; sourceTree = "<group>"; };
 		631D93F8189736C0003706ED /* ApigeeApiCalls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeApiCalls.m; sourceTree = "<group>"; };
 		631D93FA18973702003706ED /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		631D93FC18973710003706ED /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = ../../source/build/framework/ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 		631D93FE18973D56003706ED /* ApigeeStartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApigeeStartViewController.h; sourceTree = "<group>"; };
 		631D93FF18973D56003706ED /* ApigeeStartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeStartViewController.m; sourceTree = "<group>"; };
 		631D940118973D61003706ED /* ApigeeMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApigeeMenuViewController.h; sourceTree = "<group>"; };
@@ -70,6 +69,7 @@
 		631D940418973D69003706ED /* ApigeeResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApigeeResultViewController.h; sourceTree = "<group>"; };
 		631D940518973D69003706ED /* ApigeeResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeResultViewController.m; sourceTree = "<group>"; };
 		631D940718973E2D003706ED /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		63D4190819CA2D5900C32802 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = ../../source/build/framework/ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63C4FF3218A2C37F00C33DB5 /* ApigeeiOSSDK.framework in Frameworks */,
+				63D4190919CA2D5900C32802 /* ApigeeiOSSDK.framework in Frameworks */,
 				631D940818973E2D003706ED /* CoreTelephony.framework in Frameworks */,
 				631D93FB18973702003706ED /* QuartzCore.framework in Frameworks */,
 				631D93C2189736A1003706ED /* CoreGraphics.framework in Frameworks */,
@@ -121,8 +121,8 @@
 		631D93BE189736A1003706ED /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63D4190819CA2D5900C32802 /* ApigeeiOSSDK.framework */,
 				631D940718973E2D003706ED /* CoreTelephony.framework */,
-				631D93FC18973710003706ED /* ApigeeiOSSDK.framework */,
 				631D93FA18973702003706ED /* QuartzCore.framework */,
 				631D93BF189736A1003706ED /* Foundation.framework */,
 				631D93C1189736A1003706ED /* CoreGraphics.framework */,
@@ -227,7 +227,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = Apigee;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = Apigee;
 				TargetAttributes = {
 					631D93DF189736A1003706ED = {
@@ -348,7 +348,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -388,7 +387,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -425,7 +423,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/ApigeeCorporation/Desktop/git/apigee-ios-sdk/source/build/framework",
+					../../source/build/framework/,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "collections/collections-Prefix.pch";
@@ -446,7 +444,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/ApigeeCorporation/Desktop/git/apigee-ios-sdk/source/build/framework",
+					../../source/build/framework/,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "collections/collections-Prefix.pch";
@@ -463,7 +461,6 @@
 		631D93F5189736A1003706ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/collections.app/collections";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -486,7 +483,6 @@
 		631D93F6189736A1003706ED /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/collections.app/collections";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

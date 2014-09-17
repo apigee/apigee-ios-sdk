@@ -40,7 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6374DD47196204AD007A10EB /* eventmanager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eventmanager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6374DD47196204AD007A10EB /* Events.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Events.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6374DD4B196204AD007A10EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6374DD51196204AD007A10EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6374DD53196204AD007A10EB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		6374DD48196204AD007A10EB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6374DD47196204AD007A10EB /* eventmanager.app */,
+				6374DD47196204AD007A10EB /* Events.app */,
 				6374DD59196204AD007A10EB /* EventsTests.xctest */,
 			);
 			name = Products;
@@ -221,7 +221,7 @@
 			);
 			name = Events;
 			productName = Events;
-			productReference = 6374DD47196204AD007A10EB /* eventmanager.app */;
+			productReference = 6374DD47196204AD007A10EB /* Events.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6374DD58196204AD007A10EB /* EventsTests */ = {
@@ -441,7 +441,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = eventmanager;
+				PRODUCT_NAME = Events;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Events/Events-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -466,7 +466,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = eventmanager;
+				PRODUCT_NAME = Events;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Events/Events-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;

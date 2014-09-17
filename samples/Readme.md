@@ -12,20 +12,23 @@ The sample apps in this directory are intended to show basic usage of some of th
 * **monitoringSample** - An app that lets you test the App Monitoring feature by sending logging, crash and error reports to your account.
 * **push** - An app that sends push notifications to mobile devices using APNS or GCM.
 * **usersAndGroups** - An app that shows you how to create and manage user and group entities.
+* **events** - An app written in Swift that acts as an EventBrite clone.  This shows you how to integrate the SDK using the Swift programming language and some of the general functionality. 
 
 ##Running the sample apps
 
 To run the sample apps, simply open the .xcodeproj file in Xcode, then run the app.
 
-Before you do, however, each of the sample apps require you to include the Apigee iOS SDK.
+Before you do, however, you will need to build the framework by run this command from the `/source` directory of your repository.
 
-For instructions on how to do this, visit our [iOS SDK install guide](http://apigee.com/docs/app-services/content/installing-apigee-sdk-ios). 
+    ```bash
+    ./Scripts/framework.sh
+    ```
 
 Some of the apps also require you to provide your organization name by updating the call to ApigeeClient in the app's source. Near the top of the code in each app, you should see something similar to this:
 
 	```obj-c
-NSString * orgName = @"yourorgname"; //Your Apigee.com username
-NSString * appName = @"sandbox"; //Your App Services app name
-```
+    NSString * orgName = @"yourorgname"; //Your Apigee.com username
+    NSString * appName = @"sandbox"; //Your App Services app name
+    ```
 
 Simply change the value of the orgName property to your Apigee organization name.

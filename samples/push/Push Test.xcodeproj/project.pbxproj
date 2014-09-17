@@ -43,7 +43,7 @@
 /* Begin PBXFileReference section */
 		132084F1194A40F40014135D /* Bulletin.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Bulletin.m4a; sourceTree = "<group>"; };
 		132084F3194A48310014135D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		1376869F1947DC6B00924326 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ApigeeiOSSDK.framework; sourceTree = "<group>"; };
+		1376869F1947DC6B00924326 /* ApigeeiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApigeeiOSSDK.framework; path = ../../source/build/framework/ApigeeiOSSDK.framework; sourceTree = "<group>"; };
 		137EEF7D194A3544007FDC32 /* logo_apigee_210x210.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_apigee_210x210.png; sourceTree = "<group>"; };
 		637BC9DF181F036900F54D95 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		638C629417A728D80066DC15 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -201,7 +201,7 @@
 			name = "Push TestTests";
 			productName = pushtestTests;
 			productReference = C9AFBD4116B71BD700D67DA3 /* Push TestTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -400,8 +400,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"\\\\\\\"$(SRCROOT)/../../source/build/framework\\\\\\\"",
 					"$(PROJECT_DIR)",
+					../../source/build/framework,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pushtest/Push Test-Prefix.pch";
@@ -429,8 +429,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
-					"\\\\\\\"$(SRCROOT)/../../source/build/framework\\\\\\\"",
 					"$(PROJECT_DIR)",
+					../../source/build/framework,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "pushtest/Push Test-Prefix.pch";
