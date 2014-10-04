@@ -38,6 +38,7 @@
 
 static NSString* kDefaultBaseURL = @"https://api.usergrid.com";
 static NSString* kLoggingTag = @"DATA_CLIENT";
+static NSString* kApigeeAssetUploadBoundary = @"apigee-asset-upload-boundary";
 static const int kInvalidTransactionID = -1;
 
 static id<ApigeeLogging> logger = nil;
@@ -418,6 +419,330 @@ NSString *g_deviceUUID = nil;
             NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
         }
             
+        // there was an immediate failure in the transaction
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:kInvalidTransactionID];
+        [response setTransactionState:kApigeeClientResponseFailure];
+        [response setResponse:[mgr getLastError]];
+        [response setRawResponse:nil];
+        return response;
+    }
+    else
+    {
+        // the transaction is in progress and pending
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:transactionID];
+        [response setTransactionState:kApigeeClientResponsePending];
+        [response setResponse:nil];
+        [response setRawResponse:nil];
+        return response;
+    }
+}
+
+-(ApigeeClientResponse*)getAssetDataForEntity:(ApigeeEntity *)entity
+                          acceptedContentType:(NSString *)acceptedContentType
+{
+    ApigeeHTTPManager *mgr = [self getHTTPManager];
+
+    NSString* entityType = [entity getStringProperty:@"type"];
+    NSString* entityUUID = [entity getStringProperty:@"uuid"];
+    NSData* assetData = nil;
+
+    if( [acceptedContentType length] > 0 && [entityUUID length] > 0 && [entityType length] > 0 ) {
+
+        NSString* urlString = [self createURL:entityType append2:entityUUID];
+        NSMutableURLRequest* assetDownloadRequest = [mgr getRequest:urlString operation:kApigeeHTTPGet operationData:nil];
+        [assetDownloadRequest setValue:acceptedContentType forHTTPHeaderField:@"Accept"];
+
+        assetData = [mgr syncTransactionRawData:assetDownloadRequest];
+    }
+
+    // since we're doing a synch transaction, we are now done with this manager.
+    [self releaseHTTPManager:mgr];
+
+    if ( [assetData length] > 0 )
+    {
+        // got a valid result
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:[mgr getTransactionID]];
+        [response setTransactionState:kApigeeClientResponseSuccess];
+        [response setResponse:assetData];
+        return response;
+    }
+    else
+    {
+        // there was an error. Note the failure state, set the response to
+        // be the error string
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:kInvalidTransactionID];
+        [response setTransactionState:kApigeeClientResponseFailure];
+        [response setResponse:[mgr getLastError]];
+        [response setRawResponse:nil];
+        return response;
+    }
+}
+
+-(ApigeeClientResponse*)getAssetDataForEntity:(ApigeeEntity *)entity
+                          acceptedContentType:(NSString *)acceptedContentType
+                            completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    ApigeeHTTPManager *mgr = [self getHTTPManager];
+
+    int transactionID = kInvalidTransactionID;
+    NSString* entityType = [entity getStringProperty:@"type"];
+    NSString* entityUUID = [entity getStringProperty:@"uuid"];
+
+    if( [acceptedContentType length] > 0 && [entityUUID length] > 0 && [entityType length] > 0 ) {
+        NSString* urlString = [self createURL:entityType append2:entityUUID];
+        NSMutableURLRequest* assetDownloadRequest = [mgr getRequest:urlString operation:kApigeeHTTPGet operationData:nil];
+        [assetDownloadRequest setValue:acceptedContentType forHTTPHeaderField:@"Accept"];
+
+        transactionID = [mgr asyncTransaction:assetDownloadRequest
+                            completionHandler:^(ApigeeHTTPResult *result, ApigeeHTTPManager *httpManager) {
+                                if( completionHandler != nil ) {
+                                    ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+                                    [response setTransactionID:[httpManager getTransactionID]];
+                                    [response setTransactionState:kApigeeClientResponseSuccess];
+                                    [response setResponse:[result data]];
+                                    completionHandler(response);
+                                }
+                                // now that the callback is complete, it's safe to release this manager
+                                [self releaseHTTPManager:httpManager];
+                            }];
+    }
+
+    if ( transactionID == kInvalidTransactionID )
+    {
+        if ( m_bLogging )
+        {
+            NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            NSLog(@"Response: ERROR: %@", [mgr getLastError]);
+            NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
+        }
+
+        // there was an immediate failure in the transaction
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:kInvalidTransactionID];
+        [response setTransactionState:kApigeeClientResponseFailure];
+        [response setResponse:[mgr getLastError]];
+        return response;
+    }
+    else
+    {
+        // the transaction is in progress and pending
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:transactionID];
+        [response setTransactionState:kApigeeClientResponsePending];
+        return response;
+    }
+}
+
+-(NSData*)generateHTTPBodyData:(NSData*)assetData
+                 assetFileName:(NSString*)assetFileName
+              assetContentType:(NSString*)assetContentType
+{
+    NSMutableData *httpBody = nil;
+    if( [assetData length] > 0 && [assetFileName length] > 0 && [assetContentType length] > 0 ) {
+        httpBody = [NSMutableData data];
+        [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", kApigeeAssetUploadBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=%@\r\n\r\n", assetFileName] dataUsingEncoding:NSUTF8StringEncoding]];
+        [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", kApigeeAssetUploadBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=file; filename=%@\r\n", assetFileName] dataUsingEncoding:NSUTF8StringEncoding]];
+        [httpBody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n",assetContentType] dataUsingEncoding:NSUTF8StringEncoding]];
+        [httpBody appendData:assetData];
+        [httpBody appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+        [httpBody appendData:[[NSString stringWithFormat:@"--%@--\r\n", kApigeeAssetUploadBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    return httpBody;
+}
+
++(NSString*)getContentHeaderForAssetUpload
+{
+    return [NSString stringWithFormat:@"multipart/form-data; boundary=%@", kApigeeAssetUploadBoundary];
+}
+
+-(ApigeeClientResponse *)attachAssetToEntity:(ApigeeEntity *)entity
+                                   assetData:(NSData*)assetData
+                               assetFileName:(NSString*)assetFileName
+                            assetContentType:(NSString*)assetContentType
+{
+    ApigeeHTTPManager *mgr = [self getHTTPManager];
+
+    NSString* entityType = [entity getStringProperty:@"type"];
+    NSString* entityUUID = [entity getStringProperty:@"uuid"];
+    NSString* resultString = nil;
+
+    if( [assetData length] > 0 && [entityUUID length] > 0 && [entityType length] > 0 && [assetFileName length] > 0 && [assetContentType length] > 0 ) {
+
+        NSData *requestBody = [self generateHTTPBodyData:assetData
+                                           assetFileName:assetFileName
+                                        assetContentType:assetContentType];
+
+        NSString* urlString = [self createURL:entityType append2:entityUUID];
+
+        NSMutableURLRequest* assetUploadRequest = [mgr getRequest:urlString operation:kApigeeHTTPPut operationData:nil];
+        [assetUploadRequest setValue:[ApigeeDataClient getContentHeaderForAssetUpload] forHTTPHeaderField:@"Content-Type"];
+        [assetUploadRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[requestBody length]] forHTTPHeaderField:@"Content-Length"];
+
+        [assetUploadRequest setHTTPBody:requestBody];
+
+        resultString = [mgr syncTransaction:assetUploadRequest];
+    }
+
+    ApigeeClientResponse* response = nil;
+
+    if ( resultString )
+    {
+        // got a valid result
+        response = [self createResponse:[mgr getTransactionID] jsonStr:resultString];
+    }
+    else
+    {
+        // there was an error. Note the failure state, set the response to
+        // be the error string
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:kInvalidTransactionID];
+        [response setTransactionState:kApigeeClientResponseFailure];
+        [response setResponse:[mgr getLastError]];
+    }
+
+    [self releaseHTTPManager:mgr];
+
+    return response;
+}
+
+-(ApigeeClientResponse *)attachAssetToEntity:(ApigeeEntity *)entity
+                                   assetData:(NSData*)assetData
+                               assetFileName:(NSString*)assetFileName
+                            assetContentType:(NSString*)assetContentType
+                           completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    ApigeeHTTPManager *mgr = [self getHTTPManager];
+
+    int transactionID = kInvalidTransactionID;
+    NSString* entityType = [entity getStringProperty:@"type"];
+    NSString* entityUUID = [entity getStringProperty:@"uuid"];
+
+    if( [assetData length] > 0 && [entityUUID length] > 0 && [entityType length] > 0 && [assetFileName length] > 0 && [assetContentType length] > 0 ) {
+
+        NSData *requestBody = [self generateHTTPBodyData:assetData
+                                           assetFileName:assetFileName
+                                        assetContentType:assetContentType];
+
+        NSString* urlString = [self createURL:entityType append2:entityUUID];
+
+        NSMutableURLRequest* assetUploadRequest = [mgr getRequest:urlString operation:kApigeeHTTPPut operationData:nil];
+        [assetUploadRequest setValue:[ApigeeDataClient getContentHeaderForAssetUpload] forHTTPHeaderField:@"Content-Type"];
+        [assetUploadRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[requestBody length]] forHTTPHeaderField:@"Content-Length"];
+
+        [assetUploadRequest setHTTPBody:requestBody];
+
+        transactionID = [mgr asyncTransaction:assetUploadRequest
+                            completionHandler:^(ApigeeHTTPResult *result, ApigeeHTTPManager *httpManager) {
+
+                                NSString *response = [result UTF8String];
+                                if ( m_bLogging )
+                                {
+                                    NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                                    NSLog(@"Response (Transaction ID %d):\n%@", [httpManager getTransactionID], response);
+                                    NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
+                                }
+
+                                if( completionHandler != nil ) {
+                                    // form up the response
+                                    ApigeeClientResponse *apigeeResponse = [self createResponse:[httpManager getTransactionID]
+                                                                                        jsonStr:response];
+                                    // execute the completion handler
+                                    completionHandler(apigeeResponse);
+                                }
+
+                                // now that the callback is complete, it's safe to release this manager
+                                [self releaseHTTPManager:httpManager];
+                            }];
+    }
+
+    if ( transactionID == kInvalidTransactionID )
+    {
+        if ( m_bLogging )
+        {
+            NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            NSLog(@"Response: ERROR: %@", [mgr getLastError]);
+            NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
+        }
+
+        // there was an immediate failure in the transaction
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:kInvalidTransactionID];
+        [response setTransactionState:kApigeeClientResponseFailure];
+        [response setResponse:[mgr getLastError]];
+        [response setRawResponse:nil];
+        return response;
+    }
+    else
+    {
+        // the transaction is in progress and pending
+        ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
+        [response setTransactionID:transactionID];
+        [response setTransactionState:kApigeeClientResponsePending];
+        [response setResponse:nil];
+        [response setRawResponse:nil];
+        return response;
+    }
+}
+
+-(ApigeeClientResponse *)httpTransactionWithURLRequest:(NSURLRequest *)urlRequest
+                                              delegate:(ApigeeDataClientCompletionHandler)completionHandler
+{
+    // get an http manager to do this transaction
+    ApigeeHTTPManager *mgr = [self getHTTPManager];
+
+    if ( m_bLogging )
+    {
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        NSLog(@"Asynch outgoing call: '%@'", [[urlRequest URL] absoluteString]);
+    }
+
+    // asynch transaction
+    int transactionID = [mgr asyncTransaction:urlRequest
+                            completionHandler:^(ApigeeHTTPResult *result, ApigeeHTTPManager *httpManager){
+
+                                NSString *response = [result UTF8String];
+                                if ( m_bLogging )
+                                {
+                                    NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                                    NSLog(@"Response (Transaction ID %d):\n%@", [httpManager getTransactionID], response);
+                                    NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
+                                }
+
+                                if( completionHandler != nil )
+                                {
+                                    // form up the response
+                                    ApigeeClientResponse *apigeeResponse = [self createResponse:[httpManager getTransactionID]
+                                                                                        jsonStr:response];
+
+                                    // execute the completion handler
+                                    completionHandler(apigeeResponse);
+                                }
+
+                                // now that the callback is complete, it's safe to release this manager
+                                [self releaseHTTPManager:httpManager];
+                            }];
+
+    if ( m_bLogging )
+    {
+        NSLog(@"Transaction ID:%d", transactionID);
+        NSLog(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n\n");
+    }
+
+    if ( transactionID == kInvalidTransactionID )
+    {
+        if ( m_bLogging )
+        {
+            NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            NSLog(@"Response: ERROR: %@", [mgr getLastError]);
+            NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
+        }
+
         // there was an immediate failure in the transaction
         ApigeeClientResponse *response = [[ApigeeClientResponse alloc] initWithDataClient:self];
         [response setTransactionID:kInvalidTransactionID];

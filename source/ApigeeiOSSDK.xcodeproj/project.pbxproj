@@ -458,6 +458,7 @@
 		63B68F8018076294003424E1 /* ApigeeNSURLSessionSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeNSURLSessionSupport.m; path = Classes/Services/ApigeeNSURLSessionSupport.m; sourceTree = SOURCE_ROOT; };
 		63BFFD61197F267D00017F6F /* ApigeeiOSSDK Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ApigeeiOSSDK Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		63BFFD64197F267D00017F6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63F0B21319DF4AE70061D870 /* ApigeeAssetManagementTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeAssetManagementTests.m; sourceTree = "<group>"; };
 		63F522BB1778C2B200FCA013 /* libApigeeiOSSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libApigeeiOSSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		63F522BE1778C2B200FCA013 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		63F524151778D28600FCA013 /* dist.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = dist.sh; path = Scripts/dist.sh; sourceTree = SOURCE_ROOT; };
@@ -631,6 +632,7 @@
 			isa = PBXGroup;
 			children = (
 				63772CBF198AF342002C9B45 /* ApigeeUserTests.m */,
+				63F0B21319DF4AE70061D870 /* ApigeeAssetManagementTests.m */,
 			);
 			path = Integration;
 			sourceTree = "<group>";
