@@ -1,4 +1,5 @@
 language: objective-c
 script:
+    - brew update && brew uninstall xctool && brew install xctool --build-from-source
     - xctool -project ./source/ApigeeiOSSDK.xcodeproj -scheme ApigeeiOSSDK -sdk iphonesimulator -configuration Debug 
     - xctool -project ./source/ApigeeiOSSDK.xcodeproj -scheme "ApigeeiOSSDK Tests" -sdk iphonesimulator -configuration Debug clean build test
