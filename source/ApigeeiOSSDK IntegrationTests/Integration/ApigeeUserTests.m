@@ -17,6 +17,11 @@
  @class ApigeeUserTests
  @abstract The ApigeeUserTests test case is used to test the flow of adding and manipulating a new/existing user.
  */
+
+@interface NSURLRequest (ApplePrivate)
++ (void)setAllowsAnyHTTPSCertificate:(BOOL)allow forHost:(NSString*)host;
+@end
+
 @interface ApigeeUserTests : XCTestCase
 
 @property (nonatomic,strong) ApigeeClient* apigeeClient;
@@ -32,6 +37,12 @@
 - (void)setUp {
 
     [super setUp];
+
+    // This is a workaround for integration tests running with xctool/travis-ci.
+    // Without this it always reports that retrieving config from server: The certificate for this server is invalid.
+    // More info can be found here http://quellish.tumblr.com/post/33284931593/ssl-connections-from-an-ocunit-test-failing.
+    [NSURLRequest setAllowsAnyHTTPSCertificate:YES
+                                       forHost:kAPIApigeeServer];
 
     self.apigeeClient = [[ApigeeClient alloc] initWithOrganizationId:kAPIOrgName
                                                        applicationId:kAPIAppID];

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString* const kAPIApigeeServer;
+
 extern NSString* const kAPIOrgName;
 extern NSString* const kAPIAppID;
 

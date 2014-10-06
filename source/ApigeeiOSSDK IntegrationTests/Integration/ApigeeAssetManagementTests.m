@@ -12,6 +12,15 @@
 #import "Apigee.h"
 #import "ApigeeIntegrationTestsConstants.h"
 
+/*!
+ @class ApigeeAssetManagementTests
+ @abstract The ApigeeAssetManagementTests test case is used to test the flow of uploading and downloading an asset.
+ */
+
+@interface NSURLRequest (ApplePrivate)
++ (void)setAllowsAnyHTTPSCertificate:(BOOL)allow forHost:(NSString*)host;
+@end
+
 @interface ApigeeAssetManagementTests : XCTestCase
 
 @end
@@ -20,12 +29,21 @@
 
 - (void)setUp {
     [super setUp];
+
+    // This is a workaround for integration tests running with xctool/travis-ci.
+    // Without this it always reports that retrieving config from server: The certificate for this server is invalid.
+    // More info can be found here http://quellish.tumblr.com/post/33284931593/ssl-connections-from-an-ocunit-test-failing.
+    [NSURLRequest setAllowsAnyHTTPSCertificate:YES
+                                       forHost:kAPIApigeeServer];
 }
 
 - (void)tearDown {
     [super tearDown];
 }
 
+/*!
+ @abstract Tests the ability to upload an asset and connect it to an entity and follows that by downloading that asset to see if it is correct.
+ */
 - (void)test_AssetUploadAndDownload {
 
     ApigeeClient* apigeeClient = [[ApigeeClient alloc] initWithOrganizationId:kAPIOrgName applicationId:kAPIAppID];

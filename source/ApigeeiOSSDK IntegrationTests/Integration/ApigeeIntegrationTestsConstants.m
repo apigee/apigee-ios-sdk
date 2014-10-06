@@ -8,6 +8,8 @@
 
 #import "ApigeeIntegrationTestsConstants.h"
 
+NSString* const kAPIApigeeServer = @"api.usergrid.com";
+
 NSString* const kAPIOrgName = @"rwalsh";
 NSString* const kAPIAppID = @"sandbox";
 
