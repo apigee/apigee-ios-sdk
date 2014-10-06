@@ -44,8 +44,9 @@
     [NSURLRequest setAllowsAnyHTTPSCertificate:YES
                                        forHost:kAPIApigeeServer];
 
-    self.apigeeClient = [[ApigeeClient alloc] initWithOrganizationId:kAPIOrgName
-                                                       applicationId:kAPIAppID];
+    ApigeeMonitoringOptions* options = [[ApigeeMonitoringOptions alloc] init];
+    [options setMonitoringEnabled:NO];
+    self.apigeeClient = [[ApigeeClient alloc] initWithOrganizationId:kAPIOrgName applicationId:kAPIAppID options:options];
 }
 
 - (void)tearDown {

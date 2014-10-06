@@ -11,6 +11,7 @@
 
 #import "Apigee.h"
 #import "ApigeeIntegrationTestsConstants.h"
+#import "ApigeeMonitoringOptions.h"
 
 /*!
  @class ApigeeAssetManagementTests
@@ -46,7 +47,10 @@
  */
 - (void)test_AssetUploadAndDownload {
 
-    ApigeeClient* apigeeClient = [[ApigeeClient alloc] initWithOrganizationId:kAPIOrgName applicationId:kAPIAppID];
+    ApigeeMonitoringOptions* options = [[ApigeeMonitoringOptions alloc] init];
+    [options setMonitoringEnabled:NO];
+
+    ApigeeClient* apigeeClient = [[ApigeeClient alloc] initWithOrganizationId:kAPIOrgName applicationId:kAPIAppID options:options];
     ApigeeDataClient* dataClient = [apigeeClient dataClient];
 
     ApigeeClientResponse* picturesResponse = [dataClient getEntities:kAPIAssetManagementTestCollectionName
