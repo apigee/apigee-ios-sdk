@@ -11,14 +11,7 @@
 
 #import "Apigee.h"
 #import "ApigeeUser.h"
-
-static NSString* const kAPIOrgName = @"rwalsh";
-static NSString* const kAPIAppID = @"sandbox";
-
-static NSString* const kAPITestUsername = @"testUser";
-static NSString* const kAPITestEmail = @"testUser@apigee.com";
-static NSString* const kAPITestName = @"Test User";
-static NSString* const kAPITestPassword = @"password";
+#import "ApigeeIntegrationTestsConstants.h"
 
 /*!
  @class ApigeeUserTests
@@ -58,10 +51,10 @@ static NSString* const kAPITestPassword = @"password";
 
     ApigeeDataClient* dataClient = [[self apigeeClient] dataClient];
 
-    ApigeeClientResponse* addUserResponse = [dataClient addUser:kAPITestUsername
-                                                          email:kAPITestEmail
-                                                           name:kAPITestName
-                                                       password:kAPITestPassword];
+    ApigeeClientResponse* addUserResponse = [dataClient addUser:kAPIUserTestUsername
+                                                          email:kAPIUserTestEmail
+                                                           name:kAPIUserTestName
+                                                       password:kAPIUserTestPassword];
 
     XCTAssertTrue([addUserResponse completedSuccessfully], @"ApigeeDataClient addUser unsuccessful!");
     
@@ -72,11 +65,11 @@ static NSString* const kAPITestPassword = @"password";
     {
         ApigeeUser* createdUser = (ApigeeUser*) responseEntity;
 
-        XCTAssertEqualObjects([createdUser username], kAPITestUsername, @"Username is not equal.");
-        XCTAssertEqualObjects([createdUser email], kAPITestEmail, @"Email is not equal.");
-        XCTAssertEqualObjects([createdUser name], kAPITestName, @"User's name is not equal.");
+        XCTAssertEqualObjects([createdUser username], kAPIUserTestUsername, @"Username is not equal.");
+        XCTAssertEqualObjects([createdUser email], kAPIUserTestEmail, @"Email is not equal.");
+        XCTAssertEqualObjects([createdUser name], kAPIUserTestName, @"User's name is not equal.");
 
-        ApigeeClientResponse* loginResponse = [dataClient logInUser:kAPITestUsername password:kAPITestPassword];
+        ApigeeClientResponse* loginResponse = [dataClient logInUser:kAPIUserTestUsername password:kAPIUserTestPassword];
         
         XCTAssertTrue([loginResponse completedSuccessfully], @"ApigeeDataClient loginResponse unsuccessful.");
         XCTAssertNotNil([dataClient getAccessToken], @"ApigeeDataClient should have an accessToken.");
@@ -96,7 +89,7 @@ static NSString* const kAPITestPassword = @"password";
     ApigeeClientResponse* deleteCreatedUserResponse = [dataClient removeEntity:@"user" entityID:[responseEntity uuid]];
     XCTAssertTrue([deleteCreatedUserResponse completedSuccessfully], @"ApigeeDataClient remove created user failed.");
 
-    ApigeeClientResponse* loginResponse = [dataClient logInUser:kAPITestUsername password:kAPITestPassword];
+    ApigeeClientResponse* loginResponse = [dataClient logInUser:kAPIUserTestUsername password:kAPIUserTestPassword];
     XCTAssertFalse([loginResponse completedSuccessfully], @"ApigeeDataClient loginResponse should have failed because the user created should no longer exist.");
 }
 

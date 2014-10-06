@@ -10,6 +10,7 @@
 #import <XCTest/XCTest.h>
 
 #import "Apigee.h"
+#import "ApigeeIntegrationTestsConstants.h"
 
 @interface ApigeeAssetManagementTests : XCTestCase
 
@@ -27,25 +28,16 @@
 
 - (void)test_AssetUploadAndDownload {
 
-    static NSString* const kAPIOrgName = @"rwalsh";
-    static NSString* const kAPIAppID = @"sandbox";
-
-    static NSString* const kCollectionName = @"pictures";
-    static NSString* const kEntityName = @"testAssetUploadCURL";
-
-    static NSString* const kImageName = @"SampleData/assetManagementTestImage.png";
-    static NSString* const kContentType = @"image/png";
-
     ApigeeClient* apigeeClient = [[ApigeeClient alloc] initWithOrganizationId:kAPIOrgName applicationId:kAPIAppID];
     ApigeeDataClient* dataClient = [apigeeClient dataClient];
 
-    ApigeeClientResponse* picturesResponse = [dataClient getEntities:kCollectionName
-                                                         queryString:[NSString stringWithFormat:@"name='%@'",kEntityName]];
+    ApigeeClientResponse* picturesResponse = [dataClient getEntities:kAPIAssetManagementTestCollectionName
+                                                         queryString:[NSString stringWithFormat:@"name='%@'",kAPIAssetManagementTestEntityName]];
 
     ApigeeEntity* pictureEntity = [picturesResponse firstEntity];
     XCTAssertNotNil(pictureEntity,@"pictureEntity should not be nil.");
 
-    NSString* imagePath = [[NSBundle bundleForClass:[self class]] pathForResource:kImageName ofType:nil];
+    NSString* imagePath = [[NSBundle bundleForClass:[self class]] pathForResource:kAPIAssetManagementTestImageName ofType:nil];
     XCTAssertNotNil(imagePath,@"imagePath should not be nil.");
 
     NSData* imageData = [NSData dataWithContentsOfFile:imagePath];
@@ -53,12 +45,12 @@
 
     ApigeeClientResponse* response = [dataClient attachAssetToEntity:pictureEntity
                                                            assetData:imageData
-                                                       assetFileName:[kImageName lastPathComponent]
-                                                    assetContentType:kContentType];
+                                                       assetFileName:[kAPIAssetManagementTestImageName lastPathComponent]
+                                                    assetContentType:kAPIAssetManagementTestContentType];
 
     XCTAssertTrue([response completedSuccessfully],@"Upload asset did not complete successfully.");
 
-    NSData* serversImageData = [[dataClient getAssetDataForEntity:pictureEntity acceptedContentType:kContentType] response];
+    NSData* serversImageData = [[dataClient getAssetDataForEntity:pictureEntity acceptedContentType:kAPIAssetManagementTestContentType] response];
     XCTAssertEqualObjects(imageData, serversImageData,@"response's data should be the exact same as the imageData we uploaded.");
 
     UIImage* image = [UIImage imageWithData:serversImageData];
