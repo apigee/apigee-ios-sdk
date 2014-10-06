@@ -9,14 +9,14 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "63F522BA1778C2B200FCA013"
-               BuildableName = "libApigeeiOSSDK.a"
-               BlueprintName = "ApigeeiOSSDK"
+               BlueprintIdentifier = "6346ACF919E30A9E006F8F97"
+               BuildableName = "ApigeeiOSSDK UnitTests.xctest"
+               BlueprintName = "ApigeeiOSSDK UnitTests"
                ReferencedContainer = "container:ApigeeiOSSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,16 +32,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6346ACDB19E3067B006F8F97"
-               BuildableName = "ApigeeiOSSDK IntegrationTests.xctest"
-               BlueprintName = "ApigeeiOSSDK IntegrationTests"
-               ReferencedContainer = "container:ApigeeiOSSDK.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "6346ACF919E30A9E006F8F97"
                BuildableName = "ApigeeiOSSDK UnitTests.xctest"
                BlueprintName = "ApigeeiOSSDK UnitTests"
@@ -52,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "63F522BA1778C2B200FCA013"
-            BuildableName = "libApigeeiOSSDK.a"
-            BlueprintName = "ApigeeiOSSDK"
+            BlueprintIdentifier = "6346ACF919E30A9E006F8F97"
+            BuildableName = "ApigeeiOSSDK UnitTests.xctest"
+            BlueprintName = "ApigeeiOSSDK UnitTests"
             ReferencedContainer = "container:ApigeeiOSSDK.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -71,9 +61,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "63F522BA1778C2B200FCA013"
-            BuildableName = "libApigeeiOSSDK.a"
-            BlueprintName = "ApigeeiOSSDK"
+            BlueprintIdentifier = "6346ACF919E30A9E006F8F97"
+            BuildableName = "ApigeeiOSSDK UnitTests.xctest"
+            BlueprintName = "ApigeeiOSSDK UnitTests"
             ReferencedContainer = "container:ApigeeiOSSDK.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -89,9 +79,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "63F522BA1778C2B200FCA013"
-            BuildableName = "libApigeeiOSSDK.a"
-            BlueprintName = "ApigeeiOSSDK"
+            BlueprintIdentifier = "6346ACF919E30A9E006F8F97"
+            BuildableName = "ApigeeiOSSDK UnitTests.xctest"
+            BlueprintName = "ApigeeiOSSDK UnitTests"
             ReferencedContainer = "container:ApigeeiOSSDK.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

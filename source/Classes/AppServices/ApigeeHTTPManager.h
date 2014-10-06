@@ -61,6 +61,27 @@ typedef void (^ApigeeHTTPCompletionHandler)(ApigeeHTTPResult *result,ApigeeHTTPM
                operationData:(NSString *)opData;
 
 /*!
+ @abstract Performs synchronous HTTP call to server
+ @param urlRequest the URL request to perform
+ @return the response received from the server, or nil in case of error
+ @discussion blocks until a response is received, or until there's an error. in
+ the event of a response, it's returned. If there's an error, the function
+ returns nil and you can call getLastError to see what went wrong.
+ */
+-(NSString*)syncTransaction:(NSURLRequest*)urlRequest;
+
+/*!
+ @abstract Performs synchronous HTTP call to server returning NSData 
+    instead of the converting the response to a string first.
+ @param urlRequest the URL request to perform
+ @return the response received from the server, or nil in case of error
+ @discussion blocks until a response is received, or until there's an error. in
+ the event of a response, it's returned. If there's an error, the function
+ returns nil and you can call getLastError to see what went wrong.
+ */
+-(NSData*)syncTransactionRawData:(NSURLRequest*)urlRequest;
+
+/*!
  @abstract Performs asynchronous HTTP call to server with delegate
  @param url the URL for the HTTP request
  @param op the HTTP operation (kApigeeHTTPGet, kApigeeHTTPPost,
@@ -81,6 +102,20 @@ typedef void (^ApigeeHTTPCompletionHandler)(ApigeeHTTPResult *result,ApigeeHTTPM
               delegate:(id)delegate;
 
 /*!
+ @abstract Performs asynchronous HTTP call to server with delegate
+ @param urlRequest the HTTP request to perform
+ @param delegate the delegate to call when the call completes
+ @return the transactionID or -1 in case of error
+ @discussion In the event of an error (-1), you can call getLastError to find out what
+ went wrong. The delegate must implement these methods:
+ @textblock
+ -(void)httpManagerError:(ApigeeHTTPManager *)manager error:(NSString *)error
+ -(void)httpManagerResponse:(ApigeeHTTPManager *)manager response:(NSString *)response
+ @/textblock
+ */
+-(int)asyncTransaction:(NSURLRequest*)urlRequest delegate:(id)delegate;
+
+/*!
  @abstract Performs asynchronous HTTP call to server with completion block
  @param url the URL for the HTTP request
  @param op the HTTP operation (kApigeeHTTPGet, kApigeeHTTPPost,
@@ -95,6 +130,31 @@ typedef void (^ApigeeHTTPCompletionHandler)(ApigeeHTTPResult *result,ApigeeHTTPM
              operation:(int)op
          operationData:(NSString *)opData
      completionHandler:(ApigeeHTTPCompletionHandler) completionHandler;
+
+/*!
+ @abstract Performs asynchronous HTTP call to server with completion block
+ @param urlRequest the HTTP request to perform
+ @param completionHandler the block to call when the call completes
+ @return the transactionID or -1 in case of error
+ @discussion In the event of an error (-1), you can call getLastError to find
+ out what went wrong.
+ */
+-(int)asyncTransaction:(NSURLRequest*)urlRequest completionHandler:(ApigeeHTTPCompletionHandler)theCompletionHandler;
+
+/*!
+ @abstract Used to create a NSURLRequest that will be set up to have all the correct Authorization and custom headers
+    added along with the opStr added as the requests body.
+ @param url the URL for the HTTP request
+ @param op the HTTP operation (kApigeeHTTPGet, kApigeeHTTPPost,
+ kApigeeHTTPPostAuth, kApigeeHTTPPut, or kApigeeHTTPDelete)
+ @param opData data that should be sent to server as part of request
+ @return the mutable URL request if creation was successful
+ @discussion This method allows you to manipulate the URL requests further if needed and can be used with the methods in
+    this class that take a full URL request.
+ */
+-(NSMutableURLRequest *)getRequest:(NSString *)url
+                         operation:(int)op
+                     operationData:(NSString *)opStr;
 
 /*!
  @abstract get the current transactionID

@@ -76,7 +76,7 @@ enum TransactionResponseState
  @abstract This is the response. The type of this variable is dependant on the
     call that caused this response.
  */
-@property (weak) id response;
+@property (strong, nonatomic) id response;
 
 /*!
  @property rawResponse

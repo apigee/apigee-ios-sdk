@@ -60,7 +60,6 @@ set the response limit in ApigeeQuery as well.
 
 typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response);
 
-
 /*!
  @class ApigeeDataClient
  @abstract Top-level class for interfacing with Usergrid and server-side data
@@ -1791,6 +1790,65 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
  */
 -(NSArray*)HTTPHeaderFields;
 
+/*!
+ @abstract Attaches an asset to the given entity asynchronously
+ @param entity The entity in which to attach the asset to
+ @param assetData The data for the asset
+ @param assetFileName A filename to associate with the asset.
+ @param assetContentType The content type of the asset you are uploading
+ @param completionHandler The handler to call when the client has finished 
+    its attempt to upload the asset and attach it to the entity.
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)attachAssetToEntity:(ApigeeEntity*)entity
+                                   assetData:(NSData*)assetData
+                               assetFileName:(NSString*)assetFileName
+                            assetContentType:(NSString*)assetContentType
+                           completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+/*!
+ @abstract Attaches an asset to the given entity synchronously
+ @param entity The entity in which to attach the asset to
+ @param assetData The data for the asset
+ @param assetFileName A filename to associate with the asset.
+ @param assetContentType The content type of the asset you are uploading
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ */
+-(ApigeeClientResponse *)attachAssetToEntity:(ApigeeEntity*)entity
+                                   assetData:(NSData*)assetData
+                               assetFileName:(NSString*)assetFileName
+                            assetContentType:(NSString*)assetContentType;
+
+/*!
+ @abstract Retrives the asset attached to the given entity asynchronously
+ @param entity The entity in which to attach the asset to
+ @param acceptedContentType The content type of the attached asset.
+ For example, text/plain, image/jpeg.
+ @param completionHandler The handler to call when the client has finished
+ its attempt to get the assets data.
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ @discussion The returned client response will contain the asset
+ data in it's response property.
+ */
+-(ApigeeClientResponse*)getAssetDataForEntity:(ApigeeEntity *)entity
+                          acceptedContentType:(NSString *)acceptedContentType
+                            completionHandler:(ApigeeDataClientCompletionHandler)completionHandler;
+
+/*!
+ @abstract Retrives the asset attached to the given entity synchronously
+ @param entity The entity in which to attach the asset to
+ @param acceptedContentType The content type of the attached asset. 
+    For example, text/plain, image/jpeg.
+ @return ApigeeClientResponse instance
+ @see ApigeeClientResponse ApigeeClientResponse
+ @discussion The returned client response will contain the asset 
+    data in it's response property.
+ */
+-(ApigeeClientResponse*)getAssetDataForEntity:(ApigeeEntity *)entity
+                          acceptedContentType:(NSString *)acceptedContentType;
 
 
 //**********************  EVENTS AND COUNTERS  **************************

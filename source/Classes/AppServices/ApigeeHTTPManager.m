@@ -123,50 +123,65 @@ NSRecursiveLock *g_transactionIDLock = nil;
 
 
 //----------------------- SYNCHRONOUS CALLING ------------------------
--(NSString *)syncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData;
+-(NSData*)syncTransactionRawData:(NSURLRequest*)urlRequest
 {
     // clear the transaction ID
     m_transactionID = kInvalidTransactionID;
-    
+
     // use the synchronous funcitonality of NSURLConnection
     // clear the error
     m_lastError = @"No error";
-    
-    // formulate the request
-    NSURLRequest *req = [self getRequest:url operation:op operationData:opData];
-    
+
     NSURLResponse *response;
     NSError *error;
-    NSData *resultData = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
-    
+    NSData *resultData = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:&error];
+
     if ( resultData )
     {
         // we got results
-        NSString *resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];        
-        return resultString;
+        return resultData;
     }
-    
+
     // if we're here, it means we got nil as the result
     m_lastError = [error localizedDescription];
     return nil;
 }
 
+-(NSString*)syncTransaction:(NSURLRequest*)urlRequest
+{
+    NSString* resultString = nil;
+    NSData* resultData = [self syncTransactionRawData:urlRequest];
+
+    if ( resultData )
+    {
+        resultString = [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+    }
+
+    return resultString;
+}
+
+-(NSString *)syncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData;
+{
+    NSURLRequest *req = [self getRequest:url operation:op operationData:opData];
+    return [self syncTransaction:req];
+}
+
 //----------------------- ASYNCHRONOUS CALLING ------------------------
--(int)asyncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData delegate:(id)delegate;
+-(int)asyncTransaction:(NSURLRequest*)urlRequest delegate:(id)delegate;
 {
     // clear the transaction ID
     m_transactionID = kInvalidTransactionID;
-    
+
     // clear the error
     m_lastError = @"No error";
-    
+
     if ( !delegate )
     {
         // an asynch transaction with no delegate has no meaning
         m_lastError = @"Delegate was nil";
         return kInvalidTransactionID;
     }
-    
+
     // make sure the delegate responds to the various messages that
     // are required
     if ( ![delegate respondsToSelector:@selector(httpManagerError:error:)] )
@@ -179,50 +194,54 @@ NSRecursiveLock *g_transactionIDLock = nil;
         m_lastError = @"Delegate does not have httpManagerResponse:response: method";
         return kInvalidTransactionID;
     }
-    
+
     // only once we're assured everything is right do we set the internal value
     [m_delegateLock lock];
     m_delegate = delegate;
     [m_delegateLock unlock];
-    
+
     self.completionHandler = nil;
-    
+
     // prep a transaction ID for this transaction
     m_transactionID = [self getNextTransactionID];
-   
-    // formulate the request
-    NSURLRequest *req = [self getRequest:url operation:op operationData:opData];
-        
+
     // fire it off
-    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
-    
+    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
+
     // Note failure
     if ( !conn )
     {
         // failed to connect
         m_lastError = @"Unable to initiate connection.";
-        return kInvalidTransactionID;       
+        return kInvalidTransactionID;
     }
-    
+
     // success
     return m_transactionID;
 }
 
--(int)asyncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData completionHandler:(ApigeeHTTPCompletionHandler) theCompletionHandler
+
+-(int)asyncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData delegate:(id)delegate;
+{
+    NSURLRequest *req = [self getRequest:url operation:op operationData:opData];
+    return [self asyncTransaction:req delegate:delegate];
+}
+
+-(int)asyncTransaction:(NSURLRequest*)urlRequest completionHandler:(ApigeeHTTPCompletionHandler) theCompletionHandler
 {
     // clear the transaction ID
     m_transactionID = kInvalidTransactionID;
-    
+
     // clear the error
     m_lastError = @"No error";
-    
+
     if ( !theCompletionHandler )
     {
         // an asynch transaction with no completion handler has no meaning
         m_lastError = @"Completion handler was nil";
         return kInvalidTransactionID;
     }
-    
+
     self.completionHandler = theCompletionHandler;
 
     [m_delegateLock lock];
@@ -231,36 +250,39 @@ NSRecursiveLock *g_transactionIDLock = nil;
 
     // prep a transaction ID for this transaction
     m_transactionID = [self getNextTransactionID];
-    
-    // formulate the request
-    NSURLRequest *req = [self getRequest:url operation:op operationData:opData];
-    
+
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    
-    [NSURLConnection sendAsynchronousRequest:req
+
+    [NSURLConnection sendAsynchronousRequest:urlRequest
                                        queue:queue
                            completionHandler:^(NSURLResponse* response, NSData* data, NSError* error) {
                                ApigeeHTTPResult *result = [[ApigeeHTTPResult alloc] init];
-                               
+
                                if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
                                    result.response = (NSHTTPURLResponse*) response;
                                }
-                               
+
                                result.data = data;
                                result.error = error;
                                result.object = nil;
-                               
+
                                if (![NSThread isMainThread]) {
                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        theCompletionHandler(result,self);
+                                       theCompletionHandler(result,self);
                                    });
                                } else {
                                    // we're already on the main thread
                                    theCompletionHandler(result,self);
                                }
                            }];
-    
+
     return m_transactionID;
+}
+
+-(int)asyncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData completionHandler:(ApigeeHTTPCompletionHandler) theCompletionHandler
+{
+    NSURLRequest *req = [self getRequest:url operation:op operationData:opData];
+    return [self asyncTransaction:req completionHandler:completionHandler];
 }
 
 -(BOOL)isAvailable
@@ -300,8 +322,9 @@ NSRecursiveLock *g_transactionIDLock = nil;
     return converted;
 }
 
-// INTERNAL function for forming the request
--(NSURLRequest *)getRequest:(NSString *)url operation:(int)op operationData:(NSString *)opStr;
+-(NSMutableURLRequest *)getRequest:(NSString *)url
+                         operation:(int)op
+                     operationData:(NSString *)opStr;
 {
     // make the url
     NSURL *nsurl = [NSURL URLWithString:url];

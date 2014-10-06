@@ -7,13 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		63772CCB198AF342002C9B45 /* ApigeeAppIdentificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63772CC1198AF342002C9B45 /* ApigeeAppIdentificationTests.m */; };
-		63772CCC198AF342002C9B45 /* ApigeeAuthTokenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63772CC2198AF342002C9B45 /* ApigeeAuthTokenTest.m */; };
-		63772CCD198AF342002C9B45 /* ApigeeClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63772CC3198AF342002C9B45 /* ApigeeClientTests.m */; };
-		63772CCE198AF342002C9B45 /* ApigeeAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63772CC4198AF342002C9B45 /* ApigeeAppTest.m */; };
-		63772CCF198AF342002C9B45 /* ApigeeMonitoringSettingsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63772CC5198AF342002C9B45 /* ApigeeMonitoringSettingsTests.m */; };
-		63772CD4198AF356002C9B45 /* SampleData in Resources */ = {isa = PBXBuildFile; fileRef = 63772CD3198AF356002C9B45 /* SampleData */; };
-		63772CD6198B0C90002C9B45 /* ApigeeEntityResponseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63772CD5198B0C90002C9B45 /* ApigeeEntityResponseTest.m */; };
+		6346ACE519E30683006F8F97 /* libApigeeiOSSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F522BB1778C2B200FCA013 /* libApigeeiOSSDK.a */; };
+		6346ACE619E30687006F8F97 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253A177A36E600FCA013 /* CoreLocation.framework */; };
+		6346ACE719E30687006F8F97 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253C177A36F100FCA013 /* SystemConfiguration.framework */; };
+		6346ACE819E30687006F8F97 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253E177A36FB00FCA013 /* CoreTelephony.framework */; };
+		6346ACE919E30687006F8F97 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F522BE1778C2B200FCA013 /* Foundation.framework */; };
+		6346ACF119E30756006F8F97 /* ApigeeAssetManagementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6346ACED19E30756006F8F97 /* ApigeeAssetManagementTests.m */; };
+		6346ACF219E30756006F8F97 /* ApigeeIntegrationTestsConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 6346ACEF19E30756006F8F97 /* ApigeeIntegrationTestsConstants.m */; };
+		6346ACF319E30756006F8F97 /* ApigeeUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6346ACF019E30756006F8F97 /* ApigeeUserTests.m */; };
+		6346AD0319E30AA4006F8F97 /* libApigeeiOSSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F522BB1778C2B200FCA013 /* libApigeeiOSSDK.a */; };
+		6346AD0419E30AAA006F8F97 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253A177A36E600FCA013 /* CoreLocation.framework */; };
+		6346AD0519E30AAA006F8F97 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253C177A36F100FCA013 /* SystemConfiguration.framework */; };
+		6346AD0619E30AAA006F8F97 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253E177A36FB00FCA013 /* CoreTelephony.framework */; };
+		6346AD0719E30AAA006F8F97 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F522BE1778C2B200FCA013 /* Foundation.framework */; };
+		6346AD1319E30AC9006F8F97 /* ApigeeAppIdentificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6346AD0919E30AC9006F8F97 /* ApigeeAppIdentificationTests.m */; };
+		6346AD1419E30AC9006F8F97 /* ApigeeAppTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6346AD0A19E30AC9006F8F97 /* ApigeeAppTest.m */; };
+		6346AD1519E30AC9006F8F97 /* ApigeeAuthTokenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6346AD0B19E30AC9006F8F97 /* ApigeeAuthTokenTest.m */; };
+		6346AD1619E30AC9006F8F97 /* ApigeeClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6346AD0C19E30AC9006F8F97 /* ApigeeClientTests.m */; };
+		6346AD1719E30AC9006F8F97 /* ApigeeEntityResponseTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6346AD0D19E30AC9006F8F97 /* ApigeeEntityResponseTest.m */; };
+		6346AD1819E30AC9006F8F97 /* ApigeeMonitoringSettingsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6346AD0E19E30AC9006F8F97 /* ApigeeMonitoringSettingsTests.m */; };
+		6346AD1D19E30B09006F8F97 /* SampleData in Resources */ = {isa = PBXBuildFile; fileRef = 6346AD1C19E30B09006F8F97 /* SampleData */; };
+		6346AD2119E30C0E006F8F97 /* TestResources in Resources */ = {isa = PBXBuildFile; fileRef = 6346AD2019E30C0E006F8F97 /* TestResources */; };
 		637BC9DC181F02DD00F54D95 /* ApigeeLogging.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5250C1778F19200FCA013 /* ApigeeLogging.h */; };
 		637BC9EF182148F200F54D95 /* ApigeeAPSPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BC9EE182148F200F54D95 /* ApigeeAPSPayload.m */; };
 		637BC9F21821498D00F54D95 /* ApigeeAPSAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BC9F11821498D00F54D95 /* ApigeeAPSAlert.m */; };
@@ -102,11 +116,6 @@
 		63B68EC517FF6A6A003424E1 /* ApigeeNSURLSessionDataDelegateInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B68EC417FF6A6A003424E1 /* ApigeeNSURLSessionDataDelegateInterceptor.m */; };
 		63B68EFE18035433003424E1 /* ApigeeNSURLSessionDataTaskInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B68EFD18035433003424E1 /* ApigeeNSURLSessionDataTaskInfo.m */; };
 		63B68F8118076294003424E1 /* ApigeeNSURLSessionSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B68F8018076294003424E1 /* ApigeeNSURLSessionSupport.m */; };
-		63BCC1AF1980384D00EF815B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253A177A36E600FCA013 /* CoreLocation.framework */; };
-		63BCC1B01980385000EF815B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253C177A36F100FCA013 /* SystemConfiguration.framework */; };
-		63BCC1B11980385200EF815B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253E177A36FB00FCA013 /* CoreTelephony.framework */; };
-		63BFFD67197F267D00017F6F /* libApigeeiOSSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F522BB1778C2B200FCA013 /* libApigeeiOSSDK.a */; };
-		63BFFD72197F269400017F6F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F522BE1778C2B200FCA013 /* Foundation.framework */; };
 		63F522BF1778C2B200FCA013 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F522BE1778C2B200FCA013 /* Foundation.framework */; };
 		63F524311778D31A00FCA013 /* ApigeeActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5241A1778D31A00FCA013 /* ApigeeActivity.m */; };
 		63F524321778D31A00FCA013 /* ApigeeClientResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F5241C1778D31A00FCA013 /* ApigeeClientResponse.m */; };
@@ -213,16 +222,6 @@
 		63F5258C178B6F0600FCA013 /* ApigeeHTTPResult.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F525741781E07400FCA013 /* ApigeeHTTPResult.h */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		63BFFD68197F267D00017F6F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63F522B31778C2B200FCA013 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 63F522BA1778C2B200FCA013;
-			remoteInfo = ApigeeiOSSDK;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		63F522B91778C2B200FCA013 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -282,14 +281,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		63772CBF198AF342002C9B45 /* ApigeeUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeUserTests.m; sourceTree = "<group>"; };
-		63772CC1198AF342002C9B45 /* ApigeeAppIdentificationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeAppIdentificationTests.m; sourceTree = "<group>"; };
-		63772CC2198AF342002C9B45 /* ApigeeAuthTokenTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeAuthTokenTest.m; sourceTree = "<group>"; };
-		63772CC3198AF342002C9B45 /* ApigeeClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeClientTests.m; sourceTree = "<group>"; };
-		63772CC4198AF342002C9B45 /* ApigeeAppTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeAppTest.m; sourceTree = "<group>"; };
-		63772CC5198AF342002C9B45 /* ApigeeMonitoringSettingsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeMonitoringSettingsTests.m; sourceTree = "<group>"; };
-		63772CD3198AF356002C9B45 /* SampleData */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SampleData; sourceTree = "<group>"; };
-		63772CD5198B0C90002C9B45 /* ApigeeEntityResponseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeEntityResponseTest.m; sourceTree = "<group>"; };
+		6346AC9C19E305F2006F8F97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6346ACDC19E3067B006F8F97 /* ApigeeiOSSDK IntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ApigeeiOSSDK IntegrationTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6346ACED19E30756006F8F97 /* ApigeeAssetManagementTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeAssetManagementTests.m; sourceTree = "<group>"; };
+		6346ACEE19E30756006F8F97 /* ApigeeIntegrationTestsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApigeeIntegrationTestsConstants.h; sourceTree = "<group>"; };
+		6346ACEF19E30756006F8F97 /* ApigeeIntegrationTestsConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeIntegrationTestsConstants.m; sourceTree = "<group>"; };
+		6346ACF019E30756006F8F97 /* ApigeeUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeUserTests.m; sourceTree = "<group>"; };
+		6346ACFA19E30A9E006F8F97 /* ApigeeiOSSDK UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ApigeeiOSSDK UnitTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6346ACFD19E30A9E006F8F97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6346AD0919E30AC9006F8F97 /* ApigeeAppIdentificationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeAppIdentificationTests.m; sourceTree = "<group>"; };
+		6346AD0A19E30AC9006F8F97 /* ApigeeAppTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeAppTest.m; sourceTree = "<group>"; };
+		6346AD0B19E30AC9006F8F97 /* ApigeeAuthTokenTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeAuthTokenTest.m; sourceTree = "<group>"; };
+		6346AD0C19E30AC9006F8F97 /* ApigeeClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeClientTests.m; sourceTree = "<group>"; };
+		6346AD0D19E30AC9006F8F97 /* ApigeeEntityResponseTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeEntityResponseTest.m; sourceTree = "<group>"; };
+		6346AD0E19E30AC9006F8F97 /* ApigeeMonitoringSettingsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeMonitoringSettingsTests.m; sourceTree = "<group>"; };
+		6346AD1C19E30B09006F8F97 /* SampleData */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SampleData; sourceTree = "<group>"; };
+		6346AD2019E30C0E006F8F97 /* TestResources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TestResources; sourceTree = "<group>"; };
 		637BC9ED182148F200F54D95 /* ApigeeAPSPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeAPSPayload.h; path = Classes/AppServices/ApigeeAPSPayload.h; sourceTree = SOURCE_ROOT; };
 		637BC9EE182148F200F54D95 /* ApigeeAPSPayload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeAPSPayload.m; path = Classes/AppServices/ApigeeAPSPayload.m; sourceTree = SOURCE_ROOT; };
 		637BC9F01821498D00F54D95 /* ApigeeAPSAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeAPSAlert.h; path = Classes/AppServices/ApigeeAPSAlert.h; sourceTree = SOURCE_ROOT; };
@@ -456,8 +463,6 @@
 		63B68EFD18035433003424E1 /* ApigeeNSURLSessionDataTaskInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeNSURLSessionDataTaskInfo.m; path = Classes/Services/ApigeeNSURLSessionDataTaskInfo.m; sourceTree = SOURCE_ROOT; };
 		63B68F7F18076294003424E1 /* ApigeeNSURLSessionSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeNSURLSessionSupport.h; path = Classes/Services/ApigeeNSURLSessionSupport.h; sourceTree = SOURCE_ROOT; };
 		63B68F8018076294003424E1 /* ApigeeNSURLSessionSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeNSURLSessionSupport.m; path = Classes/Services/ApigeeNSURLSessionSupport.m; sourceTree = SOURCE_ROOT; };
-		63BFFD61197F267D00017F6F /* ApigeeiOSSDK Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ApigeeiOSSDK Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		63BFFD64197F267D00017F6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63F522BB1778C2B200FCA013 /* libApigeeiOSSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libApigeeiOSSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		63F522BE1778C2B200FCA013 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		63F524151778D28600FCA013 /* dist.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = dist.sh; path = Scripts/dist.sh; sourceTree = SOURCE_ROOT; };
@@ -601,15 +606,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		63BFFD5E197F267D00017F6F /* Frameworks */ = {
+		6346ACD919E3067B006F8F97 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63BCC1AF1980384D00EF815B /* CoreLocation.framework in Frameworks */,
-				63BFFD72197F269400017F6F /* Foundation.framework in Frameworks */,
-				63BCC1B11980385200EF815B /* CoreTelephony.framework in Frameworks */,
-				63BCC1B01980385000EF815B /* SystemConfiguration.framework in Frameworks */,
-				63BFFD67197F267D00017F6F /* libApigeeiOSSDK.a in Frameworks */,
+				6346ACE919E30687006F8F97 /* Foundation.framework in Frameworks */,
+				6346ACE819E30687006F8F97 /* CoreTelephony.framework in Frameworks */,
+				6346ACE619E30687006F8F97 /* CoreLocation.framework in Frameworks */,
+				6346ACE719E30687006F8F97 /* SystemConfiguration.framework in Frameworks */,
+				6346ACE519E30683006F8F97 /* libApigeeiOSSDK.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6346ACF719E30A9E006F8F97 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6346AD0719E30AAA006F8F97 /* Foundation.framework in Frameworks */,
+				6346AD0619E30AAA006F8F97 /* CoreTelephony.framework in Frameworks */,
+				6346AD0419E30AAA006F8F97 /* CoreLocation.framework in Frameworks */,
+				6346AD0519E30AAA006F8F97 /* SystemConfiguration.framework in Frameworks */,
+				6346AD0319E30AA4006F8F97 /* libApigeeiOSSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,24 +644,62 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		63772CBE198AF342002C9B45 /* Integration */ = {
+		6346AC9A19E305F2006F8F97 /* ApigeeiOSSDK IntegrationTests */ = {
 			isa = PBXGroup;
 			children = (
-				63772CBF198AF342002C9B45 /* ApigeeUserTests.m */,
+				6346ACEC19E30756006F8F97 /* Integration */,
+				6346AC9B19E305F2006F8F97 /* Supporting Files */,
+			);
+			path = "ApigeeiOSSDK IntegrationTests";
+			sourceTree = "<group>";
+		};
+		6346AC9B19E305F2006F8F97 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6346AC9C19E305F2006F8F97 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6346ACEC19E30756006F8F97 /* Integration */ = {
+			isa = PBXGroup;
+			children = (
+				6346AD2019E30C0E006F8F97 /* TestResources */,
+				6346ACEE19E30756006F8F97 /* ApigeeIntegrationTestsConstants.h */,
+				6346ACEF19E30756006F8F97 /* ApigeeIntegrationTestsConstants.m */,
+				6346ACED19E30756006F8F97 /* ApigeeAssetManagementTests.m */,
+				6346ACF019E30756006F8F97 /* ApigeeUserTests.m */,
 			);
 			path = Integration;
 			sourceTree = "<group>";
 		};
-		63772CC0198AF342002C9B45 /* Unit */ = {
+		6346ACFB19E30A9E006F8F97 /* ApigeeiOSSDK UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				63772CD3198AF356002C9B45 /* SampleData */,
-				63772CC1198AF342002C9B45 /* ApigeeAppIdentificationTests.m */,
-				63772CC2198AF342002C9B45 /* ApigeeAuthTokenTest.m */,
-				63772CC3198AF342002C9B45 /* ApigeeClientTests.m */,
-				63772CC4198AF342002C9B45 /* ApigeeAppTest.m */,
-				63772CC5198AF342002C9B45 /* ApigeeMonitoringSettingsTests.m */,
-				63772CD5198B0C90002C9B45 /* ApigeeEntityResponseTest.m */,
+				6346AD0819E30AC9006F8F97 /* Unit */,
+				6346ACFC19E30A9E006F8F97 /* Supporting Files */,
+			);
+			path = "ApigeeiOSSDK UnitTests";
+			sourceTree = "<group>";
+		};
+		6346ACFC19E30A9E006F8F97 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6346ACFD19E30A9E006F8F97 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6346AD0819E30AC9006F8F97 /* Unit */ = {
+			isa = PBXGroup;
+			children = (
+				6346AD1C19E30B09006F8F97 /* SampleData */,
+				6346AD0919E30AC9006F8F97 /* ApigeeAppIdentificationTests.m */,
+				6346AD0A19E30AC9006F8F97 /* ApigeeAppTest.m */,
+				6346AD0B19E30AC9006F8F97 /* ApigeeAuthTokenTest.m */,
+				6346AD0C19E30AC9006F8F97 /* ApigeeClientTests.m */,
+				6346AD0D19E30AC9006F8F97 /* ApigeeEntityResponseTest.m */,
+				6346AD0E19E30AC9006F8F97 /* ApigeeMonitoringSettingsTests.m */,
 			);
 			path = Unit;
 			sourceTree = "<group>";
@@ -688,30 +743,13 @@
 			name = SSKeychain;
 			sourceTree = "<group>";
 		};
-		63BFFD62197F267D00017F6F /* ApigeeiOSSDK Tests */ = {
-			isa = PBXGroup;
-			children = (
-				63772CC0198AF342002C9B45 /* Unit */,
-				63772CBE198AF342002C9B45 /* Integration */,
-				63BFFD63197F267D00017F6F /* Supporting Files */,
-			);
-			path = "ApigeeiOSSDK Tests";
-			sourceTree = "<group>";
-		};
-		63BFFD63197F267D00017F6F /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				63BFFD64197F267D00017F6F /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		63F522B21778C2B200FCA013 = {
 			isa = PBXGroup;
 			children = (
 				63F522CD1778C30900FCA013 /* ThirdPartySource */,
 				63F522C01778C2B200FCA013 /* ApigeeiOSSDK */,
-				63BFFD62197F267D00017F6F /* ApigeeiOSSDK Tests */,
+				6346AC9A19E305F2006F8F97 /* ApigeeiOSSDK IntegrationTests */,
+				6346ACFB19E30A9E006F8F97 /* ApigeeiOSSDK UnitTests */,
 				63F522BD1778C2B200FCA013 /* Frameworks */,
 				63F522BC1778C2B200FCA013 /* Products */,
 			);
@@ -721,7 +759,8 @@
 			isa = PBXGroup;
 			children = (
 				63F522BB1778C2B200FCA013 /* libApigeeiOSSDK.a */,
-				63BFFD61197F267D00017F6F /* ApigeeiOSSDK Tests.xctest */,
+				6346ACDC19E3067B006F8F97 /* ApigeeiOSSDK IntegrationTests.xctest */,
+				6346ACFA19E30A9E006F8F97 /* ApigeeiOSSDK UnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1264,22 +1303,38 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		63BFFD60197F267D00017F6F /* ApigeeiOSSDK Tests */ = {
+		6346ACDB19E3067B006F8F97 /* ApigeeiOSSDK IntegrationTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 63BFFD6C197F267D00017F6F /* Build configuration list for PBXNativeTarget "ApigeeiOSSDK Tests" */;
+			buildConfigurationList = 6346ACE219E3067B006F8F97 /* Build configuration list for PBXNativeTarget "ApigeeiOSSDK IntegrationTests" */;
 			buildPhases = (
-				63BFFD5D197F267D00017F6F /* Sources */,
-				63BFFD5E197F267D00017F6F /* Frameworks */,
-				63BFFD5F197F267D00017F6F /* Resources */,
+				6346ACD819E3067B006F8F97 /* Sources */,
+				6346ACD919E3067B006F8F97 /* Frameworks */,
+				6346ACDA19E3067B006F8F97 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				63BFFD69197F267D00017F6F /* PBXTargetDependency */,
 			);
-			name = "ApigeeiOSSDK Tests";
-			productName = "ApigeeiOSSDK Tests";
-			productReference = 63BFFD61197F267D00017F6F /* ApigeeiOSSDK Tests.xctest */;
+			name = "ApigeeiOSSDK IntegrationTests";
+			productName = "ApigeeiOSSDK IntegrationTests";
+			productReference = 6346ACDC19E3067B006F8F97 /* ApigeeiOSSDK IntegrationTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6346ACF919E30A9E006F8F97 /* ApigeeiOSSDK UnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6346AD0019E30A9E006F8F97 /* Build configuration list for PBXNativeTarget "ApigeeiOSSDK UnitTests" */;
+			buildPhases = (
+				6346ACF619E30A9E006F8F97 /* Sources */,
+				6346ACF719E30A9E006F8F97 /* Frameworks */,
+				6346ACF819E30A9E006F8F97 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ApigeeiOSSDK UnitTests";
+			productName = "ApigeeiOSSDK UnitTests";
+			productReference = 6346ACFA19E30A9E006F8F97 /* ApigeeiOSSDK UnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		63F522BA1778C2B200FCA013 /* ApigeeiOSSDK */ = {
@@ -1308,9 +1363,11 @@
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = Apigee;
 				TargetAttributes = {
-					63BFFD60197F267D00017F6F = {
-						CreatedOnToolsVersion = 6.0;
-						TestTargetID = 63F522BA1778C2B200FCA013;
+					6346ACDB19E3067B006F8F97 = {
+						CreatedOnToolsVersion = 6.0.1;
+					};
+					6346ACF919E30A9E006F8F97 = {
+						CreatedOnToolsVersion = 6.0.1;
 					};
 				};
 			};
@@ -1327,33 +1384,52 @@
 			projectRoot = "";
 			targets = (
 				63F522BA1778C2B200FCA013 /* ApigeeiOSSDK */,
-				63BFFD60197F267D00017F6F /* ApigeeiOSSDK Tests */,
+				6346ACDB19E3067B006F8F97 /* ApigeeiOSSDK IntegrationTests */,
+				6346ACF919E30A9E006F8F97 /* ApigeeiOSSDK UnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		63BFFD5F197F267D00017F6F /* Resources */ = {
+		6346ACDA19E3067B006F8F97 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63772CD4198AF356002C9B45 /* SampleData in Resources */,
+				6346AD2119E30C0E006F8F97 /* TestResources in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6346ACF819E30A9E006F8F97 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6346AD1D19E30B09006F8F97 /* SampleData in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		63BFFD5D197F267D00017F6F /* Sources */ = {
+		6346ACD819E3067B006F8F97 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63772CCC198AF342002C9B45 /* ApigeeAuthTokenTest.m in Sources */,
-				63772CCB198AF342002C9B45 /* ApigeeAppIdentificationTests.m in Sources */,
-				63772CD6198B0C90002C9B45 /* ApigeeEntityResponseTest.m in Sources */,
-				63772CCE198AF342002C9B45 /* ApigeeAppTest.m in Sources */,
-				63772CCF198AF342002C9B45 /* ApigeeMonitoringSettingsTests.m in Sources */,
-				63772CCD198AF342002C9B45 /* ApigeeClientTests.m in Sources */,
+				6346ACF119E30756006F8F97 /* ApigeeAssetManagementTests.m in Sources */,
+				6346ACF219E30756006F8F97 /* ApigeeIntegrationTestsConstants.m in Sources */,
+				6346ACF319E30756006F8F97 /* ApigeeUserTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6346ACF619E30A9E006F8F97 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6346AD1519E30AC9006F8F97 /* ApigeeAuthTokenTest.m in Sources */,
+				6346AD1419E30AC9006F8F97 /* ApigeeAppTest.m in Sources */,
+				6346AD1319E30AC9006F8F97 /* ApigeeAppIdentificationTests.m in Sources */,
+				6346AD1819E30AC9006F8F97 /* ApigeeMonitoringSettingsTests.m in Sources */,
+				6346AD1719E30AC9006F8F97 /* ApigeeEntityResponseTest.m in Sources */,
+				6346AD1619E30AC9006F8F97 /* ApigeeClientTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1508,16 +1584,8 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		63BFFD69197F267D00017F6F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 63F522BA1778C2B200FCA013 /* ApigeeiOSSDK */;
-			targetProxy = 63BFFD68197F267D00017F6F /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		63BFFD6A197F267D00017F6F /* Debug */ = {
+		6346ACE319E3067B006F8F97 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -1540,7 +1608,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "ApigeeiOSSDK Tests/Info.plist";
+				INFOPLIST_FILE = "ApigeeiOSSDK IntegrationTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1555,7 +1623,7 @@
 			};
 			name = Debug;
 		};
-		63BFFD6B197F267D00017F6F /* Release */ = {
+		6346ACE419E3067B006F8F97 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -1575,7 +1643,80 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "ApigeeiOSSDK Tests/Info.plist";
+				INFOPLIST_FILE = "ApigeeiOSSDK IntegrationTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+					"-lstdc++",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6346AD0119E30A9E006F8F97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "ApigeeiOSSDK UnitTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+					"-lstdc++",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6346AD0219E30A9E006F8F97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "ApigeeiOSSDK UnitTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1694,14 +1835,21 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		63BFFD6C197F267D00017F6F /* Build configuration list for PBXNativeTarget "ApigeeiOSSDK Tests" */ = {
+		6346ACE219E3067B006F8F97 /* Build configuration list for PBXNativeTarget "ApigeeiOSSDK IntegrationTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				63BFFD6A197F267D00017F6F /* Debug */,
-				63BFFD6B197F267D00017F6F /* Release */,
+				6346ACE319E3067B006F8F97 /* Debug */,
+				6346ACE419E3067B006F8F97 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+		};
+		6346AD0019E30A9E006F8F97 /* Build configuration list for PBXNativeTarget "ApigeeiOSSDK UnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6346AD0119E30A9E006F8F97 /* Debug */,
+				6346AD0219E30A9E006F8F97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		63F522B61778C2B200FCA013 /* Build configuration list for PBXProject "ApigeeiOSSDK" */ = {
 			isa = XCConfigurationList;

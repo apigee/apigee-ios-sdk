@@ -11,19 +11,17 @@
 
 #import "Apigee.h"
 #import "ApigeeUser.h"
-
-static NSString* const kAPIOrgName = @"rwalsh";
-static NSString* const kAPIAppID = @"sandbox";
-
-static NSString* const kAPITestUsername = @"testUser";
-static NSString* const kAPITestEmail = @"testUser@apigee.com";
-static NSString* const kAPITestName = @"Test User";
-static NSString* const kAPITestPassword = @"password";
+#import "ApigeeIntegrationTestsConstants.h"
 
 /*!
  @class ApigeeUserTests
  @abstract The ApigeeUserTests test case is used to test the flow of adding and manipulating a new/existing user.
  */
+
+@interface NSURLRequest (ApplePrivate)
++ (void)setAllowsAnyHTTPSCertificate:(BOOL)allow forHost:(NSString*)host;
+@end
+
 @interface ApigeeUserTests : XCTestCase
 
 @property (nonatomic,strong) ApigeeClient* apigeeClient;
@@ -40,8 +38,15 @@ static NSString* const kAPITestPassword = @"password";
 
     [super setUp];
 
-    self.apigeeClient = [[ApigeeClient alloc] initWithOrganizationId:kAPIOrgName
-                                                       applicationId:kAPIAppID];
+    // This is a workaround for integration tests running with xctool/travis-ci.
+    // Without this it always reports that retrieving config from server: The certificate for this server is invalid.
+    // More info can be found here http://quellish.tumblr.com/post/33284931593/ssl-connections-from-an-ocunit-test-failing.
+    [NSURLRequest setAllowsAnyHTTPSCertificate:YES
+                                       forHost:kAPIApigeeServer];
+
+    ApigeeMonitoringOptions* options = [[ApigeeMonitoringOptions alloc] init];
+    [options setMonitoringEnabled:NO];
+    self.apigeeClient = [[ApigeeClient alloc] initWithOrganizationId:kAPIOrgName applicationId:kAPIAppID options:options];
 }
 
 - (void)tearDown {
@@ -58,10 +63,10 @@ static NSString* const kAPITestPassword = @"password";
 
     ApigeeDataClient* dataClient = [[self apigeeClient] dataClient];
 
-    ApigeeClientResponse* addUserResponse = [dataClient addUser:kAPITestUsername
-                                                          email:kAPITestEmail
-                                                           name:kAPITestName
-                                                       password:kAPITestPassword];
+    ApigeeClientResponse* addUserResponse = [dataClient addUser:kAPIUserTestUsername
+                                                          email:kAPIUserTestEmail
+                                                           name:kAPIUserTestName
+                                                       password:kAPIUserTestPassword];
 
     XCTAssertTrue([addUserResponse completedSuccessfully], @"ApigeeDataClient addUser unsuccessful!");
     
@@ -72,11 +77,11 @@ static NSString* const kAPITestPassword = @"password";
     {
         ApigeeUser* createdUser = (ApigeeUser*) responseEntity;
 
-        XCTAssertEqualObjects([createdUser username], kAPITestUsername, @"Username is not equal.");
-        XCTAssertEqualObjects([createdUser email], kAPITestEmail, @"Email is not equal.");
-        XCTAssertEqualObjects([createdUser name], kAPITestName, @"User's name is not equal.");
+        XCTAssertEqualObjects([createdUser username], kAPIUserTestUsername, @"Username is not equal.");
+        XCTAssertEqualObjects([createdUser email], kAPIUserTestEmail, @"Email is not equal.");
+        XCTAssertEqualObjects([createdUser name], kAPIUserTestName, @"User's name is not equal.");
 
-        ApigeeClientResponse* loginResponse = [dataClient logInUser:kAPITestUsername password:kAPITestPassword];
+        ApigeeClientResponse* loginResponse = [dataClient logInUser:kAPIUserTestUsername password:kAPIUserTestPassword];
         
         XCTAssertTrue([loginResponse completedSuccessfully], @"ApigeeDataClient loginResponse unsuccessful.");
         XCTAssertNotNil([dataClient getAccessToken], @"ApigeeDataClient should have an accessToken.");
@@ -96,7 +101,7 @@ static NSString* const kAPITestPassword = @"password";
     ApigeeClientResponse* deleteCreatedUserResponse = [dataClient removeEntity:@"user" entityID:[responseEntity uuid]];
     XCTAssertTrue([deleteCreatedUserResponse completedSuccessfully], @"ApigeeDataClient remove created user failed.");
 
-    ApigeeClientResponse* loginResponse = [dataClient logInUser:kAPITestUsername password:kAPITestPassword];
+    ApigeeClientResponse* loginResponse = [dataClient logInUser:kAPIUserTestUsername password:kAPIUserTestPassword];
     XCTAssertFalse([loginResponse completedSuccessfully], @"ApigeeDataClient loginResponse should have failed because the user created should no longer exist.");
 }
 
