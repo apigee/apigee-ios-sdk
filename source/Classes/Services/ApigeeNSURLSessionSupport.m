@@ -254,7 +254,10 @@ static NSURLSessionDataTask* NSCFURLSession_apigeeDataTaskWithRequestAndCompleti
     
     //***********************************
     // NSURLSession dataTaskWithRequest:completionHandler:
-    c = NSClassFromString(@"__NSCFURLSession");
+    c = NSClassFromString(@"__NSCFURLSession"); // iOS 7
+    if( !c ){
+        c = NSClassFromString(@"__NSURLSessionLocal"); // iOS 8+
+    }
     selMethod = @selector(dataTaskWithRequest:completionHandler:);
     impOverrideMethod = (IMP) NSCFURLSession_apigeeDataTaskWithRequestAndCompletionHandler;
     origMethod = class_getInstanceMethod(c, selMethod);
