@@ -141,8 +141,20 @@ NSString * baseURL = @"https://api.usergrid.com";
                           forApplication:application];
         }
     }
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-     (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+
+    // iOS 8
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
+    {
+        UIUserNotificationType notificationType = (UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound);
+        UIUserNotificationSettings* notificationSettings = [UIUserNotificationSettings settingsForTypes:notificationType categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
+    // iOS 7
+    else
+    {
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    }
 
     // It's not necessary to explicitly login to App Services if the Guest role allows access
 //    NSLog(@"Logging in user");
@@ -150,6 +162,11 @@ NSString * baseURL = @"https://api.usergrid.com";
 
     NSLog(@"done launching");
     return YES;
+}
+
+-(void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+    [application registerForRemoteNotifications];
 }
 
 // Invoked as a callback from calling registerForRemoteNotificationTypes.

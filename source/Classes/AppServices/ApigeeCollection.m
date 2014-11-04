@@ -169,19 +169,18 @@ completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
 - (ApigeeClientResponse*)fetch
 {
     ApigeeQuery* theQuery = nil;
-    
-    if (self.qs) {
+
+    if (self.query) {
+        theQuery = self.query;
+    } else {
         if (self.cursor != nil) {
             [self.qs setValue:self.cursor forKey:@"cursor"];
         } else if ( [self.qs valueForKey:@"cursor"]  != nil ) {
             [self.qs removeObjectForKey:@"cursor"];
         }
-    
         if( [self.qs count] > 0 ) {
             theQuery = [ApigeeQuery queryFromDictionary:self.qs];
         }
-    } else {
-        theQuery = self.query;
     }
     
     ApigeeClientResponse* response = [self.dataClient getEntities:self.type
