@@ -34,6 +34,9 @@
 #import "ApigeeAPSDestination.h"
 #import "ApigeeCounterIncrement.h"
 #import "NSDate+Apigee.h"
+#import "NSMutableURLRequest+Apigee.h"
+#import "GTMOAuth2Authentication.h"
+#import "GTMOAuth2ViewControllerTouch.h"
 
 
 static NSString* kDefaultBaseURL = @"https://api.usergrid.com";
@@ -45,7 +48,10 @@ static id<ApigeeLogging> logger = nil;
 
 NSString *g_deviceUUID = nil;
 
-
+@interface ApigeeDataClient ()
+@property (nonatomic,strong) GTMOAuth2Authentication* oauth2Auth;
+@property (nonatomic,copy) ApigeeOAuth2CompletionHandler completionHandler;
+@end
 
 @implementation ApigeeDataClient
 {
@@ -2769,6 +2775,183 @@ NSString *g_deviceUUID = nil;
     
     [url appendFormat:@"&start_time=%@&end_time=%@&resolution=%@",startTimestampValue,endTimestampValue,interval];
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];    
+}
+
+-(void)storeOAuth2TokensInKeychain:(NSString*)keychainItemName
+                       accessToken:(NSString*)accessToken
+                      refreshToken:(NSString*)refreshToken
+                             error:(NSError**)error
+{
+    GTMOAuth2Authentication* auth = [GTMOAuth2Authentication authenticationWithServiceProvider:nil tokenURL:nil redirectURI:nil clientID:nil clientSecret:nil];
+    NSMutableDictionary* tokenDictionary = [NSMutableDictionary dictionary];
+    if( [accessToken length] > 0 ) {
+        tokenDictionary[@"access_token"] = accessToken;
+    }
+    if( [refreshToken length] > 0 ) {
+        tokenDictionary[@"refresh_token"] = refreshToken;
+    }
+    [auth setKeysForResponseDictionary:tokenDictionary];
+    [GTMOAuth2ViewControllerTouch saveParamsToKeychainForName:keychainItemName accessibility:NULL authentication:auth error:error];
+}
+
+-(void)retrieveStoredOAuth2TokensFromKeychain:(NSString*)keychainItemName
+                            completionHandler:(ApigeeOAuth2CompletionHandler)completion
+{
+    GTMOAuth2Authentication* auth = [GTMOAuth2Authentication authenticationWithServiceProvider:nil tokenURL:nil redirectURI:nil clientID:nil clientSecret:nil];
+
+    NSError* error = nil;
+    [GTMOAuth2ViewControllerTouch authorizeFromKeychainForName:keychainItemName
+                                                authentication:auth
+                                                         error:&error];
+    if( completion != nil ) {
+        completion(auth.accessToken,auth.refreshToken,error);
+    }
+}
+
+-(void)removeStoredOAuth2TokensFromKeychain:(NSString*)keychainItemName
+{
+    if( [keychainItemName length] > 0 ) {
+        [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:keychainItemName];
+    }
+}
+
+-(void)accessTokenWithURL:(NSString*)accessTokenURL
+                 clientID:(NSString*)clientID
+             clientSecret:(NSString*)clientSecret
+        completionHandler:(ApigeeOAuth2CompletionHandler)completionHandler;
+{
+    NSMutableString* mutableAccessTokenURL = [NSMutableString stringWithString:accessTokenURL];
+
+    ApigeeQuery* query = [[ApigeeQuery alloc] init];
+    [query addURLTerm:@"grant_type" equals:@"client_credentials"];
+    [self appendQueryToURL:mutableAccessTokenURL query:query];
+
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:mutableAccessTokenURL]];
+    [request setHTTPMethod:@"POST"];
+    [NSMutableURLRequest basicAuthForRequest:request withUsername:clientID andPassword:clientSecret];
+
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+
+                               NSString* accessToken = nil;
+                               NSString* refreshToken = nil;
+                               if( data != nil ) {
+                                   NSDictionary* jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                                   if( [jsonDict isKindOfClass:[NSDictionary class]] ) {
+                                       accessToken = [jsonDict objectForKey:@"access_token"];
+                                       refreshToken = [jsonDict objectForKey:@"refresh_token"];
+                                   }
+                               }
+
+                               if( completionHandler != NULL ) {
+                                   completionHandler(accessToken,refreshToken,connectionError);
+                               }
+                           }];
+}
+
+-(void)accessTokenWithURL:(NSString*)accessTokenURL
+                 username:(NSString*)userName
+                 password:(NSString*)password
+                 clientID:(NSString*)clientID
+        completionHandler:(ApigeeOAuth2CompletionHandler)completionHandler
+{
+    NSString *escapedUserValue = [ApigeeHTTPManager escapeSpecials:userName];
+    NSString *escapedPwdValue = [ApigeeHTTPManager escapeSpecials:password];
+
+    NSMutableString *postData = [NSMutableString new];
+    [postData appendFormat:@"grant_type=%@&%@=%@&%@=%@", @"password", @"username", escapedUserValue, @"password", escapedPwdValue];
+
+    ApigeeHTTPManager *mgr = [self getHTTPManager];
+    NSURLRequest* request = [mgr getRequest:accessTokenURL operation:kApigeeHTTPPostAuth operationData:postData];
+
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+
+                               NSString* accessToken = nil;
+                               NSString* refreshToken = nil;
+                               if( data != nil ) {
+                                   NSDictionary* jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                                   if( [jsonDict isKindOfClass:[NSDictionary class]] ) {
+                                       accessToken = [jsonDict objectForKey:@"access_token"];
+                                       refreshToken = [jsonDict objectForKey:@"refresh_token"];
+                                   }
+                               }
+
+                               if( completionHandler != NULL ) {
+                                   completionHandler(accessToken,refreshToken,connectionError);
+                               }
+                           }];
+}
+
+-(void)authorizeOAuth2:(NSString*)serviceProvider
+          authorizeURL:(NSString*)authorizeURL
+              tokenURL:(NSString*)tokenURL
+           redirectURL:(NSString*)redirectURL
+              clientID:(NSString*)clientID
+          clientSecret:(NSString*)clientSecret
+                 scope:(NSString*)scope
+      keyChainItemName:(NSString*)keyChainItemName
+  navigationController:(UINavigationController*)navigationController
+     completionHandler:(ApigeeOAuth2CompletionHandler)completionHandler;
+{
+    self.oauth2Auth = [GTMOAuth2Authentication authenticationWithServiceProvider:serviceProvider
+                                                                        tokenURL:[NSURL URLWithString:tokenURL]
+                                                                     redirectURI:redirectURL
+                                                                        clientID:clientID
+                                                                    clientSecret:clientSecret];
+    [self.oauth2Auth setScope:scope];
+
+    [GTMOAuth2ViewControllerTouch authorizeFromKeychainForName:keyChainItemName
+                                                authentication:self.oauth2Auth
+                                                         error:nil];
+
+    if( [self.oauth2Auth canAuthorize] )
+    {
+        // Set the completion handler inside our class because if we can refresh the token then the finish selector will fire it.
+        self.completionHandler = completionHandler;
+
+        // Attempt to refresh the token if we can for convenience.
+        GTMHTTPFetcher* fetcher = [self.oauth2Auth beginTokenFetchWithDelegate:self
+                                                             didFinishSelector:@selector(auth:finishedRefreshWithFetcher:error:)];
+
+        // If the attempt to refresh the token didn't work then return the tokens stored in our saved auth object.
+        if( fetcher == nil )
+        {
+            if( self.completionHandler != nil )
+            {
+                self.completionHandler(self.oauth2Auth.accessToken,self.oauth2Auth.refreshToken,nil);
+                self.completionHandler = nil;
+            }
+        }
+    }
+    else
+    {
+        GTMOAuth2ViewControllerTouch* oauthViewController = [GTMOAuth2ViewControllerTouch controllerWithAuthentication:self.oauth2Auth
+                                                                                                      authorizationURL:[NSURL URLWithString:authorizeURL]
+                                                                                                      keychainItemName:serviceProvider
+                                                                                                     completionHandler:^(GTMOAuth2ViewControllerTouch *viewController, GTMOAuth2Authentication *auth, NSError *error) {
+
+                                                                                                        [GTMOAuth2ViewControllerTouch saveParamsToKeychainForName:keyChainItemName accessibility:NULL authentication:auth error:nil];
+                                                                                                         if( completionHandler != nil ) {
+                                                                                                             completionHandler(auth.accessToken,auth.refreshToken,error);
+                                                                                                         }
+                                                                                                     }];
+        if( navigationController != nil ) {
+            [navigationController presentViewController:oauthViewController
+                                               animated:YES
+                                             completion:nil];
+        }
+    }
+}
+
+- (void)auth:(GTMOAuth2Authentication *)auth finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher error:(NSError *)error
+{
+    if( self.completionHandler != nil ) {
+        self.completionHandler(auth.accessToken,auth.refreshToken,error);
+        self.completionHandler = nil;
+    }
 }
 
 @end
