@@ -18,19 +18,6 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>com.apigee.oauth2</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>apigeeOAuth2</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -47,9 +34,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>FacebookAppID</key>
-	<string>199268823468140</string>
-	<key>FacebookDisplayName</key>
-	<string>Mytestapp</string>
 </dict>
 </plist>
