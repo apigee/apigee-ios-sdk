@@ -12,6 +12,7 @@ The sample apps in this directory are intended to show basic usage of some of th
 * **geolocation** - An app that shows you how to creates entities with location data, and perform geolocation queries to retrieve them.
 * **messagee** - A Twitter-like app that uses data store, social and user management features.
 * **monitoringSample** - An app that lets you test the App Monitoring feature by sending logging, crash and error reports to your account.
+* **oauth2** - An app that demonstrates the use of OAuth 2 access token retrieving, using and storing with the Apigee SDK.
 * **push** - An app that sends push notifications to mobile devices using APNS or GCM.
 * **usersAndGroups** - An app that shows you how to create and manage user and group entities.
 

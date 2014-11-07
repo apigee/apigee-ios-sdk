@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ImplicitOAuth2ViewController">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="webView" destination="Kco-2q-III" id="KPG-Sm-SeV"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kco-2q-III">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="ZjM-0S-RuT"/>
+                    </connections>
+                </webView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Kco-2q-III" secondAttribute="trailing" id="WeO-ex-ciD"/>
+                <constraint firstItem="Kco-2q-III" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="hKs-WX-rkW"/>
+                <constraint firstItem="Kco-2q-III" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="mkz-VT-42i"/>
+                <constraint firstAttribute="bottom" secondItem="Kco-2q-III" secondAttribute="bottom" id="xNV-YS-e5w"/>
+            </constraints>
+        </view>
+    </objects>
+</document>
