@@ -192,18 +192,28 @@ static NSString* const kFacebookPostOnWallURL = @"https://graph.facebook.com/me/
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:kApigeeClientCredentialsWeatherInfoURLFormat,kApigeeOrgID]]];
     [request setValue:[NSString stringWithFormat:@"Bearer %@",self.accessToken] forHTTPHeaderField:@"Authorization"];
 
-    NSError* error = nil;
-    NSURLResponse* response = nil;
-    NSData* responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSDictionary* responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[[NSOperationQueue alloc] init]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
 
-    if( [responseDictionary valueForKeyPath:@"rss.channel.item.yweather:condition.#attrs"] != nil ) {
-        NSDictionary* tempAttributes = [responseDictionary valueForKeyPath:@"rss.channel.item.yweather:condition.#attrs"];
-        NSString* tempString = [tempAttributes objectForKey:@"@temp"];
-        [[self tempLabel] setText:[NSString stringWithFormat:@"%@%@",tempString,@"\u00B0"]];
-    } else {
-        [self showAlertWithTitle:@"Error getting Apigee Palo Alto Temp." message:@"Unable to authenticate OAuth credentials"];
-    }
+                               NSDictionary* responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+
+                               if( [responseDictionary valueForKeyPath:@"rss.channel.item.yweather:condition.#attrs"] != nil )
+                               {
+                                   NSDictionary* tempAttributes = [responseDictionary valueForKeyPath:@"rss.channel.item.yweather:condition.#attrs"];
+                                   NSString* tempString = [tempAttributes objectForKey:@"@temp"];
+
+                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                       [[self tempLabel] setText:[NSString stringWithFormat:@"%@%@",tempString,@"\u00B0"]];
+                                   });
+                               }
+                               else
+                               {
+                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                       [self showAlertWithTitle:@"Error getting Apigee Palo Alto Temp." message:@"Unable to authenticate OAuth credentials"];
+                                   });
+                               }
+                           }];
 }
 
 #pragma mark Apigee: Get Email
@@ -213,21 +223,30 @@ static NSString* const kFacebookPostOnWallURL = @"https://graph.facebook.com/me/
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:kApigeePasswordGrantUserInfoURLFormat,kApigeeOrgID,kApigeeAppID,kApigeePasswordGrantUsername]]];
     [request setValue:[NSString stringWithFormat:@"Bearer %@",self.accessToken] forHTTPHeaderField:@"Authorization"];
 
-    NSError* error = nil;
-    NSURLResponse* response = nil;
-    NSData* responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSDictionary* responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[[NSOperationQueue alloc] init]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
 
-    if( responseDictionary[@"entities"] != nil ) {
-        NSArray* entitiesArray = responseDictionary[@"entities"];
-        NSDictionary* userEntityInfo = [entitiesArray firstObject];
-        if( [userEntityInfo isKindOfClass:[NSDictionary class]] ) {
-            NSString* userEmail = userEntityInfo[@"email"];
-            [[self emailLabel] setText:userEmail];
-        }
-    } else if( responseDictionary[@"error_description"] != nil ) {
-        [self showAlertWithTitle:@"Error getting Apigee user email." message:responseDictionary[@"error_description"]];
-    }
+                               NSDictionary* responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+
+                               if( responseDictionary[@"entities"] != nil )
+                               {
+                                   NSArray* entitiesArray = responseDictionary[@"entities"];
+                                   NSDictionary* userEntityInfo = [entitiesArray firstObject];
+                                   if( [userEntityInfo isKindOfClass:[NSDictionary class]] ) {
+                                       NSString* userEmail = userEntityInfo[@"email"];
+                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                           [[self emailLabel] setText:userEmail];
+                                       });
+                                   }
+                               }
+                               else if( responseDictionary[@"error_description"] != nil )
+                               {
+                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                       [self showAlertWithTitle:@"Error getting Apigee user email." message:responseDictionary[@"error_description"]];
+                                   });
+                               }
+                           }];
 }
 
 #pragma mark Facebook: Get email
@@ -237,26 +256,36 @@ static NSString* const kFacebookPostOnWallURL = @"https://graph.facebook.com/me/
     if( [self.accessToken length] <= 0 ) {
         [self showAlertWithTitle:@"Error getting Facebook Email" message:@"No access token available."];
     } else {
+
         NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:[self getFacebookURLByAddingAccessToken:kFacebookGetEmailURL]];
         [urlRequest setHTTPMethod:@"GET"];
 
-        NSError* error = nil;
-        NSURLResponse* response = nil;
-        NSData* responseData = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:&error];
-        NSDictionary* responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+        [NSURLConnection sendAsynchronousRequest:urlRequest
+                                           queue:[[NSOperationQueue alloc] init]
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
 
-        if( responseDictionary[@"email"] != nil ) {
-            [[self emailLabel] setText:responseDictionary[@"email"]];
-        } else {
-            // Show the error message if we can.
-            if( responseDictionary[@"error"] ) {
-                NSDictionary* responseErrorDict = responseDictionary[@"error"];
-                if( [responseErrorDict isKindOfClass:[NSDictionary class]] && responseErrorDict[@"message"] != nil ) {
-                    NSString* errorMessage = responseErrorDict[@"message"];
-                    [self showAlertWithTitle:@"Error getting Facebook Email" message:errorMessage];
-                }
-            }
-        }
+                                   NSDictionary* responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+
+                                   if( responseDictionary[@"email"] != nil )
+                                   {
+                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                           [[self emailLabel] setText:responseDictionary[@"email"]];
+                                       });
+                                   }
+                                   else
+                                   {
+                                       // Show the error message if we can.
+                                       if( responseDictionary[@"error"] ) {
+                                           NSDictionary* responseErrorDict = responseDictionary[@"error"];
+                                           if( [responseErrorDict isKindOfClass:[NSDictionary class]] && responseErrorDict[@"message"] != nil ) {
+                                               NSString* errorMessage = responseErrorDict[@"message"];
+                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                   [self showAlertWithTitle:@"Error getting Facebook Email" message:errorMessage];
+                                               });
+                                           }
+                                       }
+                                   }
+                               }];
     }
 }
 
@@ -266,22 +295,29 @@ static NSString* const kFacebookPostOnWallURL = @"https://graph.facebook.com/me/
     if( [self.accessToken length] <= 0 ) {
         [self showAlertWithTitle:@"Error posting to Facebook" message:@"No access token available."];
     } else {
+
         NSMutableURLRequest* urlRequest = [NSMutableURLRequest requestWithURL:[self getFacebookURLByAddingAccessToken:kFacebookPostOnWallURL]];
         [urlRequest setHTTPMethod:@"POST"];
 
-        NSError* error = nil;
-        NSURLResponse* response = nil;
-        NSData* responseData = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:&error];
-        NSDictionary* responseDictionary = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+        [NSURLConnection sendAsynchronousRequest:urlRequest
+                                           queue:[[NSOperationQueue alloc] init]
+                               completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
 
-        if( responseDictionary[@"error"] ) {
-            NSDictionary* responseErrorDict = responseDictionary[@"error"];
-            if( [responseErrorDict isKindOfClass:[NSDictionary class]] && responseErrorDict[@"message"] != nil ) {
-                [self showAlertWithTitle:@"Error posting to Facebook" message:responseErrorDict[@"message"]];
-            }
-        } else {
-            [self showAlertWithTitle:@"Successfully posted to Facebook" message:nil];
-        }
+                                   NSDictionary* responseDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+
+                                   if( responseDictionary[@"error"] ) {
+                                       NSDictionary* responseErrorDict = responseDictionary[@"error"];
+                                       if( [responseErrorDict isKindOfClass:[NSDictionary class]] && responseErrorDict[@"message"] != nil ) {
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               [self showAlertWithTitle:@"Error posting to Facebook" message:responseErrorDict[@"message"]];
+                                           });
+                                       }
+                                   } else {
+                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                           [self showAlertWithTitle:@"Successfully posted to Facebook" message:nil];
+                                       });
+                                   }
+                               }];
     }
 }
 

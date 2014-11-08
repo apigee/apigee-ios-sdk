@@ -2830,24 +2830,25 @@ NSString *g_deviceUUID = nil;
     [request setHTTPMethod:@"POST"];
     [NSMutableURLRequest basicAuthForRequest:request withUsername:clientID andPassword:clientSecret];
 
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+    ApigeeHTTPManager *mgr = [self getHTTPManager];
 
-                               NSString* accessToken = nil;
-                               NSString* refreshToken = nil;
-                               if( data != nil ) {
-                                   NSDictionary* jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                   if( [jsonDict isKindOfClass:[NSDictionary class]] ) {
-                                       accessToken = [jsonDict objectForKey:@"access_token"];
-                                       refreshToken = [jsonDict objectForKey:@"refresh_token"];
-                                   }
-                               }
+    [mgr asyncTransaction:request
+        completionHandler:^(ApigeeHTTPResult *result, ApigeeHTTPManager *httpManager) {
 
-                               if( completionHandler != NULL ) {
-                                   completionHandler(accessToken,refreshToken,connectionError);
-                               }
-                           }];
+            NSString* accessToken = nil;
+            NSString* refreshToken = nil;
+            if( result.data != nil ) {
+                NSDictionary* jsonDict = [NSJSONSerialization JSONObjectWithData:result.data options:0 error:nil];
+                if( [jsonDict isKindOfClass:[NSDictionary class]] ) {
+                    accessToken = [jsonDict objectForKey:@"access_token"];
+                    refreshToken = [jsonDict objectForKey:@"refresh_token"];
+                }
+            }
+
+            if( completionHandler != NULL ) {
+                completionHandler(accessToken,refreshToken,result.error);
+            }
+        }];
 }
 
 -(void)accessTokenWithURL:(NSString*)accessTokenURL
@@ -2863,26 +2864,26 @@ NSString *g_deviceUUID = nil;
     [postData appendFormat:@"grant_type=%@&%@=%@&%@=%@", @"password", @"username", escapedUserValue, @"password", escapedPwdValue];
 
     ApigeeHTTPManager *mgr = [self getHTTPManager];
+
     NSURLRequest* request = [mgr getRequest:accessTokenURL operation:kApigeeHTTPPostAuth operationData:postData];
 
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+    [mgr asyncTransaction:request
+        completionHandler:^(ApigeeHTTPResult *result, ApigeeHTTPManager *httpManager) {
 
-                               NSString* accessToken = nil;
-                               NSString* refreshToken = nil;
-                               if( data != nil ) {
-                                   NSDictionary* jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                   if( [jsonDict isKindOfClass:[NSDictionary class]] ) {
-                                       accessToken = [jsonDict objectForKey:@"access_token"];
-                                       refreshToken = [jsonDict objectForKey:@"refresh_token"];
-                                   }
-                               }
+            NSString* accessToken = nil;
+            NSString* refreshToken = nil;
+            if( result.data != nil ) {
+                NSDictionary* jsonDict = [NSJSONSerialization JSONObjectWithData:result.data options:0 error:nil];
+                if( [jsonDict isKindOfClass:[NSDictionary class]] ) {
+                    accessToken = [jsonDict objectForKey:@"access_token"];
+                    refreshToken = [jsonDict objectForKey:@"refresh_token"];
+                }
+            }
 
-                               if( completionHandler != NULL ) {
-                                   completionHandler(accessToken,refreshToken,connectionError);
-                               }
-                           }];
+            if( completionHandler != NULL ) {
+                completionHandler(accessToken,refreshToken,result.error);
+            }
+        }];
 }
 
 -(void)authorizeOAuth2:(NSString*)serviceProvider
