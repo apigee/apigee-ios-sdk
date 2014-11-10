@@ -173,8 +173,6 @@ static NSString* const kFacebookPostOnWallURL = @"https://graph.facebook.com/me/
                      navigationController:[self navigationController]
                         completionHandler:^(NSString *accessToken, NSString *refreshToken, NSError *error) {
 
-                            [[self navigationController] dismissViewControllerAnimated:YES
-                                                                            completion:nil];
                             if( error == nil && [accessToken length] > 0 ) {
                                 [self setAccessToken:accessToken];
                                 [self setRefreshToken:refreshToken];

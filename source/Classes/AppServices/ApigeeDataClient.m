@@ -36,7 +36,7 @@
 #import "NSDate+Apigee.h"
 #import "NSMutableURLRequest+Apigee.h"
 #import "GTMOAuth2Authentication.h"
-#import "GTMOAuth2ViewControllerTouch.h"
+#import "ApigeeGTMOAuth2ViewControllerTouch.h"
 
 
 static NSString* kDefaultBaseURL = @"https://api.usergrid.com";
@@ -2777,6 +2777,8 @@ NSString *g_deviceUUID = nil;
     return [self httpTransaction:url op:kApigeeHTTPGet opData:nil];    
 }
 
+//**********************  OAUTH 2  **************************
+
 -(void)storeOAuth2TokensInKeychain:(NSString*)keychainItemName
                        accessToken:(NSString*)accessToken
                       refreshToken:(NSString*)refreshToken
@@ -2929,20 +2931,19 @@ NSString *g_deviceUUID = nil;
     }
     else
     {
-        GTMOAuth2ViewControllerTouch* oauthViewController = [GTMOAuth2ViewControllerTouch controllerWithAuthentication:self.oauth2Auth
+        ApigeeGTMOAuth2ViewControllerTouch* oauthViewController = [ApigeeGTMOAuth2ViewControllerTouch controllerWithAuthentication:self.oauth2Auth
                                                                                                       authorizationURL:[NSURL URLWithString:authorizeURL]
                                                                                                       keychainItemName:serviceProvider
                                                                                                      completionHandler:^(GTMOAuth2ViewControllerTouch *viewController, GTMOAuth2Authentication *auth, NSError *error) {
 
-                                                                                                        [GTMOAuth2ViewControllerTouch saveParamsToKeychainForName:keyChainItemName accessibility:NULL authentication:auth error:nil];
+                                                                                                         [navigationController popToRootViewControllerAnimated:YES];
+                                                                                                         [GTMOAuth2ViewControllerTouch saveParamsToKeychainForName:keyChainItemName accessibility:NULL authentication:auth error:nil];
                                                                                                          if( completionHandler != nil ) {
                                                                                                              completionHandler(auth.accessToken,auth.refreshToken,error);
                                                                                                          }
                                                                                                      }];
         if( navigationController != nil ) {
-            [navigationController presentViewController:oauthViewController
-                                               animated:YES
-                                             completion:nil];
+            [navigationController pushViewController:oauthViewController animated:YES];
         }
     }
 }
