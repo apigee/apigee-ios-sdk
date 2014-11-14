@@ -19,12 +19,12 @@
 
 static NSString* kEntityTypeKey = @"type";
 
+@interface ApigeeQuery ()
+@property (strong,nonatomic) NSMutableArray* m_requirements;
+@property (strong,nonatomic) NSMutableString* m_urlTerms;
+@end
 
-@implementation ApigeeQuery
-{
-    NSMutableArray *m_requirements;
-    NSMutableString *m_urlTerms;
-}
+@implementation ApigeeQuery 
 
 + (ApigeeQuery*)queryFromDictionary:(NSDictionary*)dictParams
 {
@@ -66,10 +66,18 @@ static NSString* kEntityTypeKey = @"type";
     self = [super init];
     if ( self )
     {
-        m_requirements = [NSMutableArray new];
-        m_urlTerms = [NSMutableString new];
+        _m_requirements = [NSMutableArray new];
+        _m_urlTerms = [NSMutableString new];
     }
     return self;
+}
+
+-(id)copyWithZone:(NSZone *)zone
+{
+    ApigeeQuery* copiedQuery = [[self class] allocWithZone:zone];
+    copiedQuery.m_requirements = [[NSMutableArray alloc] initWithArray:self.m_requirements copyItems:YES];
+    copiedQuery.m_urlTerms = [self.m_urlTerms mutableCopy];
+    return copiedQuery;
 }
 
 -(void)setConsumer: (NSString *)consumer
@@ -150,16 +158,16 @@ static NSString* kEntityTypeKey = @"type";
     NSString *escapedEquals = [ApigeeHTTPManager escapeSpecials:equals];
 
     // add it in
-    if ( [m_urlTerms length] > 0 ) {
+    if ( [self.m_urlTerms length] > 0 ) {
         // we already have some terms. Append an & before continuing
-        [m_urlTerms appendFormat:@"&"];
-        [m_urlTerms appendFormat:@"%@=%@", escapedUrlTerm, escapedEquals];
+        [self.m_urlTerms appendFormat:@"&"];
+        [self.m_urlTerms appendFormat:@"%@=%@", escapedUrlTerm, escapedEquals];
     } else if ( [urlTerm isEqualToString:@"ql"] ) {
         // this is a ql, so add it to m_requirements instead
         [self addRequirement: equals];
     } else  {
         // start the urlTerms string
-        [m_urlTerms appendFormat:@"%@=%@", escapedUrlTerm, escapedEquals];
+        [self.m_urlTerms appendFormat:@"%@=%@", escapedUrlTerm, escapedEquals];
     }
 }
 
@@ -251,7 +259,7 @@ static NSString* kEntityTypeKey = @"type";
 -(void)addRequirement: (NSString *)requirement
 {
     // add the URL-ready requirement to our list
-    [m_requirements addObject:requirement];
+    [self.m_requirements addObject:requirement];
 }
 
 -(NSString *)getURLAppend
@@ -264,19 +272,19 @@ static NSString* kEntityTypeKey = @"type";
     BOOL bHasContent = NO;
     
     // start with the ql term
-    if ( [m_requirements count] > 0 )
+    if ( [self.m_requirements count] > 0 )
     {    
         // if we're here, there are queries
         // assemble a single string for the ql
         NSMutableString *ql = [NSMutableString new];
-        for ( int i=0 ; i<[m_requirements count] ; i++ )
+        for ( int i=0 ; i<[self.m_requirements count] ; i++ )
         {
             if ( i>0 )
             {
                 // connect terms
                 [ql appendFormat:@" and "];
             }
-            [ql appendFormat:@"%@", [m_requirements objectAtIndex:i]];
+            [ql appendFormat:@"%@", [self.m_requirements objectAtIndex:i]];
         }
         
         // escape it
@@ -285,15 +293,15 @@ static NSString* kEntityTypeKey = @"type";
         bHasContent = YES;
     }
 
-    if ( [m_urlTerms length] > 0 )
+    if ( [self.m_urlTerms length] > 0 )
     {
         if ( bHasContent ) 
         {
-            [ret appendFormat:@"&%@", m_urlTerms];
+            [ret appendFormat:@"&%@", self.m_urlTerms];
         }
         else 
         {
-            [ret appendFormat:@"%@", m_urlTerms];
+            [ret appendFormat:@"%@", self.m_urlTerms];
         }
         bHasContent = YES;
     }

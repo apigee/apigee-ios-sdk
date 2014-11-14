@@ -46,7 +46,7 @@ enum RelationalOperator
  @class ApigeeQuery
  @abstract ApigeeQuery provides a means of restricting the output of a query
  */
-@interface ApigeeQuery : NSObject
+@interface ApigeeQuery : NSObject <NSCopying>
 
 /*!
  @abstract Creates an ApigeeQuery instance from a dictionary of search properties
