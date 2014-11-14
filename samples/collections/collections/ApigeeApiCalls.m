@@ -58,7 +58,7 @@ NSString *appName;
     @try {
         // Success
         // Save the response in an NSDictionary and return it to the user
-        NSDictionary *response = [NSDictionary dictionaryWithObjectsAndKeys:entities, @"entities", @"Success! Your collection was created. If it already existed, we'll display the entities in it below.", @"resultMsg", nil];
+        NSDictionary *response = [NSDictionary dictionaryWithObjectsAndKeys:entities, @"entities", @"Success! Your collection was created. If it already existed, we'll display the first 10 entities in it below.", @"resultMsg", nil];
         return response;
     }
     @catch (NSException * e) {
@@ -82,32 +82,34 @@ NSString *appName;
      - Declare a NSDictionary for each entity, and add properties to each */
     
     NSString *type = @"book";
-    
-    NSDictionary *entity1 = [NSDictionary dictionaryWithObjectsAndKeys:@"For Whom the Bell Tolls", @"title", type, @"type", nil];
-    NSDictionary *entity2 = [NSDictionary dictionaryWithObjectsAndKeys:@"The Old Man and the Sea", @"title", type, @"type", nil];
-    NSDictionary *entity3 = [NSDictionary dictionaryWithObjectsAndKeys:@"A Farewell to Arms", @"title", type, @"type", nil];
-    NSDictionary *entity4 = [NSDictionary dictionaryWithObjectsAndKeys:@"The Sun Also Rises", @"title", type, @"type", nil];
-    
+
+    NSDictionary *entity1 = @{@"title" : @"For Whom the Bell Tolls",    @"type"  : type};
+    NSDictionary *entity2 = @{@"title" : @"The Old Man and the Sea",    @"type"  : type};
+    NSDictionary *entity3 = @{@"title" : @"A Farewell to Arms",         @"type"  : type};
+    NSDictionary *entity4 = @{@"title" : @"The Sun Also Rises",         @"type"  : type};
+
     /* Next we add all our entities to an NSArray */
-    NSArray *entityArray = [NSArray arrayWithObjects:entity1, entity2, entity3, entity4, nil];\
+    NSArray *entityDictionaryArray = @[entity1,entity2,entity3,entity4];
     
     // an array to hold the entities we added
-    NSMutableArray *addedEntities = [[NSMutableArray alloc] init];
-    
+    NSMutableArray *addedEntities = [NSMutableArray array];
+
     /* Finally, we call the addEntity entity method on our ApigeeCollection to create the new entities.
        In this case, we are adding the array 5 times so that we have a good amount of data in our collection.*/
     for (int i = 0; i < 5; i++) {
-        for (id entity in entityArray) {
-            // This adds the entities to our local object, and initiates a POST to the API
-            [currentCollection addEntity:entity];
-            @try {
+        for (NSDictionary* entityDictionary in entityDictionaryArray) {
+            // This adds the entity to our local object, and initiates a POST to the API
+            ApigeeEntity* addedEntity = [currentCollection addEntity:entityDictionary];
+            if( addedEntity != nil )
+            {
                 // Success
                 NSLog(@"%@",@"entity created");
-                
-                //add the entities to our array so we can display then to the user in-app
-                [addedEntities addObjectsFromArray:[self getCollectionEntities:currentCollection]];
+
+                //add the created entity to our array so we can display them to the user in-app
+                [addedEntities addObject:addedEntity];
             }
-            @catch (NSException * e) {
+            else
+            {
                 // Fail
                 NSLog(@"%@",@"entity not created");
             }
@@ -132,8 +134,7 @@ Now that we have data in our collection, let's declare a function to retrieve it
     NSString *type = @"books";
     
     // initiates the API GET request and returns an ApigeeCollection object
-    ApigeeQuery *query = [[ApigeeQuery alloc] init];
-	currentCollection = [dataClient getCollection:type usingQuery:query];
+	currentCollection = [dataClient getCollection:type usingQuery:nil];
     
     // extract the entities from the collection to display in-app
     NSArray *entities = [self getCollectionEntities:currentCollection];
