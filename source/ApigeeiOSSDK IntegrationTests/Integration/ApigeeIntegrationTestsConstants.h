@@ -25,3 +25,5 @@ extern NSString* const kAPIAssetManagementTestEntityName;
 extern NSString* const kAPIAssetManagementTestImageName;
 extern NSString* const kAPIAssetManagementTestContentType;
 
+// ApigeeCollectionTests
+extern NSString* const kAPICollectionTestCollectionName;

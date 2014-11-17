@@ -24,3 +24,6 @@ NSString* const kAPIAssetManagementTestCollectionName = @"pictures";
 NSString* const kAPIAssetManagementTestEntityName = @"testAssetUploadCURL";
 NSString* const kAPIAssetManagementTestImageName = @"TestResources/assetManagementTestImage.png";
 NSString* const kAPIAssetManagementTestContentType = @"image/png";
+
+// ApigeeCollectionTests
+NSString* const kAPICollectionTestCollectionName = @"ApigeeCollectionTests_ExampleCollection";

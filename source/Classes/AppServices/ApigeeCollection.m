@@ -204,9 +204,10 @@ completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
         self.cursor = theCursor;
         
         [self saveCursor:theCursor];
+        [self resetEntityPointer];
+        [self.list removeAllObjects];
+
         if ( count > 0 ) {
-            [self resetEntityPointer];
-            [self.list removeAllObjects];
             NSArray* retrievedEntities = [response entities];
             
             for( ApigeeEntity* retrievedEntity in retrievedEntities ) {
