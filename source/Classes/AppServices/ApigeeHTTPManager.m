@@ -364,8 +364,11 @@ NSRecursiveLock *g_transactionIDLock = nil;
     if ( opStr )
     {
         // prep the post data
-        NSData *opData = [opStr dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-        
+        NSData *opData = [opStr dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+        if( opData == nil ) {
+            opData = [opStr dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        }
+
         // make a string that tells the length of the post data. We'll need that for the HTTP header setup
         NSString *opLength = [NSString stringWithFormat:@"%lu", (unsigned long)[opData length]];
         
