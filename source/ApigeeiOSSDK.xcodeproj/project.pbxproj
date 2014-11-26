@@ -111,6 +111,7 @@
 		638E336B18A06E9300A37F22 /* ApigeePLCrashTestThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 638E335318A06E9300A37F22 /* ApigeePLCrashTestThread.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		638E336C18A06E9300A37F22 /* ApigeePLCrashUncaughtExceptionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 638E335518A06E9300A37F22 /* ApigeePLCrashUncaughtExceptionHandler.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		638E337018A06EF500A37F22 /* crash_report.pb-c.c in Sources */ = {isa = PBXBuildFile; fileRef = 638E336E18A06EF500A37F22 /* crash_report.pb-c.c */; };
+		639A531B1A26211C00640C89 /* NSURLConnectionSwizzleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 639A531A1A26211C00640C89 /* NSURLConnectionSwizzleTests.m */; };
 		63A812651A1A6DF200311B10 /* ApigeeCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A812641A1A6DF200311B10 /* ApigeeCollectionTests.m */; };
 		63ACC61718884EA100C87C83 /* ApigeeCounterIncrement.m in Sources */ = {isa = PBXBuildFile; fileRef = 63ACC61618884EA000C87C83 /* ApigeeCounterIncrement.m */; };
 		63ACC61A1888675F00C87C83 /* ApigeeCounterIncrement.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63ACC61518884EA000C87C83 /* ApigeeCounterIncrement.h */; };
@@ -456,6 +457,7 @@
 		638E335518A06E9300A37F22 /* ApigeePLCrashUncaughtExceptionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeePLCrashUncaughtExceptionHandler.m; path = Classes/CrashReporter/ApigeePLCrashUncaughtExceptionHandler.m; sourceTree = SOURCE_ROOT; };
 		638E336E18A06EF500A37F22 /* crash_report.pb-c.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "crash_report.pb-c.c"; path = "Classes/CrashReporter/crash_report.pb-c.c"; sourceTree = SOURCE_ROOT; };
 		638E336F18A06EF500A37F22 /* crash_report.pb-c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "crash_report.pb-c.h"; path = "Classes/CrashReporter/crash_report.pb-c.h"; sourceTree = SOURCE_ROOT; };
+		639A531A1A26211C00640C89 /* NSURLConnectionSwizzleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLConnectionSwizzleTests.m; sourceTree = "<group>"; };
 		63A812641A1A6DF200311B10 /* ApigeeCollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeCollectionTests.m; sourceTree = "<group>"; };
 		63ACC61518884EA000C87C83 /* ApigeeCounterIncrement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeCounterIncrement.h; path = Classes/AppServices/ApigeeCounterIncrement.h; sourceTree = SOURCE_ROOT; };
 		63ACC61618884EA000C87C83 /* ApigeeCounterIncrement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeCounterIncrement.m; path = Classes/AppServices/ApigeeCounterIncrement.m; sourceTree = SOURCE_ROOT; };
@@ -703,6 +705,7 @@
 				6346AD0C19E30AC9006F8F97 /* ApigeeClientTests.m */,
 				6346AD0D19E30AC9006F8F97 /* ApigeeEntityResponseTest.m */,
 				6346AD0E19E30AC9006F8F97 /* ApigeeMonitoringSettingsTests.m */,
+				639A531A1A26211C00640C89 /* NSURLConnectionSwizzleTests.m */,
 			);
 			path = Unit;
 			sourceTree = "<group>";
@@ -1432,6 +1435,7 @@
 				6346AD1419E30AC9006F8F97 /* ApigeeAppTest.m in Sources */,
 				6346AD1319E30AC9006F8F97 /* ApigeeAppIdentificationTests.m in Sources */,
 				6346AD1819E30AC9006F8F97 /* ApigeeMonitoringSettingsTests.m in Sources */,
+				639A531B1A26211C00640C89 /* NSURLConnectionSwizzleTests.m in Sources */,
 				6346AD1719E30AC9006F8F97 /* ApigeeEntityResponseTest.m in Sources */,
 				6346AD1619E30AC9006F8F97 /* ApigeeClientTests.m in Sources */,
 			);
