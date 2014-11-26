@@ -22,6 +22,9 @@
  @discussion This category provides methods that capture network performance
  metrics on built-in NSURLConnection methods that perform network calls.
  */
+
+typedef void (^NSURLConnectionAsyncRequestCompletionHandler)(NSURLResponse* response, NSData* data, NSError* connectionError);
+
 @interface NSURLConnection (Apigee)
 
 /*!

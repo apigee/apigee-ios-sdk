@@ -30,7 +30,63 @@
 
 static void *KEY_CONNECTION_INTERCEPTOR;
 
-typedef void (^NSURLConnectionAsyncRequestCompletionHandler)(NSURLResponse* response, NSData* data, NSError* connectionError);
+@implementation NSURLConnection (Apigee)
+
++ (NSURLConnection*) timedConnectionWithRequest:(NSURLRequest *) request
+                                       delegate:(id < NSURLConnectionDelegate >) delegate
+{
+    return [ApigeeURLConnection connectionWithRequest:request
+                                               delegate:delegate];
+}
+
++ (NSData *) timedSendSynchronousRequest:(NSURLRequest *) request
+                       returningResponse:(NSURLResponse **)response
+                                   error:(NSError **)error
+{
+    return [ApigeeURLConnection sendSynchronousRequest:request
+                                       returningResponse:response
+                                                   error:error];
+}
+
++ (void)timedSendAsynchronousRequest:(NSURLRequest *)request
+                               queue:(NSOperationQueue *)queue
+                   completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler
+{
+    [ApigeeURLConnection sendAsynchronousRequest:request
+                                             queue:queue
+                                 completionHandler:handler];
+}
+
+- (id) initTimedConnectionWithRequest:(NSURLRequest *)request
+                             delegate:(id < NSURLConnectionDelegate >)delegate
+{
+    if ([self isKindOfClass:[ApigeeURLConnection class]]) {
+         return [self initWithRequest:request delegate:delegate];
+    }
+    
+    return [[ApigeeURLConnection alloc] initWithRequest:request
+                                                 delegate:delegate];
+}
+
+- (id) initTimedConnectionWithRequest:(NSURLRequest *)request
+                             delegate:(id < NSURLConnectionDelegate >) delegate
+                     startImmediately:(BOOL) startImmediately
+{
+    if ([self isKindOfClass:[ApigeeURLConnection class]]) {
+        return [self initWithRequest:request
+                            delegate:delegate
+                    startImmediately:startImmediately];
+    }
+
+    return [[ApigeeURLConnection alloc] initWithRequest:request
+                                                 delegate:delegate
+                                         startImmediately:startImmediately];
+}
+
+
+
+//******************************************************************************
+//******************************************************************************
 
 // Declarations for swizzled methods
 
@@ -61,7 +117,7 @@ id (*gOrigNSURLConnection_initWithRequestDelegate)(id,SEL,NSURLRequest*,id) = NU
 void (*gOrigNSURLConnection_start)(id,SEL) = NULL;
 
 
-static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseError(id self,SEL _cmd,NSURLRequest* request,NSURLResponse** response,NSError** error)
+NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseError(id self,SEL _cmd,NSURLRequest* request,NSURLResponse** response,NSError** error)
 {
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeSendSynchronousRequestReturningResponseError");
     
@@ -136,7 +192,7 @@ static NSData* NSURLConnection_apigeeSendSynchronousRequestReturningResponseErro
     }
 }
 
-static void NSURLConnection_apigeeSendAsynchronousRequestQueueCompletionHandler(id self,SEL _cmd,NSURLRequest* request,NSOperationQueue* queue,NSURLConnectionAsyncRequestCompletionHandler handler)
+void NSURLConnection_apigeeSendAsynchronousRequestQueueCompletionHandler(id self,SEL _cmd,NSURLRequest* request,NSOperationQueue* queue,NSURLConnectionAsyncRequestCompletionHandler handler)
 {
     if (gOrigNSURLConnection_sendAsynchronousRequestQueueCompletionHandler != NULL) {
 
@@ -148,7 +204,7 @@ static void NSURLConnection_apigeeSendAsynchronousRequestQueueCompletionHandler(
         [monitoringClient injectApigeeHttpHeaders: mutableRequest];
         request = [mutableRequest copy];
 
-        gOrigNSURLConnection_sendAsynchronousRequestQueueCompletionHandler(self,_cmd,request,queue,^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        ((void(*)(id,SEL,NSURLRequest*,NSOperationQueue*,NSURLConnectionAsyncRequestCompletionHandler))gOrigNSURLConnection_sendAsynchronousRequestQueueCompletionHandler)(self,_cmd,request,queue,^(NSURLResponse *response, NSData *data, NSError *connectionError) {
             if (![monitoringClient isPaused])
             {
                 [entry recordEndTime];
@@ -183,13 +239,13 @@ static void NSURLConnection_apigeeSendAsynchronousRequestQueueCompletionHandler(
     }
 }
 
-static ApigeeNSURLConnectionDataDelegateInterceptor* GetConnectionInterceptor(NSURLConnection* connection)
+ApigeeNSURLConnectionDataDelegateInterceptor* GetConnectionInterceptor(NSURLConnection* connection)
 {
     return (ApigeeNSURLConnectionDataDelegateInterceptor*)
         objc_getAssociatedObject(connection, &KEY_CONNECTION_INTERCEPTOR);
 }
 
-static void AttachConnectionInterceptor(NSURLConnection* connection,
+void AttachConnectionInterceptor(NSURLConnection* connection,
                                         ApigeeNSURLConnectionDataDelegateInterceptor* interceptor)
 {
     objc_setAssociatedObject(connection,
@@ -198,7 +254,7 @@ static void AttachConnectionInterceptor(NSURLConnection* connection,
                              OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-static NSURLConnection* NSURLConnection_apigeeConnectionWithRequestDelegate(id self,SEL _cmd,NSURLRequest* request,id delegate)
+NSURLConnection* NSURLConnection_apigeeConnectionWithRequestDelegate(id self,SEL _cmd,NSURLRequest* request,id delegate)
 {
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeConnectionWithRequestDelegate");
     
@@ -218,7 +274,7 @@ static NSURLConnection* NSURLConnection_apigeeConnectionWithRequestDelegate(id s
     }
 }
 
-static id NSURLConnection_apigeeInitWithRequestDelegateStartImmediately(id self,SEL _cmd,NSURLRequest* request,id delegate,BOOL startImmediately)
+id NSURLConnection_apigeeInitWithRequestDelegateStartImmediately(id self,SEL _cmd,NSURLRequest* request,id delegate,BOOL startImmediately)
 {
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeInitWithRequestDelegateStartImmediately");
     
@@ -249,7 +305,7 @@ static id NSURLConnection_apigeeInitWithRequestDelegateStartImmediately(id self,
     }
 }
 
-static id NSURLConnection_apigeeInitWithRequestDelegate(id self,SEL _cmd,NSURLRequest* request,id delegate)
+id NSURLConnection_apigeeInitWithRequestDelegate(id self,SEL _cmd,NSURLRequest* request,id delegate)
 {
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeInitWithRequestDelegate");
     
@@ -280,7 +336,7 @@ static id NSURLConnection_apigeeInitWithRequestDelegate(id self,SEL _cmd,NSURLRe
     }
 }
 
-static void NSURLConnection_apigeeStart(id self,SEL _cmd)
+void NSURLConnection_apigeeStart(id self,SEL _cmd)
 {
     //ApigeeLogVerbose(@"MOBILE_AGENT", @"NSURLConnection_apigeeStart");
     
@@ -295,68 +351,9 @@ static void NSURLConnection_apigeeStart(id self,SEL _cmd)
     }
     
     if (gOrigNSURLConnection_start != NULL) {
-        gOrigNSURLConnection_start(self,_cmd);
+        ((void(*)(id,SEL))gOrigNSURLConnection_start)(self,_cmd);
     }
 }
-
-
-@implementation NSURLConnection (Apigee)
-
-+ (NSURLConnection*) timedConnectionWithRequest:(NSURLRequest *) request
-                                       delegate:(id < NSURLConnectionDelegate >) delegate
-{
-    return [ApigeeURLConnection connectionWithRequest:request
-                                               delegate:delegate];
-}
-
-+ (NSData *) timedSendSynchronousRequest:(NSURLRequest *) request
-                       returningResponse:(NSURLResponse **)response
-                                   error:(NSError **)error
-{
-    return [ApigeeURLConnection sendSynchronousRequest:request
-                                       returningResponse:response
-                                                   error:error];
-}
-
-+ (void)timedSendAsynchronousRequest:(NSURLRequest *)request
-                               queue:(NSOperationQueue *)queue
-                   completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler
-{
-    [ApigeeURLConnection sendAsynchronousRequest:request
-                                             queue:queue
-                                 completionHandler:handler];
-}
-
-- (id) initTimedConnectionWithRequest:(NSURLRequest *)request
-                             delegate:(id < NSURLConnectionDelegate >)delegate
-{
-    if ([self isKindOfClass:[ApigeeURLConnection class]]) {
-         return [self initWithRequest:request delegate:delegate];
-    }
-    
-    return [[ApigeeURLConnection alloc] initWithRequest:request
-                                                 delegate:delegate];
-}
-
-- (id) initTimedConnectionWithRequest:(NSURLRequest *)request
-                             delegate:(id < NSURLConnectionDelegate >) delegate
-                     startImmediately:(BOOL) startImmediately
-{
-    if ([self isKindOfClass:[ApigeeURLConnection class]]) {
-        return [self initWithRequest:request
-                            delegate:delegate
-                    startImmediately:startImmediately];
-    }
-
-    return [[ApigeeURLConnection alloc] initWithRequest:request
-                                                 delegate:delegate
-                                         startImmediately:startImmediately];
-}
-
-
-
-//******************************************************************************
-//******************************************************************************
 
 + (BOOL)apigeeSwizzlingSetup
 {
