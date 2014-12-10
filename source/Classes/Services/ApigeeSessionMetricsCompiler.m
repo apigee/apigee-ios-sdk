@@ -19,11 +19,11 @@
 
 #import "NSString+UUID.h"
 #import "NSDate+Apigee.h"
-#import "OpenUDID.h"
 #import "ApigeeReachability.h"
 #import "ApigeeLocationService.h"
 #import "ApigeeSessionMetricsCompiler.h"
 #import "UIDevice+Apigee.h"
+#import "ApigeeDataClient.h"
 #import "ApigeeMonitoringClient.h"
 
 #define kValueUnkown @"UNKNOWN"
@@ -168,7 +168,7 @@
     }
 
     if (settings.deviceIdCaptureEnabled) {
-        metrics.deviceId = [OpenUDID value];
+        metrics.deviceId = [ApigeeDataClient getUniqueDeviceID];
     } else {
         metrics.deviceId = kValueUnkown;
     }

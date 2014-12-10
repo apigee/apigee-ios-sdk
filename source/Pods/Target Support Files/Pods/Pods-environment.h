@@ -6,12 +6,6 @@
 // project.
 
 
-// OpenUDID
-#define COCOAPODS_POD_AVAILABLE_OpenUDID
-#define COCOAPODS_VERSION_MAJOR_OpenUDID 1
-#define COCOAPODS_VERSION_MINOR_OpenUDID 0
-#define COCOAPODS_VERSION_PATCH_OpenUDID 0
-
 // PLCrashReporter
 #define COCOAPODS_POD_AVAILABLE_PLCrashReporter
 // This library does not follow semantic-versioning,

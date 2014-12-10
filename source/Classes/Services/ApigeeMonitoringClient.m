@@ -28,7 +28,6 @@
 #import "NSDate+Apigee.h"
 #import "ApigeeSystemLogger.h"
 #import "ApigeeReachability.h"
-#import "OpenUDID.h"
 
 #import "ApigeeSystemLogger.h"
 #import "ApigeeLogger.h"
@@ -509,7 +508,7 @@ static bool AmIBeingDebugged(void)
      //ApigeeMonitoringClient* monitoringClient = [ApigeeMonitoringClient sharedInstance];
     [mutableRequest addValue: [[self appIdentification] organizationId] forHTTPHeaderField:@"X-Apigee-Client-Org-Name"];
     [mutableRequest addValue: [[self appIdentification] applicationId] forHTTPHeaderField:@"X-Apigee-Client-App-Name"];
-    [mutableRequest addValue: [self apigeeDeviceId ] forHTTPHeaderField:@"X-Apigee-Device-Id"];
+    [mutableRequest addValue: [ApigeeDataClient getUniqueDeviceID] forHTTPHeaderField:@"X-Apigee-Device-Id"];
     [mutableRequest addValue: [[NSUserDefaults standardUserDefaults] objectForKey:@"kApigeeSessionIdKey"] forHTTPHeaderField:@"X-Apigee-Session-Id"];
     [mutableRequest addValue: [NSString  uuid] forHTTPHeaderField:@"X-Apigee-Client-Request-Id"];
 }
@@ -810,13 +809,6 @@ static bool AmIBeingDebugged(void)
     }
     
     ApigeeLogInfoMessage(kApigeeMonitoringClientTag, @"INIT_AGENT");
-}
-
-#pragma mark - Property implementations
-
-- (NSString*) apigeeDeviceId
-{
-    return [OpenUDID value];
 }
 
 #pragma mark - System configuration

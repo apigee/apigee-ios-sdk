@@ -1,24 +1,12 @@
 PODS:
-  - OpenUDID (1.0.0)
   - PLCrashReporter (1.2-rc5)
   - SSKeychain (1.2.2)
 
 DEPENDENCIES:
-  - OpenUDID (from `https://github.com/RobertWalsh/OpenUDID.git`)
   - PLCrashReporter (= 1.2-rc5)
   - SSKeychain (~> 1.2)
 
-EXTERNAL SOURCES:
-  OpenUDID:
-    :git: https://github.com/RobertWalsh/OpenUDID.git
-
-CHECKOUT OPTIONS:
-  OpenUDID:
-    :commit: 2847fc0d7d8b0244f2d34b1af18db6f407142aff
-    :git: https://github.com/RobertWalsh/OpenUDID.git
-
 SPEC CHECKSUMS:
-  OpenUDID: a8d39c89906afbdf524fe3147bfa4389df2de807
   PLCrashReporter: 979cd3c5bda33655f4df58fa6219d067183d7a7e
   SSKeychain: cc48bd3ad24fcd9125adb9e0d23dd50b8bbd08b9
 

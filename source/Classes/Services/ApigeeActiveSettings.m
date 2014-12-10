@@ -18,7 +18,7 @@
 #import <CoreTelephony/CTCarrier.h>
 
 #import "NSArray+ApigeeConfigFilters.h"
-#import "OpenUDID.h"
+#import "ApigeeDataClient.h"
 #import "ApigeeNetworkConfig.h"
 #import "ApigeeMonitoringSettings.h"
 #import "ApigeeActiveSettings.h"
@@ -202,7 +202,7 @@
 - (ApigeeActiveConfiguration) activeConfiguration
 {
     if (self.config.deviceLevelOverrideEnabled) {
-        if ([self.deviceIdFilters containsDeviceId:[OpenUDID value]]) {
+        if ([self.deviceIdFilters containsDeviceId:[ApigeeDataClient getUniqueDeviceID]]) {
             return kApigeeDeviceLevel;
         }
     }

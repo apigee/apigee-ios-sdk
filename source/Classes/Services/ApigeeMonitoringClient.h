@@ -30,12 +30,6 @@
  */
 @interface ApigeeMonitoringClient : NSObject<ApigeeUIEventListener>
 
-/*!
- @property apigeeDeviceId
- @abstract Retrieves that unique device ID used by Apigee to identify the device
- */
-@property (strong,readonly) NSString *apigeeDeviceId;
-
 @property (strong, nonatomic) ApigeeActiveSettings *activeSettings;
 
 @property (strong,nonatomic) ApigeeAppIdentification *appIdentification;
