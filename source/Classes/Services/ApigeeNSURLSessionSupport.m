@@ -19,6 +19,7 @@
 
 #include <objc/runtime.h>
 
+#import "ApigeeDataClient.h"
 #import "ApigeeMonitoringClient.h"
 #import "ApigeeNetworkEntry.h"
 #import "ApigeeNSURLSessionDataTaskInfo.h"
@@ -41,7 +42,7 @@ static NSURLSession* NSURLSession_apigeeSessionWithConfigurationDelegateAndQueue
     if (configuration != nil) {
         ApigeeMonitoringClient *monitoringClient = [ApigeeMonitoringClient sharedInstance];
         [configuration setHTTPAdditionalHeaders:@{
-            @"X-Apigee-Client-Device-Id" : [monitoringClient apigeeDeviceId],
+            @"X-Apigee-Client-Device-Id" : [ApigeeDataClient getUniqueDeviceID],
             @"X-Apigee-Client-Sessiond-Id":[[NSUserDefaults standardUserDefaults] objectForKey:@"kApigeeSessionIdKey"],
             @"X-Apigee-Client-Org-Name" : [[monitoringClient appIdentification] organizationId],
             @"X-Apigee-Client-App-Name" : [[monitoringClient appIdentification] applicationId]
