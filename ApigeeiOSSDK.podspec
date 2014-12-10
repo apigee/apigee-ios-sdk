@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 # Source Info
   s.platform        = :ios
   s.requires_arc    = true
-  s.source          = {:git => 'https://github.com/apigee/apigee-ios-sdk.git', :branch => 'master', :tag => 'v2.0.13'}
+  s.source          = {:git => 'https://github.com/RobertWalsh/apigee-ios-sdk.git', :branch => 'cocoapods'}
   s.source_files    = 'source/Classes/**/*.{h,m}'
   s.public_header_files = 'source/Classes/**/*.h'
   s.exclude_files   = 'source/Classes/ApigeeReachability.{h,m}'
