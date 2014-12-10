@@ -1,0 +1,5 @@
+#import <Foundation/Foundation.h>
+@interface PodsDummy_Pods_ApigeeiOSSDK_IntegrationTests_PLCrashReporter : NSObject
+@end
+@implementation PodsDummy_Pods_ApigeeiOSSDK_IntegrationTests_PLCrashReporter
+@end

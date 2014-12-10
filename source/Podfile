@@ -1,5 +1,12 @@
 platform :ios, 5.0
 
-#pod 'OpenUDID', :git => 'https://github.com/RobertWalsh/OpenUDID.git'
 pod 'SSKeychain', '~> 1.2'
 pod 'PLCrashReporter', '1.2-rc5'
+
+target :'ApigeeiOSSDK IntegrationTests', :exclusive => true do
+    pod 'PLCrashReporter', '1.2-rc5'
+end
+
+target :'ApigeeiOSSDK UnitTests', :exclusive => true do
+    pod 'PLCrashReporter', '1.2-rc5'
+end
