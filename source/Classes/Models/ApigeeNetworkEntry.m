@@ -17,6 +17,7 @@
 #import "NSDate+Apigee.h"
 #import "ApigeeModelUtils.h"
 #import "ApigeeNetworkEntry.h"
+#import "ApigeeLogger.h"
 
 static const NSUInteger kMaxUrlLength = 200;
 

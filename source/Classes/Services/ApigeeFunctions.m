@@ -22,7 +22,7 @@
 #import "ApigeeActiveSettings.h"
 #import "ApigeeLogger.h"
 #import "UIDevice+Apigee.h"
-#import "ApigeeOpenUDID.h"
+#import "OpenUDID.h"
 #import "ApigeeCustomConfigParam.h"
 #import "ApigeeNetworkEntry.h"
 #import "ApigeeQueue+NetworkMetrics.h"
@@ -409,7 +409,7 @@ int Apigee_logging_level_verbose()
 /**************************  device management  *******************************/
 const char* Apigee_get_device_identifier()
 {
-    NSString *apigeeDeviceId = [ApigeeOpenUDID value];
+    NSString *apigeeDeviceId = [OpenUDID value];
     if (apigeeDeviceId) {
         return [apigeeDeviceId UTF8String];
     } else {

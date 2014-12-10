@@ -12,8 +12,8 @@ function failed()
 
 function build_sdk()
 {
-    xcodebuild -configuration $cfg -sdk $sdk clean;
-    xcodebuild -configuration $cfg -sdk $sdk || failed "${sdk}-${cfg} failed to build" $?
+    xcodebuild -workspace ApigeeiOSSDK.xcworkspace -scheme ApigeeiOSSDK -derivedDataPath build -configuration $cfg -sdk $sdk clean;
+    xcodebuild -workspace ApigeeiOSSDK.xcworkspace -scheme ApigeeiOSSDK -derivedDataPath build -configuration $cfg -sdk $sdk || failed "${sdk}-${cfg} failed to build" $?
 }
 
 function buildall()
@@ -25,8 +25,8 @@ function buildall()
             build_sdk
         done
 
-        lib_386=build/${cfg}-iphonesimulator/lib${LIBNAME}.a
-        lib_arm=build/${cfg}-iphoneos/lib${LIBNAME}.a
+        lib_386=build/Build/Products/${cfg}-iphonesimulator/lib${LIBNAME}.a
+        lib_arm=build/Build/Products/${cfg}-iphoneos/lib${LIBNAME}.a
         lib_fat=lib${FRAMEWORKNAME}.a
 
         if [ ${cfg} == "Debug" ]; then
@@ -59,5 +59,5 @@ mkdir -p build/dist/Headers
 buildall
 
 #copy headers
-find build/${cfg}-iphoneos/include -name '*.h' -exec cp {} build/dist/Headers \;
+find build/Build/Products/${cfg}-iphoneos/include -name '*.h' -exec cp {} build/dist/Headers \;
 

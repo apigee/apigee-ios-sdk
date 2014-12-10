@@ -18,7 +18,6 @@
 #include <unistd.h>
 
 #import "ApigeeSystemLogger.h"
-#import "ApigeeOpenUDID.h"
 #import "ApigeeCustomASLMessageKeys.h"
 #import "ApigeeLogger.h"
 #import "ApigeeMonitoringClient.h"

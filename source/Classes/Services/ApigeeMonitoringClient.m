@@ -23,12 +23,12 @@
 #include <unistd.h>
 #include <sys/sysctl.h>
 
-#import "ApigeeCrashReporter.h"
+#import "CrashReporter.h"
 #import "NSString+UUID.h"
 #import "NSDate+Apigee.h"
 #import "ApigeeSystemLogger.h"
 #import "ApigeeReachability.h"
-#import "ApigeeOpenUDID.h"
+#import "OpenUDID.h"
 
 #import "ApigeeSystemLogger.h"
 #import "ApigeeLogger.h"
@@ -816,7 +816,7 @@ static bool AmIBeingDebugged(void)
 
 - (NSString*) apigeeDeviceId
 {
-    return [ApigeeOpenUDID value];
+    return [OpenUDID value];
 }
 
 #pragma mark - System configuration
@@ -1035,7 +1035,7 @@ static bool AmIBeingDebugged(void)
 
 - (BOOL) hasPendingCrashReports
 {
-    BOOL haveCrashReport = [[ApigeePLCrashReporter sharedReporter] hasPendingCrashReport];
+    BOOL haveCrashReport = [[PLCrashReporter sharedReporter] hasPendingCrashReport];
     
     if (self.showDebuggingInfo) {
         [self printDebugMessage:@"crash report found from prior session"];
@@ -1062,18 +1062,18 @@ static bool AmIBeingDebugged(void)
         return;
     }
     
-    ApigeePLCrashReporter* crashReporter = [ApigeePLCrashReporter sharedReporter];
+    PLCrashReporter* crashReporter = [PLCrashReporter sharedReporter];
     NSError* error = nil;
     NSData* data = [crashReporter loadPendingCrashReportDataAndReturnError:&error];
-    ApigeePLCrashReport *report = [[ApigeePLCrashReport alloc] initWithData:data error:&error];
+    PLCrashReport *report = [[PLCrashReport alloc] initWithData:data error:&error];
     
     if (error) {
         SystemError(@"CrashReporter", @"Error loading crash report: %@", [error localizedDescription]);
         return;
     }
     
-    NSString *log = [ApigeePLCrashReportTextFormatter stringValueForCrashReport:report
-                                                                  withTextFormat:ApigeePLCrashReportTextFormatiOS];
+    NSString *log = [PLCrashReportTextFormatter stringValueForCrashReport:report
+                                                           withTextFormat:PLCrashReportTextFormatiOS];
     
     NSString* uuid = [NSString uuid];
     NSString* fileName = [NSString stringWithFormat:@"%@.crash", uuid];
@@ -1105,7 +1105,7 @@ static bool AmIBeingDebugged(void)
 
 - (BOOL) enableCrashReporter:(NSError**) error
 {
-    return [[ApigeePLCrashReporter sharedReporter] enableCrashReporterAndReturnError:error];
+    return [[PLCrashReporter sharedReporter] enableCrashReporterAndReturnError:error];
 }
 
 #pragma mark - Internal implementations

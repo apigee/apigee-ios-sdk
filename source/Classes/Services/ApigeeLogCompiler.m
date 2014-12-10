@@ -20,6 +20,7 @@
 #import "ApigeeLogEntry.h"
 #import "ApigeeCustomASLMessageKeys.h"
 #import "ApigeeLogger.h"
+#import "ApigeeSystemLogger.h"
 #import "ApigeeLogCompiler.h"
 
 #define kApigeeMaxLogEntries 100
