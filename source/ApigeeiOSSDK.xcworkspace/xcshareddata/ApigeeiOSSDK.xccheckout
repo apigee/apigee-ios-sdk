@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>8EE84DA3-9131-4D48-BB6C-E2C4F220CA22</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ApigeeiOSSDK</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B64718C8D31AC6852D3E96D43BD14D3FCEDDF20E</key>
+		<string>github.com:RobertWalsh/apigee-ios-sdk.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>source/ApigeeiOSSDK.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B64718C8D31AC6852D3E96D43BD14D3FCEDDF20E</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:RobertWalsh/apigee-ios-sdk.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B64718C8D31AC6852D3E96D43BD14D3FCEDDF20E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B64718C8D31AC6852D3E96D43BD14D3FCEDDF20E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>My_fork</string>
+		</dict>
+	</array>
+</dict>
+</plist>
