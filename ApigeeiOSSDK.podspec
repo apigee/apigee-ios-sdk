@@ -13,12 +13,12 @@ Pod::Spec.new do |s|
   s.source          = {:git => 'https://github.com/RobertWalsh/apigee-ios-sdk.git', :branch => 'cocoapods'}
   s.source_files    = 'source/Classes/**/*.{h,m}'
   s.public_header_files = 'source/Classes/**/*.h'
-  s.exclude_files   = 'source/Classes/Support/ApigeeReachability.{h,m}'
+  s.exclude_files   = 'source/Classes/Support/ApigeeReachability.m'
   s.framework       = 'CoreLocation','CoreTelephony','Security','SystemConfiguration','UIKit'
 
   s.subspec 'no-arc' do |subspec1|
     subspec1.requires_arc = false
-    subspec1.source_files = 'source/Classes/Support/ApigeeReachability.{h,m}'
+    subspec1.source_files = 'source/Classes/Support/ApigeeReachability.m'
   end
 
 # Pod Dependencies
