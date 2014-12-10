@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   end
 
 # Pod Dependencies
-  s.dependency 'OpenUDID'
-  s.dependency 'SSKeychain'
-  s.dependency 'PLCrashReporter'
+  s.dependency 'OpenUDID', '~> 1.0.0'
+  s.dependency 'SSKeychain', '~> 1.2'
+  s.dependency 'PLCrashReporter', '~> 1.2-rc5'
 end
