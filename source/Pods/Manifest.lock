@@ -1,13 +1,1 @@
-PODS:
-  - PLCrashReporter (1.2-rc5)
-  - SSKeychain (1.2.2)
-
-DEPENDENCIES:
-  - PLCrashReporter (= 1.2-rc5)
-  - SSKeychain (~> 1.2)
-
-SPEC CHECKSUMS:
-  PLCrashReporter: 979cd3c5bda33655f4df58fa6219d067183d7a7e
-  SSKeychain: cc48bd3ad24fcd9125adb9e0d23dd50b8bbd08b9
-
 COCOAPODS: 0.35.0
