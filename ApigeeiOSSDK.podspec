@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
 # MonitoringServices Spec
   s.subspec 'MonitoringServices' do |monitoring|
     monitoring.requires_arc = true
-    monitoring.source_files = 'source/Classes/MonitoringServices/*.{h,m}'
+    monitoring.source_files = 'source/Classes/Services/*.{h,m}'
     monitoring.framework = 'CoreLocation','CoreTelephony','Security','SystemConfiguration','UIKit'
   end
 
