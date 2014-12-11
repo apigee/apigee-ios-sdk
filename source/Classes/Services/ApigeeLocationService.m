@@ -15,6 +15,7 @@
  */
 
 #import "ApigeeLocationService.h"
+#import "ApigeeLogger.h"
 
 #define kMinAccuracyThreshold 5.0f    //meters
 #define kMaxAccuracyThreshold 100.0f  //meters
