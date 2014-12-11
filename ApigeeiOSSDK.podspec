@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
 
 # Source Info
   s.platform            = :ios
-  s.source              = {:git => 'https://github.com/RobertWalsh/apigee-ios-sdk.git', :branch => 'cocoapods'}
+  s.source              = {:git => 'https://github.com/apigee/apigee-ios-sdk.git', :branch => 'cocoapods'}
   s.framework           = 'CoreLocation','CoreTelephony','Security','SystemConfiguration','UIKit'
   s.requires_arc        = true
   s.source_files        = 'source/Classes/*.{h,m}'
