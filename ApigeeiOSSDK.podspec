@@ -43,7 +43,7 @@ Pod::Spec.new do |s|
 
 # Support Spec
   s.subspec 'Support' do |support|
-    support.requires_arc = true
+    support.requires_arc = false
     support.source_files = 'source/Classes/Support/*.{h,m}'
     support.framework = 'CoreLocation','CoreTelephony','Security','SystemConfiguration','UIKit'
   end
