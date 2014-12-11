@@ -28,7 +28,6 @@
 #import "NSDate+Apigee.h"
 #import "ApigeeSystemLogger.h"
 #import "ApigeeReachability.h"
-#import "ApigeeOpenUDID.h"
 
 #import "ApigeeSystemLogger.h"
 #import "ApigeeLogger.h"
@@ -816,7 +815,7 @@ static bool AmIBeingDebugged(void)
 
 - (NSString*) apigeeDeviceId
 {
-    return [ApigeeOpenUDID value];
+    return [ApigeeDataClient getUniqueDeviceID];
 }
 
 #pragma mark - System configuration

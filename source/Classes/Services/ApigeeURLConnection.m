@@ -20,6 +20,7 @@
 #import "ApigeeNetworkEntry.h"
 #import "ApigeeQueue+NetworkMetrics.h"
 #import "ApigeeMonitoringClient.h"
+#import "ApigeeLogger.h"
 
 @interface ApigeeURLConnection()
 

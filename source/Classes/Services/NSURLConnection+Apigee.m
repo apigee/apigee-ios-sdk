@@ -26,6 +26,7 @@
 #import "ApigeeMonitoringClient.h"
 #import "ApigeeSessionMetricsCompiler.h"
 #import "ApigeeAppIdentification.h"
+#import "ApigeeLogger.h"
 #import "NSString+UUID.h"
 
 static void *KEY_CONNECTION_INTERCEPTOR;
