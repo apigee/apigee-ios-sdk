@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.homepage            = 'http://apigee.com'
   s.authors             = {'Robert Walsh' => 'rwalsh@apigee.com'}
   s.summary             = 'The iOS SDK for everything Apigee.'
-  s.xcconfig            = { 'OTHER_LDFLAGS' => '-ObjC','-all_load' }
+  s.xcconfig            = { 'OTHER_LDFLAGS' => '-ObjC' }
 
 # Source Info
   s.platform            = :ios
