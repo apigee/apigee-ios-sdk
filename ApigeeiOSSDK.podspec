@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
   end
 
 # Models Spec
-  s.subspec 'MonitoringServices' do |models|
+  s.subspec 'Models' do |models|
     models.requires_arc = true
     models.source_files = 'source/Classes/Models/*.{h,m}'
     models.framework = 'CoreLocation','CoreTelephony','Security','SystemConfiguration','UIKit'
