@@ -54,4 +54,11 @@ Pod::Spec.new do |s|
     appservices.source_files = 'source/Classes/AppServices/*.{h,m}'
     appservices.framework = 'CoreLocation','CoreTelephony','Security','SystemConfiguration','UIKit'
   end
+
+# UIEventTracking Spec
+  s.subspec 'UIEventTracking' do |uieventtracking|
+    uieventtracking.requires_arc = true
+    uieventtracking.source_files = 'source/Classes/UIEventTracking/*.{h,m}'
+    uieventtracking.framework = 'CoreLocation','CoreTelephony','Security','SystemConfiguration','UIKit'
+  end
 end
