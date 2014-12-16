@@ -282,7 +282,7 @@ NSRecursiveLock *g_transactionIDLock = nil;
 -(int)asyncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData completionHandler:(ApigeeHTTPCompletionHandler) theCompletionHandler
 {
     NSURLRequest *req = [self getRequest:url operation:op operationData:opData];
-    return [self asyncTransaction:req completionHandler:completionHandler];
+    return [self asyncTransaction:req completionHandler:theCompletionHandler];
 }
 
 -(BOOL)isAvailable
