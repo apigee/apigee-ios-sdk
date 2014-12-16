@@ -2383,7 +2383,9 @@ NSString *g_deviceUUID = nil;
             // use identifierForVendor where possible
             g_deviceUUID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
         }
-        else {
+
+        // If we werent running 6.0+ or identifierForVendor failed.
+        if( !g_deviceUUID ) {
             // otherwise, create a UUID (legacy method)
             CFUUIDRef uuidRef = CFUUIDCreate(nil);
             CFStringRef uuidStringRef = CFUUIDCreateString(nil, uuidRef);
