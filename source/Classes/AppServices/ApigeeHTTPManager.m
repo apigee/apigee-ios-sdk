@@ -67,9 +67,9 @@ NSRecursiveLock *g_transactionIDLock = nil;
     NSMutableDictionary *m_dictCustomHTTPHeaders;
 }
 
-@synthesize completionHandler;
-@synthesize httpResponse;
-@synthesize operationQueue;
+@synthesize completionHandler = _completionHandler;
+@synthesize httpResponse = _httpResponse;
+@synthesize operationQueue = _operationQueue;
 
 -(id)init
 {
