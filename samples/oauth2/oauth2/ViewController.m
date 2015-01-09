@@ -11,35 +11,7 @@
 #import "ApigeeiOSSDK/Apigee.h"
 
 #import "ImplicitOAuth2ViewController.h"
-
-static NSString* const kNoTextDefault = @"N/A";
-static NSString* const kKeychainItemNameForManuallySaving = @"OAuth2 Example Keychain Store";
-
-// Apigee Specific Constants
-static NSString* const kApigeeOrgID = @"rwalsh";
-static NSString* const kApigeeAppID = @"sdk.demo";
-
-static NSString* const kApigeeClientCredentialsClientID = @"lwjcjHK78Dl9eqqICFqYMZGqvxvGP2Uq";
-static NSString* const kApigeeClientCredentialsClientSecret = @"VnEjVv6aANiGFUct";
-static NSString* const kApigeeClientCredentialsGrantTokenURLFormat = @"https://%@-test.apigee.net/oauth/client_credential/accesstoken";
-static NSString* const kApigeeClientCredentialsWeatherInfoURLFormat = @"https://%@-test.apigee.net/v0/weather/forecastrss?w=12797282";
-
-static NSString* const kApigeePasswordGrantUsername = @"OAuthTestUser";
-static NSString* const kApigeePasswordGrantPassword = @"Password1";
-static NSString* const kApigeePasswordGrantTokenURLFormat = @"https://api.usergrid.com/%@/%@/token";
-static NSString* const kApigeePasswordGrantUserInfoURLFormat = @"https://api.usergrid.com/%@/%@/users/%@";
-
-// Facebook Specific Constants
-static NSString* const kFacebookServiceProviderName = @"Facebook";
-static NSString* const kFacebookKeychainItemName = @"OAuth2: Facebook";
-static NSString* const kFacebookClientID = @"199268823468140";
-static NSString* const kFacebookClientSecret = @"5437288538aa70ac5032d7ab7987e866";
-
-static NSString* const kFacebookAuthorizeURL = @"https://www.facebook.com/dialog/oauth?display=touch";
-static NSString* const kFacebookTokenURL = @"https://graph.facebook.com/oauth/access_token";
-static NSString* const kFacebookRedirectURL = @"http://blahblah.com/";
-static NSString* const kFacebookGetEmailURL = @"https://graph.facebook.com/me?fields=email";
-static NSString* const kFacebookPostOnWallURL = @"https://graph.facebook.com/me/feed?message=\"Hello, World.\"";
+#import "Constants.h"
 
 @interface ViewController ()
 

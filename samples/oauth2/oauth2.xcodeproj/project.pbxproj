@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		635C2F261A60860000EEC856 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 635C2F251A60860000EEC856 /* Constants.m */; };
 		63862FDB1A0AFDEB00C24CB8 /* ImplicitOAuth2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63862FD91A0AFDEB00C24CB8 /* ImplicitOAuth2ViewController.m */; };
 		63862FDC1A0AFDEB00C24CB8 /* ImplicitOAuth2ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63862FDA1A0AFDEB00C24CB8 /* ImplicitOAuth2ViewController.xib */; };
 		63F73D2219F704A800775FD4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D2119F704A800775FD4 /* main.m */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		635C2F241A60860000EEC856 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		635C2F251A60860000EEC856 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		63862FD81A0AFDEB00C24CB8 /* ImplicitOAuth2ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImplicitOAuth2ViewController.h; sourceTree = "<group>"; };
 		63862FD91A0AFDEB00C24CB8 /* ImplicitOAuth2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImplicitOAuth2ViewController.m; sourceTree = "<group>"; };
 		63862FDA1A0AFDEB00C24CB8 /* ImplicitOAuth2ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImplicitOAuth2ViewController.xib; sourceTree = "<group>"; };
@@ -116,6 +119,8 @@
 				63F73D2E19F704A800775FD4 /* LaunchScreen.xib */,
 				63F73D2C19F704A800775FD4 /* Images.xcassets */,
 				63F73D1F19F704A800775FD4 /* Supporting Files */,
+				635C2F241A60860000EEC856 /* Constants.h */,
+				635C2F251A60860000EEC856 /* Constants.m */,
 			);
 			path = oauth2;
 			sourceTree = "<group>";
@@ -261,6 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				635C2F261A60860000EEC856 /* Constants.m in Sources */,
 				63F73D2819F704A800775FD4 /* ViewController.m in Sources */,
 				63F73D2519F704A800775FD4 /* AppDelegate.m in Sources */,
 				63862FDB1A0AFDEB00C24CB8 /* ImplicitOAuth2ViewController.m in Sources */,
