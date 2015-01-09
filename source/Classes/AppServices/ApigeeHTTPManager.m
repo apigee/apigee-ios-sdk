@@ -67,9 +67,9 @@ NSRecursiveLock *g_transactionIDLock = nil;
     NSMutableDictionary *m_dictCustomHTTPHeaders;
 }
 
-@synthesize completionHandler;
-@synthesize httpResponse;
-@synthesize operationQueue;
+@synthesize completionHandler = _completionHandler;
+@synthesize httpResponse = _httpResponse;
+@synthesize operationQueue = _operationQueue;
 
 -(id)init
 {
@@ -282,7 +282,7 @@ NSRecursiveLock *g_transactionIDLock = nil;
 -(int)asyncTransaction:(NSString *)url operation:(int)op operationData:(NSString *)opData completionHandler:(ApigeeHTTPCompletionHandler) theCompletionHandler
 {
     NSURLRequest *req = [self getRequest:url operation:op operationData:opData];
-    return [self asyncTransaction:req completionHandler:completionHandler];
+    return [self asyncTransaction:req completionHandler:theCompletionHandler];
 }
 
 -(BOOL)isAvailable
@@ -364,8 +364,11 @@ NSRecursiveLock *g_transactionIDLock = nil;
     if ( opStr )
     {
         // prep the post data
-        NSData *opData = [opStr dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-        
+        NSData *opData = [opStr dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+        if( opData == nil ) {
+            opData = [opStr dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+        }
+
         // make a string that tells the length of the post data. We'll need that for the HTTP header setup
         NSString *opLength = [NSString stringWithFormat:@"%lu", (unsigned long)[opData length]];
         

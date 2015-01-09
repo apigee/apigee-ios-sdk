@@ -903,13 +903,17 @@ NSString *g_deviceUUID = nil;
 
 -(void)appendQueryToURL:(NSMutableString *)url query:(ApigeeQuery *)query
 {
-    if ( [url rangeOfString:@"?"].location != NSNotFound )
-    {
-        // we already have url params, so append
-        [url appendFormat:@"&%@", [query getURLAppend]];
-    } else {
-        // no url params yet, so delimit the query in the url
-        [url appendFormat:@"?%@", [query getURLAppend]];
+    NSString* queryURLAppend = [query getURLAppend];
+
+    // If the query url append is actually valid, lets go ahead and append it.  Otherwise don't do anything to the url.
+    if( [queryURLAppend length] > 0 ) {
+        if ( [url rangeOfString:@"?"].location != NSNotFound ) {
+            // we already have url params, so append
+            [url appendFormat:@"&%@", queryURLAppend];
+        } else {
+            // no url params yet, so delimit the query in the url
+            [url appendFormat:@"?%@", queryURLAppend];
+        }
     }
 }
 
@@ -2385,7 +2389,9 @@ NSString *g_deviceUUID = nil;
             // use identifierForVendor where possible
             g_deviceUUID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
         }
-        else {
+
+        // If we werent running 6.0+ or identifierForVendor failed.
+        if( !g_deviceUUID ) {
             // otherwise, create a UUID (legacy method)
             CFUUIDRef uuidRef = CFUUIDCreate(nil);
             CFStringRef uuidStringRef = CFUUIDCreateString(nil, uuidRef);

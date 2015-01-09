@@ -37,7 +37,7 @@
 
 @implementation ApigeeCollection
 
-@synthesize dataClient;
+@synthesize dataClient=_dataClient;
 @synthesize type=_type;
 @synthesize qs=_qs;
 @synthesize list=_list;
@@ -51,24 +51,24 @@
     self = [super init];
     if( self )
     {
-	    self.dataClient = theDataClient;
-	    self.type = type;
+	    _dataClient = theDataClient;
+	    _type = type;
 	    
 	    if( qs == nil )
 	    {
-	    	self.qs = [[NSMutableDictionary alloc] init];
+	    	_qs = [[NSMutableDictionary alloc] init];
 	    }
 	    else
 	    {
-	    	self.qs = [[NSMutableDictionary alloc] initWithDictionary:qs];
+	    	_qs = [[NSMutableDictionary alloc] initWithDictionary:qs];
 	    }
         
-	    self.list = [[NSMutableArray alloc] init];
+	    _list = [[NSMutableArray alloc] init];
 	    _iterator = -1;
         
-	    self.previous = [[NSMutableArray alloc] init];
-	    self.next = nil;
-	    self.cursor = nil;
+	    _previous = [[NSMutableArray alloc] init];
+	    _next = nil;
+	    _cursor = nil;
         
 	    [self fetch];
     }
@@ -81,17 +81,17 @@
     self = [super init];
     if( self )
     {
-	    self.dataClient = theDataClient;
-	    self.type = type;
+	    _dataClient = theDataClient;
+	    _type = type;
 	    
-        self.query = theQuery;
+        _query = theQuery;
         
-	    self.list = [[NSMutableArray alloc] init];
+	    _list = [[NSMutableArray alloc] init];
 	    _iterator = -1;
         
-	    self.previous = [[NSMutableArray alloc] init];
-	    self.next = nil;
-	    self.cursor = nil;
+	    _previous = [[NSMutableArray alloc] init];
+	    _next = nil;
+	    _cursor = nil;
         
 	    [self fetch];
     }
@@ -106,24 +106,24 @@ completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
 {
     self = [super init];
     if (self) {
-	    self.dataClient = theDataClient;
-	    self.type = type;
+        _dataClient = theDataClient;
+	    _type = type;
 	    
 	    if( qs == nil )
 	    {
-	    	self.qs = [[NSMutableDictionary alloc] init];
+	    	_qs = [[NSMutableDictionary alloc] init];
 	    }
 	    else
 	    {
-	    	self.qs = [[NSMutableDictionary alloc] initWithDictionary:qs];
+	    	_qs = [[NSMutableDictionary alloc] initWithDictionary:qs];
 	    }
         
-	    self.list = [[NSMutableArray alloc] init];
+	    _list = [[NSMutableArray alloc] init];
 	    _iterator = -1;
         
-	    self.previous = [[NSMutableArray alloc] init];
-	    self.next = nil;
-	    self.cursor = nil;
+	    _previous = [[NSMutableArray alloc] init];
+	    _next = nil;
+	    _cursor = nil;
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             ApigeeClientResponse* response = [self fetch];
@@ -143,17 +143,17 @@ completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
 {
     self = [super init];
     if (self) {
-	    self.dataClient = theDataClient;
-	    self.type = type;
+	    _dataClient = theDataClient;
+	    _type = type;
 	    
-        self.query = theQuery;
+        _query = theQuery;
         
-	    self.list = [[NSMutableArray alloc] init];
+	    _list = [[NSMutableArray alloc] init];
 	    _iterator = -1;
         
-	    self.previous = [[NSMutableArray alloc] init];
-	    self.next = nil;
-	    self.cursor = nil;
+	    _previous = [[NSMutableArray alloc] init];
+	    _next = nil;
+	    _cursor = nil;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             ApigeeClientResponse* response = [self fetch];
@@ -171,9 +171,18 @@ completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
     ApigeeQuery* theQuery = nil;
 
     if (self.query) {
-        theQuery = self.query;
+        if( self.cursor != nil ) {
+            // Lets make a copy and add the "cursor" requirement.  This way it won't always be attached to our self.query object.
+            theQuery = [self.query copy];
+            [theQuery addRequiredOperation:@"cursor" op:kApigeeQueryOperationEquals valueStr:self.cursor];
+        } else {
+            theQuery = self.query;
+        }
     } else {
         if (self.cursor != nil) {
+            if( self.qs == nil ) {
+                self.qs = [[NSMutableDictionary alloc] init];
+            }
             [self.qs setValue:self.cursor forKey:@"cursor"];
         } else if ( [self.qs valueForKey:@"cursor"]  != nil ) {
             [self.qs removeObjectForKey:@"cursor"];
@@ -195,9 +204,10 @@ completionHandler:(ApigeeDataClientCompletionHandler)completionHandler
         self.cursor = theCursor;
         
         [self saveCursor:theCursor];
+        [self resetEntityPointer];
+        [self.list removeAllObjects];
+
         if ( count > 0 ) {
-            [self resetEntityPointer];
-            [self.list removeAllObjects];
             NSArray* retrievedEntities = [response entities];
             
             for( ApigeeEntity* retrievedEntity in retrievedEntities ) {
