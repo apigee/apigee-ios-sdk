@@ -28,6 +28,7 @@
 		6346AD1819E30AC9006F8F97 /* ApigeeMonitoringSettingsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6346AD0E19E30AC9006F8F97 /* ApigeeMonitoringSettingsTests.m */; };
 		6346AD1D19E30B09006F8F97 /* SampleData in Resources */ = {isa = PBXBuildFile; fileRef = 6346AD1C19E30B09006F8F97 /* SampleData */; };
 		6346AD2119E30C0E006F8F97 /* TestResources in Resources */ = {isa = PBXBuildFile; fileRef = 6346AD2019E30C0E006F8F97 /* TestResources */; };
+		6363BC581A0DB7C000C535F0 /* ApigeeGTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 6363BC571A0DB7C000C535F0 /* ApigeeGTMOAuth2ViewControllerTouch.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		637BC9DC181F02DD00F54D95 /* ApigeeLogging.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5250C1778F19200FCA013 /* ApigeeLogging.h */; };
 		637BC9EF182148F200F54D95 /* ApigeeAPSPayload.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BC9EE182148F200F54D95 /* ApigeeAPSPayload.m */; };
 		637BC9F21821498D00F54D95 /* ApigeeAPSAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 637BC9F11821498D00F54D95 /* ApigeeAPSAlert.m */; };
@@ -221,6 +222,19 @@
 		63F52589178B6EE700FCA013 /* ApigeeDefaultiOSLog.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F5250D1778F1F200FCA013 /* ApigeeDefaultiOSLog.h */; };
 		63F5258B178B6EFB00FCA013 /* ApigeeHTTPHelpers.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F525701781DF4000FCA013 /* ApigeeHTTPHelpers.h */; };
 		63F5258C178B6F0600FCA013 /* ApigeeHTTPResult.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63F525741781E07400FCA013 /* ApigeeHTTPResult.h */; };
+		63F73D4D19F7108A00775FD4 /* NSMutableURLRequest+Apigee.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D4C19F7108A00775FD4 /* NSMutableURLRequest+Apigee.m */; };
+		63F73D7419F7110C00775FD4 /* GTMGatherInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D6319F7110C00775FD4 /* GTMGatherInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63F73D7519F7110C00775FD4 /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D6519F7110C00775FD4 /* GTMHTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63F73D7619F7110C00775FD4 /* GTMHTTPFetcherLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D6719F7110C00775FD4 /* GTMHTTPFetcherLogging.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63F73D7719F7110C00775FD4 /* GTMHTTPFetcherLogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D6919F7110C00775FD4 /* GTMHTTPFetcherLogViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63F73D7819F7110C00775FD4 /* GTMHTTPFetcherService.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D6B19F7110C00775FD4 /* GTMHTTPFetcherService.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63F73D7919F7110C00775FD4 /* GTMHTTPFetchHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D6D19F7110C00775FD4 /* GTMHTTPFetchHistory.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63F73D7A19F7110C00775FD4 /* GTMHTTPUploadFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D6F19F7110C00775FD4 /* GTMHTTPUploadFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63F73D7B19F7110C00775FD4 /* GTMMIMEDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D7119F7110C00775FD4 /* GTMMIMEDocument.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63F73D7C19F7110C00775FD4 /* GTMReadMonitorInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D7319F7110C00775FD4 /* GTMReadMonitorInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63F73D8719F7111A00775FD4 /* GTMOAuth2Authentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D8019F7111A00775FD4 /* GTMOAuth2Authentication.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63F73D8819F7111A00775FD4 /* GTMOAuth2SignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D8219F7111A00775FD4 /* GTMOAuth2SignIn.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		63F73D8919F7111A00775FD4 /* GTMOAuth2ViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F73D8519F7111A00775FD4 /* GTMOAuth2ViewControllerTouch.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -297,6 +311,8 @@
 		6346AD0E19E30AC9006F8F97 /* ApigeeMonitoringSettingsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeMonitoringSettingsTests.m; sourceTree = "<group>"; };
 		6346AD1C19E30B09006F8F97 /* SampleData */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SampleData; sourceTree = "<group>"; };
 		6346AD2019E30C0E006F8F97 /* TestResources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TestResources; sourceTree = "<group>"; };
+		6363BC561A0DB7C000C535F0 /* ApigeeGTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApigeeGTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
+		6363BC571A0DB7C000C535F0 /* ApigeeGTMOAuth2ViewControllerTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeGTMOAuth2ViewControllerTouch.m; sourceTree = "<group>"; };
 		637BC9ED182148F200F54D95 /* ApigeeAPSPayload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeAPSPayload.h; path = Classes/AppServices/ApigeeAPSPayload.h; sourceTree = SOURCE_ROOT; };
 		637BC9EE182148F200F54D95 /* ApigeeAPSPayload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeAPSPayload.m; path = Classes/AppServices/ApigeeAPSPayload.m; sourceTree = SOURCE_ROOT; };
 		637BC9F01821498D00F54D95 /* ApigeeAPSAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeAPSAlert.h; path = Classes/AppServices/ApigeeAPSAlert.h; sourceTree = SOURCE_ROOT; };
@@ -604,6 +620,32 @@
 		63F525711781DF4500FCA013 /* ApigeeHTTPHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeHTTPHelpers.m; path = Classes/AppServices/ApigeeHTTPHelpers.m; sourceTree = SOURCE_ROOT; };
 		63F525741781E07400FCA013 /* ApigeeHTTPResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeHTTPResult.h; path = Classes/AppServices/ApigeeHTTPResult.h; sourceTree = SOURCE_ROOT; };
 		63F525751781E07800FCA013 /* ApigeeHTTPResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeHTTPResult.m; path = Classes/AppServices/ApigeeHTTPResult.m; sourceTree = SOURCE_ROOT; };
+		63F73D4B19F7108A00775FD4 /* NSMutableURLRequest+Apigee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableURLRequest+Apigee.h"; path = "Classes/Categories/NSMutableURLRequest+Apigee.h"; sourceTree = SOURCE_ROOT; };
+		63F73D4C19F7108A00775FD4 /* NSMutableURLRequest+Apigee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableURLRequest+Apigee.m"; path = "Classes/Categories/NSMutableURLRequest+Apigee.m"; sourceTree = SOURCE_ROOT; };
+		63F73D6219F7110C00775FD4 /* GTMGatherInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMGatherInputStream.h; sourceTree = "<group>"; };
+		63F73D6319F7110C00775FD4 /* GTMGatherInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMGatherInputStream.m; sourceTree = "<group>"; };
+		63F73D6419F7110C00775FD4 /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcher.h; sourceTree = "<group>"; };
+		63F73D6519F7110C00775FD4 /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcher.m; sourceTree = "<group>"; };
+		63F73D6619F7110C00775FD4 /* GTMHTTPFetcherLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherLogging.h; sourceTree = "<group>"; };
+		63F73D6719F7110C00775FD4 /* GTMHTTPFetcherLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherLogging.m; sourceTree = "<group>"; };
+		63F73D6819F7110C00775FD4 /* GTMHTTPFetcherLogViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherLogViewController.h; sourceTree = "<group>"; };
+		63F73D6919F7110C00775FD4 /* GTMHTTPFetcherLogViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherLogViewController.m; sourceTree = "<group>"; };
+		63F73D6A19F7110C00775FD4 /* GTMHTTPFetcherService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetcherService.h; sourceTree = "<group>"; };
+		63F73D6B19F7110C00775FD4 /* GTMHTTPFetcherService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetcherService.m; sourceTree = "<group>"; };
+		63F73D6C19F7110C00775FD4 /* GTMHTTPFetchHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPFetchHistory.h; sourceTree = "<group>"; };
+		63F73D6D19F7110C00775FD4 /* GTMHTTPFetchHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPFetchHistory.m; sourceTree = "<group>"; };
+		63F73D6E19F7110C00775FD4 /* GTMHTTPUploadFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMHTTPUploadFetcher.h; sourceTree = "<group>"; };
+		63F73D6F19F7110C00775FD4 /* GTMHTTPUploadFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMHTTPUploadFetcher.m; sourceTree = "<group>"; };
+		63F73D7019F7110C00775FD4 /* GTMMIMEDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMMIMEDocument.h; sourceTree = "<group>"; };
+		63F73D7119F7110C00775FD4 /* GTMMIMEDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMMIMEDocument.m; sourceTree = "<group>"; };
+		63F73D7219F7110C00775FD4 /* GTMReadMonitorInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMReadMonitorInputStream.h; sourceTree = "<group>"; };
+		63F73D7319F7110C00775FD4 /* GTMReadMonitorInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMReadMonitorInputStream.m; sourceTree = "<group>"; };
+		63F73D7F19F7111A00775FD4 /* GTMOAuth2Authentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2Authentication.h; sourceTree = "<group>"; };
+		63F73D8019F7111A00775FD4 /* GTMOAuth2Authentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2Authentication.m; sourceTree = "<group>"; };
+		63F73D8119F7111A00775FD4 /* GTMOAuth2SignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2SignIn.h; sourceTree = "<group>"; };
+		63F73D8219F7111A00775FD4 /* GTMOAuth2SignIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2SignIn.m; sourceTree = "<group>"; };
+		63F73D8419F7111A00775FD4 /* GTMOAuth2ViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMOAuth2ViewControllerTouch.h; sourceTree = "<group>"; };
+		63F73D8519F7111A00775FD4 /* GTMOAuth2ViewControllerTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMOAuth2ViewControllerTouch.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -801,6 +843,8 @@
 		63F522CD1778C30900FCA013 /* ThirdPartySource */ = {
 			isa = PBXGroup;
 			children = (
+				63F73D7D19F7111A00775FD4 /* gtm-oauth2 */,
+				63F73D5F19F7110C00775FD4 /* GTMHTTPFetcher */,
 				638C628E17A71B6B0066DC15 /* SSKeychain */,
 			);
 			name = ThirdPartySource;
@@ -916,6 +960,8 @@
 		63F522EB1778C45B00FCA013 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				63F73D4B19F7108A00775FD4 /* NSMutableURLRequest+Apigee.h */,
+				63F73D4C19F7108A00775FD4 /* NSMutableURLRequest+Apigee.m */,
 				63F5243D1778D34700FCA013 /* NSArray+ApigeeConfigFilters.h */,
 				63F5243E1778D34700FCA013 /* NSArray+ApigeeConfigFilters.m */,
 				63F5243F1778D34700FCA013 /* NSDate+Apigee.h */,
@@ -1302,6 +1348,72 @@
 			name = Network;
 			sourceTree = "<group>";
 		};
+		63F73D5F19F7110C00775FD4 /* GTMHTTPFetcher */ = {
+			isa = PBXGroup;
+			children = (
+				63F73D6119F7110C00775FD4 /* Source */,
+			);
+			name = GTMHTTPFetcher;
+			path = ThirdParty/GTMHTTPFetcher;
+			sourceTree = "<group>";
+		};
+		63F73D6119F7110C00775FD4 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				63F73D6219F7110C00775FD4 /* GTMGatherInputStream.h */,
+				63F73D6319F7110C00775FD4 /* GTMGatherInputStream.m */,
+				63F73D6419F7110C00775FD4 /* GTMHTTPFetcher.h */,
+				63F73D6519F7110C00775FD4 /* GTMHTTPFetcher.m */,
+				63F73D6619F7110C00775FD4 /* GTMHTTPFetcherLogging.h */,
+				63F73D6719F7110C00775FD4 /* GTMHTTPFetcherLogging.m */,
+				63F73D6819F7110C00775FD4 /* GTMHTTPFetcherLogViewController.h */,
+				63F73D6919F7110C00775FD4 /* GTMHTTPFetcherLogViewController.m */,
+				63F73D6A19F7110C00775FD4 /* GTMHTTPFetcherService.h */,
+				63F73D6B19F7110C00775FD4 /* GTMHTTPFetcherService.m */,
+				63F73D6C19F7110C00775FD4 /* GTMHTTPFetchHistory.h */,
+				63F73D6D19F7110C00775FD4 /* GTMHTTPFetchHistory.m */,
+				63F73D6E19F7110C00775FD4 /* GTMHTTPUploadFetcher.h */,
+				63F73D6F19F7110C00775FD4 /* GTMHTTPUploadFetcher.m */,
+				63F73D7019F7110C00775FD4 /* GTMMIMEDocument.h */,
+				63F73D7119F7110C00775FD4 /* GTMMIMEDocument.m */,
+				63F73D7219F7110C00775FD4 /* GTMReadMonitorInputStream.h */,
+				63F73D7319F7110C00775FD4 /* GTMReadMonitorInputStream.m */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		63F73D7D19F7111A00775FD4 /* gtm-oauth2 */ = {
+			isa = PBXGroup;
+			children = (
+				63F73D7E19F7111A00775FD4 /* Source */,
+			);
+			name = "gtm-oauth2";
+			path = "ThirdParty/gtm-oauth2";
+			sourceTree = "<group>";
+		};
+		63F73D7E19F7111A00775FD4 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				63F73D7F19F7111A00775FD4 /* GTMOAuth2Authentication.h */,
+				63F73D8019F7111A00775FD4 /* GTMOAuth2Authentication.m */,
+				63F73D8119F7111A00775FD4 /* GTMOAuth2SignIn.h */,
+				63F73D8219F7111A00775FD4 /* GTMOAuth2SignIn.m */,
+				63F73D8319F7111A00775FD4 /* Touch */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		63F73D8319F7111A00775FD4 /* Touch */ = {
+			isa = PBXGroup;
+			children = (
+				63F73D8419F7111A00775FD4 /* GTMOAuth2ViewControllerTouch.h */,
+				63F73D8519F7111A00775FD4 /* GTMOAuth2ViewControllerTouch.m */,
+				6363BC561A0DB7C000C535F0 /* ApigeeGTMOAuth2ViewControllerTouch.h */,
+				6363BC571A0DB7C000C535F0 /* ApigeeGTMOAuth2ViewControllerTouch.m */,
+			);
+			path = Touch;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1442,17 +1554,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63F73D4D19F7108A00775FD4 /* NSMutableURLRequest+Apigee.m in Sources */,
 				637BCAAC1829457400F54D95 /* ApigeeUIEventSegmentSelected.m in Sources */,
 				63F524311778D31A00FCA013 /* ApigeeActivity.m in Sources */,
 				63F524321778D31A00FCA013 /* ApigeeClientResponse.m in Sources */,
 				638E332218A06E8600A37F22 /* ApigeePLCrashFrameWalker.c in Sources */,
+				63F73D7C19F7110C00775FD4 /* GTMReadMonitorInputStream.m in Sources */,
 				638E335C18A06E9300A37F22 /* ApigeePLCrashReporterNSError.m in Sources */,
+				63F73D7719F7110C00775FD4 /* GTMHTTPFetcherLogViewController.m in Sources */,
 				638E332A18A06E8600A37F22 /* ApigeePLCrashReport.m in Sources */,
 				638E336B18A06E9300A37F22 /* ApigeePLCrashTestThread.m in Sources */,
 				63ACC61718884EA100C87C83 /* ApigeeCounterIncrement.m in Sources */,
 				638E32DE18A06E7600A37F22 /* ApigeePLCrashAsyncDwarfCFAState.cpp in Sources */,
 				638E32DD18A06E7600A37F22 /* ApigeePLCrashAsyncCompactUnwindEncoding.c in Sources */,
 				638E335818A06E9300A37F22 /* ApigeePLCrashReportApplicationInfo.m in Sources */,
+				63F73D7419F7110C00775FD4 /* GTMGatherInputStream.m in Sources */,
 				638E331C18A06E8600A37F22 /* ApigeePLCrashAsyncThread_current.S in Sources */,
 				638E337018A06EF500A37F22 /* crash_report.pb-c.c in Sources */,
 				63F524331778D31A00FCA013 /* ApigeeCollection.m in Sources */,
@@ -1477,10 +1593,12 @@
 				637BCAAF182945DE00F54D95 /* ApigeeUIEventScreenVisibility.m in Sources */,
 				63F524511778D34700FCA013 /* UIDevice+Apigee.m in Sources */,
 				63F524571778D35E00FCA013 /* ApigeeReachability.m in Sources */,
+				63F73D7519F7110C00775FD4 /* GTMHTTPFetcher.m in Sources */,
 				63F5245C1778D3C600FCA013 /* protobuf-c.c in Sources */,
 				63F5245F1778D42700FCA013 /* ApigeeSessionMetricsCompiler.m in Sources */,
 				638E336318A06E9300A37F22 /* ApigeePLCrashReportSignalInfo.m in Sources */,
 				638E331F18A06E8600A37F22 /* ApigeePLCrashFrameCompactUnwind.c in Sources */,
+				63F73D7A19F7110C00775FD4 /* GTMHTTPUploadFetcher.m in Sources */,
 				63F524641778D44400FCA013 /* ApigeeLogCompiler.m in Sources */,
 				63F524651778D44400FCA013 /* ApigeeLogger.m in Sources */,
 				638E335E18A06E9300A37F22 /* ApigeePLCrashReportMachExceptionInfo.m in Sources */,
@@ -1494,6 +1612,7 @@
 				638E332018A06E8600A37F22 /* ApigeePLCrashFrameDWARFUnwind.cpp in Sources */,
 				638E331E18A06E8600A37F22 /* ApigeePLCrashAsyncThread.c in Sources */,
 				63F5247F1778E9D300FCA013 /* ApigeeClient.m in Sources */,
+				63F73D7819F7110C00775FD4 /* GTMHTTPFetcherService.m in Sources */,
 				638E332618A06E8600A37F22 /* ApigeePLCrashMachExceptionPort.m in Sources */,
 				638E331818A06E8600A37F22 /* ApigeePLCrashAsyncSignalInfo.c in Sources */,
 				63F524841778E9E400FCA013 /* ApigeeAppIdentification.m in Sources */,
@@ -1501,18 +1620,23 @@
 				638E32E818A06E7600A37F22 /* ApigeePLCrashAsyncMachOImage.c in Sources */,
 				63F5248A1778EA3900FCA013 /* ApigeeConfigFilter.m in Sources */,
 				63F5248D1778EA4E00FCA013 /* ApigeeApp.m in Sources */,
+				63F73D8819F7111A00775FD4 /* GTMOAuth2SignIn.m in Sources */,
 				638E332118A06E8600A37F22 /* ApigeePLCrashFrameStackUnwind.c in Sources */,
+				63F73D7B19F7110C00775FD4 /* GTMMIMEDocument.m in Sources */,
 				63F524901778EA6200FCA013 /* ApigeeMonitoringSettings.m in Sources */,
 				63F524931778EA7900FCA013 /* ApigeeNetworkConfig.m in Sources */,
 				638E32DA18A06E7600A37F22 /* ApigeeCrashReporter.m in Sources */,
 				637BCAA61829448300F54D95 /* ApigeeUIEventButtonPress.m in Sources */,
+				63F73D7619F7110C00775FD4 /* GTMHTTPFetcherLogging.m in Sources */,
 				637BCAB51829484F00F54D95 /* UIApplication+ApigeeSwizzling.m in Sources */,
 				638E336218A06E9300A37F22 /* ApigeePLCrashReportRegisterInfo.m in Sources */,
 				63F524961778EA9100FCA013 /* ApigeeCustomConfigParam.m in Sources */,
+				63F73D8919F7111A00775FD4 /* GTMOAuth2ViewControllerTouch.m in Sources */,
 				63B68EFE18035433003424E1 /* ApigeeNSURLSessionDataTaskInfo.m in Sources */,
 				637BCAA3182943FC00F54D95 /* ApigeeUIControlEvent.m in Sources */,
 				637BCAB8182948DE00F54D95 /* UIViewController+ApigeeSwizzling.m in Sources */,
 				637BC9F518214FC900F54D95 /* ApigeeAPSDestination.m in Sources */,
+				63F73D8719F7111A00775FD4 /* GTMOAuth2Authentication.m in Sources */,
 				638E336918A06E9300A37F22 /* ApigeePLCrashSignalHandler.mm in Sources */,
 				638E32D818A06E7600A37F22 /* apigee_dwarf_opstream.cpp in Sources */,
 				638E32DC18A06E7600A37F22 /* ApigeePLCrashAsyncAllocator.c in Sources */,
@@ -1532,6 +1656,7 @@
 				638E336118A06E9300A37F22 /* ApigeePLCrashReportProcessorInfo.m in Sources */,
 				638E336A18A06E9300A37F22 /* ApigeePLCrashSysctl.c in Sources */,
 				63F524E81778ED7200FCA013 /* ApigeeMonitoringOptions.m in Sources */,
+				6363BC581A0DB7C000C535F0 /* ApigeeGTMOAuth2ViewControllerTouch.m in Sources */,
 				63F524EB1778EDBF00FCA013 /* ApigeeIntervalTimer.m in Sources */,
 				638E331A18A06E8600A37F22 /* ApigeePLCrashAsyncThread_arm.c in Sources */,
 				63F524EE1778EDDD00FCA013 /* ApigeeActiveSettings.m in Sources */,
@@ -1547,6 +1672,7 @@
 				638E336418A06E9300A37F22 /* ApigeePLCrashReportStackFrameInfo.m in Sources */,
 				63F525011778EF0400FCA013 /* ApigeeMonitoringSettings+JSON.m in Sources */,
 				63F525041778EF1C00FCA013 /* ApigeeNetworkConfig+JSON.m in Sources */,
+				63F73D7919F7110C00775FD4 /* GTMHTTPFetchHistory.m in Sources */,
 				63F525071778EF2F00FCA013 /* ApigeeCustomConfigParam+JSON.m in Sources */,
 				63F5250A1778EF4000FCA013 /* ApigeeConfigFilter+JSON.m in Sources */,
 				638E331B18A06E8600A37F22 /* ApigeePLCrashAsyncThread_current.c in Sources */,

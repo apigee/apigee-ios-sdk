@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="qWd-ed-Cdl">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="KM5-Hb-Rhm">
+            <objects>
+                <navigationController id="qWd-ed-Cdl" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="OOU-U9-qaM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="HXN-sr-B85"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xNu-fN-tYa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1159" y="-16"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Access Token: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AP7-AC-7UT">
+                                <rect key="frame" x="241" y="90" width="118.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="117" y="177" width="116" height="21"/>
+                                </variation>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Email:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IdA-io-fRz">
+                                <rect key="frame" x="276" y="142.5" width="48" height="20.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="N/A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="gj4-gG-3nx">
+                                <rect key="frame" x="285.5" y="171" width="29.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTm-Bs-7rA">
+                                <rect key="frame" x="238" y="491.5" width="124" height="30"/>
+                                <state key="normal" title="Post To Facebook">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="217" width="124" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="298" width="124" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="postToFacebook:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="WRE-hg-jLf"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="OAuth2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Obr-kh-H5l">
+                                <rect key="frame" x="252" y="40" width="96.5" height="33.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rov-cI-gte">
+                                <rect key="frame" x="171.5" y="293.5" width="257" height="30"/>
+                                <state key="normal" title="Apigee Token using client_credentials">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="217" width="124" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="298" width="124" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="grabAccessTokenUsingClientCredentialsGrantType:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="3d2-kY-x5e"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H6u-MG-9ay">
+                                <rect key="frame" x="197.5" y="360.5" width="205" height="30"/>
+                                <state key="normal" title="Apigee Token using password">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="217" width="124" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="298" width="124" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="grabAccessTokenUsingPasswordGrantType:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="1mN-tW-WLr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wib-ed-FNM">
+                                <rect key="frame" x="157" y="445.5" width="286" height="30"/>
+                                <state key="normal" title="Facebook Token using authorization code">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="217" width="124" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="298" width="124" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="grabAccessTokenUsingAuthorizationCodeGrantType:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="1zr-XG-L6Y"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z4S-9y-vxc">
+                                <rect key="frame" x="230.5" y="468.5" width="139" height="30"/>
+                                <state key="normal" title="Get Facebook Email">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="217" width="124" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="298" width="124" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="getFacebookEmail:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Pbj-Xq-cN4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WcR-vt-MvB">
+                                <rect key="frame" x="232" y="529.5" width="136" height="30"/>
+                                <state key="normal" title="Store Access Token">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="217" width="124" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="298" width="124" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="storeTokens:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="bAc-qf-Rv3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2qB-PV-MhR">
+                                <rect key="frame" x="197" y="551.5" width="206" height="30"/>
+                                <state key="normal" title="Retrieve Stored Access Token">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="217" width="124" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="298" width="124" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="retrieveTokens:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FI5-x0-Px9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fbF-4d-hmH">
+                                <rect key="frame" x="203.5" y="573.5" width="193" height="30"/>
+                                <state key="normal" title="Delete Stored Access Token">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="217" width="124" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="298" width="124" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="deleteStoredTokens:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="f1k-J7-U4j"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3RG-KO-mLO">
+                                <rect key="frame" x="196" y="423.5" width="208" height="30"/>
+                                <state key="normal" title="Facebook Token using implicit">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="217" width="124" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="298" width="124" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="grabAccessTokenUsingImplicitGrantType:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="GM1-Oi-udS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Owc-W6-tAn">
+                                <rect key="frame" x="240.5" y="385.5" width="119" height="30"/>
+                                <state key="normal" title="Get Apigee Email">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="217" width="124" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="298" width="124" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="getApigeeEmail:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Fr9-Mi-dlg"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Temp in Palo Alto:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y5C-iJ-GiD">
+                                <rect key="frame" x="229" y="199.5" width="142.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="N/A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="Odj-fc-D5Q">
+                                <rect key="frame" x="206.5" y="227" width="187" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="187" id="NSj-Xa-iGh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Tn-bc-Xb9">
+                                <rect key="frame" x="233.5" y="317.5" width="133" height="30"/>
+                                <state key="normal" title="Get Palo Alto Temp">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="217" width="124" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="298" width="124" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="getApigeePaloAltoTemp:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="5Au-9v-7hQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Npk-sE-VbY">
+                                <rect key="frame" x="263.5" y="249.5" width="73" height="30"/>
+                                <state key="normal" title="Clear Data">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="217" width="124" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="129" y="298" width="124" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="clearTokenAndEmail:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="FrD-dk-dej"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="N/A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="5" preferredMaxLayoutWidth="173" translatesAutoresizingMaskIntoConstraints="NO" id="Zgk-Do-JzL">
+                                <rect key="frame" x="208.5" y="114" width="183" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="183" id="wuu-dD-QUm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="235" y="177" width="30" height="21"/>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="3RG-KO-mLO" secondAttribute="centerX" id="0Gk-H1-OEF"/>
+                            <constraint firstItem="2Tn-bc-Xb9" firstAttribute="top" secondItem="rov-cI-gte" secondAttribute="bottom" constant="-6" id="1IE-ux-DKC"/>
+                            <constraint firstAttribute="centerX" secondItem="AP7-AC-7UT" secondAttribute="centerX" id="1eQ-rh-NmC"/>
+                            <constraint firstAttribute="centerX" secondItem="WcR-vt-MvB" secondAttribute="centerX" id="1ry-ze-hIm"/>
+                            <constraint firstItem="H6u-MG-9ay" firstAttribute="top" secondItem="2Tn-bc-Xb9" secondAttribute="bottom" constant="13" id="26o-ue-njF"/>
+                            <constraint firstItem="3RG-KO-mLO" firstAttribute="top" secondItem="Owc-W6-tAn" secondAttribute="bottom" constant="8" id="2CB-BU-jMG"/>
+                            <constraint firstAttribute="centerX" secondItem="gj4-gG-3nx" secondAttribute="centerX" id="2qE-rB-FbS"/>
+                            <constraint firstItem="rov-cI-gte" firstAttribute="top" secondItem="Npk-sE-VbY" secondAttribute="bottom" constant="14" id="5le-xE-nG6"/>
+                            <constraint firstAttribute="centerX" secondItem="H6u-MG-9ay" secondAttribute="centerX" id="61l-vr-Nop"/>
+                            <constraint firstAttribute="centerX" secondItem="2Tn-bc-Xb9" secondAttribute="centerX" id="6hs-jY-hc9"/>
+                            <constraint firstItem="CTm-Bs-7rA" firstAttribute="top" secondItem="z4S-9y-vxc" secondAttribute="bottom" constant="-7" id="BMe-9q-CEd"/>
+                            <constraint firstItem="Npk-sE-VbY" firstAttribute="top" secondItem="Odj-fc-D5Q" secondAttribute="bottom" constant="2" id="DAc-wk-MsB"/>
+                            <constraint firstAttribute="centerX" secondItem="Odj-fc-D5Q" secondAttribute="centerX" id="DZI-tk-yRB"/>
+                            <constraint firstItem="Owc-W6-tAn" firstAttribute="top" secondItem="H6u-MG-9ay" secondAttribute="bottom" constant="-5" id="GAD-I7-dH8"/>
+                            <constraint firstItem="fbF-4d-hmH" firstAttribute="top" secondItem="2qB-PV-MhR" secondAttribute="bottom" constant="-8" id="KLJ-Sc-oIa"/>
+                            <constraint firstItem="WcR-vt-MvB" firstAttribute="top" secondItem="CTm-Bs-7rA" secondAttribute="bottom" constant="8" id="LMY-fH-hac"/>
+                            <constraint firstAttribute="centerX" secondItem="Npk-sE-VbY" secondAttribute="centerX" id="Lwv-wo-uYh"/>
+                            <constraint firstItem="Obr-kh-H5l" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="20" id="PSg-bX-9N3"/>
+                            <constraint firstItem="wib-ed-FNM" firstAttribute="top" secondItem="3RG-KO-mLO" secondAttribute="bottom" constant="-8" id="Pqh-qY-G7T"/>
+                            <constraint firstAttribute="centerX" secondItem="Y5C-iJ-GiD" secondAttribute="centerX" id="Q3J-1U-n24"/>
+                            <constraint firstItem="Zgk-Do-JzL" firstAttribute="top" secondItem="AP7-AC-7UT" secondAttribute="bottom" constant="3.5" id="S6H-m1-uHS"/>
+                            <constraint firstItem="2qB-PV-MhR" firstAttribute="top" secondItem="WcR-vt-MvB" secondAttribute="bottom" constant="-8" id="Se3-81-J4K"/>
+                            <constraint firstAttribute="centerX" secondItem="Owc-W6-tAn" secondAttribute="centerX" id="TlR-vo-Gwt"/>
+                            <constraint firstItem="gj4-gG-3nx" firstAttribute="top" secondItem="IdA-io-fRz" secondAttribute="bottom" constant="8" id="U2n-Qy-2pA"/>
+                            <constraint firstAttribute="centerX" secondItem="wib-ed-FNM" secondAttribute="centerX" id="UjM-1W-n6B"/>
+                            <constraint firstAttribute="centerX" secondItem="Zgk-Do-JzL" secondAttribute="centerX" id="VPr-ER-52x"/>
+                            <constraint firstAttribute="centerX" secondItem="fbF-4d-hmH" secondAttribute="centerX" id="dPb-Ja-Wq3"/>
+                            <constraint firstAttribute="centerX" secondItem="rov-cI-gte" secondAttribute="centerX" id="gJu-jF-ghq"/>
+                            <constraint firstItem="z4S-9y-vxc" firstAttribute="top" secondItem="wib-ed-FNM" secondAttribute="bottom" constant="-7" id="hGY-ge-vzo"/>
+                            <constraint firstItem="Y5C-iJ-GiD" firstAttribute="top" secondItem="gj4-gG-3nx" secondAttribute="bottom" constant="8" id="hqk-dJ-jBa"/>
+                            <constraint firstItem="Odj-fc-D5Q" firstAttribute="top" secondItem="Y5C-iJ-GiD" secondAttribute="bottom" constant="7" id="k7Y-sb-I9U"/>
+                            <constraint firstItem="IdA-io-fRz" firstAttribute="top" secondItem="Zgk-Do-JzL" secondAttribute="bottom" constant="8" id="k7d-3T-kO1"/>
+                            <constraint firstItem="AP7-AC-7UT" firstAttribute="top" secondItem="Obr-kh-H5l" secondAttribute="bottom" constant="16.5" id="knx-QG-PYD"/>
+                            <constraint firstAttribute="centerX" secondItem="CTm-Bs-7rA" secondAttribute="centerX" id="onY-el-npo"/>
+                            <constraint firstAttribute="centerX" secondItem="Obr-kh-H5l" secondAttribute="centerX" id="qeO-p0-2Fe"/>
+                            <constraint firstAttribute="centerX" secondItem="IdA-io-fRz" secondAttribute="centerX" id="sQH-Yg-tcZ"/>
+                            <constraint firstAttribute="centerX" secondItem="z4S-9y-vxc" secondAttribute="centerX" id="t6R-04-Kxr"/>
+                            <constraint firstAttribute="centerX" secondItem="2qB-PV-MhR" secondAttribute="centerX" id="yrR-dK-YmW"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="95z-wB-W2j"/>
+                    <connections>
+                        <outlet property="accessTokenLabel" destination="Zgk-Do-JzL" id="mkt-Ac-BzU"/>
+                        <outlet property="emailLabel" destination="gj4-gG-3nx" id="JYo-nK-OLl"/>
+                        <outlet property="tempLabel" destination="Odj-fc-D5Q" id="T3a-rC-Fod"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-485" y="-16"/>
+        </scene>
+    </scenes>
+</document>

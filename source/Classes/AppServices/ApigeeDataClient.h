@@ -59,6 +59,7 @@ set the response limit in ApigeeQuery as well.
 @class ApigeeCounterIncrement;
 
 typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response);
+typedef void (^ApigeeOAuth2CompletionHandler)(NSString *accessToken, NSString* refreshToken, NSError* error);
 
 /*!
  @class ApigeeDataClient
@@ -1850,6 +1851,84 @@ typedef void (^ApigeeDataClientCompletionHandler)(ApigeeClientResponse *response
 -(ApigeeClientResponse*)getAssetDataForEntity:(ApigeeEntity *)entity
                           acceptedContentType:(NSString *)acceptedContentType;
 
+
+//**********************  OAUTH 2  **************************
+/*!
+ @abstract Retrives the access and refresh tokens using the OAuth2 grant_type of password
+ @param accessTokenURL The access token URL
+ @param userName The username to use for authorization
+ @param password The password to use for authorization
+ @param clientID The client_id to use for authorization
+ @param completionHandler The completion handler that will be called once authorization has been completed.
+ */
+-(void)accessTokenWithURL:(NSString*)accessTokenURL
+                 username:(NSString*)userName
+                 password:(NSString*)password
+                 clientID:(NSString*)clientID
+        completionHandler:(ApigeeOAuth2CompletionHandler)completionHandler;
+
+/*!
+ @abstract Retrives the access and refresh tokens using the OAuth2 grant_type of client_credentials.
+ @param accessTokenURL The access token URL
+ @param clientID The client_id to use for authorization.
+ @param clientSecret The client_secret to use for authorization.
+ @param completionHandler The completion handler that will be called once authorization has been completed.
+ @discussion The clientID and clientSecret will be sent using with basic auth in the Authorization header of the request.
+ */
+-(void)accessTokenWithURL:(NSString*)accessTokenURL
+                 clientID:(NSString*)clientID
+             clientSecret:(NSString*)clientSecret
+        completionHandler:(ApigeeOAuth2CompletionHandler)completionHandler;
+
+/*!
+ @abstract Retrives the access and refresh tokens using the OAuth2 using the 3-legged approach
+ @param serviceProvider The service providers name associated with the
+ @param authorizeURL The authorization URL
+ @param tokenURL The access token URL
+ @param redirectURL The redirect URL
+ @param clientID The client_id to use for authorization.
+ @param clientSecret The client_secret to use for authorization.
+ @param scope The scope of the authorization. Can be nil.
+ @param keyChainItemName The name used to store the tokens within the systems keychain.
+ @param navigationController The navigation contoller to use when showing the web view when authorizing.
+ @param completionHandler The completion handler that will be called once authorization has been completed.
+ */
+-(void)authorizeOAuth2:(NSString*)serviceProvider
+          authorizeURL:(NSString*)authorizeURL
+              tokenURL:(NSString*)tokenURL
+           redirectURL:(NSString*)redirectURL
+              clientID:(NSString*)clientID
+          clientSecret:(NSString*)clientSecret
+                 scope:(NSString*)scope
+      keyChainItemName:(NSString*)keyChainItemName
+  navigationController:(UINavigationController*)navigationController
+     completionHandler:(ApigeeOAuth2CompletionHandler)completionHandler;
+
+/*!
+ @abstract Stores the given OAuth2 access token and refresh token into the keychain under the given name.
+ @param keychainItemName The keychain item name in which to store the tokens.
+ @param accessToken The access token.
+ @param refreshToken The refresh token.
+ @param error If an error occurs while storing the tokens this will be populated with the error.
+ */
+-(void)storeOAuth2TokensInKeychain:(NSString*)keychainItemName
+                       accessToken:(NSString*)accessToken
+                      refreshToken:(NSString*)refreshToken
+                             error:(NSError**)error;
+
+/*!
+ @abstract Retrives the OAuth2 access token and refresh token from the keychain with the given name.
+ @param keychainItemName The keychain item name in which to store the tokens.
+ @param completionHandler The completion handler that will be called once the tokens have been retrieved or if an error occurred.
+ */
+-(void)retrieveStoredOAuth2TokensFromKeychain:(NSString*)keychainItemName
+                            completionHandler:(ApigeeOAuth2CompletionHandler)completion;
+
+/*!
+ @abstract Removes the OAuth2 access token and refresh token from the keychain with the given name.
+ @param keychainItemName The keychain item name in which to store the tokens.
+ */
+-(void)removeStoredOAuth2TokensFromKeychain:(NSString*)keychainItemName;
 
 //**********************  EVENTS AND COUNTERS  **************************
 - (ApigeeClientResponse*)createEvent:(NSDictionary*)dictEvent;
