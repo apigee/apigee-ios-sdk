@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		632894481A71BED50067A1F2 /* ApigeeAPSDestinationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 632894471A71BED50067A1F2 /* ApigeeAPSDestinationTests.m */; };
 		6346ACE519E30683006F8F97 /* libApigeeiOSSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F522BB1778C2B200FCA013 /* libApigeeiOSSDK.a */; };
 		6346ACE619E30687006F8F97 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253A177A36E600FCA013 /* CoreLocation.framework */; };
 		6346ACE719E30687006F8F97 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F5253C177A36F100FCA013 /* SystemConfiguration.framework */; };
@@ -295,6 +296,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		632894471A71BED50067A1F2 /* ApigeeAPSDestinationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeAPSDestinationTests.m; sourceTree = "<group>"; };
 		6346AC9C19E305F2006F8F97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6346ACDC19E3067B006F8F97 /* ApigeeiOSSDK IntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ApigeeiOSSDK IntegrationTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6346ACED19E30756006F8F97 /* ApigeeAssetManagementTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApigeeAssetManagementTests.m; sourceTree = "<group>"; };
@@ -741,6 +743,7 @@
 				6346AD1C19E30B09006F8F97 /* SampleData */,
 				6346AD0919E30AC9006F8F97 /* ApigeeAppIdentificationTests.m */,
 				6346AD0A19E30AC9006F8F97 /* ApigeeAppTest.m */,
+				632894471A71BED50067A1F2 /* ApigeeAPSDestinationTests.m */,
 				6346AD0B19E30AC9006F8F97 /* ApigeeAuthTokenTest.m */,
 				6346AD0C19E30AC9006F8F97 /* ApigeeClientTests.m */,
 				6346AD0D19E30AC9006F8F97 /* ApigeeEntityResponseTest.m */,
@@ -1542,6 +1545,7 @@
 			files = (
 				6346AD1519E30AC9006F8F97 /* ApigeeAuthTokenTest.m in Sources */,
 				6346AD1419E30AC9006F8F97 /* ApigeeAppTest.m in Sources */,
+				632894481A71BED50067A1F2 /* ApigeeAPSDestinationTests.m in Sources */,
 				6346AD1319E30AC9006F8F97 /* ApigeeAppIdentificationTests.m in Sources */,
 				6346AD1819E30AC9006F8F97 /* ApigeeMonitoringSettingsTests.m in Sources */,
 				639A531B1A26211C00640C89 /* NSURLConnectionSwizzleTests.m in Sources */,
