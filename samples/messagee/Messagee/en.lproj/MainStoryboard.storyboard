@@ -348,20 +348,16 @@
                                                 </connections>
                                             </button>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" style="done" id="4KQ-IY-yxJ">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Yza-8H-zS0">
-                                                <rect key="frame" x="264" y="6" width="51" height="33"/>
+                                        <barButtonItem key="rightBarButtonItem" image="newMessage.png" style="done" id="JMU-N7-YIr">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FFM-Io-7pu">
+                                                <rect key="frame" x="257" y="8" width="45" height="29"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                <state key="normal" title="Button" image="newMessage.png">
-                                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                <state key="normal" image="newMessage.png">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
-                                                <state key="highlighted">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
                                                 <connections>
-                                                    <segue destination="osk-MO-SoV" kind="modal" identifier="newMessageSegue" modalTransitionStyle="flipHorizontal" id="fHI-eg-NoC"/>
+                                                    <segue destination="osk-MO-SoV" kind="modal" id="oLL-2I-3iM"/>
                                                 </connections>
                                             </button>
                                         </barButtonItem>
