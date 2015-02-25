@@ -50,7 +50,7 @@
 + (ApigeeAPSDestination*)destinationAllDevices
 {
     ApigeeAPSDestination* destination = [[ApigeeAPSDestination alloc] init];
-    destination.deliveryPath = @"devices;ql=*";
+    destination.deliveryPath = @"devices/*";
     return destination;
 }
 

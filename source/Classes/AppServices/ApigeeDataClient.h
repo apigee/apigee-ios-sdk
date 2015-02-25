@@ -16,6 +16,7 @@
 
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "ApigeeClientResponse.h"
 #import "ApigeeClientDelegate.h"
 #import "ApigeeQuery.h"
