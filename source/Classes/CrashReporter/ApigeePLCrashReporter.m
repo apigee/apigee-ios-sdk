@@ -556,7 +556,7 @@ static ApigeePLCrashReporter *sharedReporter = nil;
         pthread_mutex_lock(&enforceOneLock); {
             if (enforceOne) {
                 pthread_mutex_unlock(&enforceOneLock);
-                plcrash_populate_error(outError, ApigeePLCrashReporterErrorResourceBusy, @"A PLCrashReporter instance has already been enabled", nil);
+                apigee_plcrash_populate_error(outError, ApigeePLCrashReporterErrorResourceBusy, @"A PLCrashReporter instance has already been enabled", nil);
                 return NO;
             }
             enforceOne = YES;
@@ -693,7 +693,7 @@ static apigee_plcrash_error_t plcr_live_report_callback (apigee_plcrash_async_th
     
     int fd = mkstemp(path);
     if (fd < 0) {
-        plcrash_populate_posix_error(outError, errno, NSLocalizedString(@"Failed to create temporary path", @"Error opening temporary output path"));
+        apigee_plcrash_populate_posix_error(outError, errno, NSLocalizedString(@"Failed to create temporary path", @"Error opening temporary output path"));
         free(path);
 
         return nil;
@@ -734,7 +734,7 @@ static apigee_plcrash_error_t plcr_live_report_callback (apigee_plcrash_async_th
     NSData *data;
     if (err != APIGEE_PLCRASH_ESUCCESS) {
         NSLog(@"Write failed with error %s", apigee_plcrash_async_strerror(err));
-        plcrash_populate_error(outError, ApigeePLCrashReporterErrorUnknown, @"Failed to write the crash report to disk", nil);
+        apigee_plcrash_populate_error(outError, ApigeePLCrashReporterErrorUnknown, @"Failed to write the crash report to disk", nil);
         data = nil;
         goto cleanup;
     }
@@ -742,7 +742,7 @@ static apigee_plcrash_error_t plcr_live_report_callback (apigee_plcrash_async_th
     data = [NSData dataWithContentsOfFile: [NSString stringWithUTF8String: path]];
     if (data == nil) {
         /* This should only happen if our data is deleted out from under us */
-        plcrash_populate_error(outError, ApigeePLCrashReporterErrorUnknown, NSLocalizedString(@"Unable to open live crash report for reading", nil), nil);
+        apigee_plcrash_populate_error(outError, ApigeePLCrashReporterErrorUnknown, NSLocalizedString(@"Unable to open live crash report for reading", nil), nil);
         goto cleanup;
     }
 
@@ -945,20 +945,20 @@ cleanup:
     NSError *osError;
     ApigeePLCrashMachExceptionServer *server = [[[ApigeePLCrashMachExceptionServer alloc] initWithCallBack: callback context: context error: &osError] autorelease];
     if (server == nil) {
-        plcrash_populate_error(outError, ApigeePLCrashReporterErrorOperatingSystem, @"Failed to instantiate the Mach exception server.", osError);
+        apigee_plcrash_populate_error(outError, ApigeePLCrashReporterErrorOperatingSystem, @"Failed to instantiate the Mach exception server.", osError);
         return nil;
     }
     
     /* Allocate the port */
     ApigeePLCrashMachExceptionPort *port = [server exceptionPortWithMask: exc_mask error: &osError];
     if (port == nil) {
-        plcrash_populate_error(outError, ApigeePLCrashReporterErrorOperatingSystem, @"Failed to instantiate the Mach exception port.", osError);
+        apigee_plcrash_populate_error(outError, ApigeePLCrashReporterErrorOperatingSystem, @"Failed to instantiate the Mach exception port.", osError);
         return nil;
     }
     
     /* Register for the task */
     if (![port registerForTask: mach_task_self() previousPortSet: previousPortSet error: &osError]) {
-        plcrash_populate_error(outError, ApigeePLCrashReporterErrorOperatingSystem, @"Failed to set the target task's mach exception ports.", osError);
+        apigee_plcrash_populate_error(outError, ApigeePLCrashReporterErrorOperatingSystem, @"Failed to set the target task's mach exception ports.", osError);
         return nil;
     }
 

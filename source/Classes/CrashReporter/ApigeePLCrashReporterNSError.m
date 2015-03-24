@@ -37,7 +37,7 @@
  * @param description A localized error description.
  * @param cause The underlying cause, if any. May be nil.
  */
-void plcrash_populate_error (NSError **error, ApigeePLCrashReporterError code, NSString *description, NSError *cause) {
+void apigee_plcrash_populate_error (NSError **error, ApigeePLCrashReporterError code, NSString *description, NSError *cause) {
     NSMutableDictionary *userInfo;
     
     if (error == NULL)
@@ -62,9 +62,9 @@ void plcrash_populate_error (NSError **error, ApigeePLCrashReporterError code, N
  * @param kr The Mach return value
  * @param description A localized error description.
  */
-void plcrash_populate_mach_error (NSError **error, kern_return_t kr, NSString *description) {
+void apigee_plcrash_populate_mach_error (NSError **error, kern_return_t kr, NSString *description) {
     NSError *cause = [NSError errorWithDomain: NSMachErrorDomain code: kr userInfo: nil];
-    plcrash_populate_error(error, ApigeePLCrashReporterErrorOperatingSystem, description, cause);
+    apigee_plcrash_populate_error(error, ApigeePLCrashReporterErrorOperatingSystem, description, cause);
 }
 
 /**
@@ -76,8 +76,8 @@ void plcrash_populate_mach_error (NSError **error, kern_return_t kr, NSString *d
  * @param errnoVal The OS errno value
  * @param description A localized error description.
  */
-void plcrash_populate_posix_error (NSError **error, int errnoVal, NSString *description) {
+void apigee_plcrash_populate_posix_error (NSError **error, int errnoVal, NSString *description) {
     NSError *cause = [NSError errorWithDomain: NSPOSIXErrorDomain code: errnoVal userInfo: nil];
-    plcrash_populate_error(error, ApigeePLCrashReporterErrorOperatingSystem, description, cause);
+    apigee_plcrash_populate_error(error, ApigeePLCrashReporterErrorOperatingSystem, description, cause);
 }
 

@@ -31,6 +31,6 @@
 
 #import "ApigeePLCrashMacros.h"
 
-PLCR_EXPORT void plcrash_populate_error (NSError **error, ApigeePLCrashReporterError code, NSString *description, NSError *cause);
-PLCR_EXPORT void plcrash_populate_mach_error (NSError **error, kern_return_t kr, NSString *description);
-PLCR_EXPORT void plcrash_populate_posix_error (NSError **error, int errnoVal, NSString *description);
+PLCR_EXPORT void apigee_plcrash_populate_error (NSError **error, ApigeePLCrashReporterError code, NSString *description, NSError *cause);
+PLCR_EXPORT void apigee_plcrash_populate_mach_error (NSError **error, kern_return_t kr, NSString *description);
+PLCR_EXPORT void apigee_plcrash_populate_posix_error (NSError **error, int errnoVal, NSString *description);

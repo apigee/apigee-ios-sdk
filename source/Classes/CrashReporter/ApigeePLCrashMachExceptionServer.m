@@ -279,7 +279,7 @@ struct plcrash_exception_server_context {
     _serverContext->callback_context = context;
     
     if (pthread_mutex_init(&_serverContext->lock, NULL) != 0) {
-        plcrash_populate_posix_error(outError, errno, @"Mutex initialization failed");
+        apigee_plcrash_populate_posix_error(outError, errno, @"Mutex initialization failed");
         
         free(_serverContext);
         _serverContext = NULL;
@@ -289,7 +289,7 @@ struct plcrash_exception_server_context {
     }
     
     if (pthread_cond_init(&_serverContext->server_cond, NULL) != 0) {
-        plcrash_populate_posix_error(outError, errno, @"Condition initialization failed");
+        apigee_plcrash_populate_posix_error(outError, errno, @"Condition initialization failed");
 
         pthread_mutex_destroy(&_serverContext->lock);
         free(_serverContext);
@@ -304,7 +304,7 @@ struct plcrash_exception_server_context {
      */
     kr = mach_port_allocate(mach_task_self(), MACH_PORT_RIGHT_RECEIVE, &_serverContext->server_port);
     if (kr != KERN_SUCCESS) {
-        plcrash_populate_mach_error(outError, kr, @"Failed to allocate exception server's port");
+        apigee_plcrash_populate_mach_error(outError, kr, @"Failed to allocate exception server's port");
         
         [self release];
         return nil;
@@ -315,7 +315,7 @@ struct plcrash_exception_server_context {
      */
     kr = mach_port_allocate(mach_task_self(), MACH_PORT_RIGHT_RECEIVE, &_serverContext->notify_port);
     if (kr != KERN_SUCCESS) {
-        plcrash_populate_mach_error(outError, kr, @"Failed to allocate exception server's port");
+        apigee_plcrash_populate_mach_error(outError, kr, @"Failed to allocate exception server's port");
         
         [self release];
         return nil;
@@ -323,7 +323,7 @@ struct plcrash_exception_server_context {
 
     kr = mach_port_insert_right(mach_task_self(), _serverContext->notify_port, _serverContext->notify_port, MACH_MSG_TYPE_MAKE_SEND);
     if (kr != KERN_SUCCESS) {
-        plcrash_populate_mach_error(outError, kr, @"Failed to add send right to exception server's port");
+        apigee_plcrash_populate_mach_error(outError, kr, @"Failed to add send right to exception server's port");
         
         [self release];
         return nil;
@@ -332,7 +332,7 @@ struct plcrash_exception_server_context {
     mach_port_t prev_notify_port;
     kr = mach_port_request_notification(mach_task_self(), _serverContext->server_port, MACH_NOTIFY_NO_SENDERS, 1, _serverContext->notify_port, MACH_MSG_TYPE_MAKE_SEND_ONCE, &prev_notify_port);
     if (kr != KERN_SUCCESS) {
-        plcrash_populate_mach_error(outError, kr, @"Failed to request MACH_NOTIFY_NO_SENDERS on the exception server's port");
+        apigee_plcrash_populate_mach_error(outError, kr, @"Failed to request MACH_NOTIFY_NO_SENDERS on the exception server's port");
 
         [self release];
         return nil;
@@ -343,7 +343,7 @@ struct plcrash_exception_server_context {
      */
     kr = mach_port_allocate(mach_task_self(), MACH_PORT_RIGHT_PORT_SET, &_serverContext->port_set);
     if (kr != KERN_SUCCESS) {
-        plcrash_populate_mach_error(outError, kr, @"Failed to allocate exception server's port set");
+        apigee_plcrash_populate_mach_error(outError, kr, @"Failed to allocate exception server's port set");
         
         [self release];
         return nil;
@@ -352,7 +352,7 @@ struct plcrash_exception_server_context {
     /* Add the service port to the port set */
     kr = mach_port_move_member(mach_task_self(), _serverContext->server_port, _serverContext->port_set);
     if (kr != KERN_SUCCESS) {
-        plcrash_populate_mach_error(outError, kr, @"Failed to add exception server port to port set");
+        apigee_plcrash_populate_mach_error(outError, kr, @"Failed to add exception server port to port set");
         
         [self release];
         return nil;
@@ -361,7 +361,7 @@ struct plcrash_exception_server_context {
     /* Add the notify port to the port set */
     kr = mach_port_move_member(mach_task_self(), _serverContext->notify_port, _serverContext->port_set);
     if (kr != KERN_SUCCESS) {
-        plcrash_populate_mach_error(outError, kr, @"Failed to add exception server notify port to port set");
+        apigee_plcrash_populate_mach_error(outError, kr, @"Failed to add exception server notify port to port set");
         
         [self release];
         return nil;
@@ -370,7 +370,7 @@ struct plcrash_exception_server_context {
     /* Spawn the server thread. */
     {
         if (pthread_attr_init(&attr) != 0) {
-            plcrash_populate_posix_error(outError, errno, @"Failed to initialize pthread_attr");
+            apigee_plcrash_populate_posix_error(outError, errno, @"Failed to initialize pthread_attr");
             
             [self release];
             return nil;
@@ -382,7 +382,7 @@ struct plcrash_exception_server_context {
         // pthread_attr_setstack(&attr, sp, stacksize);
         
         if (pthread_create(&thr, &attr, &exception_server_thread, _serverContext) != 0) {
-            plcrash_populate_posix_error(outError, errno, @"Failed to create exception server thread");
+            apigee_plcrash_populate_posix_error(outError, errno, @"Failed to create exception server thread");
             pthread_attr_destroy(&attr);
             
             [self release];
@@ -436,7 +436,7 @@ struct plcrash_exception_server_context {
         /* Insert a send right; this will either create the right, or bump the reference count. */
         kr = mach_port_insert_right(mach_task_self(), _serverContext->server_port, _serverContext->server_port, MACH_MSG_TYPE_MAKE_SEND);
         if (kr != KERN_SUCCESS) {
-            plcrash_populate_mach_error(outError, kr, @"Failed to insert Mach send right");
+            apigee_plcrash_populate_mach_error(outError, kr, @"Failed to insert Mach send right");
             
             pthread_mutex_unlock(&_serverContext->lock);
             return MACH_PORT_NULL;
