@@ -2525,8 +2525,8 @@ NSString *g_deviceUUID = nil;
 //****************************  MISC  *************************************
 +(BOOL)isUuidValid:(NSString*)uuid
 {
-    //TODO: how to properly validate uuid?
-    return [[NSUUID alloc] initWithUUIDString:uuid];
+    NSUUID* UUID = [[NSUUID alloc] initWithUUIDString:uuid];
+    return (UUID);
 }
 
 - (ApigeeEntity*)createTypedEntity:(NSString*)type
