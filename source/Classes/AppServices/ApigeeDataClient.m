@@ -28,7 +28,7 @@
 #import "ApigeeCollection.h"
 #import "ApigeeHTTPResult.h"
 #import "UIDevice+Apigee.h"
-#import "SSKeychain.h"
+#import "ApigeeSSKeychain.h"
 #import "ApigeeJsonUtils.h"
 #import "ApigeeAPSPayload.h"
 #import "ApigeeAPSDestination.h"
@@ -2375,7 +2375,7 @@ NSString *g_deviceUUID = nil;
     if (g_deviceUUID) return g_deviceUUID;
     
     // in our keychain?
-    g_deviceUUID = [SSKeychain passwordForService:@"Usergrid" account:@"DeviceUUID"];
+    g_deviceUUID = [ApigeeSSKeychain passwordForService:@"Usergrid" account:@"DeviceUUID"];
     if (g_deviceUUID) return g_deviceUUID;
     
     // in the (legacy) app defaults?
@@ -2402,7 +2402,7 @@ NSString *g_deviceUUID = nil;
     }
     
     // store in keychain for future reference
-    [SSKeychain setPassword:g_deviceUUID forService:@"Usergrid" account:@"DeviceUUID"];
+    [ApigeeSSKeychain setPassword:g_deviceUUID forService:@"Usergrid" account:@"DeviceUUID"];
     
     return g_deviceUUID;
 }
@@ -2525,8 +2525,8 @@ NSString *g_deviceUUID = nil;
 //****************************  MISC  *************************************
 +(BOOL)isUuidValid:(NSString*)uuid
 {
-    //TODO: how to properly validate uuid?
-    return [[NSUUID alloc] initWithUUIDString:uuid];
+    NSUUID* UUID = [[NSUUID alloc] initWithUUIDString:uuid];
+    return (UUID);
 }
 
 - (ApigeeEntity*)createTypedEntity:(NSString*)type

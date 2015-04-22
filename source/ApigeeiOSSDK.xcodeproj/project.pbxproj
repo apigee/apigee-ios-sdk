@@ -51,7 +51,7 @@
 		637BCAC9182959E600F54D95 /* ApigeeUIEventListener.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 637BCAA01829437000F54D95 /* ApigeeUIEventListener.h */; };
 		638C625A179F304E0066DC15 /* ApigeeHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C6259179F30470066DC15 /* ApigeeHTTPClient.m */; };
 		638C625C179F30790066DC15 /* ApigeeHTTPClient.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 638C625B179F305E0066DC15 /* ApigeeHTTPClient.h */; };
-		638C629117A71BFA0066DC15 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C629017A71BFA0066DC15 /* SSKeychain.m */; };
+		638C629117A71BFA0066DC15 /* ApigeeSSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 638C629017A71BFA0066DC15 /* ApigeeSSKeychain.m */; };
 		638E32D818A06E7600A37F22 /* apigee_dwarf_opstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 638E32B418A06E7600A37F22 /* apigee_dwarf_opstream.cpp */; };
 		638E32D918A06E7600A37F22 /* apigee_dwarf_stack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 638E32B718A06E7600A37F22 /* apigee_dwarf_stack.cpp */; };
 		638E32DA18A06E7600A37F22 /* ApigeeCrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 638E32BA18A06E7600A37F22 /* ApigeeCrashReporter.m */; };
@@ -346,8 +346,8 @@
 		637BCAC618294E5B00F54D95 /* UISegmentedControl+ApigeeSwizzling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "UISegmentedControl+ApigeeSwizzling.h"; path = "Classes/UIEventTracking/UISegmentedControl+ApigeeSwizzling.h"; sourceTree = SOURCE_ROOT; };
 		638C6259179F30470066DC15 /* ApigeeHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeHTTPClient.m; path = Classes/AppServices/ApigeeHTTPClient.m; sourceTree = SOURCE_ROOT; };
 		638C625B179F305E0066DC15 /* ApigeeHTTPClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ApigeeHTTPClient.h; path = Classes/AppServices/ApigeeHTTPClient.h; sourceTree = SOURCE_ROOT; };
-		638C628F17A71BEE0066DC15 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSKeychain.h; path = ThirdParty/SSKeychain/SSKeychain.h; sourceTree = "<group>"; };
-		638C629017A71BFA0066DC15 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSKeychain.m; path = ThirdParty/SSKeychain/SSKeychain.m; sourceTree = "<group>"; };
+		638C628F17A71BEE0066DC15 /* ApigeeSSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApigeeSSKeychain.h; path = ThirdParty/SSKeychain/ApigeeSSKeychain.h; sourceTree = "<group>"; };
+		638C629017A71BFA0066DC15 /* ApigeeSSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ApigeeSSKeychain.m; path = ThirdParty/SSKeychain/ApigeeSSKeychain.m; sourceTree = "<group>"; };
 		638E32B418A06E7600A37F22 /* apigee_dwarf_opstream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = apigee_dwarf_opstream.cpp; path = Classes/CrashReporter/apigee_dwarf_opstream.cpp; sourceTree = SOURCE_ROOT; };
 		638E32B518A06E7600A37F22 /* apigee_dwarf_opstream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = apigee_dwarf_opstream.hpp; path = Classes/CrashReporter/apigee_dwarf_opstream.hpp; sourceTree = SOURCE_ROOT; };
 		638E32B618A06E7600A37F22 /* apigee_dwarf_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = apigee_dwarf_private.h; path = Classes/CrashReporter/apigee_dwarf_private.h; sourceTree = SOURCE_ROOT; };
@@ -783,13 +783,13 @@
 			name = UIEventTracking;
 			sourceTree = "<group>";
 		};
-		638C628E17A71B6B0066DC15 /* SSKeychain */ = {
+		638C628E17A71B6B0066DC15 /* ApigeeSSKeychain */ = {
 			isa = PBXGroup;
 			children = (
-				638C629017A71BFA0066DC15 /* SSKeychain.m */,
-				638C628F17A71BEE0066DC15 /* SSKeychain.h */,
+				638C628F17A71BEE0066DC15 /* ApigeeSSKeychain.h */,
+				638C629017A71BFA0066DC15 /* ApigeeSSKeychain.m */,
 			);
-			name = SSKeychain;
+			name = ApigeeSSKeychain;
 			sourceTree = "<group>";
 		};
 		63F522B21778C2B200FCA013 = {
@@ -848,7 +848,7 @@
 			children = (
 				63F73D7D19F7111A00775FD4 /* gtm-oauth2 */,
 				63F73D5F19F7110C00775FD4 /* GTMHTTPFetcher */,
-				638C628E17A71B6B0066DC15 /* SSKeychain */,
+				638C628E17A71B6B0066DC15 /* ApigeeSSKeychain */,
 			);
 			name = ThirdPartySource;
 			sourceTree = "<group>";
@@ -1711,7 +1711,7 @@
 				638E32E018A06E7600A37F22 /* ApigeePLCrashAsyncDwarfCIE.cpp in Sources */,
 				638C625A179F304E0066DC15 /* ApigeeHTTPClient.m in Sources */,
 				638E32E718A06E7600A37F22 /* ApigeePLCrashAsyncMachExceptionInfo.c in Sources */,
-				638C629117A71BFA0066DC15 /* SSKeychain.m in Sources */,
+				638C629117A71BFA0066DC15 /* ApigeeSSKeychain.m in Sources */,
 				638E332718A06E8600A37F22 /* ApigeePLCrashMachExceptionPortSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
