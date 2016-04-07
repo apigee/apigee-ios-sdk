@@ -2168,7 +2168,7 @@ NSString *g_deviceUUID = nil;
 
 - (void)populateDevicePushRegistration:(NSMutableDictionary*)entity withDeviceId:(NSString*)deviceId
 {
-    [entity setObject:@"device" forKey:@"type"];
+    [entity setObject:@"devices" forKey:@"type"];
     [entity setObject:deviceId forKey:@"uuid"];
     
     // grab device meta-data
