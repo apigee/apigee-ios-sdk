@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name             = 'ApigeeiOSSDK'
-  spec.version          = '2.0.18'
+  spec.version          = '2.0.19'
   spec.summary          = 'The iOS SDK for everything Apigee.'
   spec.homepage         = 'https://github.com/apigee/apigee-ios-sdk'
   spec.license          = 'Apache'
