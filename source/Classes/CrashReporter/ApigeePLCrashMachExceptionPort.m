@@ -72,7 +72,7 @@
                                   states.flavors);
     
     if (kr != KERN_SUCCESS) {
-        plcrash_populate_mach_error(outError, kr, @"Failed to fetch mach exception ports");
+        apigee_plcrash_populate_mach_error(outError, kr, @"Failed to fetch mach exception ports");
         return nil;
     }
     
@@ -106,7 +106,7 @@
                                     states.flavors);
     
     if (kr != KERN_SUCCESS) {
-        plcrash_populate_mach_error(outError, kr, @"Failed to swap mach exception ports");
+        apigee_plcrash_populate_mach_error(outError, kr, @"Failed to swap mach exception ports");
         return nil;
     }
     
@@ -184,7 +184,7 @@
                                    prev.flavors);
     
     if (kr != KERN_SUCCESS) {
-        plcrash_populate_mach_error(outError, kr, @"Failed to swap mach exception ports");
+        apigee_plcrash_populate_mach_error(outError, kr, @"Failed to swap mach exception ports");
         return NO;
     }
 
@@ -223,7 +223,7 @@
                                      prev.flavors);
     
     if (kr != KERN_SUCCESS) {
-        plcrash_populate_mach_error(outError, kr, @"Failed to swap mach exception ports");
+        apigee_plcrash_populate_mach_error(outError, kr, @"Failed to swap mach exception ports");
         return NO;
     }
     

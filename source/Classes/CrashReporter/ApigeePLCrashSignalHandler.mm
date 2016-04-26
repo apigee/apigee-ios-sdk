@@ -329,7 +329,7 @@ static ApigeePLCrashSignalHandler *sharedHandler;
              */
             if (sigaltstack(&_sigstk, 0) < 0) {
                 /* This should only fail if we supply invalid arguments to sigaltstack() */
-                plcrash_populate_posix_error(outError, errno, @"Could not initialize alternative signal stack");
+                apigee_plcrash_populate_posix_error(outError, errno, @"Could not initialize alternative signal stack");
                 return NO;
             }
             
@@ -370,7 +370,7 @@ static ApigeePLCrashSignalHandler *sharedHandler;
             /* Set new sigaction */
             if (sigaction(signo, &sa, &sa_prev) != 0) {
                 int err = errno;
-                plcrash_populate_posix_error(outError, err, @"Failed to register signal handler");
+                apigee_plcrash_populate_posix_error(outError, err, @"Failed to register signal handler");
                 return NO;
             }
             

@@ -57,7 +57,7 @@
 
 
 @interface ApigeePLCrashReportTextFormatter (PrivateAPI)
-NSInteger binaryImageSort(id binary1, id binary2, void *context);
+NSInteger apigee_binaryImageSort(id binary1, id binary2, void *context);
 + (NSString *) formatStackFrame: (ApigeePLCrashReportStackFrameInfo *) frameInfo
                      frameIndex: (NSUInteger) frameIndex
                          report: (ApigeePLCrashReport *) report
@@ -350,7 +350,7 @@ NSInteger binaryImageSort(id binary1, id binary2, void *context);
     
     /* Images. The iPhone crash report format sorts these in ascending order, by the base address */
     [text appendString: @"Binary Images:\n"];
-    for (ApigeePLCrashReportBinaryImageInfo *imageInfo in [report.images sortedArrayUsingFunction: binaryImageSort context: nil]) {
+    for (ApigeePLCrashReportBinaryImageInfo *imageInfo in [report.images sortedArrayUsingFunction: apigee_binaryImageSort context: nil]) {
         NSString *uuid;
         /* Fetch the UUID if it exists */
         if (imageInfo.hasImageUUID)
@@ -542,7 +542,7 @@ NSInteger binaryImageSort(id binary1, id binary2, void *context);
 /**
  * Sort PLCrashReportBinaryImageInfo instances by their starting address.
  */
-NSInteger binaryImageSort(id binary1, id binary2, void *context) {
+NSInteger apigee_binaryImageSort(id binary1, id binary2, void *context) {
     uint64_t addr1 = [binary1 imageBaseAddress];
     uint64_t addr2 = [binary2 imageBaseAddress];
     

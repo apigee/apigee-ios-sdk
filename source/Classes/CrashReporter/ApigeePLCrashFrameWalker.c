@@ -84,7 +84,7 @@ static void *test_stack_thr (void *arg) {
 
 
 /** Spawn a test thread that may be used as an iterable stack. (For testing only!) */
-void plframe_test_thread_spawn (plcrash_test_thread_t *args) {
+void apigee_plframe_test_thread_spawn (plcrash_test_thread_t *args) {
     /* Initialize the args */
     pthread_mutex_init(&args->lock, NULL);
     pthread_cond_init(&args->cond, NULL);
@@ -97,7 +97,7 @@ void plframe_test_thread_spawn (plcrash_test_thread_t *args) {
 }
 
 /** Stop a test thread. */
-void plframe_test_thread_stop (plcrash_test_thread_t *args) {
+void apigee_plframe_test_thread_stop (plcrash_test_thread_t *args) {
     /* Signal the thread to exit */
     pthread_mutex_lock(&args->lock);
     pthread_cond_signal(&args->cond);
