@@ -27,7 +27,7 @@
 
 @protocol ApigeeLocationServiceDelegate <NSObject>
 
-- (void) complete:(BOOL) success;
+- (void) apigeeComplete:(BOOL) success;
 
 @end
 
