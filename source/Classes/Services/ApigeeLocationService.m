@@ -147,7 +147,7 @@
             [self.locationManager startUpdatingLocation];
         } else {
             _working = NO;
-            [self.delegate complete:NO];
+            [self.delegate apigeeComplete:NO];
         }
     }
 }
@@ -194,9 +194,9 @@
         [manager stopUpdatingLocation];
         
         if ([self.policy canAccept:self.location]) {
-            [self.delegate complete:YES];
+            [self.delegate apigeeComplete:YES];
         } else {
-            [self.delegate complete:NO];
+            [self.delegate apigeeComplete:NO];
         }
     }
 }
@@ -226,9 +226,9 @@
     ApigeeLogInfoMessage(@"MOBILE_AGENT",logMessage);
 
     if ([self.policy canAccept:self.location]) {
-        [self.delegate complete:YES];
+        [self.delegate apigeeComplete:YES];
     } else {
-        [self.delegate complete:NO];
+        [self.delegate apigeeComplete:NO];
     }
 }
 
