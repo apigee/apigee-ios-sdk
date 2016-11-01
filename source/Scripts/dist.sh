@@ -12,8 +12,8 @@ function failed()
 
 function build_sdk()
 {
-    xcodebuild -configuration $cfg -sdk $sdk clean;
-    xcodebuild -configuration $cfg -sdk $sdk || failed "${sdk}-${cfg} failed to build" $?
+    xcodebuild OTHER_CFLAGS="-fembed-bitcode" -configuration $cfg -sdk $sdk clean;
+    xcodebuild OTHER_CFLAGS="-fembed-bitcode" -configuration $cfg -sdk $sdk || failed "${sdk}-${cfg} failed to build" $?
 }
 
 function buildall()
